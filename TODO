@@ -1,0 +1,60 @@
+Choses a faire :
+================
+
+GtkLauncher
+===========
+
+	- Sauvegarder les fichiers
+	- Charger les fichiers
+	- Mode MDI, SDI
+
+GtkTextEditor
+=============
+
+	- Classe basee sur le GtkTextEditor
+	- Undo/Redo
+	- Coloration syntaxique
+	- Completion
+
+GtkWorkspace
+============
+
+	- Ajouter une variable quand elle n'existe pas (avoir la liste de ces variables)
+
+GtkClassBrowser
+===============
+
+	- Inserer un worskpace, transcript (que l'on peut cacher)
+	- Sauvegarder/Charger des fichiers (namespaces, classes, ...)
+	- Icone si test unitaire
+	* Popup menu
+	- Integration avec GIT, versioning des modifications locales
+	- Mapping namespace repertoire, classe fichier dans ce repertoire
+	- Les refactorings ^^
+	- Historique de naviagtion (a la firefox dans une barre laterale ????)
+	- Information sur la licence, auteur, site web ...
+	- Projet ???
+	- ...
+
+GtkInspector
+============
+
+	- Navigation dans les sous objecs a inspecter
+	- ...
+
+GtkDebuger
+==========
+
+	- ....
+
+- BrowserClass message newNamespace a envoyer directement au BrowserWidget
+- UndoStack a ameliorer
+- Historique de navigation
+- Creer un modele pour les Namespace, classes et methodes du systeme qui sera utiliser par chacunes des vues des instances des browser
+- Detecter quand on passe du class side a l'instance side
+
+- Faire correspondre String, Integer, ... a GValue gTypeString, GValue gTypeInteger, ...               A INVESTIGUER
+
+- GtkWebKit
+
+- GtkCairo
