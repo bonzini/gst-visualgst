@@ -30,7 +30,7 @@ AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    setWebsite: 'http://le site du gnu';
 	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-	    "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'};"
+	    "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'. nil};"
 	    setProgramName: 'GNU Smalltalk Launcher';
 	    runBlockingAndDestroy
     ]
