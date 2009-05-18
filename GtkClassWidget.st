@@ -49,21 +49,10 @@ GtkConcreteWidget subclass: GtkClassWidget [
     buildTreeView [
 	<category: 'user interface'>
     
-	| render |
-	classesTree := GTK.GtkTreeView new 
-	    setModel: self model;
-	    expandAll;
-	    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
-	    yourself.
-	column := (GTK.GtkTreeViewColumn new)
-	    packStart: (render := GTK.GtkCellRendererText new) expand: true;
-	    addAttribute: render attribute: 'text' column: 0;
-	    setTitle: 'Class';
-	    setSortColumnId: 0;
-	    setClickable: false;
-	    setSortOrder: GTK.Gtk gtkSortAscending;
-	    yourself.
-	classesTree insertColumn: column position: -1.
+	classesTree := (GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Classes')
+			    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+			    yourself.
+	column := classesTree getColumn: 0.
 	classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(GtkClassModel currentOn: self namespace) isSorted 
 	    ifFalse: [

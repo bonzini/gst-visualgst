@@ -16,26 +16,14 @@ GtkConcreteWidget subclass: GtkNamespaceWidget [
     buildTreeView [
 	<category: 'user interface'>
     
-	| col render |
-	namespacesTree := GTK.GtkTreeView new 
-	    setModel: self model;
-	    expandAll;
-	    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
-	    yourself.
-	col := (GTK.GtkTreeViewColumn new)
-		packStart: (render := GTK.GtkCellRendererText new) expand: true;
-		addAttribute: render attribute: 'text' column: 0;
-		setTitle: 'Namespaces';
-		setSortIndicator: true;
-		setSortColumnId: 0;
-		setClickable: false;
-		setSortOrder: GTK.Gtk gtkSortAscending;
-		yourself.
-	namespacesTree insertColumn: col position: -1.
+	namespacesTree := (GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Namespaces')
+			    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+			    expandAll;
+                            yourself.
 	namespacesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	GtkNamespaceModel current isSorted 
 	    ifFalse: [ 
-		col signalEmitByName: 'clicked' args: {}.
+		(namespacesTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
 		GtkNamespaceModel current sorted: true ].
 	^ GTK.GtkScrolledWindow withChild: namespacesTree
     ]

@@ -168,24 +168,11 @@ GtkMainWindow subclass: GtkFinder [
     buildClassAndMethodList [
 	<category: 'user interface'>
 
-	| col render |
-	finderTree := GTK.GtkTreeView new
-		    setModel: self model;
-		    yourself.
-        col := (GTK.GtkTreeViewColumn new)
-                packStart: (render := GTK.GtkCellRendererText new) expand: true;
-                addAttribute: render attribute: 'text' column: 0;
-                setTitle: 'Results';
-                setSortIndicator: true;
-                setSortColumnId: 0;
-                setSortOrder: GTK.Gtk gtkSortAscending;
-                yourself.
+	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Results'.
+	(finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
         finderTree
-	    insertColumn: col position: -1.
-	col signalEmitByName: 'clicked' args: {}.
-	finderTree
-	    getSelection
-		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
+            getSelection
+                connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
         ^ GTK.GtkScrolledWindow withChild: finderTree
     ]
 

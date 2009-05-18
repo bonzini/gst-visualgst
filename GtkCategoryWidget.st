@@ -55,20 +55,10 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     buildTreeView [
         <category: 'user interface'>
     
-	| render |
-	categoryTree := GTK.GtkTreeView new 
-	    setModel: self model;
-	    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
-	    yourself.
-	column := (GTK.GtkTreeViewColumn new)
-	    packStart: (render := GTK.GtkCellRendererText new) expand: true;
-	    addAttribute: render attribute: 'text' column: 0;
-	    setTitle: 'Method categories';
-	    setSortColumnId: 0;
-	    setClickable: false;
-	    setSortOrder: GTK.Gtk gtkSortAscending;
-	    yourself.
-	categoryTree insertColumn: column position: -1.
+	categoryTree := (GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Method categories')
+			    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+			    yourself.
+	column := categoryTree getColumn: 0.
 	categoryTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(GtkCategoryModel currentOn: self class) isSorted
 	    ifFalse: [

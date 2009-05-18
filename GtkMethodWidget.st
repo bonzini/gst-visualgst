@@ -66,20 +66,10 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     buildTreeView [
         <category: 'user interface'>
     
-	| render |
-	methodTree := GTK.GtkTreeView new 
-	    setModel: self model;
-	    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
-	    yourself.
-	column := (GTK.GtkTreeViewColumn new)
-	    packStart: (render := GTK.GtkCellRendererText new) expand: true;
-	    addAttribute: render attribute: 'text' column: 0;
-	    setTitle: 'Methods';
-	    setSortColumnId: 0;
-	    setClickable: false;
-	    setSortOrder: GTK.Gtk gtkSortAscending;
-	    yourself.
-	methodTree insertColumn: column position: -1.
+	methodTree := (GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Classes')
+                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+                            yourself.
+	column := methodTree getColumn: 0.
 	methodTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
         (GtkMethodModel currentOn: self class withCategory: self category) isSorted
             ifFalse: [

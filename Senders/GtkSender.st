@@ -1,5 +1,21 @@
-GtkMainWindow subclass: GtkImplementor [
-    | model resultModel set finderDic finderTree resultArray resultTree classBrowserWidget searchEntry |
+GtkMainWindow subclass: GtkSender [
+    | selector pathModel pathTree senderModel senderTree selectorModel selectorTree classBrowserWidget searchEntry |
+
+    openOn: aString [
+	<category: 'instance creation'>
+
+	^ (self new)
+            initialize;
+            selector: aSelector;
+            showAll;
+            yourself
+    ]
+
+    selector: aSelector [
+	<category: 'accessor'>
+
+	selector := aSelector
+    ]
 
     createFileMenus [
         <category: 'user interface'>
@@ -46,7 +62,7 @@ GtkMainWindow subclass: GtkImplementor [
     createHelpMenus [
         <category: 'user interface'>
 
-        ^ self createMenuEntry: {#('About Smalltalk Implementor' #aboutImplementor).
+        ^ self createMenuEntry: {#('About Smalltalk Sender' #aboutSender).
             #('About GNU Smalltalk' #aboutGst)}
     ]
 
@@ -63,7 +79,7 @@ GtkMainWindow subclass: GtkImplementor [
     createStatusBar [
         <category: 'user interface'>
 
-        self statusMessage: 'Gtk Smalltalk Implementor'
+        self statusMessage: 'Gtk Smalltalk Sender'
     ]
 
     createToolbar [
@@ -89,7 +105,7 @@ GtkMainWindow subclass: GtkImplementor [
 
     ]
 
-    buildFinderEntry [
+    buildPathEntry [
 	<category: 'user interface'>
 
 	searchEntry := GTK.GtkEntry new.
@@ -99,114 +115,111 @@ GtkMainWindow subclass: GtkImplementor [
 	    yourself
     ]
 
-    model [
+    pathModel [
 	<category: 'model accessing'>
 
-	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString}.
-	    set := Set new.
-	    finderDic := Dictionary new.
-	    self
-		buildNamespaceModel;
-		buildClassModel;
-		buildMethodModel;
-		appendSetToModel.
-	    model ]
+	^ pathModel ifNil: [
+	    pathModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
     ]
 
-    resultModel [
+    senderModel [
         <category: 'model accessing'>
 
-        ^ resultModel ifNil: [
-            resultModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
+        ^ senderModel ifNil: [
+            senderModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
     ]
 
-    buildNamespaceModel [
-        <category: 'model builder'>
+    selectorModel [
+        <category: 'model accessing'>
 
-	self appendNamespace: Smalltalk
+        ^ selectorModel ifNil: [
+            selectorModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
     ]
 
-    appendNamespace: aNamespace [
-        <category: 'model builder'>
-
-        finderDic at: aNamespace displayString ifAbsentPut: [ OrderedCollection new ].
-        (finderDic at: aNamespace displayString) add: (NamespaceFinder on: aNamespace).
-	set add: aNamespace displayString.
-
-        aNamespace subspacesDo: [ :each | self appendNamespace: each ]
-    ]
-
-    buildClassModel [
-	<category: 'model builder'>
-	
-	| string |
-	Class allSubclassesDo: [ :each | 
-	    string := ((each displayString) substrings: $.) last.
-	    finderDic at: string ifAbsentPut: [ OrderedCollection new ].
-	    (finderDic at: string) add: (ClassFinder on: each).
-	    set add: string ]
-    ]
-
-    buildMethodModel [
-	<category: 'model builder'>
-
-        Class allSubclassesDo: [ :each | 
-	    each selectors do: [ :sel | 
-		finderDic at: sel asString ifAbsentPut: [ OrderedCollection new ].
-		(finderDic at: sel asString) add: (MethodFinder on: each with: sel).
-		set add: sel asString ].
-	    each instanceClass selectors do: [ :sel | 
-		finderDic at: sel asString ifAbsentPut: [ OrderedCollection new ].
-		(finderDic at: sel asString) add: (MethodFinder on: each instanceClass with: sel).
-		set add: sel asString ] ]
-    ]
-
-    appendSetToModel [
-	<category: 'model builder'>
-
-	| iter |
-	set do: [ :each |
-	    iter := GTK.GtkTreeIter new.
-            self model append: iter parent: nil.
-	    self model setOop: iter column: 0 value: each ]
-    ]
-
-    buildClassAndMethodList [
+    buildPathTreeList [
 	<category: 'user interface'>
 
-	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Results'.
-	(finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
-	finderTree
+	| col render |
+	pathTree := GTK.GtkTreeView new
+		    setModel: self pathModel;
+		    yourself.
+        col := (GTK.GtkTreeViewColumn new)
+                packStart: (render := GTK.GtkCellRendererText new) expand: true;
+                addAttribute: render attribute: 'text' column: 0;
+                setTitle: 'Results';
+                setSortIndicator: true;
+                setSortColumnId: 0;
+                setSortOrder: GTK.Gtk gtkSortAscending;
+                yourself.
+        pathTree
+	    insertColumn: col position: -1.
+	col signalEmitByName: 'clicked' args: {}.
+	pathTree
 	    getSelection
 		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
         ^ GTK.GtkScrolledWindow withChild: finderTree
     ]
 
-    buildFinderList [
+    buildPathList [
 	<category: 'user interface'>
 
 	^ GTK.GtkVPaned new
-            add1: self buildFinderEntry;
-            add2: self buildClassAndMethodList;
+            add1: self buildPathEntry;
+            add2: self buildPathTreeList;
             yourself
     ]
 
-    buildResultList [
+    buildSenderList [
         <category: 'user interface'>
 
-	resultTree := GTK.GtkTreeView newWithSortedTextColumn: self resultModel title: 'Results'.
-        resultTree
+        | col render |
+        senderTree := GTK.GtkTreeView new
+                    setModel: self senderModel;
+                    yourself.
+        col := (GTK.GtkTreeViewColumn new)
+                packStart: (render := GTK.GtkCellRendererText new) expand: true;
+                addAttribute: render attribute: 'text' column: 0;
+                setTitle: 'Results';
+                setSortIndicator: true;
+                setSortColumnId: 0;
+                setSortOrder: GTK.Gtk gtkSortAscending;
+                yourself.
+        senderTree
+            insertColumn: col position: -1.
+        senderTree
             getSelection
                 connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
         ^ GTK.GtkScrolledWindow withChild: resultTree
     ]
 
-    buildResultAndClassBrowser [
+    buildSelectorList [
+        <category: 'user interface'>
+
+        | col render |
+        senderTree := GTK.GtkTreeView new
+                    setModel: self senderModel;
+                    yourself.
+        col := (GTK.GtkTreeViewColumn new)
+                packStart: (render := GTK.GtkCellRendererText new) expand: true;
+                addAttribute: render attribute: 'text' column: 0;
+                setTitle: 'Results';
+                setSortIndicator: true;
+                setSortColumnId: 0;
+                setSortOrder: GTK.Gtk gtkSortAscending;
+                yourself.
+        senderTree
+            insertColumn: col position: -1.
+        senderTree
+            getSelection
+                connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
+        ^ GTK.GtkScrolledWindow withChild: resultTree
+    ]
+
+    buildSenderAndClassBrowser [
 	<category: 'user interface'>
 
         ^ GTK.GtkVPaned new
-            add1: self buildResultList;
+            add1: self buildSenderList;
             add2: ((classBrowserWidget := GtkClassBrowserWidget new)
                         initialize;
                         mainWidget);
@@ -227,7 +240,7 @@ GtkMainWindow subclass: GtkImplementor [
 
         super initialize.
         self
-            title: 'GNU Smalltalk Implementor';
+            title: 'GNU Smalltalk Sender';
             createMenus;
             createToolbar;
             createStatusBar;
@@ -235,7 +248,7 @@ GtkMainWindow subclass: GtkImplementor [
 	finderTree setSearchEntry: searchEntry
     ]
 
-    aboutImplementor [
+    aboutSender [
         <category: 'events'>
 
         (GTK.GtkAboutDialog new)
@@ -259,7 +272,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             setWebsite: 'http://le site du gnu';
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'};"
-            setProgramName: 'GNU Smalltalk Implementor';
+            setProgramName: 'GNU Smalltalk Sender';
             run
     ]
 

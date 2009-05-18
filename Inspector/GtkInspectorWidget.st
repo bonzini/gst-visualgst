@@ -54,18 +54,8 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
     buildTreeWidget [
 	<category: 'user interface'>
 
-        | col render |
-        inspectorTree := GTK.GtkTreeView new
-            setModel: self model;
-	    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
-            yourself.
+	inspectorTree := GTK.GtkTreeView newWithTextColumn: self model title: 'Variables'.
 	self whenSelectionChangedSend: #onVariableChanged to: self.
-        col := (GTK.GtkTreeViewColumn new)
-            packStart: (render := GTK.GtkCellRendererText new) expand: true;
-            addAttribute: render attribute: 'text' column: 0;
-            setTitle: 'Variables';
-            yourself.
-        inspectorTree insertColumn: col position: -1.
         ^ GTK.GtkScrolledWindow withChild: inspectorTree
     ]
 

@@ -88,18 +88,7 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
     buildTreeView [
 	<category: 'user interface'>
     
-	| col render |
-	classesTree := GTK.GtkTreeView new 
-	    setModel: self model;
-	    expandAll;
-	    yourself.
-	col := (GTK.GtkTreeViewColumn new)
-	    packStart: (render := GTK.GtkCellRendererText new) expand: true;
-	    addAttribute: render attribute: 'text' column: 0;
-	    setTitle: 'Class';
-	    yourself.
-	classesTree insertColumn: col position: -1.
-	^ GTK.GtkScrolledWindow withChild: classesTree
+	^ GTK.GtkScrolledWindow withChild: (classesTree := GTK.GtkTreeView newWithTextColumn: self model title: 'Class')
     ]
 
     whenSelectionChangedSend: aSelector to: anObject [
