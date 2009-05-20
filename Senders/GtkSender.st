@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkSender [
-    | selector finderModel finderTree pathModel pathTree senderModel senderTree selectorModel selectorTree classBrowserWidget searchEntry |
+    | selector finderModel finderTree pathModel pathTree senderResults senderModel senderTree selectorModel selectorTree classBrowserWidget searchEntry |
 
     GtkSender class >> openOn: aSelector [
 	<category: 'instance creation'>
@@ -122,7 +122,7 @@ GtkMainWindow subclass: GtkSender [
         (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
         finderTree
             getSelection
-                connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
+                connectSignal: 'changed' to: self selector: #finderSelected userData: nil.
         ^ GTK.GtkScrolledWindow withChild: finderTree
     ]
 
@@ -180,7 +180,7 @@ GtkMainWindow subclass: GtkSender [
 	senderTree := GTK.GtkTreeView newWithSortedTextColumn: self senderModel title: 'Results'.
         senderTree
             getSelection
-                connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
+                connectSignal: 'changed' to: self selector: #senderSelected userData: nil.
         ^ GTK.GtkScrolledWindow withChild: senderTree
     ]
 
@@ -271,6 +271,59 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'testing'>
 
 	^ pathTree getSelection getSelected isNil not
+    ]
+
+    findInMethod: anObject [
+	<category: 'find'>
+
+	| result |
+	anObject inspect.
+	result := OrderedCollection new.
+	CompiledMethod allInstancesDo: [ :each |
+	    each literalsDo: [ :lit |
+		lit = anObject ifTrue: [ result add: each ] ] ].
+	^ result
+    ]
+
+    finderSelected [
+	<category: 'finder events'>
+
+	| iter result string |
+	(iter := finderTree getSelection getSelected) ifNil: [ ^ self ].
+	self senderModel clear.
+	result := self findInMethod: (GtkImageModel current selectedItem: iter) first element.
+	senderResults := OrderedCollection new.
+	result do: [ :each |
+	    senderResults add: each.
+	    iter := GTK.GtkTreeIter new.
+            self senderModel append: iter parent: nil.
+            self senderModel setOop: iter column: 0 value: each displayString ]
+    ]
+
+    senderSelected [
+	<category: 'sender events'>
+
+	| count iter path selectedIter selectedString string |
+        (selectedIter := senderTree getSelection getSelected) ifNil: [ ^ self ].
+        selectedString := (self senderModel getOop: selectedIter column: 0).
+
+        count := 1.
+        iter := GTK.GtkTreeIter new.
+        path := GTK.GtkTreePath newFirst.
+        [ self senderModel getIter: iter path: path ] whileTrue: [
+            string := (self senderModel getOop: iter column: 0).
+            string = selectedString ifTrue: [ | method |
+		method := senderResults at: count.
+		classBrowserWidget
+		    selectANamespace: method methodClass environment;
+		    selectAClass: (method methodClass isClass ifTrue: [ method methodClass ] ifFalse: [ method methodClass instanceClass ]).
+		    method methodClass isClass
+			ifTrue: [ classBrowserWidget selectAnInstanceMethod: selector ]
+			ifFalse: [ classBrowserWidget selectAClassMethod: selector  ].
+                ^ self ].
+            count := count + 1.
+            path next ].
+        ^ self error: 'error in the algorithm'
     ]
 
     elementSelected [

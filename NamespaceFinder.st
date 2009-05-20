@@ -21,6 +21,12 @@ AbstractFinder subclass: NamespaceFinder [
 	^ namespace displayString
     ]
 
+    element [
+        <category: 'accessing'>
+
+        ^ namespace 
+    ]
+
     updateBrowser: aGtkClassBrowserWidget [
 	<category: 'events'>
 

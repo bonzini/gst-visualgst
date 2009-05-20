@@ -21,6 +21,12 @@ AbstractFinder subclass: ClassFinder [
 	^ class displayString
     ]
 
+    element [
+	<category: 'accessing'>
+
+	^ class
+    ]
+
     updateBrowser: aGtkClassBrowserWidget [
 	<category: 'events'>
 

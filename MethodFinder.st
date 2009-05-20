@@ -22,10 +22,15 @@ AbstractFinder subclass: MethodFinder [
 	^ class displayString, ' >> ', selector displayString
     ]
 
+    element [
+        <category: 'accessing'>
+
+        ^ selector 
+    ]
+
     updateBrowser: aGtkClassBrowserWidget [
 	<category: 'events'>
 
-	self displayString printNl.
 	aGtkClassBrowserWidget
 	    selectANamespace: class environment;
 	    selectAClass: (class isClass ifTrue: [ class ] ifFalse: [ class instanceClass ]).
