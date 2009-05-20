@@ -19,7 +19,9 @@ GtkTextEditor
 GtkWorkspace
 ============
 
-	- Ajouter une variable quand elle n'existe pas (avoir la liste de ces variables)
+	- Ajouter une variable quand elle n'existe pas DONE
+	- avoir la liste de ces variables
+	- Inspecteur integre
 
 GtkClassBrowser
 ===============

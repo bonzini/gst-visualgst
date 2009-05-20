@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkFinder [
-    | model set finderDic finderTree classBrowserWidget searchEntry |
+    | model finderTree classBrowserWidget searchEntry |
 
     createFileMenus [
         <category: 'user interface'>
@@ -103,66 +103,7 @@ GtkMainWindow subclass: GtkFinder [
 	<category: 'model accessing'>
 
 	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString}.
-	    set := Set new.
-	    finderDic := Dictionary new.
-	    self
-		buildNamespaceModel;
-		buildClassModel;
-		buildMethodModel;
-		appendSetToModel.
-	    model ]
-    ]
-
-    buildNamespaceModel [
-        <category: 'model builder'>
-
-	self appendNamespace: Smalltalk
-    ]
-
-    appendNamespace: aNamespace [
-        <category: 'model builder'>
-
-        finderDic at: aNamespace displayString ifAbsentPut: [ OrderedCollection new ].
-        (finderDic at: aNamespace displayString) add: (NamespaceFinder on: aNamespace).
-	set add: aNamespace displayString.
-
-        aNamespace subspacesDo: [ :each | self appendNamespace: each ]
-    ]
-
-    buildClassModel [
-	<category: 'model builder'>
-	
-	| string |
-	Class allSubclassesDo: [ :each | 
-	    string := ((each displayString) substrings: $.) last.
-	    finderDic at: string ifAbsentPut: [ OrderedCollection new ].
-	    (finderDic at: string) add: (ClassFinder on: each).
-	    set add: string ]
-    ]
-
-    buildMethodModel [
-	<category: 'model builder'>
-
-        Class allSubclassesDo: [ :each | 
-	    each selectors do: [ :sel | 
-		finderDic at: sel asString ifAbsentPut: [ OrderedCollection new ].
-		(finderDic at: sel asString) add: (MethodFinder on: each with: sel).
-		set add: sel asString ].
-	    each instanceClass selectors do: [ :sel | 
-		finderDic at: sel asString ifAbsentPut: [ OrderedCollection new ].
-		(finderDic at: sel asString) add: (MethodFinder on: each instanceClass with: sel).
-		set add: sel asString ] ]
-    ]
-
-    appendSetToModel [
-	<category: 'model builder'>
-
-	| iter |
-	set do: [ :each |
-	    iter := GTK.GtkTreeIter new.
-            self model append: iter parent: nil.
-	    self model setOop: iter column: 0 value: each ]
+	    model := GtkImageModel currentModel ]
     ]
 
     buildClassAndMethodList [
@@ -242,10 +183,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| iter string result |
         (iter := finderTree getSelection getSelected) isNil ifTrue: [ ^ self "self error: 'Nothing is selected'" ].
-        string := (self model getOop: iter column: 0).
-    
-	result := finderDic at: string ifAbsent: [ self error: 'Element not found' ].
-	"result inspect."
+	result := GtkImageModel current selectedItem: iter.
 	result size = 1 ifTrue: [
 	    result first updateBrowser: classBrowserWidget.
 	    result first displayString printNl ]

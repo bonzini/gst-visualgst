@@ -1,7 +1,7 @@
 GtkMainWindow subclass: GtkSender [
     | selector pathModel pathTree senderModel senderTree selectorModel selectorTree classBrowserWidget searchEntry |
 
-    openOn: aString [
+    GtkSender class >> openOn: aSelector [
 	<category: 'instance creation'>
 
 	^ (self new)
@@ -139,25 +139,12 @@ GtkMainWindow subclass: GtkSender [
     buildPathTreeList [
 	<category: 'user interface'>
 
-	| col render |
-	pathTree := GTK.GtkTreeView new
-		    setModel: self pathModel;
-		    yourself.
-        col := (GTK.GtkTreeViewColumn new)
-                packStart: (render := GTK.GtkCellRendererText new) expand: true;
-                addAttribute: render attribute: 'text' column: 0;
-                setTitle: 'Results';
-                setSortIndicator: true;
-                setSortColumnId: 0;
-                setSortOrder: GTK.Gtk gtkSortAscending;
-                yourself.
-        pathTree
-	    insertColumn: col position: -1.
-	col signalEmitByName: 'clicked' args: {}.
+	pathTree := GTK.GtkTreeView newWithSortedTextColumn: self pathModel title: 'Results'.
+	(pathTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
 	pathTree
 	    getSelection
 		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
-        ^ GTK.GtkScrolledWindow withChild: finderTree
+        ^ GTK.GtkScrolledWindow withChild: pathTree
     ]
 
     buildPathList [
@@ -172,54 +159,37 @@ GtkMainWindow subclass: GtkSender [
     buildSenderList [
         <category: 'user interface'>
 
-        | col render |
-        senderTree := GTK.GtkTreeView new
-                    setModel: self senderModel;
-                    yourself.
-        col := (GTK.GtkTreeViewColumn new)
-                packStart: (render := GTK.GtkCellRendererText new) expand: true;
-                addAttribute: render attribute: 'text' column: 0;
-                setTitle: 'Results';
-                setSortIndicator: true;
-                setSortColumnId: 0;
-                setSortOrder: GTK.Gtk gtkSortAscending;
-                yourself.
-        senderTree
-            insertColumn: col position: -1.
+	senderTree := GTK.GtkTreeView newWithSortedTextColumn: self senderModel title: 'Results'.
         senderTree
             getSelection
                 connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
-        ^ GTK.GtkScrolledWindow withChild: resultTree
+        ^ GTK.GtkScrolledWindow withChild: senderTree
     ]
 
     buildSelectorList [
         <category: 'user interface'>
 
-        | col render |
-        senderTree := GTK.GtkTreeView new
-                    setModel: self senderModel;
-                    yourself.
-        col := (GTK.GtkTreeViewColumn new)
-                packStart: (render := GTK.GtkCellRendererText new) expand: true;
-                addAttribute: render attribute: 'text' column: 0;
-                setTitle: 'Results';
-                setSortIndicator: true;
-                setSortColumnId: 0;
-                setSortOrder: GTK.Gtk gtkSortAscending;
-                yourself.
-        senderTree
-            insertColumn: col position: -1.
-        senderTree
+        selectorTree := GTK.GtkTreeView newWithSortedTextColumn: self selectorModel title: 'Results'.
+        selectorTree
             getSelection
                 connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
-        ^ GTK.GtkScrolledWindow withChild: resultTree
+        ^ GTK.GtkScrolledWindow withChild: selectorTree
+    ]
+
+    buildSenderAndSelectorList [
+	<category: 'user interface'>
+
+	^ GTK.GtkHPaned new
+	    add1: self buildSenderList;
+	    add2: self buildSelectorList;
+	    yourself
     ]
 
     buildSenderAndClassBrowser [
 	<category: 'user interface'>
 
         ^ GTK.GtkVPaned new
-            add1: self buildSenderList;
+            add1: self buildSenderAndSelectorList;
             add2: ((classBrowserWidget := GtkClassBrowserWidget new)
                         initialize;
                         mainWidget);
@@ -230,8 +200,8 @@ GtkMainWindow subclass: GtkSender [
         <category: 'intialize-release'>
 
 	^ (GTK.GtkHPaned new)
-	    add1: self buildFinderList;
-	    add2: self buildResultAndClassBrowser;
+	    add1: self buildPathList;
+	    add2: self buildSenderAndClassBrowser;
 	    yourself
     ]
 
@@ -245,7 +215,7 @@ GtkMainWindow subclass: GtkSender [
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
-	finderTree setSearchEntry: searchEntry
+	pathTree setSearchEntry: searchEntry
     ]
 
     aboutSender [
@@ -279,14 +249,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     hasSelectedElement [
 	<category: 'testing'>
 
-	^ finderTree getSelection getSelected isNil not
+	^ pathTree getSelection getSelected isNil not
     ]
 
     elementSelected [
 	<category: 'events'>
 
-	| iter string |
-        (iter := finderTree getSelection getSelected) ifNil: [ ^ self ].
+	"| iter string |
+        (iter := pathTree getSelection getSelected) ifNil: [ ^ self ].
         string := (self model getOop: iter column: 0).
    
 	self resultModel clear. 
@@ -300,13 +270,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 		    iter := GTK.GtkTreeIter new.
 		    self resultModel append: iter parent: nil.
 		    self resultModel setOop: iter column: 0 value: each displayString ] ]
-		
+	"	
     ]
 
     resultSelected [
 	<category: 'events'>
 
-	| count iter path selectedIter selectedString string |
+	"| count iter path selectedIter selectedString string |
 	(selectedIter := resultTree getSelection getSelected) ifNil: [ ^ self ].
 	selectedString := (self resultModel getOop: selectedIter column: 0).
 
@@ -321,7 +291,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 		^ self ].
 	    count := count + 1.
 	    path next ].
-	^ self error: 'error in the algorithm'
+	^ self error: 'error in the algorithm'"
     ]
 ]
 
