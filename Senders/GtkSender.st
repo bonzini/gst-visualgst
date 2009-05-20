@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkSender [
-    | selector pathModel pathTree senderModel senderTree selectorModel selectorTree classBrowserWidget searchEntry |
+    | selector finderModel finderTree pathModel pathTree senderModel senderTree selectorModel selectorTree classBrowserWidget searchEntry |
 
     GtkSender class >> openOn: aSelector [
 	<category: 'instance creation'>
@@ -105,7 +105,7 @@ GtkMainWindow subclass: GtkSender [
 
     ]
 
-    buildPathEntry [
+    buildFinderEntry [
 	<category: 'user interface'>
 
 	searchEntry := GTK.GtkEntry new.
@@ -113,6 +113,24 @@ GtkMainWindow subclass: GtkSender [
 	    add: (GTK.GtkLabel new: 'Class or method :');
 	    add: searchEntry;
 	    yourself
+    ]
+
+    buildFinderTree [
+	<category: 'user interface'>
+
+	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self finderModel title: 'Results'.
+        (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+        finderTree
+            getSelection
+                connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
+        ^ GTK.GtkScrolledWindow withChild: finderTree
+    ]
+
+    finderModel [
+	<category: 'model accessing'>
+
+	^ finderModel ifNil: [
+	    finderModel := GtkImageModel currentModel ]
     ]
 
     pathModel [
@@ -147,12 +165,12 @@ GtkMainWindow subclass: GtkSender [
         ^ GTK.GtkScrolledWindow withChild: pathTree
     ]
 
-    buildPathList [
+    buildFinderList [
 	<category: 'user interface'>
 
 	^ GTK.GtkVPaned new
-            add1: self buildPathEntry;
-            add2: self buildPathTreeList;
+            add1: self buildFinderEntry;
+            add2: self buildFinderTree;
             yourself
     ]
 
@@ -180,7 +198,10 @@ GtkMainWindow subclass: GtkSender [
 	<category: 'user interface'>
 
 	^ GTK.GtkHPaned new
-	    add1: self buildSenderList;
+	    add1: (GTK.GtkHPaned new
+			add1: self buildPathTreeList;
+			add2: self buildSenderList;
+			yourself);
 	    add2: self buildSelectorList;
 	    yourself
     ]
@@ -200,7 +221,7 @@ GtkMainWindow subclass: GtkSender [
         <category: 'intialize-release'>
 
 	^ (GTK.GtkHPaned new)
-	    add1: self buildPathList;
+	    add1: self buildFinderList;
 	    add2: self buildSenderAndClassBrowser;
 	    yourself
     ]
@@ -215,7 +236,7 @@ GtkMainWindow subclass: GtkSender [
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
-	pathTree setSearchEntry: searchEntry
+	finderTree setSearchEntry: searchEntry
     ]
 
     aboutSender [
