@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkSender [
-    | selector finderModel finderTree pathModel pathTree senderResults senderModel senderTree selectorModel selectorTree classBrowserWidget searchEntry |
+    | currentMethod selector finderModel finderTree senderResults senderModel senderTree classBrowserWidget searchEntry |
 
     GtkSender class >> openOn: aSelector [
 	<category: 'instance creation'>
@@ -118,7 +118,7 @@ GtkMainWindow subclass: GtkSender [
     buildFinderTree [
 	<category: 'user interface'>
 
-	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self finderModel title: 'Results'.
+	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self finderModel title: 'Selectors'.
         (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
         finderTree
             getSelection
@@ -133,36 +133,17 @@ GtkMainWindow subclass: GtkSender [
 	    finderModel := GtkImageModel currentModel ]
     ]
 
-    pathModel [
-	<category: 'model accessing'>
-
-	^ pathModel ifNil: [
-	    pathModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
-    ]
-
     senderModel [
         <category: 'model accessing'>
 
         ^ senderModel ifNil: [
-            senderModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
+            senderModel := GTK.GtkListStore new: 1 varargs: {GTK.GValue gTypeString} ]
     ]
 
-    selectorModel [
-        <category: 'model accessing'>
+    clearSenderModel [
+	<category: 'model cleaning'>
 
-        ^ selectorModel ifNil: [
-            selectorModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
-    ]
-
-    buildPathTreeList [
-	<category: 'user interface'>
-
-	pathTree := GTK.GtkTreeView newWithSortedTextColumn: self pathModel title: 'Results'.
-	(pathTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
-	pathTree
-	    getSelection
-		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
-        ^ GTK.GtkScrolledWindow withChild: pathTree
+	self senderModel clear
     ]
 
     buildFinderList [
@@ -177,40 +158,18 @@ GtkMainWindow subclass: GtkSender [
     buildSenderList [
         <category: 'user interface'>
 
-	senderTree := GTK.GtkTreeView newWithSortedTextColumn: self senderModel title: 'Results'.
+	senderTree := GTK.GtkTreeView newWithSortedTextColumn: self senderModel title: 'Senders'.
         senderTree
             getSelection
                 connectSignal: 'changed' to: self selector: #senderSelected userData: nil.
         ^ GTK.GtkScrolledWindow withChild: senderTree
     ]
 
-    buildSelectorList [
-        <category: 'user interface'>
-
-        selectorTree := GTK.GtkTreeView newWithSortedTextColumn: self selectorModel title: 'Results'.
-        selectorTree
-            getSelection
-                connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
-        ^ GTK.GtkScrolledWindow withChild: selectorTree
-    ]
-
-    buildSenderAndSelectorList [
-	<category: 'user interface'>
-
-	^ GTK.GtkHPaned new
-	    add1: (GTK.GtkHPaned new
-			add1: self buildPathTreeList;
-			add2: self buildSenderList;
-			yourself);
-	    add2: self buildSelectorList;
-	    yourself
-    ]
-
     buildSenderAndClassBrowser [
 	<category: 'user interface'>
 
         ^ GTK.GtkVPaned new
-            add1: self buildSenderAndSelectorList;
+            add1: self buildSenderList;
             add2: ((classBrowserWidget := GtkClassBrowserWidget new)
                         initialize;
                         mainWidget);
@@ -236,14 +195,14 @@ GtkMainWindow subclass: GtkSender [
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
-	finderTree setSearchEntry: searchEntry
+	finderTree setSearchEntry: searchEntry.
     ]
 
     aboutSender [
         <category: 'events'>
 
         (GTK.GtkAboutDialog new)
-            setVersion: '0.3.0';
+            setVersion: GtkLauncher version;
             setLicense: 'Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation
@@ -260,29 +219,32 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
-            setWebsite: 'http://le site du gnu';
+            setWebsite: GtkLauncher website;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'};"
             setProgramName: 'GNU Smalltalk Sender';
             run
     ]
 
-    hasSelectedElement [
-	<category: 'testing'>
-
-	^ pathTree getSelection getSelected isNil not
-    ]
-
     findInMethod: anObject [
 	<category: 'find'>
 
 	| result |
-	anObject inspect.
-	result := OrderedCollection new.
+	result := Dictionary new.
 	CompiledMethod allInstancesDo: [ :each |
-	    each literalsDo: [ :lit |
-		lit = anObject ifTrue: [ result add: each ] ] ].
+	    each literalsAndSpecialSelectorsDo: [ :lit | lit = anObject ifTrue: [ result at: each displayString put: each ] ] ].
 	^ result
+    ]
+
+    appendSelectors: aCompiledMethod [
+	<category: 'selector accessing'>
+
+	| iter |
+	self selectorModel clear.
+	aCompiledMethod literalsAndSpecialSelectorsDo: [ :each |
+	    each isSymbol ifTrue: [
+		iter := self selectorModel insertBefore: nil.
+		self selectorModel setOop: iter column: 0 value: each asString ] ]
     ]
 
     finderSelected [
@@ -290,14 +252,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| iter result string |
 	(iter := finderTree getSelection getSelected) ifNil: [ ^ self ].
-	self senderModel clear.
-	result := self findInMethod: (GtkImageModel current selectedItem: iter) first element.
-	senderResults := OrderedCollection new.
-	result do: [ :each |
-	    senderResults add: each.
-	    iter := GTK.GtkTreeIter new.
-            self senderModel append: iter parent: nil.
-            self senderModel setOop: iter column: 0 value: each displayString ]
+
+	self clearSenderModel.
+
+	senderResults := self findInMethod: (GtkImageModel current selectedItem: iter) first element.
+	senderResults keysAndValuesDo: [ :key :value |
+	    iter := self senderModel insertBefore: nil.
+	    self senderModel setOop: iter column: 0 value: key ]
     ]
 
     senderSelected [
@@ -306,66 +267,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	| count iter path selectedIter selectedString string |
         (selectedIter := senderTree getSelection getSelected) ifNil: [ ^ self ].
         selectedString := (self senderModel getOop: selectedIter column: 0).
+	currentMethod := senderResults at: selectedString ifAbsent: [ ^ self error: selectedString, 'not in the list' ].
 
-        count := 1.
-        iter := GTK.GtkTreeIter new.
-        path := GTK.GtkTreePath newFirst.
-        [ self senderModel getIter: iter path: path ] whileTrue: [
-            string := (self senderModel getOop: iter column: 0).
-            string = selectedString ifTrue: [ | method |
-		method := senderResults at: count.
-		classBrowserWidget
-		    selectANamespace: method methodClass environment;
-		    selectAClass: (method methodClass isClass ifTrue: [ method methodClass ] ifFalse: [ method methodClass instanceClass ]).
-		    method methodClass isClass
-			ifTrue: [ classBrowserWidget selectAnInstanceMethod: selector ]
-			ifFalse: [ classBrowserWidget selectAClassMethod: selector  ].
-                ^ self ].
-            count := count + 1.
-            path next ].
-        ^ self error: 'error in the algorithm'
-    ]
-
-    elementSelected [
-	<category: 'events'>
-
-	"| iter string |
-        (iter := pathTree getSelection getSelected) ifNil: [ ^ self ].
-        string := (self model getOop: iter column: 0).
-   
-	self resultModel clear. 
-	resultArray := finderDic at: string ifAbsent: [ self error: string, 'Element not found' ].
-	resultArray size = 1 
-	    ifTrue: [
-		resultArray first updateBrowser: classBrowserWidget.
-		resultArray first displayString printNl ]
-	    ifFalse: [
-		resultArray do: [ :each |
-		    iter := GTK.GtkTreeIter new.
-		    self resultModel append: iter parent: nil.
-		    self resultModel setOop: iter column: 0 value: each displayString ] ]
-	"	
-    ]
-
-    resultSelected [
-	<category: 'events'>
-
-	"| count iter path selectedIter selectedString string |
-	(selectedIter := resultTree getSelection getSelected) ifNil: [ ^ self ].
-	selectedString := (self resultModel getOop: selectedIter column: 0).
-
-	count := 1.
-        iter := GTK.GtkTreeIter new.
-        path := GTK.GtkTreePath newFirst.
-	[ self resultModel getIter: iter path: path ] whileTrue: [
-	    string := (self resultModel getOop: iter column: 0).
-	    string = selectedString ifTrue: [
-		(resultArray at: count) updateBrowser: classBrowserWidget.
-                (resultArray at: count) displayString printNl.
-		^ self ].
-	    count := count + 1.
-	    path next ].
-	^ self error: 'error in the algorithm'"
+        classBrowserWidget
+                selectANamespace: currentMethod methodClass environment;
+                selectAClass: (currentMethod methodClass isClass ifTrue: [ currentMethod methodClass ] ifFalse: [ currentMethod methodClass instanceClass ]).
+        currentMethod methodClass isClass
+                ifTrue: [ classBrowserWidget selectAnInstanceMethod: currentMethod selector ]
+                ifFalse: [ classBrowserWidget selectAClassMethod: currentMethod selector  ]
     ]
 ]
 

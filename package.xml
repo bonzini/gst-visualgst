@@ -4,6 +4,14 @@
   <prereq>Parser</prereq>
   <namespace>GtkLauncher</namespace>
 
+  <test>
+    <filein>Tests/ExtractLiteralsTest.st</filein>
+
+    <sunit>
+      ExtractLiteralsTest
+    </sunit>
+  </test>
+
   <start>
     GTK.Gtk gstGtkInit.
     GtkLauncher open.
@@ -130,4 +138,6 @@
   <file>Implementors/GtkImplementor.st</file>
 
   <file>Senders/GtkSender.st</file>
+
+  <file>Tests/ExtractLiteralsTest.st</file>
 </package>

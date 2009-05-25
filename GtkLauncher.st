@@ -7,11 +7,29 @@ GtkMainWindow subclass: GtkLauncher [
 	^ self openSized: 450@375
     ]
 
+    GtkLauncher class >> version [
+	<category: 'accessing'>
+
+	^ '0.4.0'
+    ]
+
+    GtkLauncher class >> website [
+	<category: 'accessing'>
+
+	^ 'http://gtklauncher.bioskop.fr/'
+    ]
+    
+    GtkLauncher class >> gstWebsite [
+	<category: 'accessing'>
+
+	^ 'http://smalltalk.gnu.org/'
+    ]
+
     aboutLauncher [
 	<category: 'help events'>
 
 	(GTK.GtkAboutDialog new)
-	    setVersion: '0.2.0';
+	    setVersion: self class version;
 	    setLicense: 'Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation
@@ -28,7 +46,7 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
-	    setWebsite: 'http://le site du gnu';
+	    setWebsite: self class website;
 	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
 	    "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'. nil};"
 	    setProgramName: 'GNU Smalltalk Launcher';
@@ -56,7 +74,7 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
-            setWebsite: 'http://le site du gnu';
+            setWebsite: self class gstWebsite;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             "setAuthors: {'Paolo Bonzini'};"
             setProgramName: 'GNU Smalltalk';
