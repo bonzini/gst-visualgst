@@ -28,8 +28,8 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
-	    setWebsite: 'http://le site du gnu hehe';
-	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
+	    setWebsite: GtkLauncher website;
+	    setComments: 'This is a system browser for GNU Smalltalk.';
 	    "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'};"
 	    setProgramName: 'GNU Smalltalk Browser';
 	    runNonBlockingAndDestroy
@@ -334,6 +334,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	| temp |
+	'icic' printNl.
 	self
 	    appendToolItem: (GTK.GtkToolButton newFromStock: 'gtk-new');
 	    appendSeparator;
@@ -350,7 +351,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    appendToolItem: (GTK.GtkToolButton newFromStock: 'gtk-execute');
 	    appendSeparator.
 	    temp := (GTK.GtkToolItem new)
-			add: (GTK.GtkEntry new);
+			add: ((GTK.GtkEntry new)
+				setCompletion: ((GTK.GtkEntryCompletion new)
+						    setModel: GtkImageModel currentModel;
+						    setTextColumn: 0;
+						    yourself);
+				yourself);
 			yourself.
 	    self toolBar insert: temp pos: -1
     ]
