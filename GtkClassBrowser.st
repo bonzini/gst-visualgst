@@ -43,6 +43,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'events'>
     ]
 
+    undo [
+	<category: 'edit events'>
+
+	browserWidget undo
+    ]
+
+    redo [
+	<category: 'edit events'>
+
+	browserWidget redo
+    ]
+
     gtkInspector [
 	<category: 'events'>
 	
@@ -221,11 +233,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createEditMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Cut' #cut).
+	^ self createMenuEntry: {#('Undo' #undo).
+	    #('Redo' #redo).
+	    #().
+	    #('Cut' #cut).
 	    #('Copy' #copy).
 	    #('Paste' #paste).
 	    #().
-	    #('Select all' #selectAll)}
+	    #('Select all' #selectAll)}.
     ]
 
     createSmalltalkMenus [
@@ -334,7 +349,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	| temp |
-	'icic' printNl.
 	self
 	    appendToolItem: (GTK.GtkToolButton newFromStock: 'gtk-new');
 	    appendSeparator;

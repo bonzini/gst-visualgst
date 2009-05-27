@@ -1,20 +1,21 @@
 UndoCommand subclass: DeleteCategoryCommand [
 
-    | category treeStore |
+    | category class methods treeStore |
 
-    DeleteCategoryCommand class >> delete: aSymbol onModel: aGtkCategoryModel [
+    DeleteCategoryCommand class >> delete: aString in: aClass onModel: aGtkCategoryModel [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    delete: aSymbol onModel: aGtkCategoryModel;
+	    delete: aString in: aClass onModel: aGtkCategoryModel;
 	    precondition;
 	    yourself
     ]
 
-    delete: aSymbol onModel: aGtkTreeStore [
+    delete: aString in: aClass onModel: aGtkTreeStore [
 	<category: 'initialize'>
 
-	category := aSymbol.
+	category := aString.
+	class := aClass.
 	treeStore := aGtkTreeStore
     ]
 
@@ -33,13 +34,26 @@ UndoCommand subclass: DeleteCategoryCommand [
     undo [
 	<category: 'events'>
 
-	treeStore appendCategory: category
+        methods do: [ :each |
+            class methodDictionary at: each selector put: each ].
+	methods := nil.
+	treeStore appendCategory: category.
+	(GtkMethodModel
+            currentOn: class withCategory: '*') refreshModel.
     ]
 
     redo [
 	<category: 'events'>
 
-	treeStore removeCategory: category
+	methods := OrderedCollection new.
+	class methodDictionary do: [ :each |
+	    each methodCategory = category 
+		ifTrue: [ methods add: each ] ].
+	methods do: [ :each |
+	    class methodDictionary removeKey: each selector ifAbsent: [ ] ].
+	treeStore removeCategory: category.
+	(GtkMethodModel 
+	    currentOn: class withCategory: '*') refreshModel.
     ]
 ]
 

@@ -1,19 +1,46 @@
 Object subclass: UndoStack [
 
-    | stack |
+    | undoStack redoStack |
 
     initialize [
-	stack := OrderedCollection new.
+	<category: 'initialization'>
+
+	undoStack := OrderedCollection new.
+	redoStack := OrderedCollection new.
     ]
 
     push: aCommand [
+	<category: 'stack'>
+
 	aCommand redo.
-	stack addFirst: aCommand
+	undoStack addFirst: aCommand
     ]
 
     pop [
-	stack first undo.
-	stack removeFirst
+	<category: 'stack'>
+
+	undoStack first undo.
+	undoStack removeFirst
+    ]
+
+    undo [
+	<category: 'undo-redo'>
+
+	| cmd |
+	cmd := undoStack first
+		    undo;
+		    yourself.
+	redoStack addFirst: undoStack removeFirst.
+    ]
+
+    redo [
+        <category: 'undo-redo'>
+
+        | cmd |
+        cmd := redoStack first
+		    redo;
+		    yourself.
+        undoStack addFirst: redoStack removeFirst.
     ]
 ]
 

@@ -153,10 +153,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	anArray do: [ :each |
 	    menu append: 
 		(each isEmpty
-		    ifTrue: [GTK.GtkMenuItem new]
-		    ifFalse: [(GTK.GtkMenuItem newWithLabel: (each at: 1))
-			    connectSignal: 'activate' to:self selector: (each at: 2) userData: nil;
-			    yourself])].
+		    ifTrue: [ GTK.GtkMenuItem new ]
+		    ifFalse: [ (GTK.GtkMenuItem newWithLabel: (each at: 1))
+			    connectSignal: 'activate' to: self selector: (each at: 2) userData: nil;
+			    yourself ]) ].
 
 	^ menu
     ]

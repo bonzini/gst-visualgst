@@ -288,6 +288,18 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	self selectedClass compile: codeBuffer text classified: self selectedMethodCategory.
 	saveButton sensitive: false"
     ]
+
+    undo [
+	<category: 'edit events'>
+
+	undoStack undo
+    ]
+
+    redo [
+	<category: 'edit events'>
+
+	undoStack redo
+    ]
     
     fileoutNamespace [
 	<category: 'namespace events'>
@@ -483,25 +495,27 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     renameCategory [
         <category: 'category events'>
 
-	| categoryWidget categoryModel dlg name |
+	| categoryWidget categoryModel class dlg name |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	categoryWidget := self viewedCategoryWidget.
 	categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	dlg := GtkEntryDialog title: 'Rename a category' text: 'Name of the category'.
 	categoryModel := self viewedCategoryModel.
+	class := classWidget selectedClass.
         dlg hasPressedOk ifTrue: [ name := dlg result.
-            undoStack push: (RenameCategoryCommand rename: categoryWidget selectedCategory as: name onModel: categoryModel) ]
+            undoStack push: (RenameCategoryCommand rename: categoryWidget selectedCategory in: class as: name onModel: categoryModel) ]
     ]
 
     deleteCategory [
         <category: 'category events'>
 
-        | categoryWidget categoryModel dlg name |
+        | categoryWidget categoryModel class |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	categoryWidget := self viewedCategoryWidget.
         categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
         categoryModel := self viewedCategoryModel.
-        undoStack push: (DeleteCategoryCommand delete: categoryWidget selectedCategory onModel: categoryModel)
+	class := classWidget selectedClass.
+        undoStack push: (DeleteCategoryCommand delete: categoryWidget selectedCategory in: class onModel: categoryModel)
     ]
 
     inspectCategory [

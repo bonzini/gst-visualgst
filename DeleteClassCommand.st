@@ -27,10 +27,10 @@ UndoCommand subclass: DeleteClassCommand [
 	<category: 'events'>
 
 	| iter |
-	treeStore hasClass: class superclass 
+	(treeStore hasClass: class superclass) 
 	    ifTrue: [ iter := treeStore findIterInAClass: class superclass ].
-	treeStore append: iter column: 0 value: class asString.
-	class environment add: class
+	treeStore append: iter column: 0 value: class name asString, ' class'.
+	class environment at: class name put: class
     ]
 
     redo [

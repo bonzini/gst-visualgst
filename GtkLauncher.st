@@ -311,7 +311,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	^ self createMenuEntry: {#('Do It' #doIt).
 	#('Print It' #printIt).
 	#('Inspect It' #inspectIt).
-	#('Debug It' #debugIt)}
+	#('Debug It' #debugIt).
+	#().
+	#('Implementors' #implementors).
+	#('Senders' #senders)}
     ]
 
     createHelpMenus [
@@ -460,6 +463,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'smalltalk events'>
 
 	currentWidget debugIt
+    ]
+
+    implementors [
+	<category: 'smalltalk events'>
+
+	GtkImplementor open
+    ]
+
+    senders [
+	<category: 'smalltalk events'>
+
+	GtkSender open
     ]
 
     searchClassOrMethod [

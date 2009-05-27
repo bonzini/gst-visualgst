@@ -22,7 +22,7 @@ UndoCommand subclass: DeleteMethodCommand [
     description [
 	<category: 'accessing'>
 
-	^ 'Add a method'
+	^ 'Delete a method'
     ]
 
     precondition [
@@ -41,7 +41,7 @@ UndoCommand subclass: DeleteMethodCommand [
 	<category: 'events'>
 
 	compiledMethod := classOrMeta >> selector.
-	classOrMeta methodDictionary remove: selector.
+	classOrMeta methodDictionary removeKey: selector.
 	treeStore removeMethod: selector asString
     ]
 ]

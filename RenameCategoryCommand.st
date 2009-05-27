@@ -1,20 +1,21 @@
 UndoCommand subclass: RenameCategoryCommand [
 
-    | category newCategory treeStore |
+    | category class newCategory treeStore |
 
-    RenameCategoryCommand class >> rename: aSymbol as: aNewName onModel: aGtkTreeStore [
+    RenameCategoryCommand class >> rename: aString in: aClass as: aNewName onModel: aGtkTreeStore [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    rename: aSymbol as: aNewName onModel: aGtkTreeStore;
+	    rename: aString in: aClass as: aNewName onModel: aGtkTreeStore;
 	    precondition;
 	    yourself
     ]
 
-    rename: aSymbol as: aNewName onModel: aGtkTreeStore [
+    rename: aString in: aClass as: aNewName onModel: aGtkTreeStore [
 	<category: 'initialize'>
 
-	category := aSymbol.
+	category := aString.
+	class := aClass.
 	newCategory := aNewName.
 	treeStore := aGtkTreeStore
     ]
@@ -35,6 +36,9 @@ UndoCommand subclass: RenameCategoryCommand [
     undo [
 	<category: 'events'>
 
+	class methodDictionary do: [ :each |
+	    each methodCategory = newCategory
+		ifTrue: [ each methodCategory: category ] ].
 	treeStore
 	    removeCategory: newCategory;
 	    appendCategory: category
@@ -43,6 +47,9 @@ UndoCommand subclass: RenameCategoryCommand [
     redo [
 	<category: 'events'>
 
+	class methodDictionary do: [ :each |
+            each methodCategory = category
+                ifTrue: [ each methodCategory: newCategory ] ].
 	treeStore
 	    removeCategory: category;
 	    appendCategory: newCategory

@@ -14,7 +14,7 @@ Object subclass: GtkMethodModel [
 
         ^ (self new)
 	    initialize;
-	   classOrMeta: aClass withCategory: aCategory;
+	    classOrMeta: aClass withCategory: aCategory;
 	    yourself
     ]
 
@@ -82,6 +82,8 @@ Object subclass: GtkMethodModel [
     
 	self classOrMeta ifNil: [ ^ model := self emptyModel ].
 
+	self model clear.
+
 	self classOrMeta selectors do: [ :each |
 	    (((self classOrMeta compiledMethodAt: each) methodCategory = self category) or: [ self category = '*'])
 		ifTrue: [ self appendMethod: each asString ] ]
@@ -125,7 +127,7 @@ Object subclass: GtkMethodModel [
         <category: 'model builder'>
 
         | iter |
-        iter := self findInterInAMethod: aString.
+        iter := self findIterInAMethod: aString.
         self model remove: iter
     ]
 ]

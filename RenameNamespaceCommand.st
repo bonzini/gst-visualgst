@@ -39,7 +39,9 @@ UndoCommand subclass: RenameNamespaceCommand [
 	| iter |
 	iter := treeStore findIterInANamespace: namespace.
 	treeStore at: iter column: 0 value: oldName asString.
-	namespace name: oldName
+        namespace superspace removeKey: namespace name.
+	namespace name: oldName.
+        namespace superspace at: namespace name put: namespace
     ]
 
     redo [
@@ -48,7 +50,9 @@ UndoCommand subclass: RenameNamespaceCommand [
 	| iter |
 	iter := treeStore findIterInANamespace: namespace.
 	treeStore at: iter column: 0 value: newName asString.
-	namespace name: newName
+	namespace superspace removeKey: namespace name.
+	namespace name: newName.
+	namespace superspace at: namespace name put: namespace
     ]
 ]
 

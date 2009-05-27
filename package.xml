@@ -59,6 +59,9 @@
   <filein>GtkMethodModel.st</filein>
   <filein>GtkProjectDialog.st</filein>
   <filein>Project.st</filein>
+  <filein>AddCategoryCommand.st</filein>
+  <filein>RenameCategoryCommand.st</filein>
+  <filein>DeleteCategoryCommand.st</filein>
   <filein>AddMethodCommand.st</filein>
   <filein>DeleteMethodCommand.st</filein>
   <filein>WorkspaceVariableTracker.st</filein>
@@ -120,6 +123,9 @@
   <file>GtkMethodModel.st</file>
   <file>GtkProjectDialog.st</file>
   <file>Project.st</file>
+  <file>AddCategoryCommand.st</file>
+  <file>RenameCategoryCommand.st</file>
+  <file>DeleteCategoryCommand.st</file>
   <file>AddMethodCommand.st</file>
   <file>DeleteMethodCommand.st</file>
   <file>WorkspaceVariableTracker.st</file>

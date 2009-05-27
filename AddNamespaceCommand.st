@@ -34,7 +34,7 @@ UndoCommand subclass: AddNamespaceCommand [
     undo [
 	<category: 'events'>
 
-	treeStore remove: newNamespace.
+	treeStore remove: (parentNamespace at: newNamespace).
 	parentNamespace removeSubspace: newNamespace
     ]
 

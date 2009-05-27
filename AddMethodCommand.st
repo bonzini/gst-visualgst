@@ -1,6 +1,6 @@
 UndoCommand subclass: AddMethodCommand [
 
-    | method category classOrMeta compiledMethod treeStore |
+    | selector method category classOrMeta oldCompiledMethod treeStore |
 
     AddMethodCommand class >> add: aString classified: aCategory in: aClass onModel: aGtkMethodModel [
 	<category: 'instance creation'>
@@ -29,25 +29,33 @@ UndoCommand subclass: AddMethodCommand [
     precondition [
         <category: 'checking'>
 
+	| parser |
+        parser := STInST.RBBracketedMethodParser new
+                    errorBlock: [ :string :pos | ^ self error: string ];
+                    initializeParserWith: method type: #'on:errorBlock:';
+                    yourself.
+	selector := parser parseMethod selector.
     ]
 
     undo [
 	<category: 'events'>
 
-	classOrMeta methodDictionary remove: compiledMethod selector.
-	treeStore removeMethod: compiledMethod selector asString
+	classOrMeta methodDictionary removeKey: selector.
+	oldCompiledMethod 
+	    ifNotNil: [ classOrMeta methodDictionary at: selector put: oldCompiledMethod ]
+	    ifNil: [ treeStore removeMethod: selector asString ]
     ]
 
     redo [
 	<category: 'events'>
 
-	compiledMethod := classOrMeta
-			    compile: method
-			    classified: category
-			    ifError: [ :fname :lineNo :errorString |
-				^ self error: 'Compile error ', errorString ].
-
-	treeStore appendMethod: compiledMethod selector asString
+	oldCompiledMethod := classOrMeta methodDictionary at: selector ifAbsent: [ nil ].
+	classOrMeta
+	    compile: method
+	    classified: category
+	    ifError: [ :fname :lineNo :errorString |
+			^ self error: 'Compile error ', errorString ].
+	oldCompiledMethod ifNil: [ treeStore appendMethod: selector asString ]
     ]
 ]
 

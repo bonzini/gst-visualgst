@@ -82,7 +82,10 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
         codeView := GTK.GtkTextView new.
 	codeBuffer := codeView getBuffer.
 
-	codeBuffer connectSignal: 'changed' to: self selector: #'changed' userData: nil.
+	codeBuffer 
+	    connectSignal: 'changed' to: self selector: #'changed' userData: nil;
+	    connectSignal: 'begin-user-action' to: self selector: #'beginUserAction' userData: nil;
+	    connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil.
 
         ^ (GTK.GtkFrame new: 'Code')
             add: (GTK.GtkScrolledWindow withChild: codeView);
@@ -97,6 +100,18 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	node := self parseSource: text.
 	node == self ifTrue: [ ^ self ].
         SyntaxHighlighter highlight: node in: codeBuffer
+    ]
+
+    beginUserAction [
+	<category: 'buffer events'>
+
+	'ici' printNl
+    ]
+
+    endUserAction [
+	<category: 'buffer events'>
+
+	'la-bas' printNl
     ]
 ]
 
