@@ -1,6 +1,7 @@
 <package>
   <name>GtkLauncher</name>
   <prereq>GTK</prereq>
+  <prereq>Cairo</prereq>
   <prereq>Parser</prereq>
   <namespace>GtkLauncher</namespace>
 
@@ -19,6 +20,7 @@
   </start>
 
   <filein>ExtendsGtk.st</filein>
+  <filein>ExtendsCairo.st</filein>
   <filein>GtkMainWindow.st</filein>
   <filein>GtkLauncher.st</filein>
   <filein>GtkConcreteWidget.st</filein>
@@ -66,6 +68,9 @@
   <filein>DeleteMethodCommand.st</filein>
   <filein>WorkspaceVariableTracker.st</filein>
   <filein>SyntaxHighlighter.st</filein>
+  <filein>InsertTextCommand.st</filein>
+
+  <filein>Clock/GtkClock.st</filein>
 
   <filein>Inspector/GtkInspectorSourceWidget.st</filein>
   <filein>Inspector/GtkInspectorBrowserWidget.st</filein>
@@ -82,6 +87,7 @@
   <filein>Senders/GtkSender.st</filein>
 
   <file>ExtendsGtk.st</file>
+  <file>ExtendsCairo.st</file>
   <file>GtkMainWindow.st</file>
   <file>GtkLauncher.st</file>
   <file>GtkConcreteWidget.st</file>
@@ -130,6 +136,7 @@
   <file>DeleteMethodCommand.st</file>
   <file>WorkspaceVariableTracker.st</file>
   <file>SyntaxHighlighter.st</file>
+  <file>InsertTextCommand.st</file>
 
   <file>Inspector/GtkInspectorSourceWidget.st</file>
   <file>Inspector/GtkInspectorBrowserWidget.st</file>
@@ -139,6 +146,8 @@
   <file>Inspector/GtkCharacterInspectorView.st</file>
   <file>Inspector/GtkIntegerInspectorView.st</file>
   <file>Inspector/GtkFloatInspectorView.st</file>
+
+  <file>Clock/GtkClock.st</file>
 
   <file>Implementors/GtkImageModel.st</file>
   <file>Implementors/GtkImplementor.st</file>

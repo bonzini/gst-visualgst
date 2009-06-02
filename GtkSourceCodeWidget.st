@@ -1,9 +1,13 @@
 GtkConcreteWidget subclass: GtkSourceCodeWidget [
-    | codeBuffer codeView |
+    | codeBuffer codeView userAction undoStack lastCommand |
 
     initialize [
 	<category: 'initialization'>
 
+	userAction := false.
+	undoStack := (UndoStack new)
+			initialize;
+			yourself.
 	self mainWidget: self buildCodeView.
 	self initializeHighlighter
     ]
@@ -85,7 +89,9 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	codeBuffer 
 	    connectSignal: 'changed' to: self selector: #'changed' userData: nil;
 	    connectSignal: 'begin-user-action' to: self selector: #'beginUserAction' userData: nil;
-	    connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil.
+	    connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil;
+	    connectSignal: 'insert-text' to: self selector: #'insert:at:text:size:' userData: nil;
+	    connectSignal: 'delete-range' to: self selector: #'delete:from:to:' userData: nil.
 
         ^ (GTK.GtkFrame new: 'Code')
             add: (GTK.GtkScrolledWindow withChild: codeView);
@@ -105,13 +111,37 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     beginUserAction [
 	<category: 'buffer events'>
 
-	'ici' printNl
+	userAction := true
     ]
 
     endUserAction [
 	<category: 'buffer events'>
 
-	'la-bas' printNl
+	userAction := false
+    ]
+
+    insert: aGtkTextBuffer at: aCObject text: aString size: anInteger [
+	<category: 'buffer events'>
+
+	| gtkTextIter offset |
+	userAction ifFalse: [ ^ self ].
+	gtkTextIter := GTK.GtkTextIter address: aCObject address.
+	lastCommand ifNil: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset.
+	    ^ self ].
+	(gtkTextIter getOffset = (lastCommand offset + lastCommand size))
+	    ifTrue: [ lastCommand string: (lastCommand string, aString).
+		^ self ].
+	undoStack push: lastCommand.
+	lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset
+    ]
+
+    delete: aGtkTextBuffer from: aStartCObject to: anEndCObject [
+	<category: 'buffer events'>
+
+	| startIter endIter |
+	userAction ifFalse: [ ^ self ].
+	startIter := GTK.GtkTextIter address: aStartCObject address.
+	endIter := GTK.GtkTextIter address: anEndCObject address.
     ]
 ]
 

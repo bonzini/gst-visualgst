@@ -232,9 +232,9 @@ GTK.GtkTreeView class extend [
 		    yourself.
         col := (GtkTreeViewColumn new)
 		    packStart: (render := GTK.GtkCellRendererText new) expand: true;
-	            addAttribute: render attribute: 'text' column: 0;
-	            setTitle: aString;
-	            yourself.
+		    addAttribute: render attribute: 'text' column: 0;
+		    setTitle: aString;
+		    yourself.
         view insertColumn: col position: -1.
 	^ view
     ]
@@ -257,6 +257,15 @@ GTK.GtkTreeView class extend [
         view
             insertColumn: col position: -1.
 	^ view
+    ]
+]
+
+GTK.Gdk class extend [
+
+    cairoCreate: aGdkWindow [
+	<category: 'C call-outs'>
+
+	<cCall: 'gdk_cairo_create' returning: #cObject args: #( #cObject )>
     ]
 ]
 
