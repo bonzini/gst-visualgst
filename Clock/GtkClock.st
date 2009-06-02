@@ -125,7 +125,7 @@ Smalltalk.Object subclass: GtkClock [
 	self 
 	    clearArea: aGtkWidget getAllocation on: cr;
 	    time;
-	    drawClock.
+	    drawClock: context.
 
 	^ true
     ]
