@@ -1,19 +1,33 @@
 UndoCommand subclass: InsertTextCommand [
-    | string offset |
+    | first string offset buffer |
 
-    InsertTextCommand class >> insert: aString at: anOffset [
+    InsertTextCommand class >> insert: aString at: anOffset on: aGtkTextBuffer [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    insert: aString at: anOffset;
+	    insert: aString at: anOffset on: aGtkTextBuffer;
 	    yourself
     ]
 
-    insert: aString at: anOffset [
+    insert: aString at: anOffset on: aGtkTextBuffer [
 	<category: 'initialize'>
 
+	first := true.
 	string := aString.
-	offset := anOffset
+	offset := anOffset.
+	buffer := aGtkTextBuffer
+    ]
+
+    isInsertCommand [
+	<category: 'testing'>
+
+	^ true
+    ]
+
+    isDeleteCommand [
+	<category: 'testing'>
+
+	^ false
     ]
 
     offset [
@@ -49,11 +63,16 @@ UndoCommand subclass: InsertTextCommand [
     undo [
 	<category: 'events'>
 
+	buffer deleteInteractive: (buffer getIterAtOffset: self offset) endIter: (buffer getIterAtOffset: self offset + self string size) defaultEditable: true
     ]
 
     redo [
 	<category: 'events'>
 
+	| iter |
+	first ifTrue: [ first:= false. 
+	    ^ self ].
+	buffer insertInteractive: (buffer getIterAtOffset: self offset) text: self string len: self string size defaultEditable: true
     ]
 ]
 

@@ -3,6 +3,7 @@
   <prereq>GTK</prereq>
   <prereq>Cairo</prereq>
   <prereq>Parser</prereq>
+  <prereq>SUnit</prereq>
   <namespace>GtkLauncher</namespace>
 
   <test>
@@ -69,6 +70,7 @@
   <filein>WorkspaceVariableTracker.st</filein>
   <filein>SyntaxHighlighter.st</filein>
   <filein>InsertTextCommand.st</filein>
+  <filein>DeleteTextCommand.st</filein>
 
   <filein>Clock/GtkClock.st</filein>
 
@@ -137,6 +139,7 @@
   <file>WorkspaceVariableTracker.st</file>
   <file>SyntaxHighlighter.st</file>
   <file>InsertTextCommand.st</file>
+  <file>DeleteTextCommand.st</file>
 
   <file>Inspector/GtkInspectorSourceWidget.st</file>
   <file>Inspector/GtkInspectorBrowserWidget.st</file>

@@ -36,6 +36,46 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	    createTag: #comment varargs: #('foreground' 'SpringGreen4' nil)
     ]
 
+    popupMenuOn: aGtkWidget menu: aGtkMenu [
+        <category: 'events'>
+
+        | menuitem |
+
+        menuitem := GTK.GtkMenuItem new.
+        menuitem show.
+        aGtkMenu append: menuitem.
+        menuitem := GTK.GtkMenuItem newWithLabel: 'Undo'.
+        menuitem
+            show;
+            connectSignal: 'activate' to: self selector: #undo userData: nil.
+        aGtkMenu append: menuitem.
+        menuitem := GTK.GtkMenuItem newWithLabel: 'Redo'.
+        menuitem
+            show;
+            connectSignal: 'activate' to: self selector: #redo userData: nil.
+        aGtkMenu append: menuitem.
+        menuitem := GTK.GtkMenuItem newWithLabel: 'Do It'.
+        menuitem
+            show;
+            connectSignal: 'activate' to: self selector: #doIt userData: nil.
+        aGtkMenu append: menuitem.
+        menuitem := GTK.GtkMenuItem newWithLabel: 'Print It'.
+        menuitem
+            show;
+            connectSignal: 'activate' to: self selector: #printIt userData: nil.
+        aGtkMenu append: menuitem.
+        menuitem := GTK.GtkMenuItem newWithLabel: 'Inspect It'.
+        menuitem
+            show;
+            connectSignal: 'activate' to: self selector: #inspectIt userData: nil.
+        aGtkMenu append: menuitem.
+        menuitem := GTK.GtkMenuItem newWithLabel: 'Debug It'.
+        menuitem
+            show;
+            connectSignal: 'activate' to: self selector: #debugIt userData: nil.
+        aGtkMenu append: menuitem
+    ]
+
     sourceCode [
 	<category: 'accessing'>
 
@@ -83,7 +123,9 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     buildCodeView [
 	<category: 'user interface'>
 
-        codeView := GTK.GtkTextView new.
+        codeView := (GTK.GtkTextView new)
+			connectSignal: 'populate-popup' to: self selector: #popupMenuOn:menu: userData: nil;
+			yourself.
 	codeBuffer := codeView getBuffer.
 
 	codeBuffer 
@@ -126,22 +168,44 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	| gtkTextIter offset |
 	userAction ifFalse: [ ^ self ].
 	gtkTextIter := GTK.GtkTextIter address: aCObject address.
-	lastCommand ifNil: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset.
+	lastCommand ifNil: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer.
+	    undoStack push: lastCommand.
 	    ^ self ].
-	(gtkTextIter getOffset = (lastCommand offset + lastCommand size))
+	((gtkTextIter getOffset = (lastCommand offset + lastCommand size)) and: [ lastCommand isInsertCommand ])
 	    ifTrue: [ lastCommand string: (lastCommand string, aString).
 		^ self ].
+	lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer
 	undoStack push: lastCommand.
-	lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset
     ]
 
     delete: aGtkTextBuffer from: aStartCObject to: anEndCObject [
 	<category: 'buffer events'>
 
-	| startIter endIter |
+	| startIter endIter text |
 	userAction ifFalse: [ ^ self ].
 	startIter := GTK.GtkTextIter address: aStartCObject address.
 	endIter := GTK.GtkTextIter address: anEndCObject address.
+	text := codeBuffer getText: startIter end: endIter includeHiddenChars: false.
+        lastCommand ifNil: [ lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer.
+	    undoStack push: lastCommand.
+            ^ self ].
+	((startIter getOffset = (lastCommand offset - lastCommand size)) and: [ lastCommand isDeleteCommand ])
+            ifTrue: [ lastCommand string: (text, lastCommand string).
+                ^ self ].
+        lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer
+        undoStack push: lastCommand.
+    ]
+
+    undo [
+	<category: 'buffer events'>
+
+	undoStack undo
+    ]
+
+    redo [
+	<category: 'buffer events'>
+
+	undoStack redo
     ]
 ]
 

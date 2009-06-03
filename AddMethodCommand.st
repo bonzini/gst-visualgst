@@ -49,7 +49,7 @@ UndoCommand subclass: AddMethodCommand [
     redo [
 	<category: 'events'>
 
-	oldCompiledMethod := classOrMeta methodDictionary at: selector ifAbsent: [ nil ].
+	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
 	classOrMeta
 	    compile: method
 	    classified: category

@@ -180,13 +180,13 @@ GTK.GtkButton class extend [
 GTK.GtkMenu extend [
 
     appendSeparator [
-	<category: ''>
+	<category: 'accessing'>
 
 	self append: GTK.GtkMenuItem new
     ]
 
     appendMenuItems: anArray [
-	<category: ''>
+	<category: 'accessing'>
 
 	anArray do: [ :each |
 	    self append: 
@@ -201,7 +201,7 @@ GTK.GtkMenu extend [
 GTK.GtkTextBuffer extend [
 
     text [
-	<category: ''>
+	<category: 'accessing'>
 
 	^ self getText: self getStartIter end: self getEndIter includeHiddenChars: false
     ]
@@ -210,7 +210,7 @@ GTK.GtkTextBuffer extend [
 GTK.GtkTextBuffer extend [
 
     applyTagByName: aSymbol startOffset: aStartInteger endOffset: anEndInteger [
-	<category: ''>
+	<category: 'accessing'>
 
 	| end start |
 	start := GTK.GtkTextIter new.
@@ -218,6 +218,15 @@ GTK.GtkTextBuffer extend [
         self getIterAtOffset: start charOffset: aStartInteger.
         self getIterAtOffset: end charOffset: anEndInteger.
         self applyTagByName: aSymbol start: start end: end
+    ]
+
+    getIterAtOffset: offset [
+	<category: 'accessing'>
+
+	| result |
+	result := GTK.GtkTextIter new.
+	self getIterAtOffset: result charOffset: offset.
+	^ result
     ]
 ]
 
