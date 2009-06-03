@@ -30,14 +30,15 @@ UndoCommand subclass: DeleteNamespaceCommand [
 	    append: (treeStore findIterInANamespace: namespace superspace)
 	    column: 0
 	    value: namespace name.
-	namespace superspace at: namespace name put: namespace
+	namespace superspace at: namespace name put: namespace.
+	namespace superspace subspaces add: namespace
     ]
 
     redo [
 	<category: 'events'>
 
 	treeStore remove: namespace.
-	namespace superspace removeKey: namespace name
+	namespace superspace removeSubspace: namespace name
     ]
 ]
 
