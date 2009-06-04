@@ -64,7 +64,7 @@ UndoCommand subclass: DeleteTextCommand [
     undo [
 	<category: 'events'>
 
-	buffer insert: (buffer getIterAtOffset: self offset - self string size + 1) text: self string len: self string size
+	buffer insert: (buffer getIterAtOffset: end - self string size) text: self string len: self string size
     ]
 
     redo [

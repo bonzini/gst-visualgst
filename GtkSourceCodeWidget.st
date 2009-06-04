@@ -1,10 +1,10 @@
 GtkConcreteWidget subclass: GtkSourceCodeWidget [
-    | codeBuffer codeView userAction undoStack lastCommand |
+    | codeBuffer codeView userAction undoStack lastCommand paste cut |
 
     initialize [
 	<category: 'initialization'>
 
-	userAction := false.
+	cut := paste := userAction := false.
 	undoStack := (UndoStack new)
 			initialize;
 			yourself.
@@ -85,12 +85,14 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     namespaceDefinition: aString [
 	<category: 'accessing'>
 
+	undoStack clear.
 	codeBuffer setText: aString
     ]
 
     classDefinition: aString [
 	<category: 'accessing'>
 
+	undoStack clear.
 	codeBuffer setText: aString
     ]
 
@@ -104,6 +106,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	<category: 'accessing'>
 
 	| node |
+	undoStack clear.
 	codeBuffer setText: aString.
 	node := self parseSource: aString.
 	SyntaxHighlighter highlight: node in: codeBuffer
@@ -124,7 +127,9 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	<category: 'user interface'>
 
         codeView := (GTK.GtkTextView new)
-			connectSignal: 'populate-popup' to: self selector: #popupMenuOn:menu: userData: nil;
+			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
+			connectSignal: 'paste-clipboard' to: self selector: #paste userData: nil;
+			connectSignal: 'cut-clipboard' to: self selector: #cut userData: nil;
 			yourself.
 	codeBuffer := codeView getBuffer.
 
@@ -162,20 +167,34 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	userAction := false
     ]
 
+    paste [
+        <category: 'clipboard events'>
+
+	lastCommand := nil
+    ]
+
+    cut [
+	<category: 'clipboard events'>
+
+	cut := true and: [ codeBuffer getHasSelection ].
+	cut ifTrue: [ lastCommand := nil ]
+    ]
+
     insert: aGtkTextBuffer at: aCObject text: aString size: anInteger [
 	<category: 'buffer events'>
 
 	| gtkTextIter offset |
 	userAction ifFalse: [ ^ self ].
-	'ici' printNl.
 	gtkTextIter := GTK.GtkTextIter address: aCObject address.
-	lastCommand ifNil: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer.
-	    undoStack push: lastCommand.
-	    ^ self ].
+	(lastCommand isNil or: [ aString size > 1 ]) 
+	    ifTrue: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer.
+		undoStack push: lastCommand.
+		aString size > 1 ifTrue: [ lastCommand := nil ].
+		^ self ].
 	((gtkTextIter getOffset = (lastCommand offset + lastCommand size)) and: [ lastCommand isInsertCommand ])
 	    ifTrue: [ lastCommand string: (lastCommand string, aString).
 		^ self ].
-	lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer
+	lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer.
 	undoStack push: lastCommand.
     ]
 
@@ -183,13 +202,16 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer events'>
 
 	| startIter endIter text |
-	userAction ifFalse: [ ^ self ].
+	userAction ifFalse: [ cut := false. ^ self ].
 	startIter := GTK.GtkTextIter address: aStartCObject address.
 	endIter := GTK.GtkTextIter address: anEndCObject address.
 	text := codeBuffer getText: startIter end: endIter includeHiddenChars: false.
-        lastCommand ifNil: [ lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer.
-	    undoStack push: lastCommand.
-            ^ self ].
+        (lastCommand isNil or: [ cut ])
+	    ifTrue: [ lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer.
+		undoStack push: lastCommand.
+		cut ifTrue: [ lastCommand := nil ].
+		cut := false.
+		^ self ].
 	((startIter getOffset = (lastCommand offset - lastCommand size)) and: [ lastCommand isDeleteCommand ])
             ifTrue: [ lastCommand string: (text, lastCommand string).
                 ^ self ].
@@ -200,13 +222,15 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     undo [
 	<category: 'buffer events'>
 
-	undoStack undo
+	undoStack undo.
+	lastCommand := nil.
     ]
 
     redo [
 	<category: 'buffer events'>
 
-	undoStack redo
+	undoStack redo.
+	lastCommand := nil.
     ]
 ]
 

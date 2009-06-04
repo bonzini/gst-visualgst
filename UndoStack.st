@@ -9,10 +9,18 @@ Object subclass: UndoStack [
 	redoStack := OrderedCollection new.
     ]
 
+    clear [
+	<category: 'stack'>
+
+	redoStack empty.
+	undoStack empty
+    ]
+
     push: aCommand [
 	<category: 'stack'>
 
 	aCommand redo.
+	redoStack empty.
 	undoStack addFirst: aCommand
     ]
 
@@ -27,6 +35,8 @@ Object subclass: UndoStack [
 	<category: 'undo-redo'>
 
 	| cmd |
+	undoStack isEmpty ifTrue: [ ^ self ].
+
 	cmd := undoStack first
 		    undo;
 		    yourself.
@@ -37,6 +47,8 @@ Object subclass: UndoStack [
         <category: 'undo-redo'>
 
         | cmd |
+	redoStack isEmpty ifTrue: [ ^ self ].
+
         cmd := redoStack first
 		    redo;
 		    yourself.
