@@ -167,6 +167,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 
 	| gtkTextIter offset |
 	userAction ifFalse: [ ^ self ].
+	'ici' printNl.
 	gtkTextIter := GTK.GtkTextIter address: aCObject address.
 	lastCommand ifNil: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer.
 	    undoStack push: lastCommand.
@@ -192,7 +193,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	((startIter getOffset = (lastCommand offset - lastCommand size)) and: [ lastCommand isDeleteCommand ])
             ifTrue: [ lastCommand string: (text, lastCommand string).
                 ^ self ].
-        lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer
+        lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer.
         undoStack push: lastCommand.
     ]
 

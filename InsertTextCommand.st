@@ -63,16 +63,15 @@ UndoCommand subclass: InsertTextCommand [
     undo [
 	<category: 'events'>
 
-	buffer deleteInteractive: (buffer getIterAtOffset: self offset) endIter: (buffer getIterAtOffset: self offset + self string size) defaultEditable: true
+	buffer delete: (buffer getIterAtOffset: self offset) end: (buffer getIterAtOffset: self offset + self string size)
     ]
 
     redo [
 	<category: 'events'>
 
-	| iter |
 	first ifTrue: [ first:= false. 
 	    ^ self ].
-	buffer insertInteractive: (buffer getIterAtOffset: self offset) text: self string len: self string size defaultEditable: true
+	buffer insert: (buffer getIterAtOffset: self offset) text: self string len: self string size
     ]
 ]
 

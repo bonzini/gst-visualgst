@@ -1,5 +1,5 @@
 UndoCommand subclass: DeleteTextCommand [
-    | start end string buffer |
+    | first start end string buffer |
 
     DeleteTextCommand class >> from: aStartOffset to: anEndOffset text: aString on: aGtkTextBuffer [
 	<category: 'instance creation'>
@@ -12,6 +12,7 @@ UndoCommand subclass: DeleteTextCommand [
     from: aStartOffset to: anEndOffset text: aString on: aGtkTextBuffer [
 	<category: 'initialize'>
 
+	first := true.
 	start := aStartOffset.
 	end := anEndOffset.
 	string := aString.
@@ -63,11 +64,15 @@ UndoCommand subclass: DeleteTextCommand [
     undo [
 	<category: 'events'>
 
+	buffer insert: (buffer getIterAtOffset: self offset - self string size + 1) text: self string len: self string size
     ]
 
     redo [
 	<category: 'events'>
 
+        first ifTrue: [ first:= false.
+            ^ self ].
+	buffer delete: (buffer getIterAtOffset: end - self string size) end: (buffer getIterAtOffset: end)
     ]
 ]
 
