@@ -59,11 +59,21 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
     selectedText [
 	<category: 'text accessing'>
 
-	^ textview getBuffer getHasSelection
-                ifTrue: [ | iter |
-                        iter := textview getBuffer getSelectionBounds ifNil: [^ self].
-                        textview getBuffer getText: (iter at: 1) end: (iter at: 2) includeHiddenChars: false ]
-                ifFalse: [ textview getBuffer text ].
+	| iter |
+	iter := self iterOfSelectedText.
+	^ textview getBuffer getText: (iter at: 1) end: (iter at: 2) includeHiddenChars: false	
+    ]
+
+    iterOfSelectedText [
+	<category: 'text accessing'>
+
+	| iter |
+        textview getBuffer getHasSelection
+                ifTrue: [ iter := textview getBuffer getSelectionBounds ifNil: [ ^ self ].
+                        (iter at: 1) getOffset > ((iter at: 2) getOffset) 
+			    ifTrue: [ iter swap: 1 with: 2 ] ]
+                ifFalse: [ iter := {textview getBuffer getStartIter. textview getBuffer getEndIter} ].
+	^ iter
     ]
 
     doIt [
@@ -82,7 +92,7 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
     printIt [
 	<category: 'events'>
 
-	textview getBuffer insertAtCursor: (self doIt displayString) 
+	textview getBuffer insert: self iterOfSelectedText second text: (self doIt displayString) 
     ]
 
     inspectIt [
