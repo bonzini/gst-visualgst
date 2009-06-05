@@ -92,7 +92,13 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
     printIt [
 	<category: 'events'>
 
-	textview getBuffer insert: self iterOfSelectedText second text: (self doIt displayString) 
+	| iter start end result |
+	iter := self iterOfSelectedText second.
+	result := ' ', (self doIt displayString), ' '.
+	textview getBuffer insert: iter text: result.
+	start := textview getBuffer getIterAtOffset: (iter getOffset - result size).
+	end := textview getBuffer getIterAtOffset: (iter getOffset).
+	textview getBuffer selectRange: start bound: end
     ]
 
     inspectIt [
