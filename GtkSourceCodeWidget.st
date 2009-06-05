@@ -1,13 +1,9 @@
 GtkConcreteWidget subclass: GtkSourceCodeWidget [
-    | codeBuffer codeView userAction undoStack lastCommand paste cut |
+    | codeBuffer codeView |
 
     initialize [
 	<category: 'initialization'>
 
-	cut := paste := userAction := false.
-	undoStack := (UndoStack new)
-			initialize;
-			yourself.
 	self mainWidget: self buildCodeView.
 	self initializeHighlighter
     ]
@@ -85,14 +81,14 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     namespaceDefinition: aString [
 	<category: 'accessing'>
 
-	undoStack clear.
+	codeView emptyStack.
 	codeBuffer setText: aString
     ]
 
     classDefinition: aString [
 	<category: 'accessing'>
 
-	undoStack clear.
+	codeView emptyStack.
 	codeBuffer setText: aString
     ]
 
@@ -106,7 +102,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	<category: 'accessing'>
 
 	| node |
-	undoStack clear.
+	codeView emptyStack.
 	codeBuffer setText: aString.
 	node := self parseSource: aString.
 	SyntaxHighlighter highlight: node in: codeBuffer
@@ -126,19 +122,15 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     buildCodeView [
 	<category: 'user interface'>
 
-        codeView := (GTK.GtkTextView new)
+        codeView := (GtkTextWidget new)
+			initialize;
 			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
-			connectSignal: 'paste-clipboard' to: self selector: #paste userData: nil;
-			connectSignal: 'cut-clipboard' to: self selector: #cut userData: nil;
 			yourself.
+
 	codeBuffer := codeView getBuffer.
 
 	codeBuffer 
-	    connectSignal: 'changed' to: self selector: #'changed' userData: nil;
-	    connectSignal: 'begin-user-action' to: self selector: #'beginUserAction' userData: nil;
-	    connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil;
-	    connectSignal: 'insert-text' to: self selector: #'insert:at:text:size:' userData: nil;
-	    connectSignal: 'delete-range' to: self selector: #'delete:from:to:' userData: nil.
+	    connectSignal: 'changed' to: self selector: #'changed' userData: nil.
 
         ^ (GTK.GtkFrame new: 'Code')
             add: (GTK.GtkScrolledWindow withChild: codeView);
@@ -155,82 +147,16 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
         SyntaxHighlighter highlight: node in: codeBuffer
     ]
 
-    beginUserAction [
-	<category: 'buffer events'>
-
-	userAction := true
-    ]
-
-    endUserAction [
-	<category: 'buffer events'>
-
-	userAction := false
-    ]
-
-    paste [
-        <category: 'clipboard events'>
-
-	lastCommand := nil
-    ]
-
-    cut [
-	<category: 'clipboard events'>
-
-	cut := true and: [ codeBuffer getHasSelection ].
-	cut ifTrue: [ lastCommand := nil ]
-    ]
-
-    insert: aGtkTextBuffer at: aCObject text: aString size: anInteger [
-	<category: 'buffer events'>
-
-	| gtkTextIter offset |
-	userAction ifFalse: [ ^ self ].
-	gtkTextIter := GTK.GtkTextIter address: aCObject address.
-	(lastCommand isNil or: [ aString size > 1 ]) 
-	    ifTrue: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer.
-		undoStack push: lastCommand.
-		aString size > 1 ifTrue: [ lastCommand := nil ].
-		^ self ].
-	((gtkTextIter getOffset = (lastCommand offset + lastCommand size)) and: [ lastCommand isInsertCommand ])
-	    ifTrue: [ lastCommand string: (lastCommand string, aString).
-		^ self ].
-	lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: codeBuffer.
-	undoStack push: lastCommand.
-    ]
-
-    delete: aGtkTextBuffer from: aStartCObject to: anEndCObject [
-	<category: 'buffer events'>
-
-	| startIter endIter text |
-	userAction ifFalse: [ cut := false. ^ self ].
-	startIter := GTK.GtkTextIter address: aStartCObject address.
-	endIter := GTK.GtkTextIter address: anEndCObject address.
-	text := codeBuffer getText: startIter end: endIter includeHiddenChars: false.
-        (lastCommand isNil or: [ cut ])
-	    ifTrue: [ lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer.
-		undoStack push: lastCommand.
-		cut ifTrue: [ lastCommand := nil ].
-		cut := false.
-		^ self ].
-	((startIter getOffset = (lastCommand offset - lastCommand size)) and: [ lastCommand isDeleteCommand ])
-            ifTrue: [ lastCommand string: (text, lastCommand string).
-                ^ self ].
-        lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: codeBuffer.
-        undoStack push: lastCommand.
-    ]
-
     undo [
 	<category: 'buffer events'>
 
-	undoStack undo.
-	lastCommand := nil.
+	codeView undo
     ]
 
     redo [
 	<category: 'buffer events'>
 
-	undoStack redo.
-	lastCommand := nil.
+	codeView redo
     ]
 ]
 

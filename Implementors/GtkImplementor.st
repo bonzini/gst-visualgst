@@ -239,8 +239,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	[ self resultModel getIter: iter path: path ] whileTrue: [
 	    string := (self resultModel getOop: iter column: 0).
 	    string = selectedString ifTrue: [
-		(resultArray at: count) updateBrowser: classBrowserWidget.
                 (resultArray at: count) displayString printNl.
+		(resultArray at: count) updateBrowser: classBrowserWidget.
 		^ self ].
 	    count := count + 1.
 	    path next ].

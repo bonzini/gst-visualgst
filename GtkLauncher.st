@@ -396,6 +396,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	currentWidget := notebookPages at: anInteger + 1
     ]
 
+    undo [
+	<category: 'edit events'>
+
+	currentWidget undo
+    ]
+
+    redo [
+	<category: 'edit events'>
+
+	currentWidget redo
+    ]
+
     cut [
 	<category: 'edit events'>
 

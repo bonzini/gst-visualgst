@@ -124,7 +124,7 @@ Object subclass: GtkClassModel [
 	    self model getIter: iter path: path.
             [each, ' class' = (self model getOop: iter column: 0)] whileFalse: [
 		path next.
-		(self model getIter: iter path: path)  ifFalse: [ self error: 'Class not found' ] ].
+		(self model getIter: iter path: path)  ifFalse: [ self error: aClass name, ' is not found' ] ].
 	    path down ].
         ^ iter
     ]

@@ -20,6 +20,8 @@
     GTK.Gtk main
   </start>
 
+  <filein>GtkExtend/GtkTextWidget.st</filein>
+
   <filein>ExtendsGtk.st</filein>
   <filein>ExtendsCairo.st</filein>
   <filein>GtkMainWindow.st</filein>
@@ -87,6 +89,8 @@
   <filein>Implementors/GtkImplementor.st</filein>
 
   <filein>Senders/GtkSender.st</filein>
+
+  <file>GtkExtend/GtkTextWidget.st</file>
 
   <file>ExtendsGtk.st</file>
   <file>ExtendsCairo.st</file>

@@ -44,8 +44,9 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
     buildTextView [
 	<category: 'user interface'>
 
-	textview := (GTK.GtkTextView newWithBuffer: GTK.GtkTextBuffer new)
-			connectSignal: 'populate-popup' to: self selector: #popupMenuOn:menu: userData: nil;
+	textview := (GtkTextWidget newWithBuffer: GTK.GtkTextBuffer new)
+			initialize;
+			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
 			yourself.
 	^ GTK.GtkScrolledWindow withChild: textview
     ]
@@ -95,7 +96,7 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
 	| iter start end result |
 	iter := self iterOfSelectedText second.
 	result := ' ', (self doIt displayString), ' '.
-	textview getBuffer insert: iter text: result.
+	textview getBuffer insertInteractive: iter text: result len: result size defaultEditable: true.
 	start := textview getBuffer getIterAtOffset: (iter getOffset - result size).
 	end := textview getBuffer getIterAtOffset: (iter getOffset).
 	textview getBuffer selectRange: start bound: end
@@ -105,6 +106,18 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
 	<category: 'events'>
 
 	GtkInspector openOn: self doIt
+    ]
+
+    undo [
+        <category: 'edit events'>
+
+        textview undo
+    ]
+
+    redo [
+        <category: 'edit events'>
+
+        textview redo
     ]
 
     copy [
