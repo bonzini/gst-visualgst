@@ -465,6 +465,17 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	GtkInspector openOn: classWidget selectedClass
     ]
 
+    classOrMetaSelected [
+	<category: 'class accessing'>
+
+	| class |
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	class := classWidget selectedClass.
+	^ classAndInstanceSide getCurrentPage = 0
+            ifTrue: [ class ]
+            ifFalse: [ class class ]	
+    ]
+
     viewedCategoryWidget [
          <category: 'category events'>
 
@@ -495,27 +506,25 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     renameCategory [
         <category: 'category events'>
 
-	| categoryWidget categoryModel class dlg name |
+	| categoryWidget categoryModel dlg name |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	categoryWidget := self viewedCategoryWidget.
 	categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	dlg := GtkEntryDialog title: 'Rename a category' text: 'Name of the category'.
 	categoryModel := self viewedCategoryModel.
-	class := classWidget selectedClass.
         dlg hasPressedOk ifTrue: [ name := dlg result.
-            undoStack push: (RenameCategoryCommand rename: categoryWidget selectedCategory in: class as: name onModel: categoryModel) ]
+            undoStack push: (RenameCategoryCommand rename: categoryWidget selectedCategory in: self classOrMetaSelected as: name onModel: categoryModel) ]
     ]
 
     deleteCategory [
         <category: 'category events'>
 
-        | categoryWidget categoryModel class |
+        | categoryWidget categoryModel |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	categoryWidget := self viewedCategoryWidget.
         categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
         categoryModel := self viewedCategoryModel.
-	class := classWidget selectedClass.
-        undoStack push: (DeleteCategoryCommand delete: categoryWidget selectedCategory in: class onModel: categoryModel)
+        undoStack push: (DeleteCategoryCommand delete: categoryWidget selectedCategory in: self classOrMetaSelected onModel: categoryModel)
     ]
 
     inspectCategory [
@@ -549,7 +558,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	category := categoryWidget hasSelectedCategory 
 			ifFalse: [ nil ]
 			ifTrue: [ categoryWidget selectedCategory ].
-	undoStack push: (AddMethodCommand add: codeWidget sourceCode classified: category in: classWidget selectedClass onModel: methodModel)
+	undoStack push: (AddMethodCommand add: codeWidget sourceCode classified: category in: self classOrMetaSelected onModel: methodModel)
     ]
 
 
@@ -561,7 +570,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	methodWidget := self viewedMethodWidget.
 	methodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	methodModel := self viewedMethodModel.
-	undoStack push: (DeleteMethodCommand delete: methodWidget selectedMethodSymbol in: classWidget selectedClass onModel: methodModel)
+	undoStack push: (DeleteMethodCommand delete: methodWidget selectedMethodSymbol in: self classOrMetaSelected onModel: methodModel)
     ]
 
     inspectMethod [
