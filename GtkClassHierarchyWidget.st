@@ -47,7 +47,6 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
 	
 	self model clear.
 	iter := self buildSuperClassHierarchy.
-	
 	self class class subclassesDo: [ :each |
 		self appendClass: each to: iter].
 

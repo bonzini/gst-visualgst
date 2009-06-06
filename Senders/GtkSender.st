@@ -159,6 +159,7 @@ GtkMainWindow subclass: GtkSender [
         <category: 'user interface'>
 
 	senderTree := GTK.GtkTreeView newWithSortedTextColumn: self senderModel title: 'Senders'.
+	(senderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
         senderTree
             getSelection
                 connectSignal: 'changed' to: self selector: #senderSelected userData: nil.
@@ -255,10 +256,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	self clearSenderModel.
 
-	senderResults := self findInMethod: (GtkImageModel current selectedItem: iter) first element.
+	[ senderResults := self findInMethod: (GtkImageModel current selectedItem: iter) values first element.
 	senderResults keysAndValuesDo: [ :key :value |
 	    iter := self senderModel insertBefore: nil.
-	    self senderModel setOop: iter column: 0 value: key ]
+	    self senderModel setOop: iter column: 0 value: key ] ] forkAt: Processor highestPriority
     ]
 
     senderSelected [

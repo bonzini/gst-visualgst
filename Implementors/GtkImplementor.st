@@ -137,6 +137,7 @@ GtkMainWindow subclass: GtkImplementor [
         <category: 'user interface'>
 
 	resultTree := GTK.GtkTreeView newWithSortedTextColumn: self resultModel title: 'Results'.
+	(resultTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
         resultTree
             getSelection
                 connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
@@ -219,32 +220,21 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
    
 	self resultModel clear. 
 	resultArray := GtkImageModel current selectedItem: iter.
-	resultArray do: [ :each |
+	resultArray keysDo: [ :each |
 	    iter := GTK.GtkTreeIter new.
 	    self resultModel append: iter parent: nil.
-	    self resultModel setOop: iter column: 0 value: each displayString ].
+	    self resultModel setOop: iter column: 0 value: each ].
 	resultTree getSelection	selectPath: GTK.GtkTreePath newFirst
     ]
 
     resultSelected [
 	<category: 'events'>
 
-	| count iter path selectedIter selectedString string |
+	| selectedIter selectedString |
 	(selectedIter := resultTree getSelection getSelected) ifNil: [ ^ self ].
 	selectedString := (self resultModel getOop: selectedIter column: 0).
 
-	count := 1.
-        iter := GTK.GtkTreeIter new.
-        path := GTK.GtkTreePath newFirst.
-	[ self resultModel getIter: iter path: path ] whileTrue: [
-	    string := (self resultModel getOop: iter column: 0).
-	    string = selectedString ifTrue: [
-                (resultArray at: count) displayString printNl.
-		(resultArray at: count) updateBrowser: classBrowserWidget.
-		^ self ].
-	    count := count + 1.
-	    path next ].
-	^ self error: 'error in the algorithm'
+	(resultArray at: selectedString) updateBrowser: classBrowserWidget.
     ]
 ]
 

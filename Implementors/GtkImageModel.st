@@ -44,8 +44,9 @@ Object subclass: GtkImageModel [
     appendNamespace: aNamespace [
         <category: 'model builder'>
 
-        finderDic at: aNamespace displayString ifAbsentPut: [ self appendToModel: aNamespace displayString. OrderedCollection new ].
-        (finderDic at: aNamespace displayString) add: (NamespaceFinder on: aNamespace).
+	| namespace |
+        finderDic at: aNamespace displayString ifAbsentPut: [ self appendToModel: aNamespace displayString. Dictionary new ].
+	self at: aNamespace displayString addToFinder: (NamespaceFinder on: aNamespace).
 
         aNamespace subspacesDo: [ :each | self appendNamespace: each ]
     ]
@@ -53,20 +54,29 @@ Object subclass: GtkImageModel [
     buildClassModel [
         <category: 'model builder'>
 
-        | string |
+        | class string |
         Class allSubclassesDo: [ :each |
             string := ((each displayString) substrings: $.) last.
-            finderDic at: string ifAbsentPut: [ self appendToModel: string. OrderedCollection new ].
-            (finderDic at: string) add: (ClassFinder on: each) ]
+            finderDic at: string ifAbsentPut: [ self appendToModel: string. Dictionary new ].
+	    self at: string addToFinder: (ClassFinder on: each) ]
     ]
 
     buildMethodModel [
         <category: 'model builder'>
 
+	| method |
         [ CompiledMethod allInstancesDo: [ :each | | selector |
             selector := each selector asString.
-            finderDic at: selector ifAbsentPut: [ self appendToModel: selector. OrderedCollection new ].
-            (finderDic at: selector) add: (MethodFinder on: each methodClass with: each selector) ] ] forkAt: Processor highestPriority
+            finderDic at: selector ifAbsentPut: [ self appendToModel: selector. Dictionary new ].
+	    self at: selector addToFinder: (MethodFinder on: each methodClass with: each selector) ] ] forkAt: Processor highestPriority
+    ]
+
+    at: aSelector addToFinder: aFinderObject [
+	<category: 'finder accessing'>
+
+	(finderDic at: aSelector)
+                at: aFinderObject displayString
+                put: aFinderObject
     ]
 
     appendToModel: aString [
