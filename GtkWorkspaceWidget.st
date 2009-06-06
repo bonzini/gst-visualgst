@@ -57,6 +57,12 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
 	textview getBuffer setText: aString
     ]
 
+    text [
+	<category: 'text accessing'>
+
+	^ textview getBuffer text
+    ]
+
     selectedText [
 	<category: 'text accessing'>
 

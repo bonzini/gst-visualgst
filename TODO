@@ -12,14 +12,14 @@ GtkTextEditor
 =============
 
 	- Classe basee sur le GtkTextEditor
-	- Undo/Redo
-	- Coloration syntaxique
+	x Undo/Redo
+	x Coloration syntaxique
 	- Completion
 
 GtkWorkspace
 ============
 
-	- Ajouter une variable quand elle n'existe pas DONE
+	x Ajouter une variable quand elle n'existe pas DONE
 	- avoir la liste de ces variables
 	- Inspecteur integre
 
@@ -41,22 +41,9 @@ GtkClassBrowser
 GtkInspector
 ============
 
-	- Navigation dans les sous objecs a inspecter
 	- ...
 
 GtkDebuger
 ==========
 
 	- ....
-
-- BrowserClass message newNamespace a envoyer directement au BrowserWidget
-- UndoStack a ameliorer
-- Historique de navigation
-- Creer un modele pour les Namespace, classes et methodes du systeme qui sera utiliser par chacunes des vues des instances des browser
-- Detecter quand on passe du class side a l'instance side
-
-- Faire correspondre String, Integer, ... a GValue gTypeString, GValue gTypeInteger, ...               A INVESTIGUER
-
-- GtkWebKit
-
-- GtkCairo

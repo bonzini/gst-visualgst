@@ -60,6 +60,12 @@ GtkConcreteWidget subclass: GtkTranscriptWidget [
 	^ GTK.GtkScrolledWindow withChild: textview
     ]
 
+    text [
+	<category: 'text accessing'>
+
+	^ textview getBuffer text
+    ]
+
     copy [
 	<category: 'text editing'>
 

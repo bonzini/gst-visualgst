@@ -127,9 +127,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     open [
 	<category: 'file events'>
 
+	| file string |
+	currentWidget == transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
 	(GTK.GtkFileChooserDialog load: 'Load Smalltalk source' parent: window)
 	    runNonBlockingAndDo: [ :dlg :res |
-		res = GTK.Gtk gtkResponseAccept ifTrue: [ dlg getFilename ].
+		res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
+		file := FileStream open: dlg getFilename mode: FileStream read.
+		currentWidget text: file upToEnd.
 		dlg destroy ]
     ]
 
@@ -140,9 +144,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     saveAs [
 	<category: 'file events'>
 
+	| file |
         (GTK.GtkFileChooserDialog save: 'Save Smalltalk source as...' parent: window)
             runNonBlockingAndDo: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept ifTrue: [ dlg getFilename ].
+                res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
+		file := FileStream open: dlg getFilename mode: FileStream write.
+		file nextPutAll: currentWidget text. 
                 dlg destroy ]
     ]
 
