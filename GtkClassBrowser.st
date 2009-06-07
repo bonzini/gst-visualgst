@@ -64,7 +64,17 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     fileoutNamespace [
 	<category: 'namespace events'>
 
-	browserWidget fileoutNamespace
+        | file |
+        (GTK.GtkFileChooserDialog selectFolder: 'Save namespace as...' parent: window)
+            runNonBlockingAndDo: [ :dlg :res |
+                res = GTK.Gtk gtkResponseAccept ifTrue: [ self fileoutNamespace: dlg getCurrentFolder ].
+                dlg destroy ].
+    ]
+
+    fileoutNamespace: aString [
+	<category: 'namespace events'>
+
+	browserWidget fileoutNamespace: aString
     ]
 
     fileoutProject [
@@ -100,7 +110,17 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     fileoutClass [
 	<category: 'class events'>
 
-	browserWidget fileoutClass
+        | file |
+        (GTK.GtkFileChooserDialog save: 'Save Smalltalk class as...' parent: window)
+            runNonBlockingAndDo: [ :dlg :res |
+                res = GTK.Gtk gtkResponseAccept ifTrue: [ self fileoutClass: dlg getFilename ].
+                dlg destroy ]
+    ]
+
+    fileoutClass: aString [
+	<category: 'class events'>
+
+	browserWidget fileoutClass: aString
     ]
 
     fileoutClassInProject [
@@ -157,6 +177,22 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	browserWidget inspectCategory
     ]
 
+    fileoutCategory [
+        <category: 'method events'>
+
+        | file |
+        (GTK.GtkFileChooserDialog save: 'Save Smalltalk category as...' parent: window)
+            runNonBlockingAndDo: [ :dlg :res |
+                res = GTK.Gtk gtkResponseAccept ifFalse: [ self fileoutCategory: dlg getFilename ].
+                dlg destroy ]
+    ]
+
+    fileoutCategory: aString [
+        <category: 'method events'>
+
+        browserWidget saveCategory
+    ]
+
     newMethod [
 	<category: 'method events'>
 
@@ -175,39 +211,20 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	browserWidget inspectMethod
     ]
 
-    newWorkspace [
-	<category: 'events'>
+    fileoutMethod [
+	<category: 'method events'>
+
+        | file |
+        (GTK.GtkFileChooserDialog save: 'Save Smalltalk method as...' parent: window)
+            runNonBlockingAndDo: [ :dlg :res |
+                res = GTK.Gtk gtkResponseAccept ifFalse: [ self fileoutMethod: dlg getFilename ].
+                dlg destroy ]
     ]
 
-    quit [
-	<category: 'events'>
+    fileoutMethod [
+        <category: 'method events'>
 
-	ObjectMemory quit
-    ]
-
-    saveImage [
-        <category: 'events'>
-
-        ObjectMemory snapshot
-    ]
-
-    saveImageAs [
-	<category: 'events'>
-
-	(GTK.GtkFileChooserDialog for: #save title: 'Save image as...' parent: window)
-	    runAndDo: [ :dlg :res |
-		res = #accept ifTrue: [].
-		dlg destroy]
-    ]
-
-    smallZilla [
-	<category: 'events'>
-
-	GtkSmallZilla open
-    ]
-
-    workspace [
-	<category: 'events'>
+	browserWidget saveMethod
     ]
 
     initialize [

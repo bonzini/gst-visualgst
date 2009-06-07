@@ -301,15 +301,13 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	undoStack redo
     ]
     
-    fileoutNamespace [
+    fileoutNamespace: aDirectory [
 	<category: 'namespace events'>
 
 	| namespace stream |
 	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	namespace := namespaceWidget selectedNamespace.
-	stream := FileStream open: '/home/gwenael/foo.st' mode: FileStream write.
-	(NamespaceSource write: namespace on: stream)
-	    source
+	self fileoutNamespace: namespace on: (File name: aDirectory) / namespace name
     ]
 
     fileoutNamespace: aNamespace on: aDirectory [
@@ -380,13 +378,13 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	GtkInspector openOn: namespaceWidget selectedNamespace
     ]
 
-    fileoutClass [
+    fileoutClass: aFile [
         <category: 'class events'>
 
         | class stream |
         classWidget hasSelectedClass ifFalse: [ ^ self ].
         class := classWidget selectedClass.
-        stream := FileStream open: '/home/gwenael/foo.st' mode: FileStream write.
+        stream := FileStream open: aFile mode: FileStream write.
         (ClassSource write: class on: stream)
 	    source
     ]

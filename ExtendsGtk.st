@@ -119,43 +119,6 @@ GTK.GtkScrolledWindow class extend [
     ]
 ]
 
-GTK.GtkFileChooserDialog class extend [
-
-    for: aGtkFileChooserAction title: aString parent: aGtkWidget button: aGtkStock  [
-	<category: 'instance creation'>
-
-	^ self
-	    new: aString
-	    parent: aGtkWidget
-	    action: aGtkFileChooserAction
-	    varargs: {GTK.Gtk gtkStockCancel.
-                    GTK.Gtk gtkResponseCancel.
-		    aGtkStock.
-                    GTK.Gtk gtkResponseAccept.
-                    nil}
-    ]
-
-    save: aString parent: aGtkWidget [
-	<category: 'instance creation'>
-
-	^ self
-	    for: GTK.Gtk gtkFileChooserActionSave
-	    title: aString
-	    parent: aGtkWidget
-	    button: GTK.Gtk gtkStockSave
-    ]
-
-    load: aString parent: aGtkWidget [
-	<category: 'instance creation'>
-
-	^ self
-	    for: GTK.Gtk gtkFileChooserActionOpen
-	    title: aString
-	    parent: aGtkWidget
-	    button: GTK.Gtk gtkStockOpen
-    ]
-]
-
 GTK.GtkNotebook extend [
 
     pageNum: aGtkWidget [
