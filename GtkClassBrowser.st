@@ -183,14 +183,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         | file |
         (GTK.GtkFileChooserDialog save: 'Save Smalltalk category as...' parent: window)
             runNonBlockingAndDo: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept ifFalse: [ self fileoutCategory: dlg getFilename ].
+                res = GTK.Gtk gtkResponseAccept ifTrue: [ self fileoutCategory: dlg getFilename ].
                 dlg destroy ]
     ]
 
     fileoutCategory: aString [
         <category: 'method events'>
 
-        browserWidget saveCategory
+        browserWidget fileoutCategory: aString
     ]
 
     newMethod [
@@ -217,14 +217,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         | file |
         (GTK.GtkFileChooserDialog save: 'Save Smalltalk method as...' parent: window)
             runNonBlockingAndDo: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept ifFalse: [ self fileoutMethod: dlg getFilename ].
+                res = GTK.Gtk gtkResponseAccept ifTrue: [ self fileoutMethod: dlg getFilename ].
                 dlg destroy ]
     ]
 
-    fileoutMethod [
+    fileoutMethod: aString [
         <category: 'method events'>
 
-	browserWidget saveMethod
+	browserWidget fileoutMethod: aString
     ]
 
     initialize [
@@ -319,7 +319,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             #('Rename a category' #renameCategory).
             #('Delete a category' #deleteCategory).
             #().
-            #('Inspect a category' #inspectCategory)}
+            #('Inspect a category' #inspectCategory).
+	    #().
+            #('File out a category' #fileoutCategory)}
     ]
 
     createMethodMenus [

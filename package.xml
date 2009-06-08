@@ -45,8 +45,10 @@
   <filein>AddNamespaceCommand.st</filein>
   <filein>RenameNamespaceCommand.st</filein>
   <filein>DeleteNamespaceCommand.st</filein>
-  <filein>NamespaceSource.st</filein>
-  <filein>ClassSource.st</filein>
+  <filein>Source/NamespaceSource.st</filein>
+  <filein>Source/ClassSource.st</filein>
+  <filein>Source/CategorySource.st</filein>
+  <filein>Source/MethodSource.st</filein>
   <filein>AddClassCommand.st</filein>
   <filein>RenameClassCommand.st</filein>
   <filein>DeleteClassCommand.st</filein>
@@ -117,8 +119,10 @@
   <file>AddNamespaceCommand.st</file>
   <file>RenameNamespaceCommand.st</file>
   <file>DeleteNamespaceCommand.st</file>
-  <file>NamespaceSource.st</file>
-  <file>ClassSource.st</file>
+  <file>Source/NamespaceSource.st</file>
+  <file>Source/ClassSource.st</file>
+  <file>Source/CategorySource.st</file>
+  <file>Source/MethodSource.st</file>
   <file>AddClassCommand.st</file>
   <file>RenameClassCommand.st</file>
   <file>DeleteClassCommand.st</file>

@@ -4,8 +4,8 @@ Choses a faire :
 GtkLauncher
 ===========
 
-	- Sauvegarder les fichiers
-	- Charger les fichiers
+	x Sauvegarder les fichiers
+	x Charger les fichiers
 	- Mode MDI, SDI
 
 GtkTextEditor
@@ -19,7 +19,7 @@ GtkTextEditor
 GtkWorkspace
 ============
 
-	x Ajouter une variable quand elle n'existe pas DONE
+	x Ajouter une variable quand elle n'existe pas
 	- avoir la liste de ces variables
 	- Inspecteur integre
 
@@ -27,23 +27,23 @@ GtkClassBrowser
 ===============
 
 	- Inserer un worskpace, transcript (que l'on peut cacher)
-	- Sauvegarder/Charger des fichiers (namespaces, classes, ...)
+	x Sauvegarder/Charger des fichiers (namespaces, classes, ...)
 	- Icone si test unitaire
 	* Popup menu
 	- Integration avec GIT, versioning des modifications locales
-	- Mapping namespace repertoire, classe fichier dans ce repertoire
-	- Les refactorings ^^
-	- Historique de naviagtion (a la firefox dans une barre laterale ????)
+	x Mapping namespace repertoire, classe fichier dans ce repertoire
+	x Les refactorings ^^
+	- Historique de navigation (a la firefox dans une barre laterale ????)
 	- Information sur la licence, auteur, site web ...
 	- Projet ???
 	- ...
 
-GtkInspector
-============
+GtkInspector, Sender
+====================
 
-	- ...
+	x Interface
 
-GtkDebuger
-==========
+GtkDebuger et SUnit
+===================
 
-	- ....
+	- 

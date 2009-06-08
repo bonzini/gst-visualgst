@@ -490,6 +490,18 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             ifFalse: [ GtkCategoryModel currentOn: classWidget selectedClass class ]
     ]
 
+    fileoutCategory: aFile [
+        <category: 'class events'>
+
+        | categoryWidget stream |
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        categoryWidget := self viewedCategoryWidget.
+        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
+	stream := FileStream open: aFile mode: FileStream write.
+	(CategorySource write: categoryWidget selectedCategory of: self classOrMetaSelected on: stream)
+	    source
+    ]
+
     newCategory [
         <category: 'category events'>
 
@@ -578,6 +590,17 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	methodWidget := self viewedMethodWidget.
         GtkInspector openOn: methodWidget selectedMethod
+    ]
+
+    fileoutMethod: aFile [
+	<category: 'method events'>
+
+        | methodWidget stream |
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        methodWidget := self viewedMethodWidget.
+        stream := FileStream open: aFile mode: FileStream write.
+        (MethodSource write: methodWidget selectedMethod on: stream)
+            source
     ]
 
     selectANamespace: aNamespace [
