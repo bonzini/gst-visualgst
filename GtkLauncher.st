@@ -10,7 +10,7 @@ GtkMainWindow subclass: GtkLauncher [
     GtkLauncher class >> version [
 	<category: 'accessing'>
 
-	^ '0.4.0'
+	^ '0.3.0'
     ]
 
     GtkLauncher class >> website [
@@ -160,12 +160,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     saveImage [
         <category: 'events'>
 
+        (GTK.GtkMessageDialog new: window flags: GTK.Gtk gtkDialogDestroyWithParent type: GTK.Gtk gtkMessageWarning buttons: GTK.Gtk gtkButtonsOk message: 'WARNING : You can loose all the data')
+            runBlockingAndDestroy.
         ObjectMemory snapshot
     ]
 
     saveImageAs [
 	<category: 'events'>
 
+	(GTK.GtkMessageDialog new: window flags: GTK.Gtk gtkDialogDestroyWithParent type: GTK.Gtk gtkMessageWarning buttons: GTK.Gtk gtkButtonsOk message: 'WARNING : You can loose all the data')
+	    runBlockingAndDestroy.
 	(GTK.GtkFileChooserDialog save: 'Save image as...' parent: window)
 	    runNonBlockingAndDo: [ :dlg :res |
 		res = GTK.Gtk gtkResponseAccept ifTrue: [ | name |
@@ -190,12 +194,23 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	windowsMenu append: (GtkMenuItem label: 'workspace') showAll"
     ]
 
+    clearGlobalState [
+	<category: 'initialization cleanup'>
+
+	GtkLauncher.GtkNamespaceModel instVarNamed: #current put: nil.
+	GtkLauncher.GtkClassModel instVarNamed: #current put: nil.
+	GtkLauncher.GtkCategoryModel instVarNamed: #current put: nil.
+	GtkLauncher.GtkMethodModel instVarNamed: #current put: nil.
+	GtkLauncher.GtkImageModel instVarNamed: #current put: nil.
+    ]
+
     initialize [
 	<category: 'initialization'>
 
 	super initialize.
 	notebookPages := OrderedCollection new.
 	self
+	    clearGlobalState;
 	    title: 'GNU Smalltalk Launcher';
 	    createMenus;
 	    createToolbar;

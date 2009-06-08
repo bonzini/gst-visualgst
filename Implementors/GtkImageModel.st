@@ -15,17 +15,30 @@ Object subclass: GtkImageModel [
         ^ self current model
     ]
 
-    | finderDic model |
+    | finderDic isSorted model |
 
     initialize [
 	<category: 'initialize-release'>
 
 	finderDic := Dictionary new.
+	isSorted := false.
 	self
 	    model;
             buildNamespaceModel;
             buildClassModel;
             buildMethodModel
+    ]
+
+    isSorted [
+	<category: 'testing'>
+
+	^ isSorted
+    ]
+
+    isSorted: aBoolean [
+	<category: 'accessing'>
+
+	isSorted := aBoolean
     ]
 
     model [

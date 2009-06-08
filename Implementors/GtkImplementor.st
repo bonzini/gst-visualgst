@@ -116,8 +116,10 @@ GtkMainWindow subclass: GtkImplementor [
     buildClassAndMethodList [
 	<category: 'user interface'>
 
-	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Results'.
-	(finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Methods and Classes'.
+	GtkImageModel current isSorted ifFalse: [
+	    (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+	    GtkImageModel current isSorted: true ].
 	finderTree
 	    getSelection
 		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
@@ -136,7 +138,7 @@ GtkMainWindow subclass: GtkImplementor [
     buildResultList [
         <category: 'user interface'>
 
-	resultTree := GTK.GtkTreeView newWithSortedTextColumn: self resultModel title: 'Results'.
+	resultTree := GTK.GtkTreeView newWithSortedTextColumn: self resultModel title: 'Methods and Classes'.
 	(resultTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
         resultTree
             getSelection

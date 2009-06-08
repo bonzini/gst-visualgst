@@ -119,7 +119,9 @@ GtkMainWindow subclass: GtkSender [
 	<category: 'user interface'>
 
 	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self finderModel title: 'Selectors'.
-        (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+        GtkImageModel current isSorted ifFalse: [
+	    (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+	    GtkImageModel current isSorted: true ].
         finderTree
             getSelection
                 connectSignal: 'changed' to: self selector: #finderSelected userData: nil.
