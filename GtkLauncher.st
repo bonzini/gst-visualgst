@@ -10,7 +10,7 @@ GtkMainWindow subclass: GtkLauncher [
     GtkLauncher class >> version [
 	<category: 'accessing'>
 
-	^ '0.3.0'
+	^ '0.4.0'
     ]
 
     GtkLauncher class >> website [

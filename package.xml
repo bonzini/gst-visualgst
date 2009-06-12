@@ -25,6 +25,18 @@
 
   <filein>ExtendsGtk.st</filein>
   <filein>ExtendsCairo.st</filein>
+  <filein>Notification/AbstractEvent.st</filein>
+  <filein>Notification/AddedEvent.st</filein>
+  <filein>Notification/CommentedEvent.st</filein>
+  <filein>Notification/DoItEvent.st</filein>
+  <filein>Notification/ModifiedEvent.st</filein>
+  <filein>Notification/ModifiedClassDefinitionEvent.st</filein>
+  <filein>Notification/RecategorizedEvent.st</filein>
+  <filein>Notification/RemovedEvent.st</filein>
+  <filein>Notification/RenamedEvent.st</filein>
+  <filein>Notification/ReorganizedEvent.st</filein>
+  <filein>Notification/SystemChangeNotifier.st</filein>
+  <filein>Notification/SystemEventManager.st</filein>
   <filein>GtkMainWindow.st</filein>
   <filein>GtkLauncher.st</filein>
   <filein>GtkConcreteWidget.st</filein>
@@ -98,6 +110,18 @@
 
   <file>ExtendsGtk.st</file>
   <file>ExtendsCairo.st</file>
+  <file>Notification/AbstractEvent.st</file>
+  <file>Notification/AddedEvent.st</file>
+  <file>Notification/CommentedEvent.st</file>
+  <file>Notification/DoItEvent.st</file>
+  <file>Notification/ModifiedEvent.st</file>
+  <file>Notification/ModifiedClassDefinitionEvent.st</file>
+  <file>Notification/RecategorizedEvent.st</file>
+  <file>Notification/RemovedEvent.st</file>
+  <file>Notification/RenamedEvent.st</file>
+  <file>Notification/ReorganizedEvent.st</file>
+  <file>Notification/SystemChangeNotifier.st</file>
+  <file>Notification/SystemEventManager.st</file>
   <file>GtkMainWindow.st</file>
   <file>GtkLauncher.st</file>
   <file>GtkConcreteWidget.st</file>
