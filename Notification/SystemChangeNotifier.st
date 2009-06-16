@@ -73,6 +73,12 @@ Object subclass: SystemChangeNotifier [
 	    using: oneArgumentSelector
     ]
 
+    namespaceAdded: aNamespace [
+	<category: 'system triggers'>
+
+	self trigger: (AddedEvent namespace: aNamespace)
+    ]
+
     classCategoryAdded: aClassCategoryName [
 	<category: 'system triggers'>
 
@@ -102,6 +108,12 @@ Object subclass: SystemChangeNotifier [
 		class: aClass
 		category: newCategory
 		oldCategory: oldCategory)
+    ]
+
+    classAdded: aClass [
+        <category: 'system triggers'>
+
+        self trigger: (AddedEvent class: aClass)
     ]
 
     classAdded: aClass inCategory: aCategoryName [
@@ -351,6 +363,12 @@ Object subclass: SystemChangeNotifier [
 	<category: 'item kinds'>
 
 	^ AbstractEvent classKind
+    ]
+
+    SystemChangeNotifier class >> namespaceKind [
+        <category: 'item kinds'>
+
+        ^ AbstractEvent namespaceKind
     ]
 
     SystemChangeNotifier class >> expressionKind [

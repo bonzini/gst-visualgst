@@ -12,6 +12,12 @@ Object subclass: GtkNamespaceModel [
 			    yourself ]
     ]
 
+    GtkNamespaceModel class >> addEvent: anEvent [
+	<category: 'model event'>
+
+	self current refresh
+    ]
+
     initialize [
 	<category: 'initialize-release'>
 
@@ -37,6 +43,13 @@ Object subclass: GtkNamespaceModel [
 	    model := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString}.
 	    self appendNamespace: Smalltalk to: nil.
 	    model ]
+    ]
+
+    refresh [
+	<category: 'model'>
+
+	self model clear.
+	self appendNamespace: Smalltalk to: nil
     ]
 
     appendNamespace: aNamespace to: parentGtkIter [

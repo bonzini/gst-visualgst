@@ -259,6 +259,12 @@ Object subclass: AbstractEvent [
 	    into: [:allEvents :eventClass | allEvents addAll: eventClass itemChangeCombinations; yourself]
     ]
 
+    AbstractEvent class >> namespace: aNamespace [
+	<category: 'instance creation'>
+
+	^ self item: aNamespace kind: AbstractEvent namespaceKind
+    ]
+
     AbstractEvent class >> classCategory: aName [
 	<category: 'instance creation'>
 
@@ -358,6 +364,12 @@ Object subclass: AbstractEvent [
 	<category: 'item kinds'>
 
 	^ #class
+    ]
+
+    AbstractEvent class >> namespaceKind [
+        <category: 'item kinds'>
+
+        ^ #namespace
     ]
 
     AbstractEvent class >> expressionKind [

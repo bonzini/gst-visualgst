@@ -37,6 +37,7 @@
   <filein>Notification/ReorganizedEvent.st</filein>
   <filein>Notification/SystemChangeNotifier.st</filein>
   <filein>Notification/SystemEventManager.st</filein>
+
   <filein>GtkMainWindow.st</filein>
   <filein>GtkLauncher.st</filein>
   <filein>GtkConcreteWidget.st</filein>
@@ -105,6 +106,9 @@
 
   <filein>Senders/GtkSender.st</filein>
 
+  <filein>Notification/Kernel/AbstractNamespace.st</filein>
+  <filein>Notification/Kernel/Metaclass.st</filein>
+
   <file>GtkExtend/GtkTextWidget.st</file>
   <file>GtkExtend/GtkFileChooserDialog.st</file>
 
@@ -122,6 +126,9 @@
   <file>Notification/ReorganizedEvent.st</file>
   <file>Notification/SystemChangeNotifier.st</file>
   <file>Notification/SystemEventManager.st</file>
+  <file>Notification/Kernel/AbstractNamespace.st</file>
+  <file>Notification/Kernel/Metaclass.st</file>
+
   <file>GtkMainWindow.st</file>
   <file>GtkLauncher.st</file>
   <file>GtkConcreteWidget.st</file>

@@ -160,6 +160,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         ^ iMethodWidget mainWidget
     ]
 
+    initializeNotification [
+	<category: 'initialize-release'>
+
+	(SystemChangeNotifier uniqueInstance)
+	    notify: GtkNamespaceModel ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
+	    notify: GtkClassModel ofSystemChangesOfItem: #class change: #Added using: #'addEvent:'
+    ]
+
     initialize [
 	<category: 'initialize-release'>
 
@@ -169,7 +177,9 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 			initialize;
 			yourself.
 	vpaned := GTK.GtkVPaned new.
+
 	self mainWidget: vpaned.
+	self initializeNotification.
     
 	vpaned
 	    pack1: self buildBrowser resize: true shrink: false;

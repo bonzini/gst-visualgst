@@ -17,6 +17,15 @@ Object subclass: GtkClassModel [
 	    yourself
     ]
 
+    GtkClassModel class >> addEvent: anEvent [
+	<category: 'model event'>
+
+	| model iter parent |
+	model := current at: anEvent item environment ifAbsent: [ ^ self ].
+	iter := model findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
+	model append: iter column: 0 value: anEvent item name, ' class'
+    ]
+
     | model namespace sorted |
 
     initialize [
@@ -115,17 +124,23 @@ Object subclass: GtkClassModel [
     findIterInAClass: aClass [
         <category: 'item selection'>
 
+	^ self findIterInAClass: aClass ifAbsent: [ self error: aClass name, ' is not found' ]
+    ]
+
+    findIterInAClass: aClass ifAbsent: aBlock [
+        <category: 'item selection'>
+
         | iter stack parent path pathString number |
         stack := self buildClassArray: aClass.
         iter := GTK.GtkTreeIter new.
-	path := GTK.GtkTreePath newFirst.
+        path := GTK.GtkTreePath newFirst.
         1 to: stack size do: [ :i | | each |
             each := stack at: (stack size + 1 - i).
-	    self model getIter: iter path: path.
+            self model getIter: iter path: path.
             [each, ' class' = (self model getOop: iter column: 0)] whileFalse: [
-		path next.
-		(self model getIter: iter path: path)  ifFalse: [ self error: aClass name, ' is not found' ] ].
-	    path down ].
+                path next.
+                (self model getIter: iter path: path)  ifFalse: [ ^ aBlock value "self error: aClass name, ' is not found'" ] ].
+            path down ].
         ^ iter
     ]
 
