@@ -1,6 +1,6 @@
 UndoCommand subclass: AddClassCommand [
 
-    | namespace newClassName treeStore parentClass newIter newClass |
+    | first namespace newClassName treeStore parentClass newIter newClass |
 
     AddClassCommand class >> add: aSymbol to: aNamespace onModel: aGtkClassModel withSuperclass: aClass [
 	<category: 'instance creation'>
@@ -14,6 +14,7 @@ UndoCommand subclass: AddClassCommand [
     add: aSymbol to: aNamespace onModel: aGtkClassModel withSuperclass: aClass [
 	<category: 'initialize'>
 
+	first := true.
 	newClassName := aSymbol.
 	namespace := aNamespace.
 	treeStore := aGtkClassModel.
@@ -45,10 +46,12 @@ UndoCommand subclass: AddClassCommand [
 	<category: 'events'>
 
 	| iter |
-	(treeStore hasClass: parentClass) 
-	    ifTrue: [ iter := treeStore findIterInAClass: parentClass ]
-	    ifFalse: [ iter := nil ].
-	treeStore append: iter column: 0 value: newClassName, ' class'.
+	first ifFalse: [
+	    (treeStore hasClass: parentClass) 
+		ifTrue: [ iter := treeStore findIterInAClass: parentClass ]
+		ifFalse: [ iter := nil ].
+	    treeStore append: iter column: 0 value: newClassName, ' class'.
+	    first := false ].
 	newClass := parentClass subclass: newClassName environment: namespace.
 	namespace at: newClass name put: newClass
     ]

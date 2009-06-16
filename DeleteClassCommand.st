@@ -7,6 +7,7 @@ UndoCommand subclass: DeleteClassCommand [
 
 	^ (self new)
 	    delete: aClass onModel: aGtkClassModel;
+	    precondition;
 	    yourself
     ]
 
@@ -20,7 +21,13 @@ UndoCommand subclass: DeleteClassCommand [
     description [
 	<category: 'accessing'>
 
-	^ 'Delete a namespace'
+	^ 'Delete a class'
+    ]
+
+    precondition [
+	<category: 'checking'>
+
+        class subclasses isEmpty ifFalse: [ self error: 'class has subclasses' ].
     ]
 
     undo [
@@ -36,7 +43,8 @@ UndoCommand subclass: DeleteClassCommand [
     redo [
 	<category: 'events'>
 
-	treeStore remove: class.	
+	treeStore remove: class.
+	class superclass ifNotNil: [ class superclass removeSubclass: class ].
 	class environment removeKey: class name
     ]
 ]

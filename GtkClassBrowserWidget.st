@@ -457,13 +457,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     deleteClass [
 	<category: 'class events'>
 
-        | dlg name namespace class |
+        | dlg name namespace |
 	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
         namespace := namespaceWidget selectedNamespace.
         classWidget hasSelectedClass ifFalse: [ ^ self ].
-        class := classWidget selectedClass.
-	class subclasses isEmpty ifFalse: [ self error: 'class has subclasses' ].
-        undoStack push: (DeleteClassCommand delete: class onModel: (GtkClassModel currentOn: namespace))
+        undoStack push: (DeleteClassCommand delete: classWidget selectedClass onModel: (GtkClassModel currentOn: namespace))
     ]
 
     inspectClass [
