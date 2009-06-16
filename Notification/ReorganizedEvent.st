@@ -12,7 +12,7 @@ AbstractEvent subclass: ReorganizedEvent [
 	^ true
     ]
 
-    changeKind [
+    ReorganizedEvent class >> changeKind [
 	<category: 'accessing'>
 
 	^ #Reorganized

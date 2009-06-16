@@ -12,7 +12,7 @@ AbstractEvent subclass: RemovedEvent [
 	^ true
     ]
 
-    changeKind [
+    RemovedEvent class >> changeKind [
 	<category: 'accessing'>
 
 	^ #Removed

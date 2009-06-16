@@ -215,8 +215,11 @@ Object subclass: AbstractEvent [
 	<category: 'accessing'>
 	"self allItemKinds"
 
-	^(AbstractEvent class organization listAtCategoryNamed: #'item kinds') 
-	    collect: [:sel | self perform: sel]
+	| result |
+	result := OrderedCollection new.
+	AbstractEvent class methodDictionary do: [ :each | 
+	    each methodCategory = 'item kinds' ifTrue: [ result add: (self perform: each selector) ] ].
+	^ result
     ]
 
     AbstractEvent class >> changeKind [
