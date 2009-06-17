@@ -37,6 +37,7 @@ UndoCommand subclass: DeleteClassCommand [
 	(treeStore hasClass: class superclass) 
 	    ifTrue: [ iter := treeStore findIterInAClass: class superclass ].
 	treeStore append: iter column: 0 value: class name asString, ' class'.
+	class superclass addSubclass: class.
 	class environment at: class name put: class
     ]
 
