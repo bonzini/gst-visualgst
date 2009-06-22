@@ -161,11 +161,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	^ menu
     ]
 
-    createMenuEntryShortCut: anArray [
+    createMenuEntryShortCut: anArray group: aGroup [
         <category: 'menubar'>
 
         | menu |
         menu := GTK.GtkMenu new.
+	menu setAccelGroup: aGroup. 
         anArray do: [ :each |
             menu append:
                 (each isEmpty

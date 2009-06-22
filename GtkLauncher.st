@@ -295,7 +295,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Shift>r' path: s2 receiver: self selector: #redo.
 	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Alt>c' path: s3 receiver: self selector: #redo.
 	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Shift>v' path: s4 receiver: self selector: #redo.
-	^ (self createMenuEntryShortCut: {{'Undo'. #undo. s1}.
+	^ self createMenuEntryShortCut: {{'Undo'. #undo. s1}.
 	    {'Redo'. #redo. s2.}.
 	    #().
 	    #('Cut' #cut '<GtkLauncher>/Edit/Cut').
@@ -304,9 +304,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    #().
 	    #('Select all' #selectAll '<GtkLauncher>/Edit/SelectAll').
 	    #().
-	    #('Clear Transcript' #clearTranscriptWidget '<GtkLauncher>/Edit/ClearTranscript')})
-		setAccelGroup: group;
-		yourself
+	    #('Clear Transcript' #clearTranscriptWidget '<GtkLauncher>/Edit/ClearTranscript')}
+	    group: group
     ]
 
     createFileMenus [
