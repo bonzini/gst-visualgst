@@ -5,7 +5,16 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	<category: 'initialization'>
 
 	self mainWidget: self buildCodeView.
-	self initializeHighlighter
+	self 
+	    initializeHighlighter;
+	    initializeAccel
+    ]
+
+    initializeAccel [
+	<category: 'initialization'>
+	
+	| group |
+	group := GTK.GtkAccelGroup new
     ]
 
     initializeHighlighter [

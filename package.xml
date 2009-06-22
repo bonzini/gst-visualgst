@@ -22,6 +22,7 @@
 
   <filein>GtkExtend/GtkTextWidget.st</filein>
   <filein>GtkExtend/GtkFileChooserDialog.st</filein>
+  <filein>GtkExtend/GtkAccelGroup.st</filein>
 
   <filein>ExtendsGtk.st</filein>
   <filein>ExtendsCairo.st</filein>
@@ -111,6 +112,7 @@
 
   <file>GtkExtend/GtkTextWidget.st</file>
   <file>GtkExtend/GtkFileChooserDialog.st</file>
+  <file>GtkExtend/GtkAccelGroup.st</file>
 
   <file>ExtendsGtk.st</file>
   <file>ExtendsCairo.st</file>

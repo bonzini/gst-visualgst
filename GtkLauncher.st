@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkLauncher [
-    | currentWidget notebook notebookPages transcriptWidget windowsMenu |
+    | currentWidget notebook notebookPages transcriptWidget windowsMenu group |
 
     GtkLauncher class >> open [
 	<category: 'user interface'>
@@ -215,7 +215,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    createMenus;
 	    createToolbar;
 	    createStatusBar;
-	    centralWidget: self buildCentralWidget
+	    centralWidget: self buildCentralWidget.
+	window addAccelGroup: group
     ]
 
     buildCentralWidget [
@@ -284,18 +285,28 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createEditMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Undo' #undo).
-	    #('Redo' #redo).
+	| s1 s2 s3 s4 |
+	group := GTK.GtkAccelGroup new.
+	s1 := '<GtkLauncher>/Edit/Undo'.
+	s2 := '<GtkLauncher>/Edit/Redo'.
+	s3 := '<GtkLauncher>/Edit/Copy'.
+	s4 := '<GtkLauncher>/Edit/Paste'.
+	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Alt>z' path: s1 receiver: self selector: #redo.
+	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Shift>r' path: s2 receiver: self selector: #redo.
+	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Alt>c' path: s3 receiver: self selector: #redo.
+	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Shift>v' path: s4 receiver: self selector: #redo.
+	^ (self createMenuEntryShortCut: {{'Undo'. #undo. s1}.
+	    {'Redo'. #redo. s2.}.
 	    #().
-	    #('Cut' #cut).
-	    #('Copy' #copy).
-	    #('Paste' #paste).
+	    #('Cut' #cut '<GtkLauncher>/Edit/Cut').
+	    #('Copy' #copy '<GtkLauncher>/Edit/Copy').
+	    #('Paste' #paste '<GtkLauncher>/Edit/Paste').
 	    #().
-	    #('Select all' #selectAll).
+	    #('Select all' #selectAll '<GtkLauncher>/Edit/SelectAll').
 	    #().
-	    #('Clear Transcript' #clearTranscriptWidget).
-	    #().
-	    #('Search' #searchClassOrMethod)}
+	    #('Clear Transcript' #clearTranscriptWidget '<GtkLauncher>/Edit/ClearTranscript')})
+		setAccelGroup: group;
+		yourself
     ]
 
     createFileMenus [

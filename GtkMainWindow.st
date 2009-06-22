@@ -161,6 +161,23 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	^ menu
     ]
 
+    createMenuEntryShortCut: anArray [
+        <category: 'menubar'>
+
+        | menu |
+        menu := GTK.GtkMenu new.
+        anArray do: [ :each |
+            menu append:
+                (each isEmpty
+                    ifTrue: [ GTK.GtkMenuItem new ]
+                    ifFalse: [ (GTK.GtkMenuItem newWithLabel: (each at: 1))
+                            connectSignal: 'activate' to: self selector: (each at: 2) userData: nil;
+			    setAccelPath: (each at: 3);
+                            yourself ]) ].
+
+        ^ menu
+    ]
+
     statusMessage: aString [
 	<category: 'statusbar'>
 
