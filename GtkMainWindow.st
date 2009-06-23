@@ -1,5 +1,5 @@
 Smalltalk.Object subclass: GtkMainWindow [
-    | window container menuBar toolBar centralWidget statusBar |
+    | window container menuBar toolBar centralWidget statusBar accelGroup |
 
     GtkMainWindow class >> open	[
 	<category: 'user interface'>
@@ -35,13 +35,19 @@ Smalltalk.Object subclass: GtkMainWindow [
     container [
 	<category: 'accessing'>
 
-	^ container ifNil: [container := GTK.GtkVBox new: false spacing: 0]
+	^ container ifNil: [ container := GTK.GtkVBox new: false spacing: 0 ]
+    ]
+
+    accelGroup [
+	<category: 'accessing'>
+
+	^ accelGroup ifNil: [ accelGroup := GTK.GtkAccelGroup new ]
     ]
 
     menuBar [
 	<category: 'accessing'>
 
-	^ menuBar ifNil: [menuBar := GTK.GtkMenuBar new]
+	^ menuBar ifNil: [ menuBar := GTK.GtkMenuBar new ]
     ]
 
     menuBar: aGtkMenuBar [
@@ -53,7 +59,7 @@ Smalltalk.Object subclass: GtkMainWindow [
     statusBar [
 	<category: 'accessing'>
 
-	^ statusBar ifNil: [statusBar := GTK.GtkStatusbar new] 
+	^ statusBar ifNil: [ statusBar := GTK.GtkStatusbar new ] 
     ]
 
     statusBar: aGtkStatusBar [
@@ -77,7 +83,7 @@ Smalltalk.Object subclass: GtkMainWindow [
     toolBar [
 	<category: 'accessing'>
 
-	^ toolBar ifNil: [toolBar := GTK.GtkToolbar new]
+	^ toolBar ifNil: [ toolBar := GTK.GtkToolbar new ]
     ]
 
     toolBar: aGtkToolBar [
@@ -121,7 +127,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     initialize [
 	<category: 'intialization'>
 	
-	window := GTK.GtkWindow	new: GTK.Gtk gtkWindowToplevel
+	window := GTK.GtkWindow	new: GTK.Gtk gtkWindowToplevel.
+	window addAccelGroup: self accelGroup
     ]
 
     addMenuItem: aString [
@@ -149,34 +156,19 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'menubar'>
 
 	| menu |
-	menu := GTK.GtkMenu new.
+	menu := (GTK.GtkMenu new)
+		    setAccelGroup: self accelGroup;
+		    yourself.
 	anArray do: [ :each |
 	    menu append: 
 		(each isEmpty
 		    ifTrue: [ GTK.GtkMenuItem new ]
 		    ifFalse: [ (GTK.GtkMenuItem newWithLabel: (each at: 1))
 			    connectSignal: 'activate' to: self selector: (each at: 2) userData: nil;
+			    setAccelPath: (each at: 3);
 			    yourself ]) ].
 
 	^ menu
-    ]
-
-    createMenuEntryShortCut: anArray group: aGroup [
-        <category: 'menubar'>
-
-        | menu |
-        menu := GTK.GtkMenu new.
-	menu setAccelGroup: aGroup. 
-        anArray do: [ :each |
-            menu append:
-                (each isEmpty
-                    ifTrue: [ GTK.GtkMenuItem new ]
-                    ifFalse: [ (GTK.GtkMenuItem newWithLabel: (each at: 1))
-                            connectSignal: 'activate' to: self selector: (each at: 2) userData: nil;
-			    setAccelPath: (each at: 3);
-                            yourself ]) ].
-
-        ^ menu
     ]
 
     statusMessage: aString [

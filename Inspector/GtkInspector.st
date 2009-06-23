@@ -90,28 +90,28 @@ GtkMainWindow subclass: GtkInspector [
     createEditMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Cut' #cut).
-	    #('Copy' #copy).
-	    #('Paste' #paste).
+	^ self createMenuEntry: {#('Cut' #cut '').
+	    #('Copy' #copy '').
+	    #('Paste' #paste '').
 	    #().
-	    #('Select all' #selectAll)}
+	    #('Select all' #selectAll '')}
     ]
 
     createFileMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('New workspace' #newWorkspace).
+	^ self createMenuEntry: {#('New workspace' #newWorkspace '').
 	    #().
-	    #('Open' #open).
-	    #('Save' #saveImage).
-	    #('Save as...' #saveImageAs).
+	    #('Open' #open '').
+	    #('Save' #saveImage '').
+	    #('Save as...' #saveImageAs '').
 	    #().
-	    #('Print' #print).
+	    #('Print' #print '').
 	    #().
-	    #('Save image' #saveImage).
-	    #('Save image as...' #saveImageAs).
+	    #('Save image' #saveImage '').
+	    #('Save image as...' #saveImageAs '').
 	    #().
-	    #('Quit' #quit)}
+	    #('Quit' #quit '')}
     ]
 
     createMenus [
@@ -148,12 +148,12 @@ GtkMainWindow subclass: GtkInspector [
 	<category: 'user interface'>
 
 	^ self createMenuEntry: 
-	    {#('Browser' #classBrowser).
-	    #('Workspace' #workspace).
-	    #('Inspector' #gtkInspector).
+	    {#('Browser' #classBrowser '').
+	    #('Workspace' #workspace '').
+	    #('Inspector' #gtkInspector '').
 	    #().
-	    #('GtkDemo' #gtkDemo).
-	    #('SqueakZilla' #squeakzilla)}
+	    #('GtkDemo' #gtkDemo '').
+	    #('SqueakZilla' #squeakzilla '')}
     ]
 ]
 

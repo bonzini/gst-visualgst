@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkLauncher [
-    | currentWidget notebook notebookPages transcriptWidget windowsMenu group |
+    | currentWidget notebook notebookPages transcriptWidget windowsMenu |
 
     GtkLauncher class >> open [
 	<category: 'user interface'>
@@ -215,8 +215,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    createMenus;
 	    createToolbar;
 	    createStatusBar;
-	    centralWidget: self buildCentralWidget.
-	window addAccelGroup: group
+	    centralWidget: self buildCentralWidget
     ]
 
     buildCentralWidget [
@@ -285,18 +284,15 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createEditMenus [
 	<category: 'user interface'>
 
-	| s1 s2 s3 s4 |
-	group := GTK.GtkAccelGroup new.
-	s1 := '<GtkLauncher>/Edit/Undo'.
-	s2 := '<GtkLauncher>/Edit/Redo'.
-	s3 := '<GtkLauncher>/Edit/Copy'.
-	s4 := '<GtkLauncher>/Edit/Paste'.
-	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Alt>z' path: s1 receiver: self selector: #redo.
-	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Shift>r' path: s2 receiver: self selector: #redo.
-	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Alt>c' path: s3 receiver: self selector: #redo.
-	GTK.GtkAccelGroup acceleratorGroup: group accelerator: '<Control><Shift>v' path: s4 receiver: self selector: #redo.
-	^ self createMenuEntryShortCut: {{'Undo'. #undo. s1}.
-	    {'Redo'. #redo. s2.}.
+	self accelGroup append: {{'<Control>Z'. '<GtkLauncher>/Edit/Undo'. self. #undo}.
+	    {'<Control>R'. '<GtkLauncher>/Edit/Redo'. self. #redo}.
+	    {'<Control>X'. '<GtkLauncher>/Edit/Cut'. self. #cut}.
+	    {'<Control>C'. '<GtkLauncher>/Edit/Copy'. self. #copy}.
+	    {'<Control>V'. '<GtkLauncher>/Edit/Paste'. self. #paste}.
+	    {'<Control>A'. '<GtkLauncher>/Edit/SelectAll'. self. #selectAll}}.
+
+	^ self createMenuEntry: {{'Undo'. #undo. '<GtkLauncher>/Edit/Undo'}.
+	    {'Redo'. #redo. '<GtkLauncher>/Edit/Redo'}.
 	    #().
 	    #('Cut' #cut '<GtkLauncher>/Edit/Cut').
 	    #('Copy' #copy '<GtkLauncher>/Edit/Copy').
@@ -305,55 +301,67 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    #('Select all' #selectAll '<GtkLauncher>/Edit/SelectAll').
 	    #().
 	    #('Clear Transcript' #clearTranscriptWidget '<GtkLauncher>/Edit/ClearTranscript')}
-	    group: group
     ]
 
     createFileMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('New workspace' #newWorkspace).
+        self accelGroup append: {{'<Control>N'. '<GtkLauncher>/File/New'. self. #newWorkspace}.
+	    {'<Control>O'. '<GtkLauncher>/File/Open'. self. #open}.
+	    {'<Control>S'. '<GtkLauncher>/File/Save'. self. #save}.
+	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'. self. #saveAs}.
+	    {'<Control>P'. '<GtkLauncher>/File/Print'. self. #print}.
+	    {'<Control>Q'. '<GtkLauncher>/File/Quit'. self. #quit}}.
+
+	^ self createMenuEntry: {#('New workspace' #newWorkspace'<GtkLauncher>/File/New').
 	    #().
-	    #('Open' #open).
-	    #('Save' #save).
-	    #('Save as...' #saveAs).
+	    #('Open' #open '<GtkLauncher>/File/Open').
+	    #('Save' #save '<GtkLauncher>/File/Save').
+	    #('Save as...' #saveAs '<GtkLauncher>/File/SaveAs').
 	    #().
-	    #('Print' #print).
+	    #('Print' #print '<GtkLauncher>/File/Print').
 	    #().
-	    #('Save image' #saveImage).
-	    #('Save image as...' #saveImageAs).
+	    #('Save image' #saveImage '').
+	    #('Save image as...' #saveImageAs '').
 	    #().
-	    #('Quit' #quit)}
+	    #('Quit' #quit '<GtkLauncher>/File/Quit')}
     ]
 
     createProjectMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('New project' #newProject).
+	^ self createMenuEntry: {#('New project' #newProject '').
 	    #().
-	    #('Open project' #openProject).
-	    #('Save project' #saveProject).
-	    #('Save project as...' #saveProjectAs).
+	    #('Open project' #openProject '').
+	    #('Save project' #saveProject '').
+	    #('Save project as...' #saveProjectAs '').
 	    #().
-	    #('Close project' #closeProject)}
+	    #('Close project' #closeProject '')}
     ]
 
     createSmalltalkMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Do It' #doIt).
-	#('Print It' #printIt).
-	#('Inspect It' #inspectIt).
-	#('Debug It' #debugIt).
-	#().
-	#('Implementors' #implementors).
-	#('Senders' #senders)}
+        self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'. self. #doIt}.
+            {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'. self. #printIt}.
+            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'. self. #inspectIt}.
+            {'<Control>M'. '<GtkLauncher>/Smalltalk/Implementors'. self. #implementors}.
+            {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'. self. #senders}}.
+
+	^ self createMenuEntry: {#('Do It' #doIt '<GtkLauncher>/Smalltalk/DoIt').
+	    #('Print It' #printIt '<GtkLauncher>/Smalltalk/PrintIt').
+	    #('Inspect It' #inspectIt '<GtkLauncher>/Smalltalk/InspectIt').
+	    #('Debug It' #debugIt '').
+	    #().
+	    #('Implementors' #implementors '<GtkLauncher>/Smalltalk/Implementors').
+	    #('Senders' #senders '<GtkLauncher>/Smalltalk/Senders')}
     ]
 
     createHelpMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('About Launcher' #aboutLauncher).
-	    #('About GNU Smalltalk' #aboutGst)}
+	^ self createMenuEntry: {#('About Launcher' #aboutLauncher '').
+	    #('About GNU Smalltalk' #aboutGst '')}
     ]
 
     createMenus [
@@ -394,22 +402,22 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	^ self createMenuEntry: 
-	    {#('Browser' #classBrowser).
-	    #('Browser window' #classBrowserInAWindow).
-	    #('Workspace' #workspace).
-	    #('Inspector' #gtkInspector).
+	    {#('Browser' #classBrowser '').
+	    #('Browser window' #classBrowserInAWindow '').
+	    #('Workspace' #workspace '').
+	    #('Inspector' #gtkInspector '').
 	    #().
-	    #('Assistant' #gtkAssistant).
+	    #('Assistant' #gtkAssistant '').
 	    #().
-	    #('GtkDemo' #gtkDemo).
-	    #('SqueakZilla' #webBrowser)}
+	    #('GtkDemo' #gtkDemo '').
+	    #('SqueakZilla' #webBrowser '')}
     ]
 
     createWindowsMenus [
 	<category: 'user interface'>
 
-	^ windowsMenu := self createMenuEntry: {#('Arrange' #arrangeWindows).
-	    #('Close all' #closeAllWindows)}
+	^ windowsMenu := self createMenuEntry: {#('Arrange' #arrangeWindows '').
+	    #('Close all' #closeAllWindows '')}
     ]
 
     closeIt: aGtkButton  at: aGtkConcreteWidget [

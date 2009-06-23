@@ -34,5 +34,17 @@ GTK.GtkAccelGroup extend [
 	<cCall: 'gstGtkAccelGroupConnect' returning: #void
 	args: #( #selfSmalltalk #int #int #int #smalltalk #smalltalk )>
     ]
+
+    append: anArray [
+        <category: 'accessing'>
+
+        anArray do: [ :each |
+            self class
+                acceleratorGroup: self
+                accelerator: each first
+                path: each second
+                receiver: (each at: 3)
+                selector: (each at: 4) ]
+    ]
 ]
 
