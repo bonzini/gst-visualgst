@@ -23,8 +23,14 @@
   <filein>GtkExtend/GtkTextWidget.st</filein>
   <filein>GtkExtend/GtkFileChooserDialog.st</filein>
   <filein>GtkExtend/GtkAccelGroup.st</filein>
+  <filein>GtkExtend/GtkDialog.st</filein>
+  <filein>GtkExtend/GtkMenu.st</filein>
+  <filein>GtkExtend/GtkTextBuffer.st</filein>
+  <filein>GtkExtend/GtkTreeView.st</filein>
+  <filein>GtkExtend/GtkButton.st</filein>
+  <filein>GtkExtend/GtkNotebook.st</filein>
+  <filein>GtkExtend/GtkScrolledWindow.st</filein>
 
-  <filein>ExtendsGtk.st</filein>
   <filein>ExtendsCairo.st</filein>
   <filein>Notification/AbstractEvent.st</filein>
   <filein>Notification/AddedEvent.st</filein>
@@ -113,8 +119,14 @@
   <file>GtkExtend/GtkTextWidget.st</file>
   <file>GtkExtend/GtkFileChooserDialog.st</file>
   <file>GtkExtend/GtkAccelGroup.st</file>
+  <file>GtkExtend/GtkDialog.st</file>
+  <file>GtkExtend/GtkMenu.st</file>
+  <file>GtkExtend/GtkTextBuffer.st</file>
+  <file>GtkExtend/GtkTreeView.st</file>
+  <file>GtkExtend/GtkButton.st</file>
+  <file>GtkExtend/GtkNotebook.st</file>
+  <file>GtkExtend/GtkScrolledWindow.st</file>
 
-  <file>ExtendsGtk.st</file>
   <file>ExtendsCairo.st</file>
   <file>Notification/AbstractEvent.st</file>
   <file>Notification/AddedEvent.st</file>

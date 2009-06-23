@@ -20,50 +20,50 @@ GtkMainWindow subclass: GtkSender [
     createFileMenus [
         <category: 'user interface'>
 
-        ^ self createMenuEntry: {#('New workspace' #newWorkspace).
+        ^ self createMenuEntry: {#('New workspace' #newWorkspace '').
             #().
-            #('Open' #open).
-            #('Save' #saveImage).
-            #('Save as...' #saveImageAs).
+            #('Open' #open '').
+            #('Save' #saveImage '').
+            #('Save as...' #saveImageAs '').
             #().
-            #('Print' #print).
+            #('Print' #print '').
             #().
-            #('Save image' #saveImage).
-            #('Save image as...' #saveImageAs).
+            #('Save image' #saveImage '').
+            #('Save image as...' #saveImageAs '').
             #().
-            #('Quit' #quit)}
+            #('Quit' #quit '')}
     ]
 
     createEditMenus [
         <category: 'user interface'>
 
-        ^ self createMenuEntry: {#('Cut' #cut).
-            #('Copy' #copy).
-            #('Paste' #paste).
+        ^ self createMenuEntry: {#('Cut' #cut '').
+            #('Copy' #copy '').
+            #('Paste' #paste '').
             #().
-            #('Select all' #selectAll).
+            #('Select all' #selectAll '').
             #().
-            #('Search' #searchClassOrMethod)}
+            #('Search' #searchClassOrMethod '')}
     ]
 
     createToolsMenus [
         <category: 'user interface'>
 
         ^ self createMenuEntry:
-            {#('Browser' #classBrowser).
-            #('Browser window' #classBrowserInAWindow).
-            #('Workspace' #workspace).
-            #('Inspector' #gtkInspector).
+            {#('Browser' #classBrowser '').
+            #('Browser window' #classBrowserInAWindow '').
+            #('Workspace' #workspace '').
+            #('Inspector' #gtkInspector '').
             #().
-            #('GtkDemo' #gtkDemo).
-            #('SqueakZilla' #squeakzilla)}
+            #('GtkDemo' #gtkDemo '').
+            #('SqueakZilla' #squeakzilla '')}
     ]
 
     createHelpMenus [
         <category: 'user interface'>
 
-        ^ self createMenuEntry: {#('About Smalltalk Sender' #aboutSender).
-            #('About GNU Smalltalk' #aboutGst)}
+        ^ self createMenuEntry: {#('About Smalltalk Sender' #aboutSender '').
+            #('About GNU Smalltalk' #aboutGst '')}
     ]
 
     createMenus [

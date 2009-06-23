@@ -310,7 +310,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    {'<Control>O'. '<GtkLauncher>/File/Open'. self. #open}.
 	    {'<Control>S'. '<GtkLauncher>/File/Save'. self. #save}.
 	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'. self. #saveAs}.
-	    {'<Control>P'. '<GtkLauncher>/File/Print'. self. #print}.
 	    {'<Control>Q'. '<GtkLauncher>/File/Quit'. self. #quit}}.
 
 	^ self createMenuEntry: {#('New workspace' #newWorkspace'<GtkLauncher>/File/New').
@@ -319,7 +318,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    #('Save' #save '<GtkLauncher>/File/Save').
 	    #('Save as...' #saveAs '<GtkLauncher>/File/SaveAs').
 	    #().
-	    #('Print' #print '<GtkLauncher>/File/Print').
+	    #('Print' #print '').
 	    #().
 	    #('Save image' #saveImage '').
 	    #('Save image as...' #saveImageAs '').
