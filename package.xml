@@ -20,6 +20,8 @@
     GTK.Gtk main
   </start>
 
+  <filein>GtkExtend/GtkObject.st</filein>
+  <filein>GtkExtend/GtkMenuItem.st</filein>
   <filein>GtkExtend/GtkTextWidget.st</filein>
   <filein>GtkExtend/GtkFileChooserDialog.st</filein>
   <filein>GtkExtend/GtkAccelGroup.st</filein>
@@ -116,6 +118,8 @@
   <filein>Notification/Kernel/AbstractNamespace.st</filein>
   <filein>Notification/Kernel/Metaclass.st</filein>
 
+  <file>GtkExtend/GtkObject.st</file>
+  <file>GtkExtend/GtkMenuItem.st</file>
   <file>GtkExtend/GtkTextWidget.st</file>
   <file>GtkExtend/GtkFileChooserDialog.st</file>
   <file>GtkExtend/GtkAccelGroup.st</file>

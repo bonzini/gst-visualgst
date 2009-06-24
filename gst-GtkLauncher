@@ -1,3 +1,0 @@
-#!/bin/bash
-
-G_SLICE=always_malloc /opt/gst/bin/gst -f Load.st &

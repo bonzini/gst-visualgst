@@ -291,16 +291,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    {'<Control>V'. '<GtkLauncher>/Edit/Paste'. self. #paste}.
 	    {'<Control>A'. '<GtkLauncher>/Edit/SelectAll'. self. #selectAll}}.
 
-	^ self createMenuEntry: {{'Undo'. #undo. '<GtkLauncher>/Edit/Undo'}.
-	    {'Redo'. #redo. '<GtkLauncher>/Edit/Redo'}.
-	    #().
-	    #('Cut' #cut '<GtkLauncher>/Edit/Cut').
-	    #('Copy' #copy '<GtkLauncher>/Edit/Copy').
-	    #('Paste' #paste '<GtkLauncher>/Edit/Paste').
-	    #().
-	    #('Select all' #selectAll '<GtkLauncher>/Edit/SelectAll').
-	    #().
-	    #('Clear Transcript' #clearTranscriptWidget '<GtkLauncher>/Edit/ClearTranscript')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo'.
+            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkLauncher>/Edit/Redo'.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut'.
+            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkLauncher>/Edit/Copy'.
+            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste'.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll'.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Clear Transcript' accelPath: '<GtkLauncher>/Edit/ClearTranscript'}
     ]
 
     createFileMenus [
@@ -312,30 +312,30 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'. self. #saveAs}.
 	    {'<Control>Q'. '<GtkLauncher>/File/Quit'. self. #quit}}.
 
-	^ self createMenuEntry: {#('New workspace' #newWorkspace'<GtkLauncher>/File/New').
-	    #().
-	    #('Open' #open '<GtkLauncher>/File/Open').
-	    #('Save' #save '<GtkLauncher>/File/Save').
-	    #('Save as...' #saveAs '<GtkLauncher>/File/SaveAs').
-	    #().
-	    #('Print' #print '').
-	    #().
-	    #('Save image' #saveImage '').
-	    #('Save image as...' #saveImageAs '').
-	    #().
-	    #('Quit' #quit '<GtkLauncher>/File/Quit')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' accelPath: '<GtkLauncher>/File/New'.
+            GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open'.
+            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkLauncher>/File/Save'.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs'.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #printIt.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
+            GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit'}
     ]
 
     createProjectMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('New project' #newProject '').
-	    #().
-	    #('Open project' #openProject '').
-	    #('Save project' #saveProject '').
-	    #('Save project as...' #saveProjectAs '').
-	    #().
-	    #('Close project' #closeProject '')}
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New project' connectTo: self selector: #newProject.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Open project' connectTo: self selector: #openProject.
+            GTK.GtkMenuItem menuItem: 'Save project' connectTo: self selector: #saveProject.
+            GTK.GtkMenuItem menuItem: 'Save project as...' connectTo: self selector: #saveProjectAs.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Close project' connectTo: self selector: #closeProject}
     ]
 
     createSmalltalkMenus [
@@ -347,20 +347,20 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             {'<Control>M'. '<GtkLauncher>/Smalltalk/Implementors'. self. #implementors}.
             {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'. self. #senders}}.
 
-	^ self createMenuEntry: {#('Do It' #doIt '<GtkLauncher>/Smalltalk/DoIt').
-	    #('Print It' #printIt '<GtkLauncher>/Smalltalk/PrintIt').
-	    #('Inspect It' #inspectIt '<GtkLauncher>/Smalltalk/InspectIt').
-	    #('Debug It' #debugIt '').
-	    #().
-	    #('Implementors' #implementors '<GtkLauncher>/Smalltalk/Implementors').
-	    #('Senders' #senders '<GtkLauncher>/Smalltalk/Senders')}
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt'.
+            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt'.
+            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt'.
+            GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors'.
+            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders'}
     ]
 
     createHelpMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('About Launcher' #aboutLauncher '').
-	    #('About GNU Smalltalk' #aboutGst '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About Launcher' connectTo: self selector: #aboutLauncher.
+	    GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 
     createMenus [
@@ -399,24 +399,30 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
     createToolsMenus [
 	<category: 'user interface'>
+        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'. self. #undo}}.
 
-	^ self createMenuEntry: 
-	    {#('Browser' #classBrowser '').
-	    #('Browser window' #classBrowserInAWindow '').
-	    #('Workspace' #workspace '').
-	    #('Inspector' #gtkInspector '').
-	    #().
-	    #('Assistant' #gtkAssistant '').
-	    #().
-	    #('GtkDemo' #gtkDemo '').
-	    #('SqueakZilla' #webBrowser '')}
+	^ self createNewMenuEntry:  {GTK.GtkMenuItem menuItem: 'Browser' connectTo: self selector: #classBrowser.
+	    GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkLauncher>/Tools/ClassBrowser'.
+	    GTK.GtkMenuItem menuItem: 'Workspace' connectTo: self selector: #workspace.
+	    GTK.GtkMenuItem menuItem: 'Inspector' connectTo: self selector: #gtkInspector.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Assistant' connectTo: self selector: #gtkAssistant.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'GtkDemo' connectTo: self selector: #gtkDemo.
+	    GTK.GtkMenuItem menuItem: 'SqueakZilla' connectTo: self selector: #webBrowser}
     ]
 
     createWindowsMenus [
 	<category: 'user interface'>
 
-	^ windowsMenu := self createMenuEntry: {#('Arrange' #arrangeWindows '').
-	    #('Close all' #closeAllWindows '')}
+	^ windowsMenu := self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Arrange' connectTo: self selector: #arrangeWindows .
+	    GTK.GtkMenuItem menuItem: 'Close all' connectTo: self selector: #closeAllWindows}
+    ]
+
+    isCurrentWidgetTranscript [
+	<category: 'testing'>
+
+	^ currentWidget == transcriptWidget
     ]
 
     closeIt: aGtkButton  at: aGtkConcreteWidget [
@@ -438,6 +444,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     undo [
 	<category: 'edit events'>
 
+	self isCurrentWidgetTranscript ifTrue: [ ^ self ].
 	currentWidget undo
     ]
 

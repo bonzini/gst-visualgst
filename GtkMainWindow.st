@@ -171,6 +171,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	^ menu
     ]
 
+    createNewMenuEntry: anArray [
+        <category: 'menubar'>
+
+        | menu |
+        menu := (GTK.GtkMenu new)
+                    setAccelGroup: self accelGroup;
+                    yourself.
+        anArray do: [ :each |
+            menu append: each ].
+        ^ menu
+    ]
+
     statusMessage: aString [
 	<category: 'statusbar'>
 

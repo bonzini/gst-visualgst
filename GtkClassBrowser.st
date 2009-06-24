@@ -250,97 +250,119 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createEditMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Undo' #undo).
-	    #('Redo' #redo).
+        self accelGroup append: {{'<Control>Z'. '<GtkBrowser>/Edit/Undo'. self. #undo}.
+            {'<Control>R'. '<GtkClassBrowser>/Edit/Redo'. self. #redo}.
+            {'<Control>X'. '<GtkClassBrowser>/Edit/Cut'. self. #cut}.
+            {'<Control>C'. '<GtkClassBrowser>/Edit/Copy'. self. #copy}.
+            {'<Control>V'. '<GtkClassBrowser>/Edit/Paste'. self. #paste}.
+            {'<Control>A'. '<GtkClassBrowser>/Edit/SelectAll'. self. #selectAll}}.
+
+	^ self createMenuEntry: {#('Undo' #undo '').
+	    #('Redo' #redo '').
 	    #().
-	    #('Cut' #cut).
-	    #('Copy' #copy).
-	    #('Paste' #paste).
+	    #('Cut' #cut '').
+	    #('Copy' #copy '').
+	    #('Paste' #paste '').
 	    #().
-	    #('Select all' #selectAll)}.
+	    #('Select all' #selectAll '')}.
     ]
 
     createSmalltalkMenus [
         <category: 'user interface'>
 
-        ^ self createMenuEntry: {#('Do It' #doIt).
-        #('Print It' #printIt).
-        #('Inspect It' #inspectIt).
-        #('Debug It' #debugIt)}
+        self accelGroup append: {{'<Control>D'. '<GtkClassBrowser>/Smalltalk/DoIt'. self. #doIt}.
+            {'<Control>P'. '<GtkClassBrowser>/Smalltalk/PrintIt'. self. #printIt}.
+            {'<Control>I'. '<GtkClassBrowser>/Smalltalk/InspectIt'. self. #inspectIt}.
+            {'<Control>M'. '<GtkClassBrowser>/Smalltalk/Implementors'. self. #implementors}.
+            {'<Control>N'. '<GtkClassBrowser>/Smalltalk/Senders'. self. #senders}.
+	    {'<Control>S'. '<GtkClassBrowser>/Smalltalk/AcceptIt'. self. #acceptIt}}.
+
+        ^ self createMenuEntry: {#('Do It' #doIt '').
+        #('Print It' #printIt '').
+        #('Inspect It' #inspectIt '').
+        #('Debug It' #debugIt '').
+	#().
+	#('Accept-It' #acceptIt '<GtkClassBrowser>/Smalltalk/AcceptIt')}
     ]
 
     createFileMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('New workspace' #newWorkspace).
+        self accelGroup append: {{'<Control>N'. '<GtkClassBrowser>/File/New'. self. #newWorkspace}.
+            {'<Control>O'. '<GtkClassBrowser>/File/Open'. self. #open}.
+            {'<Control>S'. '<GtkClassBrowser>/File/Save'. self. #save}.
+            {'<Control><Shift>S'. '<GtkClassBrowser>/File/SaveAs'. self. #saveAs}.
+            {'<Control>Q'. '<GtkClassBrowser>/File/Quit'. self. #quit}}.
+
+	^ self createMenuEntry: {#('New workspace' #newWorkspace '').
 	    #().
-	    #('Open' #open).
-	    #('Save' #saveImage).
-	    #('Save as...' #saveImageAs).
+	    #('Open' #open '').
+	    #('Save' #saveImage '').
+	    #('Save as...' #saveImageAs '').
 	    #().
-	    #('Print' #print).
+	    #('Print' #print '').
 	    #().
-	    #('Save image' #saveImage).
-	    #('Save image as...' #saveImageAs).
+	    #('Save image' #saveImage '').
+	    #('Save image as...' #saveImageAs '').
 	    #().
-	    #('Quit' #quit)}
+	    #('Quit' #quit '')}
     ]
 
     createNamespaceMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a namespace' #newNamespace).
-	    #('Rename a namespace' #renameNamespace).
-	    #('Delete a namespace' #deleteNamespace).
+	^ self createMenuEntry: {#('Add a namespace' #newNamespace '').
+	    #('Rename a namespace' #renameNamespace '').
+	    #('Delete a namespace' #deleteNamespace '').
 	    #().
-	    #('Inspect a namespace' #inspectNamespace).
+	    #('Inspect a namespace' #inspectNamespace '').
 	    #().
-	    #('File out a namespace' #fileoutNamespace).
-	    #('File out in a project' #fileoutProject)}
+	    #('File out a namespace' #fileoutNamespace '').
+	    #('File out in a project' #fileoutProject '')}
     ]
 
     createClassMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a class' #newClass).
-	    #('Rename a class' #renameClass).
-	    #('Delete a class' #deleteClass).
+	^ self createMenuEntry: {#('Add a class' #newClass '').
+	    #('Rename a class' #renameClass '').
+	    #('Delete a class' #deleteClass '').
 	    #().
-	    #('Inspect a class' #inspectClass).
+	    #('Inspect a class' #inspectClass '').
 	    #().
-	    #('File out a class' #fileoutClass).
-	    #('File out in a project' #fileoutClassInProject)}
+	    #('File out a class' #fileoutClass '').
+	    #('File out in a project' #fileoutClassInProject '')}
     ]
 
     createCategoryMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a category' #newCategory).
-            #('Rename a category' #renameCategory).
-            #('Delete a category' #deleteCategory).
+	^ self createMenuEntry: {#('Add a category' #newCategory '').
+            #('Rename a category' #renameCategory '').
+            #('Delete a category' #deleteCategory '').
             #().
-            #('Inspect a category' #inspectCategory).
+            #('Inspect a category' #inspectCategory '').
 	    #().
-            #('File out a category' #fileoutCategory)}
+            #('File out a category' #fileoutCategory '')}
     ]
 
     createMethodMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a method' #newMethod).
-	    #('Rename a method' #renameMethod).
-	    #('Delete a method' #deleteMethod).
+	^ self createMenuEntry: {#('Add a method' #newMethod '').
+	    #('Rename a method' #renameMethod '').
+	    #('Delete a method' #deleteMethod '').
 	    #().
-	    #('Inspect a method' #inspectMethod).
+	    #('Inspect a method' #inspectMethod '').
 	    #().
-	    #('File out a method' #fileoutMethod)}
+	    #('File out a method' #fileoutMethod '')}
     ]
 
     createHelpMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('About Class Browser' #aboutBrowser).
-	    #('About GNU Smalltalk' #aboutGst)}
+	^ self createMenuEntry: {#('About Class Browser' #aboutBrowser '').
+	    #('About GNU Smalltalk' #aboutGst '')}
     ]
 
     createMenus [
@@ -398,19 +420,19 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	^ self createMenuEntry: 
-	    {#('Browser' #classBrowser).
-	    #('Workspace' #workspace).
-	    #('Inspector' #gtkInspector).
+	    {#('Browser' #classBrowser '').
+	    #('Workspace' #workspace '').
+	    #('Inspector' #gtkInspector '').
 	    #().
-	    #('GtkDemo' #gtkDemo).
-	    #('SqueakZilla' #squeakzilla)}
+	    #('GtkDemo' #gtkDemo '').
+	    #('SqueakZilla' #squeakzilla '')}
     ]
 
     createWindowsMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Arrange' #arrangeWindows).
-	    #('Close all' #closeAllWindows)}
+	^ self createMenuEntry: {#('Arrange' #arrangeWindows '').
+	    #('Close all' #closeAllWindows '')}
     ]
 ]
 
