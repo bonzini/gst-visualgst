@@ -324,9 +324,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     acceptClassDefinition [
 	<category: 'class event'>
 
-	^ Behavior
-            evaluate: codeWidget sourceCode 
-            ifError: [ :fname :lineNo :errorString | self error: errorString ]
+	^ (ReadStream on: codeWidget sourceCode) fileIn
     ]
 
     fileoutNamespace: aDirectory [
