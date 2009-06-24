@@ -74,7 +74,6 @@
   <filein>AddClassCommand.st</filein>
   <filein>RenameClassCommand.st</filein>
   <filein>DeleteClassCommand.st</filein>
-  <filein>GtkFinder.st</filein>
   <filein>AbstractFinder.st</filein>
   <filein>NamespaceFinder.st</filein>
   <filein>ClassFinder.st</filein>
@@ -175,7 +174,6 @@
   <file>AddClassCommand.st</file>
   <file>RenameClassCommand.st</file>
   <file>DeleteClassCommand.st</file>
-  <file>GtkFinder.st</file>
   <file>AbstractFinder.st</file>
   <file>NamespaceFinder.st</file>
   <file>ClassFinder.st</file>

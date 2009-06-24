@@ -399,7 +399,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
     createToolsMenus [
 	<category: 'user interface'>
-        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'. self. #undo}}.
+        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'. self. #classBrowserInAWindow}}.
 
 	^ self createNewMenuEntry:  {GTK.GtkMenuItem menuItem: 'Browser' connectTo: self selector: #classBrowser.
 	    GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkLauncher>/Tools/ClassBrowser'.
@@ -533,12 +533,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'smalltalk events'>
 
 	GtkSender open
-    ]
-
-    searchClassOrMethod [
-	<category: 'edit events'>
-
-	GtkFinder open
     ]
 
     gtkAssistant [

@@ -257,14 +257,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             {'<Control>V'. '<GtkClassBrowser>/Edit/Paste'. self. #paste}.
             {'<Control>A'. '<GtkClassBrowser>/Edit/SelectAll'. self. #selectAll}}.
 
-	^ self createMenuEntry: {#('Undo' #undo '').
-	    #('Redo' #redo '').
-	    #().
-	    #('Cut' #cut '').
-	    #('Copy' #copy '').
-	    #('Paste' #paste '').
-	    #().
-	    #('Select all' #selectAll '')}.
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkBrowser>/Edit/Undo'.
+	    GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkClassBrowser>/Edit/Redo'.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkClassBrowser>/Edit/Cut'.
+	    GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkClassBrowser>/Edit/Copy'.
+	    GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkClassBrowser>/Edit/Paste'.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkClassBrowser>/Edit/SelectAll'}.
     ]
 
     createSmalltalkMenus [
@@ -277,92 +277,91 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             {'<Control>N'. '<GtkClassBrowser>/Smalltalk/Senders'. self. #senders}.
 	    {'<Control>S'. '<GtkClassBrowser>/Smalltalk/AcceptIt'. self. #acceptIt}}.
 
-        ^ self createMenuEntry: {#('Do It' #doIt '').
-        #('Print It' #printIt '').
-        #('Inspect It' #inspectIt '').
-        #('Debug It' #debugIt '').
-	#().
-	#('Accept-It' #acceptIt '<GtkClassBrowser>/Smalltalk/AcceptIt')}
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkClassBrowser>/Smalltalk/DoIt'.
+        GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkClassBrowser>/Smalltalk/PrintIt'.
+        GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkClassBrowser>/Smalltalk/InspectIt'.
+        GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
+	GTK.GtkMenuItem new.
+	GTK.GtkMenuItem menuItem: 'Accept-It' accelPath: '<GtkClassBrowser>/Smalltalk/AcceptIt'}
     ]
 
     createFileMenus [
 	<category: 'user interface'>
 
-        self accelGroup append: {{'<Control>N'. '<GtkClassBrowser>/File/New'. self. #newWorkspace}.
-            {'<Control>O'. '<GtkClassBrowser>/File/Open'. self. #open}.
+        self accelGroup append: {{'<Control>O'. '<GtkClassBrowser>/File/Open'. self. #open}.
             {'<Control>S'. '<GtkClassBrowser>/File/Save'. self. #save}.
             {'<Control><Shift>S'. '<GtkClassBrowser>/File/SaveAs'. self. #saveAs}.
             {'<Control>Q'. '<GtkClassBrowser>/File/Quit'. self. #quit}}.
 
-	^ self createMenuEntry: {#('New workspace' #newWorkspace '').
-	    #().
-	    #('Open' #open '').
-	    #('Save' #saveImage '').
-	    #('Save as...' #saveImageAs '').
-	    #().
-	    #('Print' #print '').
-	    #().
-	    #('Save image' #saveImage '').
-	    #('Save image as...' #saveImageAs '').
-	    #().
-	    #('Quit' #quit '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkClassBrowser>/File/Open'.
+	    GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkClassBrowser>/File/Save'.
+	    GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkClassBrowser>/File/SaveAs'.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
+	    GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkClassBrowser>/File/Quit'}
     ]
 
     createNamespaceMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a namespace' #newNamespace '').
-	    #('Rename a namespace' #renameNamespace '').
-	    #('Delete a namespace' #deleteNamespace '').
-	    #().
-	    #('Inspect a namespace' #inspectNamespace '').
-	    #().
-	    #('File out a namespace' #fileoutNamespace '').
-	    #('File out in a project' #fileoutProject '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a namespace' connectTo: self selector: #newNamespace.
+	    GTK.GtkMenuItem menuItem: 'Rename a namespace' connectTo: self selector: #renameNamespace.
+	    GTK.GtkMenuItem menuItem: 'Delete a namespace' connectTo: self selector: #deleteNamespace.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Inspect a namespace' connectTo: self selector: #inspectNamespace.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'File out a namespace' connectTo: self selector: #fileoutNamespace.
+	    GTK.GtkMenuItem menuItem: 'File out in a project' connectTo: self selector: #fileoutProject}
     ]
 
     createClassMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a class' #newClass '').
-	    #('Rename a class' #renameClass '').
-	    #('Delete a class' #deleteClass '').
-	    #().
-	    #('Inspect a class' #inspectClass '').
-	    #().
-	    #('File out a class' #fileoutClass '').
-	    #('File out in a project' #fileoutClassInProject '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a class' connectTo: self selector: #newClass.
+	    GTK.GtkMenuItem menuItem: 'Rename a class' connectTo: self selector: #renameClass.
+	    GTK.GtkMenuItem menuItem: 'Delete a class' connectTo: self selector: #deleteClass.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Inspect a class' connectTo: self selector: #inspectClass.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'File out a class' connectTo: self selector: #fileoutClass.
+	    GTK.GtkMenuItem menuItem: 'File out in a project' connectTo: self selector: #fileoutClassInProject}
     ]
 
     createCategoryMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a category' #newCategory '').
-            #('Rename a category' #renameCategory '').
-            #('Delete a category' #deleteCategory '').
-            #().
-            #('Inspect a category' #inspectCategory '').
-	    #().
-            #('File out a category' #fileoutCategory '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
+            GTK.GtkMenuItem menuItem: 'Rename a category' connectTo: self selector: #renameCategory.
+            GTK.GtkMenuItem menuItem: 'Delete a category' connectTo: self selector: #deleteCategory.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Inspect a category' connectTo: self selector: #inspectCategory.
+	    GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'File out a category' connectTo: self selector: #fileoutCategory}
     ]
 
     createMethodMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Add a method' #newMethod '').
-	    #('Rename a method' #renameMethod '').
-	    #('Delete a method' #deleteMethod '').
-	    #().
-	    #('Inspect a method' #inspectMethod '').
-	    #().
-	    #('File out a method' #fileoutMethod '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a method' connectTo: self selector: #newMethod.
+	    GTK.GtkMenuItem menuItem: 'Rename a method' connectTo: self selector: #renameMethod.
+	    GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'File out a method' connectTo: self selector: #fileoutMethod}
     ]
 
     createHelpMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('About Class Browser' #aboutBrowser '').
-	    #('About GNU Smalltalk' #aboutGst '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About Class Browser' connectTo: self selector: #aboutBrowser.
+	    GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 
     createMenus [
@@ -419,20 +418,19 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createToolsMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: 
-	    {#('Browser' #classBrowser '').
-	    #('Workspace' #workspace '').
-	    #('Inspector' #gtkInspector '').
-	    #().
-	    #('GtkDemo' #gtkDemo '').
-	    #('SqueakZilla' #squeakzilla '')}
+	^ self createNewMenuEntry: 
+	    {GTK.GtkMenuItem menuItem: 'Browser' connectTo: self selector: #classBrowser.
+	    GTK.GtkMenuItem menuItem: 'Workspace' connectTo: self selector: #workspace.
+	    GTK.GtkMenuItem menuItem: 'Inspector' connectTo: self selector: #gtkInspector.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'SqueakZilla' connectTo: self selector: #squeakzilla}
     ]
 
     createWindowsMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Arrange' #arrangeWindows '').
-	    #('Close all' #closeAllWindows '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Arrange' connectTo: self selector: #arrangeWindows.
+	    GTK.GtkMenuItem menuItem: 'Close all' connectTo: self selector: #closeAllWindows}
     ]
 ]
 
