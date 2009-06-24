@@ -310,7 +310,25 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	undoStack redo
     ]
+
+    acceptIt [
+	<category: 'smalltalk events'>
+
+        | categoryWidget |
+	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	categoryWidget := self viewedCategoryWidget.
+        categoryWidget hasSelectedCategory ifFalse: [ ^ self acceptClassDefinition ].
+	self newMethod
+    ]
     
+    acceptClassDefinition [
+	<category: 'class event'>
+
+	^ Behavior
+            evaluate: codeWidget sourceCode 
+            ifError: [ :fname :lineNo :errorString | self error: errorString ]
+    ]
+
     fileoutNamespace: aDirectory [
 	<category: 'namespace events'>
 

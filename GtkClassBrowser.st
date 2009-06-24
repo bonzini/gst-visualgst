@@ -227,6 +227,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	browserWidget fileoutMethod: aString
     ]
 
+    acceptIt [
+	<categoyr: 'smalltalk events'>
+
+	browserWidget acceptIt
+    ]
+
     initialize [
 	<category: 'initialization'>
 
@@ -289,14 +295,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
         self accelGroup append: {{'<Control>O'. '<GtkClassBrowser>/File/Open'. self. #open}.
-            {'<Control>S'. '<GtkClassBrowser>/File/Save'. self. #save}.
+            "{'<Control>S'. '<GtkClassBrowser>/File/Save'. self. #save}."
             {'<Control><Shift>S'. '<GtkClassBrowser>/File/SaveAs'. self. #saveAs}.
             {'<Control>Q'. '<GtkClassBrowser>/File/Quit'. self. #quit}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkClassBrowser>/File/Open'.
-	    GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkClassBrowser>/File/Save'.
+	    GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #save.
 	    GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkClassBrowser>/File/SaveAs'.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
