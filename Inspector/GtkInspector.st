@@ -90,28 +90,28 @@ GtkMainWindow subclass: GtkInspector [
     createEditMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('Cut' #cut '').
-	    #('Copy' #copy '').
-	    #('Paste' #paste '').
-	    #().
-	    #('Select all' #selectAll '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cut' connectTo: self selector: #cut.
+	    GTK.GtkMenuItem menuItem: 'Copy' connectTo: self selector: #copy.
+	    GTK.GtkMenuItem menuItem: 'Paste' connectTo: self selector: #paste.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Select all' connectTo: self selector: #selectAll}
     ]
 
     createFileMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: {#('New workspace' #newWorkspace '').
-	    #().
-	    #('Open' #open '').
-	    #('Save' #saveImage '').
-	    #('Save as...' #saveImageAs '').
-	    #().
-	    #('Print' #print '').
-	    #().
-	    #('Save image' #saveImage '').
-	    #('Save image as...' #saveImageAs '').
-	    #().
-	    #('Quit' #quit '')}
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Open' connectTo: self selector: #open.
+	    GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #saveImage.
+	    GTK.GtkMenuItem menuItem: 'Save as...' connectTo: self selector: #saveImageAs.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
+	    GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Quit' connectTo: self selector: #quit}
     ]
 
     createMenus [
@@ -147,13 +147,13 @@ GtkMainWindow subclass: GtkInspector [
     createToolsMenus [
 	<category: 'user interface'>
 
-	^ self createMenuEntry: 
-	    {#('Browser' #classBrowser '').
-	    #('Workspace' #workspace '').
-	    #('Inspector' #gtkInspector '').
-	    #().
-	    #('GtkDemo' #gtkDemo '').
-	    #('SqueakZilla' #squeakzilla '')}
+	^ self createNewMenuEntry: 
+	    {GTK.GtkMenuItem menuItem: 'Browser' connectTo: self selector: #classBrowser.
+	    GTK.GtkMenuItem menuItem: 'Workspace' connectTo: self selector: #workspace.
+	    GTK.GtkMenuItem menuItem: 'Inspector' connectTo: self selector: #gtkInspector.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'GtkDemo' connectTo: self selector: #gtkDemo.
+	    GTK.GtkMenuItem menuItem: 'SqueakZilla' connectTo: self selector: #squeakzilla}
     ]
 ]
 

@@ -306,13 +306,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createFileMenus [
 	<category: 'user interface'>
 
-        self accelGroup append: {{'<Control>N'. '<GtkLauncher>/File/New'. self. #newWorkspace}.
-	    {'<Control>O'. '<GtkLauncher>/File/Open'. self. #open}.
+        self accelGroup append: 
+	    {{'<Control>O'. '<GtkLauncher>/File/Open'. self. #open}.
 	    {'<Control>S'. '<GtkLauncher>/File/Save'. self. #save}.
 	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'. self. #saveAs}.
 	    {'<Control>Q'. '<GtkLauncher>/File/Quit'. self. #quit}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' accelPath: '<GtkLauncher>/File/New'.
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open'.
             GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkLauncher>/File/Save'.
