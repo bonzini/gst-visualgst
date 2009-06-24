@@ -22,7 +22,7 @@ Smalltalk.Metaclass extend [
 		    makeUntrusted: theSuperclass isUntrusted;
 		    category: categoryName;
 		    yourself.
-	GtkLauncher.SystemChangeNotifier uniqueInstance classAdded: aClass.
+	VisualGST.SystemChangeNotifier uniqueInstance classAdded: aClass.
 	^ aClass
     ]
 

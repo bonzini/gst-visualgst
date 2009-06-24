@@ -1,10 +1,10 @@
 <package>
-  <name>GtkLauncher</name>
+  <name>VisualGST</name>
   <prereq>GTK</prereq>
   <prereq>Cairo</prereq>
   <prereq>Parser</prereq>
   <prereq>SUnit</prereq>
-  <namespace>GtkLauncher</namespace>
+  <namespace>VisualGST</namespace>
 
   <test>
     <filein>Tests/ExtractLiteralsTest.st</filein>
@@ -16,7 +16,7 @@
 
   <start>
     GTK.Gtk gstGtkInit.
-    GtkLauncher open.
+    VisualGST open.
     GTK.Gtk main
   </start>
 
@@ -48,7 +48,7 @@
   <filein>Notification/SystemEventManager.st</filein>
 
   <filein>GtkMainWindow.st</filein>
-  <filein>GtkLauncher.st</filein>
+  <filein>VisualGST.st</filein>
   <filein>GtkConcreteWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
   <filein>GtkWorkspaceWidget.st</filein>
@@ -147,7 +147,7 @@
   <file>Notification/Kernel/Metaclass.st</file>
 
   <file>GtkMainWindow.st</file>
-  <file>GtkLauncher.st</file>
+  <file>VisualGST.st</file>
   <file>GtkConcreteWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
   <file>GtkWorkspaceWidget.st</file>

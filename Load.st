@@ -1,7 +1,7 @@
 Eval [
-    PackageLoader fileInPackage: 'GtkLauncher'.
+    PackageLoader fileInPackage: 'VisualGST'.
     GTK.Gtk gstGtkInit.
-    GtkLauncher.GtkLauncher open.
+    VisualGST.VisualGST open.
     GTK.Gtk main
 ]
 

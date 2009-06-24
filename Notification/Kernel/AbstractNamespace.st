@@ -14,7 +14,7 @@ Smalltalk.AbstractNamespace class extend [
 				    setSuperspace: parent;
 				    name: spaceName asSymbol;
 				    yourself).
-	GtkLauncher.SystemChangeNotifier uniqueInstance namespaceAdded: namespace.
+	VisualGST.SystemChangeNotifier uniqueInstance namespaceAdded: namespace.
 	^ namespace
     ]
 

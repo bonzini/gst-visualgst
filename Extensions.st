@@ -4,13 +4,13 @@ Object extend [
 	"Open a GtkInspector on self"
 	<category: 'debugging'>
 
-	GtkLauncher.GtkInspector openOn: self
+	VisualGST.GtkInspector openOn: self
     ]
 
     inspectorView [
 	<category: 'gtklauncher'>
 
-	^ GtkLauncher.GtkObjectInspectorView
+	^ VisualGST.GtkObjectInspectorView
     ]
 
     hasLiterals [
@@ -24,7 +24,7 @@ SequenceableCollection extend [
     inspectorView [
         <category: 'gtklauncher'>
 
-        ^ GtkLauncher.GtkSequenceableCollectionInspectorView
+        ^ VisualGST.GtkSequenceableCollectionInspectorView
     ]
 ]
 
@@ -32,7 +32,7 @@ Character extend [
     inspectorView [
         <category: 'gtklauncher'>
 
-        ^ GtkLauncher.GtkCharacterInspectorView
+        ^ VisualGST.GtkCharacterInspectorView
     ]
 ]
 
@@ -40,7 +40,7 @@ Integer extend [
     inspectorView [
         <category: 'gtklauncher'>
 
-        ^ GtkLauncher.GtkIntegerInspectorView
+        ^ VisualGST.GtkIntegerInspectorView
     ]
 ]
 
@@ -48,7 +48,7 @@ Float extend [
     inspectorView [
         <category: 'gtklauncher'>
 
-        ^ GtkLauncher.GtkFloatInspectorView
+        ^ VisualGST.GtkFloatInspectorView
     ]
 ]
 
