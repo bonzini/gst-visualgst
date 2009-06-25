@@ -15,7 +15,6 @@ GTK.GtkAccelGroup class extend [
 
 	| result |
 	result := self acceleratorParse: aString.
-	result printNl.
 	aGtkAccelGroup 
 	    connect: result first 
 	    accelModes: result second 
@@ -31,7 +30,7 @@ GTK.GtkAccelGroup extend [
     connect: accelKey accelModes: accelMods accelFlags: accelFlags receiver: receiver selector: selector [
 	<category: 'C call-outs'>
 
-	<cCall: 'gstGtkAccelGroupConnect' returning: #void
+	<cCall: 'gstGtkConnectAccelGroupNoUserData' returning: #void
 	args: #( #selfSmalltalk #int #int #int #smalltalk #smalltalk )>
     ]
 
