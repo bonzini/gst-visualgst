@@ -1,4 +1,4 @@
-GtkMainWindow subclass: GtkImplementor [
+GtkMainWindow subclass: GtkSUnit [
     | model resultModel set finderTree resultArray resultTree classBrowserWidget searchEntry |
 
     createFileMenus [
@@ -62,7 +62,7 @@ GtkMainWindow subclass: GtkImplementor [
     createStatusBar [
         <category: 'user interface'>
 
-        self statusMessage: 'Gtk Smalltalk Implementor'
+        self statusMessage: 'SUnit'
     ]
 
     createToolbar [
@@ -170,7 +170,7 @@ GtkMainWindow subclass: GtkImplementor [
 
         super initialize.
         self
-            title: 'GNU Smalltalk Implementor';
+            title: 'SUnit';
             createMenus;
             createToolbar;
             createStatusBar;

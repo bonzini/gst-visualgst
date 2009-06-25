@@ -1,31 +1,13 @@
-GtkMainWindow subclass: VisualGST [
-    | currentWidget notebook notebookPages transcriptWidget windowsMenu |
+GtkMainWindow subclass: GtkDebugger [
+    | windowsMenu |
 
-    VisualGST class >> open [
+    GtkDebugger class >> open [
 	<category: 'user interface'>
 
 	^ self openSized: 450@375
     ]
 
-    VisualGST class >> version [
-	<category: 'accessing'>
-
-	^ '0.4.0'
-    ]
-
-    VisualGST class >> website [
-	<category: 'accessing'>
-
-	^ 'http://visualgst.bioskop.fr/'
-    ]
-    
-    VisualGST class >> gstWebsite [
-	<category: 'accessing'>
-
-	^ 'http://smalltalk.gnu.org/'
-    ]
-
-    aboutLauncher [
+    aboutDebugger [
 	<category: 'help events'>
 
 	(GTK.GtkAboutDialog new)
@@ -53,203 +35,36 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    runBlockingAndDestroy
     ]
 
-    browser [
-	<category: 'events'>
-
-	windowsMenu append: (GTK.GtkMenuItem label: 'Browser') showAll
-    ]
-
-    classBrowser [
-	<category: 'events'>
-
-	| widget |
-	widget := self buildClassBrowserWidget showAll; yourself.
-	notebookPages addLast: widget.
-        notebook appendPage: widget mainWidget tabLabel: (self buildLabelWidget: 'Class Browser' withIcon: GTK.Gtk gtkStockClose at: widget)
-    ]
-
-    classBrowserInAWindow [
-	<category: 'events'>
-
-	GtkClassBrowser open
-    ]
-
-    gtkInspector [
-	<category: 'events'>
-	
-	GtkInspector openOn: self
-    ]
-
-    newWorkspace [
-	<category: 'events'>
-
-	| widget |
-	widget := self buildWorkspaceWidget showAll.
-	notebookPages addLast: widget.
-	notebook appendPage: widget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: widget)
-    ]
-
-    quit [
-	<category: 'file events'>
-
-	GTK.Gtk mainQuit.
-	ObjectMemory quit	
-    ]
-
-    open [
-	<category: 'file events'>
-
-	| file string |
-	currentWidget == transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
-	(GTK.GtkFileChooserDialog load: 'Load Smalltalk source' parent: window)
-	    runNonBlockingAndDo: [ :dlg :res |
-		res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
-		file := FileStream open: dlg getFilename mode: FileStream read.
-		currentWidget text: file upToEnd.
-		dlg destroy ]
-    ]
-
-    save [
-	<category: 'file events'>
-    ]
-
-    saveAs [
-	<category: 'file events'>
-
-	| file |
-        (GTK.GtkFileChooserDialog save: 'Save Smalltalk source as...' parent: window)
-            runNonBlockingAndDo: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
-		file := FileStream open: dlg getFilename mode: FileStream write.
-		file nextPutAll: currentWidget text. 
-                dlg destroy ]
-    ]
-
-    print [
-	<category: 'file events'>
-    ]
-
-    saveImage [
-        <category: 'events'>
-
-        (GTK.GtkMessageDialog new: window flags: GTK.Gtk gtkDialogDestroyWithParent type: GTK.Gtk gtkMessageWarning buttons: GTK.Gtk gtkButtonsOk message: 'WARNING : You can loose all the data')
-            runBlockingAndDestroy.
-        ObjectMemory snapshot
-    ]
-
-    saveImageAs [
-	<category: 'events'>
-
-	(GTK.GtkMessageDialog new: window flags: GTK.Gtk gtkDialogDestroyWithParent type: GTK.Gtk gtkMessageWarning buttons: GTK.Gtk gtkButtonsOk message: 'WARNING : You can loose all the data')
-	    runBlockingAndDestroy.
-	(GTK.GtkFileChooserDialog save: 'Save image as...' parent: window)
-	    runNonBlockingAndDo: [ :dlg :res |
-		res = GTK.Gtk gtkResponseAccept ifTrue: [ | name |
-		    name := dlg getFilename.
-		    ObjectMemory snapshot: name ].
-		dlg destroy ]
-    ]
-
-    smallZilla [
-	<category: 'events'>
-
-	GtkSmallZilla open
-    ]
-
-    workspace [
-	<category: 'events'>
-	
-	self newWorkspace.
-	"workspaceWindows add: (GtkWorkspaceWidget new)
-				initialize;
-				mainWidget.
-	windowsMenu append: (GtkMenuItem label: 'workspace') showAll"
-    ]
-
-    clearGlobalState [
-	<category: 'initialization cleanup'>
-
-	GtkNamespaceModel instVarNamed: #current put: nil.
-	GtkClassModel instVarNamed: #current put: nil.
-	GtkCategoryModel instVarNamed: #current put: nil.
-	GtkMethodModel instVarNamed: #current put: nil.
-	GtkImageModel instVarNamed: #current put: nil.
-    ]
-
     initialize [
 	<category: 'initialization'>
 
 	super initialize.
-	notebookPages := OrderedCollection new.
 	self
-	    clearGlobalState;
-	    title: 'VisualGST';
+	    title: 'VisualGST Debugger';
 	    createMenus;
 	    createToolbar;
 	    createStatusBar;
 	    centralWidget: self buildCentralWidget
     ]
+    
+    buildContextWidget [
+	<category: 'user interface'>
+
+	^ GtkContextWidget new mainWidget
+    ]
+
+    buildSourceAndInspectorWidget [
+	<category: 'user interface'>
+
+	^ GtkContextWidget new mainWidget
+    ]
 
     buildCentralWidget [
 	<category: 'intialize-release'>
 
-	| workspaceWidget |
-	notebook := GTK.GtkNotebook new
-			connectSignal: 'switch-page' to: self selector: #switchPageOn:page:number: userData: nil.
-	currentWidget := transcriptWidget := self buildTranscriptWidget.
-	workspaceWidget := self buildWorkspaceWidget.
-	notebookPages
-	    addLast: transcriptWidget;
-	    addLast: workspaceWidget.
-	^ notebook 
-	    appendPage: transcriptWidget mainWidget tabLabel: (self buildLabelWidget: 'Transcript' withIcon: GTK.Gtk gtkStockClose at: transcriptWidget);
-            "setTabDetachable: transcriptWidget mainWidget detachable: true;
-            setTabReorderable:  transcriptWidget mainWidget reorderable: true;"
-	    appendPage: workspaceWidget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: workspaceWidget);
-	    "setTabDetachable: wkWidget detachable: true;
-	    setTabReorderable:  wkWidget reorderable: true;"
-	    setScrollable: true;
-	    yourself
-    ]
-
-    buildLabelWidget: aString withIcon: aStockString at: aSmallInteger [
-	<category: 'user interface'>
-	
-	| image close |
-	image := GTK.GtkImage newFromStock: aStockString size: GTK.Gtk gtkIconSizeMenu.
-	close := (GTK.GtkButton new)
-		    setImage: image;
-		    setRelief: GTK.Gtk gtkReliefNone;
-		    connectSignal: 'pressed' to: self selector: #'closeIt:at:' userData: aSmallInteger;
-		    yourself.
-	^ (GTK.GtkHBox new: false spacing: 0)
-	    add: (GTK.GtkLabel new: aString);
-	    add: close;
-	    showAll;
-	    yourself
-    ]
-
-    buildClassBrowserWidget [
-	<category: 'user interface'>
-
-	^ (GtkClassBrowserWidget new)
-	    initialize;
-	    yourself
-    ]
-
-    buildTranscriptWidget [
-	<category: 'user interface'>
-
-	^ GtkTranscriptWidget new
-	    initialize;
-	    yourself
-    ]
-
-    buildWorkspaceWidget [
-	<category: 'user interface'>
-
-	^ GtkWorkspaceWidget new
-	    initialize;
+	^ (GtkVPaned new)
+	    pack1: self buildContextWidget resize: true shrink: false;
+	    pack2: self buildSourceAndInspectorWidget resize: true shrink: true;
 	    yourself
     ]
 
@@ -389,134 +204,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	^ windowsMenu := self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Arrange' connectTo: self selector: #arrangeWindows .
 	    GTK.GtkMenuItem menuItem: 'Close all' connectTo: self selector: #closeAllWindows}
-    ]
-
-    isCurrentWidgetTranscript [
-	<category: 'testing'>
-
-	^ currentWidget == transcriptWidget
-    ]
-
-    closeIt: aGtkButton  at: aGtkConcreteWidget [
-	<category: 'notebook events'>
-   
-	| page |
-	aGtkConcreteWidget = transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
-	page := notebook pageNum: aGtkConcreteWidget mainWidget.
-	notebookPages remove: aGtkConcreteWidget.
-	notebook removePage: page
-    ]
-
-    switchPageOn: aGtkNotebook page: aGtkNotebookPage number: anInteger [
-	<category: 'notebook events'>
-
-	currentWidget := notebookPages at: anInteger + 1
-    ]
-
-    undo [
-	<category: 'edit events'>
-
-	self isCurrentWidgetTranscript ifTrue: [ ^ self ].
-	currentWidget undo
-    ]
-
-    redo [
-	<category: 'edit events'>
-
-	currentWidget redo
-    ]
-
-    cut [
-	<category: 'edit events'>
-
-	currentWidget cut
-    ]
-
-    copy [
-	<category: 'edit events'>
-
-	currentWidget copy
-    ]
-
-    paste [
-	<category: 'edit events'>
-
-	currentWidget paste
-    ]
-
-    selectAll [
-	<category: 'edit events'>
-
-	currentWidget selectAll
-    ]
-
-    clearTranscriptWidget [
-	<category: 'edit events'>
-
-	transcriptWidget clear
-    ]
-
-    newProject [
-	<category: 'project events'>
-
-	| dlg project file |
-	dlg := GtkProjectDialog open.
-	dlg hasPressedOk ifFalse: [ ^ self ].
-	project := dlg result.
-	file := Directory userBase / (project name).
-	file exists ifTrue: [ self error: 'Project already exist' ].
-	file := FileStream open: file asString mode: FileStream write.
-	(ObjectDumper on: file)
-	    dump: project.
-	file close.
-    ]
-
-    doIt [
-	<category: 'smalltalk events'>
-
-	currentWidget doIt
-    ]
-
-    printIt [
-	<category: 'smalltalk events'>
-
-	currentWidget printIt
-    ]
-
-    inspectIt [
-	<category: 'smalltalk events'>
-
-	currentWidget inspectIt
-    ]
-
-    debugIt [
-	<category: 'smalltalk events'>
-
-	currentWidget debugIt
-    ]
-
-    implementors [
-	<category: 'smalltalk events'>
-
-	GtkImplementor open
-    ]
-
-    senders [
-	<category: 'smalltalk events'>
-
-	GtkSender open
-    ]
-
-    gtkAssistant [
-	<category: 'tools events'>
-
-	GtkAssistant open
-    ]
-
-    webBrowser [
-	<category: 'tools events'>
-
-	GtkWebBrowser open
     ]
 ]
 

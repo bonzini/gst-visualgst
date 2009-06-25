@@ -4,6 +4,7 @@
   <prereq>Cairo</prereq>
   <prereq>Parser</prereq>
   <prereq>SUnit</prereq>
+  <prereq>DebugTools</prereq>
   <namespace>VisualGST</namespace>
 
   <test>
@@ -117,6 +118,10 @@
   <filein>Notification/Kernel/AbstractNamespace.st</filein>
   <filein>Notification/Kernel/Metaclass.st</filein>
 
+  <filein>Debugger/GtkDebugger.st</filein>
+  <filein>Debugger/GtkContextWidget.st</filein>
+  <filein>Debugger/GtkContextModel.st</filein>
+
   <file>GtkExtend/GtkObject.st</file>
   <file>GtkExtend/GtkMenuItem.st</file>
   <file>GtkExtend/GtkTextWidget.st</file>
@@ -213,6 +218,10 @@
   <file>Implementors/GtkImplementor.st</file>
 
   <file>Senders/GtkSender.st</file>
+
+  <file>Debugger/GtkDebugger.st</file>
+  <file>Debugger/GtkContextWidget.st</file>
+  <file>Debugger/GtkContextModel.st</file>
 
   <file>Tests/ExtractLiteralsTest.st</file>
 </package>
