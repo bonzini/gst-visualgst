@@ -374,7 +374,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'. self. #classBrowserInAWindow}}.
 
 	^ self createNewMenuEntry:  {GTK.GtkMenuItem menuItem: 'Browser' connectTo: self selector: #classBrowser.
-	    GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkLauncher>/Tools/ClassBrowser'.
+	    GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkLauncher>/Tools/ClassBrowser' connectTo: self selector: #classBrowserInAWindow.
 	    GTK.GtkMenuItem menuItem: 'Workspace' connectTo: self selector: #workspace.
 	    GTK.GtkMenuItem menuItem: 'Inspector' connectTo: self selector: #gtkInspector.
 	    GTK.GtkMenuItem new.

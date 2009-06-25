@@ -50,19 +50,22 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildContextWidget [
 	<category: 'user interface'>
 
-	^ GtkContextWidget new mainWidget
+	^ (GtkContextWidget on: thisContext)
+	    mainWidget
     ]
 
     buildSourceAndInspectorWidget [
 	<category: 'user interface'>
 
-	^ GtkContextWidget new mainWidget
+	^ (GtkSourceCodeWidget new)
+	    initialize;
+	    mainWidget
     ]
 
     buildCentralWidget [
 	<category: 'intialize-release'>
 
-	^ (GtkVPaned new)
+	^ (GTK.GtkVPaned new)
 	    pack1: self buildContextWidget resize: true shrink: false;
 	    pack2: self buildSourceAndInspectorWidget resize: true shrink: true;
 	    yourself

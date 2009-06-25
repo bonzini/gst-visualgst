@@ -21,5 +21,14 @@ GTK.GtkMenuItem class extend [
 	    setAccelPath: anAccelPathString;
 	    yourself
     ]
+
+    menuItem: aString accelPath: anAccelPathString connectTo: anObject selector: aSymbol [
+        <category: 'instance creation'>
+
+        ^ (self newWithLabel: aString)
+            connectSignal: 'activate' to: anObject selector: aSymbol userData: nil;
+	    setAccelPath: anAccelPathString;
+            yourself
+    ]
 ]
 

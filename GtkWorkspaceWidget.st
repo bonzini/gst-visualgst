@@ -96,6 +96,12 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
 	    ifError: [ :fname :lineNo :errorString | self error: errorString ]
     ]
 
+    debugIt [
+	<category: 'events'>
+
+	GtkDebugger open
+    ]
+
     printIt [
 	<category: 'events'>
 

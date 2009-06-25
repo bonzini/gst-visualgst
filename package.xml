@@ -52,6 +52,11 @@
   <filein>VisualGST.st</filein>
   <filein>GtkConcreteWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
+  
+  <filein>Debugger/GtkContextModel.st</filein>
+  <filein>Debugger/GtkContextWidget.st</filein>
+  <filein>Debugger/GtkDebugger.st</filein>
+
   <filein>GtkWorkspaceWidget.st</filein>
   <filein>GtkNamespaceWidget.st</filein>
   <filein>GtkClassWidget.st</filein>
@@ -117,10 +122,6 @@
 
   <filein>Notification/Kernel/AbstractNamespace.st</filein>
   <filein>Notification/Kernel/Metaclass.st</filein>
-
-  <filein>Debugger/GtkDebugger.st</filein>
-  <filein>Debugger/GtkContextWidget.st</filein>
-  <filein>Debugger/GtkContextModel.st</filein>
 
   <file>GtkExtend/GtkObject.st</file>
   <file>GtkExtend/GtkMenuItem.st</file>

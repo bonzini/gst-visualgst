@@ -39,14 +39,15 @@ Object subclass: GtkContextModel [
     refreshModel [
 	<category: 'events'>
     
-	| ctxt |
+	| ctxt stream |
 	self context ifNil: [ ^ model := self emptyModel ].
 
 	self model clear.
     
 	ctxt := self context.
 	[ ctxt isNil ] whileFalse: [
-	    self append: ctxt method asString.
+	    ctxt printDebugHeaderOn: (stream := WriteStream on: String new).
+	    self append: stream contents.
 	    ctxt := ctxt parentContext ].
     ]
 
@@ -69,7 +70,7 @@ Object subclass: GtkContextModel [
     
 	| iter |
         iter := GTK.GtkTreeIter new.
-        self model append: iter.
+        self model prepend: iter.
         self model setOop: iter column: 0 value: aString
     ]
 ]
