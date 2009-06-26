@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkDebugger [
-    | windowsMenu |
+    | windowsMenu contextWidget |
 
     GtkDebugger class >> open [
 	<category: 'user interface'>
@@ -50,7 +50,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildContextWidget [
 	<category: 'user interface'>
 
-	^ (GtkContextWidget on: thisContext)
+	^ (contextWidget := GtkContextWidget on: thisContext)
+	    whenSelectionChangedSend: #contextChanged to: self;
 	    selectLastContext;
 	    mainWidget
     ]
@@ -208,6 +209,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	^ windowsMenu := self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Arrange' connectTo: self selector: #arrangeWindows .
 	    GTK.GtkMenuItem menuItem: 'Close all' connectTo: self selector: #closeAllWindows}
+    ]
+
+    contextChanged [
+	<category: 'context events'>
+
+	| iter |
+	"see gtk_tree_model_get_path"
+	contextWidget hasSelectedContext ifFalse: [ ^ self ].
+	iter := contextWidget selectedIter.
+	(contextWidget model getPath: iter) getIndices value printNl.
     ]
 ]
 

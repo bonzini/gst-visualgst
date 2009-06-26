@@ -90,11 +90,17 @@ GtkConcreteWidget subclass: GtkContextWidget [
 	^ contextTree getSelection getSelected isNil not
     ]
 
+    selectedIter [
+	<category: 'accessing'>
+	
+	^ (contextTree getSelection getSelected) ifNil: [ self error: 'Nothing is selected' ].
+    ]
+
     selectedContext [
 	<category: 'accessing'>
 
         | iter string |
-        (iter := contextTree getSelection getSelected) ifNil: [ self error: 'Nothing is selected' ].
+        iter := self selectedIter.
         ^ (self model getOop: iter column: 0) asSymbol
     ]
 ]
