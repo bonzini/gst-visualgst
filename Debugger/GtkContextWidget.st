@@ -2,10 +2,12 @@ GtkConcreteWidget subclass: GtkContextWidget [
     | column contextTree model context |
 
     GtkContextWidget class >> on: aContext [
-    ^ (self new)
-        initialize;
-	context: aContext;
-        yourself
+	<category: 'instance creation'>
+
+	^ (self new)
+	    initialize;
+	    context: aContext;
+	    yourself
     ]
 
     initialize [
@@ -24,26 +26,21 @@ GtkConcreteWidget subclass: GtkContextWidget [
     model [
 	<category: 'accessing'>
 
-	^ (GtkContextModel on: context)
-	    model.
-    ]
-
-    emptyModel [
-        <category: 'accessing'>
-
-        contextTree setModel: (GTK.GtkListStore new: 1 varargs: {GTK.GValue gTypeString})
+	^ model ifNil: [ model := (GtkContextModel on: context) model ]
     ]
 
     refreshModel [
 	<category: 'events'>
 
+	context printNl.
+	
 	contextTree setModel: self model
     ]
 
     buildTreeView [
         <category: 'user interface'>
     
-	contextTree := (GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Classes')
+	contextTree := (GTK.GtkTreeView newWithSortedTextColumn: (GTK.GtkListStore new: 1 varargs: {GTK.GValue gTypeString}) title: 'Contexts')
                             connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
                             yourself.
 	column := contextTree getColumn: 0.
@@ -76,6 +73,15 @@ GtkConcreteWidget subclass: GtkContextWidget [
 
 	contextTree getSelection
 	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
+    ]
+
+    selectLastContext [
+        <category: 'item selection'>
+
+	| selection |
+        selection := contextTree getSelection.
+        selection unselectAll.
+        selection selectIter: self model lastIter
     ]
 
     hasSelectedContext [

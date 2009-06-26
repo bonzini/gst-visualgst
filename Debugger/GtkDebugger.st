@@ -51,6 +51,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	^ (GtkContextWidget on: thisContext)
+	    selectLastContext;
 	    mainWidget
     ]
 

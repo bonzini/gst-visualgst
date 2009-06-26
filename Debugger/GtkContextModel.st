@@ -51,6 +51,12 @@ Object subclass: GtkContextModel [
 	    ctxt := ctxt parentContext ].
     ]
 
+    selectLastContext [
+	<category: 'item selection'>
+
+	^ self model lastIter
+    ]
+
     findIterInAMethod: aString [
         <category: 'item selection'>
 

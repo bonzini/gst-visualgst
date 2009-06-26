@@ -33,6 +33,7 @@
   <filein>GtkExtend/GtkButton.st</filein>
   <filein>GtkExtend/GtkNotebook.st</filein>
   <filein>GtkExtend/GtkScrolledWindow.st</filein>
+  <filein>GtkExtend/GtkListStore.st</filein>
 
   <filein>ExtendsCairo.st</filein>
   <filein>Notification/AbstractEvent.st</filein>
@@ -135,6 +136,7 @@
   <file>GtkExtend/GtkButton.st</file>
   <file>GtkExtend/GtkNotebook.st</file>
   <file>GtkExtend/GtkScrolledWindow.st</file>
+  <file>GtkExtend/GtkListStore.st</file>
 
   <file>ExtendsCairo.st</file>
   <file>Notification/AbstractEvent.st</file>
