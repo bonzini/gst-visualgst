@@ -99,7 +99,12 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
     debugIt [
 	<category: 'events'>
 
-	GtkDebugger open
+	object class 
+	    compile: ('Doit [ ^ [ ', self selectedText , ' ] value ]')
+	    ifError:  [ :fname :lineNo :errorString | 
+		self error: errorString ].
+	(GtkDebugger open)
+	    doItProcess: [ object perform: #Doit ] newProcess
     ]
 
     printIt [

@@ -2,19 +2,19 @@ Object extend [
 
     gtkInspect [
 	"Open a GtkInspector on self"
-	<category: 'debugging'>
+	<category: '*VisualGST'>
 
 	VisualGST.GtkInspector openOn: self
     ]
 
     inspectorView [
-	<category: 'gtklauncher'>
+	<category: '*VisualGST'>
 
 	^ VisualGST.GtkObjectInspectorView
     ]
 
     hasLiterals [
-	<category: 'testing'>
+	<category: '*VisualGST'>
 
 	^ false
     ]
@@ -22,7 +22,7 @@ Object extend [
 
 SequenceableCollection extend [
     inspectorView [
-        <category: 'gtklauncher'>
+        <category: '*VisualGST'>
 
         ^ VisualGST.GtkSequenceableCollectionInspectorView
     ]
@@ -30,7 +30,7 @@ SequenceableCollection extend [
 
 Character extend [
     inspectorView [
-        <category: 'gtklauncher'>
+        <category: '*VisualGST'>
 
         ^ VisualGST.GtkCharacterInspectorView
     ]
@@ -38,7 +38,7 @@ Character extend [
 
 Integer extend [
     inspectorView [
-        <category: 'gtklauncher'>
+        <category: '*VisualGST'>
 
         ^ VisualGST.GtkIntegerInspectorView
     ]
@@ -46,7 +46,7 @@ Integer extend [
 
 Float extend [
     inspectorView [
-        <category: 'gtklauncher'>
+        <category: '*VisualGST'>
 
         ^ VisualGST.GtkFloatInspectorView
     ]
@@ -54,13 +54,13 @@ Float extend [
 
 Symbol extend [
     hasLiterals [
-	<category: 'testing'>
+	<category: '*VisualGST'>
 
 	^ true
     ]
 
     symbolFromliterals [
-	<category: 'accessing'>
+	<category: '*VisualGST'>
 
 	^ {self}
     ]
@@ -68,7 +68,7 @@ Symbol extend [
 
 Array extend [
     hasLiterals [
-	<category: 'testing'>
+	<category: '*VisualGST'>
 
 	self do: [ :each |
 	    each hasLiterals ifTrue: [ ^ true ] ].
@@ -76,7 +76,7 @@ Array extend [
     ]
 
     symbolFromliterals [
-        <category: 'accessing'>
+        <category: '*VisualGST'>
 
 	| result |
 	result := OrderedCollection new.
@@ -89,37 +89,38 @@ Array extend [
 Class extend [
 
     subclass: classNameString environment: aNamespace [
-    "Define a subclass of the receiver with the given name.  If the class
-     is already defined, don't modify its instance or class variables
-     but still, if necessary, recompile everything needed."
+	<category: '*VisualGST'>
 
-    <category: 'instance creation'>
-    | meta |
-    KernelInitialized ifFalse: [^Smalltalk at: classNameString].
-    meta := self metaclassFor: classNameString.
-    ^meta 
-     name: classNameString
-        environment: aNamespace
-        subclassOf: self
+        "Define a subclass of the receiver with the given name.  If the class
+	 is already defined, don't modify its instance or class variables
+         but still, if necessary, recompile everything needed."
+
+	| meta |
+	KernelInitialized ifFalse: [^Smalltalk at: classNameString].
+	meta := self metaclassFor: classNameString.
+	^ meta 
+	    name: classNameString
+	    environment: aNamespace
+	    subclassOf: self
     ]
 ]
 
 CompiledCode extend [
 
     hasLiterals [
-	<category: 'testing'>
+	<category: '*VisualGST'>
 
 	^ self literals isEmpty not
     ]
 
     isSendingWithSpecialSelector: aByteCode [
-	<category: 'testing'>
+	<category: '*VisualGST'>
 
 	^ aByteCode <= 31
     ]
 
     specialSelectorSended: aByteCode and: anOperand [
-	<category: 'accessing'>
+	<category: '*VisualGST'>
 
 	(self isSendingWithSpecialSelector: aByteCode) ifFalse: [ ^ self error: 'bad byte code' ].
 	aByteCode <= 26 ifTrue: [ ^ self class specialSelectors at: aByteCode + 1 ].
@@ -127,8 +128,8 @@ CompiledCode extend [
     ]
 
     extractSpecialSelectors [
-	<category: 'accessing'>
-	
+    	<category: '*VisualGST'>
+
 	| result |
 	result := Set new.
         self allByteCodeIndicesDo: [ :i :bytecode :operand |
@@ -138,9 +139,10 @@ CompiledCode extend [
     ]
 
     literalsAndSpecialSelectors [
+	<category: '*VisualGST'>
+
 	"Answer whether the receiver refers to the given object"
 
-        <category: 'accessing'>
         | result |
 	result := Set new.
 	self literalsDo: [ :each |
@@ -150,7 +152,7 @@ CompiledCode extend [
     ]
 
     literalsAndSpecialSelectorsDo: aOneArgBlock [
-	<category: 'accessing'>
+	<category: '*VisualGST'>
 
 	self literalsAndSpecialSelectors do: aOneArgBlock
     ]
@@ -158,6 +160,8 @@ CompiledCode extend [
 
 CompiledBlock extend [
     symbolFromliterals [
+	<category: '*VisualGST'>
+
 	^ self extractSpecialSelectors
     ]
 ]
@@ -180,6 +184,39 @@ MethodContext extend [
 		aStream
 		    space;
 		    print: (self at: 1) selector ]
+    ]
+]
+
+BlockContext extend [
+    printDebugHeaderOn: aStream [
+        <category: '*VisualGST'>
+
+	aStream nextPutAll: 'BlockContext'
+    ]
+]
+
+ContextPart extend [
+    printDebugHeaderOn: aStream [
+        <category: '*VisualGST'>
+
+	self subclassResponsibility
+    ]
+
+    parentContextAt: anInteger [
+	<category: '*VisualGST'>
+
+	| ctxt i |
+	anInteger <= 0 ifTrue: [ self error: 'Error indice <= 0' ].
+	self parentContext ifNil: [ self error: 'Error indice too high' ].
+	anInteger = 1 ifTrue: [ ^ self ].
+	i := 2.
+	ctxt := self parentContext.
+	[ i < anInteger and: [ ctxt parentContext isNil not ] ] whileTrue: [
+	    ctxt := ctxt parentContext.
+	    i := i + 1 ].
+	^ i = anInteger 
+	    ifTrue: [ ctxt ]
+	    ifFalse: [ self error: 'Error indice too high' ]
     ]
 ]
 

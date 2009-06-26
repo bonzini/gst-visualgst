@@ -1,10 +1,11 @@
 GtkMainWindow subclass: GtkDebugger [
-    | windowsMenu contextWidget |
+    | windowsMenu codeWidget contextWidget debugger |
 
-    GtkDebugger class >> open [
+    GtkDebugger class >> openOn: aContext [
 	<category: 'user interface'>
 
-	^ self openSized: 450@375
+	^ (self openSized: 450@375)
+	    context: aContext
     ]
 
     aboutDebugger [
@@ -50,16 +51,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildContextWidget [
 	<category: 'user interface'>
 
-	^ (contextWidget := GtkContextWidget on: thisContext)
+	^ (contextWidget := GtkContextWidget new)
+	    initialize;
 	    whenSelectionChangedSend: #contextChanged to: self;
-	    selectLastContext;
 	    mainWidget
     ]
 
     buildSourceAndInspectorWidget [
 	<category: 'user interface'>
 
-	^ (GtkSourceCodeWidget new)
+	^ (codeWidget := GtkSourceCodeWidget new)
 	    initialize;
 	    mainWidget
     ]
@@ -211,14 +212,44 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    GTK.GtkMenuItem menuItem: 'Close all' connectTo: self selector: #closeAllWindows}
     ]
 
+    debugger: aProcess [
+        <category: 'context'>
+
+        debugger := Debugger on: aProcess suspend.
+    ]
+
+    updateContextWidget [
+	<category: 'context'>
+
+	contextWidget
+            context: debugger suspendedContext;
+            selectLastContext
+    ]
+
+    doItProcess: aProcess [
+	<category: 'context'>
+
+	self debugger: aProcess.
+	3 timesRepeat: [ debugger step ].
+	self updateContextWidget
+    ]
+
+    process: aProcess [
+	<category: 'context'>
+	
+	self 
+	    debugger: aProcess;
+	    updateContextWidget
+    ]
+
     contextChanged [
 	<category: 'context events'>
 
-	| iter |
-	"see gtk_tree_model_get_path"
+	| ctxt iter |
 	contextWidget hasSelectedContext ifFalse: [ ^ self ].
 	iter := contextWidget selectedIter.
-	(contextWidget model getPath: iter) getIndices value printNl.
+	ctxt := debugger suspendedContext parentContextAt: (contextWidget numberOfContext - ((contextWidget model getPath: iter) getIndices value)).
+	codeWidget sourceCode: ctxt method methodSourceString.
     ]
 ]
 

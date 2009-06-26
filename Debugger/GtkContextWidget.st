@@ -103,5 +103,11 @@ GtkConcreteWidget subclass: GtkContextWidget [
         iter := self selectedIter.
         ^ (self model getOop: iter column: 0) asSymbol
     ]
+
+    numberOfContext [
+	<category: 'accessing'>
+
+	^ self model iterNChildren: nil.
+    ]
 ]
 
