@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkDebugger [
-    | windowsMenu codeWidget contextWidget debugger |
+    | windowsMenu codeWidget contextWidget debugger inspectorWidget |
 
     GtkDebugger class >> openOn: aContext [
 	<category: 'user interface'>
@@ -57,12 +57,29 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    mainWidget
     ]
 
-    buildSourceAndInspectorWidget [
+    buildInspectorWidget [
+	<category: 'user interface'>
+
+	^ (inspectorWidget := GtkInspectorWidget new)
+	    initialize;
+	    mainWidget
+    ]
+
+    buildSourceWidget [
 	<category: 'user interface'>
 
 	^ (codeWidget := GtkSourceCodeWidget new)
-	    initialize;
-	    mainWidget
+            initialize;
+            mainWidget
+    ]
+
+    buildSourceAndInspectorWidget [
+	<category: 'user interface'>
+
+	^ (GTK.GtkHPaned new)
+            pack1: self buildInspectorWidget resize: true shrink: false;
+            pack2: self buildSourceWidget resize: true shrink: true;
+            yourself
     ]
 
     buildCentralWidget [
@@ -103,7 +120,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    {{'<Control>O'. '<GtkLauncher>/File/Open'. self. #open}.
 	    {'<Control>S'. '<GtkLauncher>/File/Save'. self. #save}.
 	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'. self. #saveAs}.
-	    {'<Control>Q'. '<GtkLauncher>/File/Quit'. self. #quit}}.
+	    {'<Control>Q'. '<GtkLauncher>/File/Close'. self. #close}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
@@ -116,7 +133,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit'}
+            GTK.GtkMenuItem menuItem: 'Close' connectTo: self selector: #close}
     ]
 
     createExecuteMenus [
@@ -221,7 +238,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	contextWidget
             context: debugger suspendedContext;
-            selectLastContext
+            selectLastContext.
+
+	inspectorWidget object: debugger receiver
     ]
 
     doItProcess: aProcess [
@@ -253,14 +272,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     step [
 	<category: 'execute events'>
 
-	debugger next.
+	debugger myStep.
 	self updateContextWidget
     ]
 
     stepInto [
 	<category: 'execute events'>
 
-	debugger step.
+	debugger myStepInto.
 	self updateContextWidget
     ]
 

@@ -111,7 +111,7 @@ GtkMainWindow subclass: GtkInspector [
 	    GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
 	    GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Quit' connectTo: self selector: #quit}
+	    GTK.GtkMenuItem menuItem: 'Close' connectTo: self selector: #close}
     ]
 
     createMenus [

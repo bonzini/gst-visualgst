@@ -297,7 +297,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         self accelGroup append: {{'<Control>O'. '<GtkClassBrowser>/File/Open'. self. #open}.
             "{'<Control>S'. '<GtkClassBrowser>/File/Save'. self. #save}."
             {'<Control><Shift>S'. '<GtkClassBrowser>/File/SaveAs'. self. #saveAs}.
-            {'<Control>Q'. '<GtkClassBrowser>/File/Quit'. self. #quit}}.
+            {'<Control>Q'. '<GtkClassBrowser>/File/Close'. self. #close}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
 	    GTK.GtkMenuItem new.
@@ -310,7 +310,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
 	    GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkClassBrowser>/File/Quit'}
+	    GTK.GtkMenuItem menuItem: 'Close' connectTo: self selector: #close}
     ]
 
     createNamespaceMenus [

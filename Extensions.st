@@ -128,7 +128,7 @@ CompiledCode extend [
     ]
 
     extractSpecialSelectors [
-    	<category: '*VisualGST'>
+	<category: '*VisualGST'>
 
 	| result |
 	result := Set new.
@@ -217,6 +217,45 @@ ContextPart extend [
 	^ i = anInteger 
 	    ifTrue: [ ctxt ]
 	    ifFalse: [ self error: 'Error indice too high' ]
+    ]
+]
+
+Debugger extend [
+
+    receiver [
+	<category: '*VisualGST'>
+
+	^ self suspendedContext receiver
+    ]
+
+    myStepInto [
+        "Run to the end of the current line in the inferior process or to the
+         next message send."
+
+	"TODO: Stop when affectation (get the current bytecode)"
+        <category: '*VisualGST'>
+        | context |
+        context := self suspendedContext.
+
+        [ self stepBytecode.
+        self suspendedContext == context ]
+                whileTrue
+    ]
+
+    myStep [
+        "Run to the end of the current line in the inferior process, skipping
+         over message sends."
+
+	"TODO: Stop when affectation (get the current bytecode)"
+        <category: '*VisualGST'>
+        | context |
+        context := self suspendedContext.
+
+        [ self stepBytecode.
+        (self suspendedContext notNil and: [ self suspendedContext parentContext == context ])
+                ifTrue: [ self finish: self suspendedContext. ^ self ].
+        self suspendedContext == context ]
+                whileTrue
     ]
 ]
 
