@@ -121,7 +121,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     close [
 	<category: 'events'>
 
-	window hide
+	window hideAll
     ]
 
     initialize [

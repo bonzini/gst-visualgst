@@ -32,8 +32,6 @@ GtkConcreteWidget subclass: GtkContextWidget [
     refreshModel [
 	<category: 'events'>
 
-	context printNl.
-	
 	contextTree setModel: self model
     ]
 

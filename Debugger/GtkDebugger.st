@@ -32,7 +32,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    setWebsite: self class website;
 	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
 	    "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'. nil};"
-	    setProgramName: 'VisualGST';
+	    setProgramName: 'VisualGST Debugger';
 	    runBlockingAndDestroy
     ]
 
@@ -119,16 +119,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit'}
     ]
 
-    createProjectMenus [
+    createExecuteMenus [
 	<category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New project' connectTo: self selector: #newProject.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Step' connectTo: self selector: #step.
+            GTK.GtkMenuItem menuItem: 'Step into' connectTo: self selector: #stepInto.
+            GTK.GtkMenuItem menuItem: 'Step over' connectTo: self selector: #stepOver.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Open project' connectTo: self selector: #openProject.
-            GTK.GtkMenuItem menuItem: 'Save project' connectTo: self selector: #saveProject.
-            GTK.GtkMenuItem menuItem: 'Save project as...' connectTo: self selector: #saveProjectAs.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Close project' connectTo: self selector: #closeProject}
+            GTK.GtkMenuItem menuItem: 'Run' connectTo: self selector: #run}
     ]
 
     createSmalltalkMenus [
@@ -161,7 +159,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	self createMainMenu: {#('File' #createFileMenus).
 	    #('Edit' #createEditMenus).
-	    #('Project' #createProjectMenus).
+	    #('Execute' #createExecuteMenus).
 	    #('Smalltalk' #createSmalltalkMenus).
 	    #('Tools' #createToolsMenus).
 	    #('Windows' #createWindowsMenus).
@@ -250,6 +248,34 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	iter := contextWidget selectedIter.
 	ctxt := debugger suspendedContext parentContextAt: (contextWidget numberOfContext - ((contextWidget model getPath: iter) getIndices value)).
 	codeWidget sourceCode: ctxt method methodSourceString.
+    ]
+
+    step [
+	<category: 'execute events'>
+
+	debugger next.
+	self updateContextWidget
+    ]
+
+    stepInto [
+	<category: 'execute events'>
+
+	debugger step.
+	self updateContextWidget
+    ]
+
+    stepOver [
+	<category: 'execute events'>
+
+	debugger step.
+	self updateContextWidget
+    ]
+
+    run [
+	<category: 'execute events'>
+
+	self close.
+	debugger continue
     ]
 ]
 
