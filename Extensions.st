@@ -156,6 +156,7 @@ CompiledCode extend [
 
 	self literalsAndSpecialSelectors do: aOneArgBlock
     ]
+
 ]
 
 CompiledBlock extend [
@@ -185,6 +186,15 @@ MethodContext extend [
 		    space;
 		    print: (self at: 1) selector ]
     ]
+
+    variables [
+        <category: '*VisualGST'>
+
+        | variables method |
+        method := self method method parserClass parseMethod: self method method methodSourceString.
+        (variables := method argumentNames) addAll: method body temporaryNames.
+        ^ variables
+    ]
 ]
 
 BlockContext extend [
@@ -192,6 +202,15 @@ BlockContext extend [
         <category: '*VisualGST'>
 
 	aStream nextPutAll: 'BlockContext'
+    ]
+
+    variables [
+        <category: '*VisualGST'>
+
+        | variables method |
+        method := self method method parserClass parseMethod: self method method methodSourceString.
+        (variables := method argumentNames) addAll: method body temporaryNames.
+        ^ variables
     ]
 ]
 
@@ -217,6 +236,25 @@ ContextPart extend [
 	^ i = anInteger 
 	    ifTrue: [ ctxt ]
 	    ifFalse: [ self error: 'Error indice too high' ]
+    ]
+
+    variables [
+	<category: '*VisualGST'>
+
+	^ 1 to: self numArgs + self numTemps collect: [ :each |
+	    each displayString ]
+    ]
+
+    variablesDo: aBlock [
+	<category: '*VisualGST'>
+
+	^ self variables do: aBlock
+    ]
+
+    stackInspectorView [
+        <category: '*VisualGST'>
+
+        ^ GtkStackInspectorView
     ]
 ]
 

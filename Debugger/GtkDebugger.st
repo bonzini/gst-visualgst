@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkDebugger [
-    | windowsMenu codeWidget contextWidget debugger inspectorWidget |
+    | windowsMenu codeWidget contextWidget debugger inspectorWidget stackInspectorWidget |
 
     GtkDebugger class >> openOn: aContext [
 	<category: 'user interface'>
@@ -82,12 +82,29 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             yourself
     ]
 
+    buildStackInspectorWidget [
+	<category: 'user interface'>
+
+	^ (stackInspectorWidget := GtkStackInspector new)
+	    initialize;
+	    mainWidget
+    ]
+
+    buildStateWidget [
+	<category: 'user interface'>
+
+	^ (GTK.GtkHPaned new)
+            pack1: self buildSourceAndInspectorWidget resize: true shrink: false;
+            pack2: self buildStackInspectorWidget resize: true shrink: true;
+            yourself
+    ]
+
     buildCentralWidget [
 	<category: 'intialize-release'>
 
 	^ (GTK.GtkVPaned new)
 	    pack1: self buildContextWidget resize: true shrink: false;
-	    pack2: self buildSourceAndInspectorWidget resize: true shrink: true;
+	    pack2: self buildStateWidget resize: true shrink: true;
 	    yourself
     ]
 
@@ -240,7 +257,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             context: debugger suspendedContext;
             selectLastContext.
 
-	inspectorWidget object: debugger receiver
+	inspectorWidget object: debugger receiver.
+	stackInspectorWidget object: debugger suspendedContext
     ]
 
     doItProcess: aProcess [
@@ -248,6 +266,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	self debugger: aProcess.
 	3 timesRepeat: [ debugger step ].
+	debugger myStepInto.
 	self updateContextWidget
     ]
 
@@ -273,6 +292,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'execute events'>
 
 	debugger myStep.
+	debugger currentLine printNl.
 	self updateContextWidget
     ]
 
@@ -280,6 +300,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'execute events'>
 
 	debugger myStepInto.
+	debugger currentLine printNl.
 	self updateContextWidget
     ]
 
