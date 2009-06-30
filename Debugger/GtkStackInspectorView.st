@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkStackInspectorView [
-    | object model |
+    | object model variables |
 
     GtkStackInspectorView class >> openOn: aContext [
 	<category: 'instance creation'>
@@ -37,11 +37,16 @@ GtkConcreteWidget subclass: GtkStackInspectorView [
 
     refreshModel [
 	<category: 'events'>
-   
+  
+	| i | 
 	self clearModel.
+	variables := Dictionary new.
+	i := 1.
 	self appendVariable: 'thisContext'.
 	self object variablesDo: [ :each |
-		self appendVariable: each displayString ]
+		variables at: each displayString put: i.
+		self appendVariable: each displayString.
+		i := i + 1 ]
     ]
 
     appendVariable: aString [
@@ -56,10 +61,9 @@ GtkConcreteWidget subclass: GtkStackInspectorView [
     selectedValue: aString [
 	<category: 'item selection'>
 
-	| iter string instVar |
         ^ aString = 'thisContext'
             ifTrue: [ self object ]
-            ifFalse: [ self object at: 1  ]
+            ifFalse: [ self object at: (variables at: aString) ]
     ]
 
     canDive [
