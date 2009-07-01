@@ -200,6 +200,12 @@ GtkMainWindow subclass: GtkSender [
 	finderTree setSearchEntry: searchEntry.
     ]
 
+    postInitialize [
+        <category: 'initialization'>
+
+        searchEntry grabFocus
+    ]
+
     aboutSender [
         <category: 'events'>
 

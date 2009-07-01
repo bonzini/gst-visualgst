@@ -7,6 +7,7 @@ Smalltalk.Object subclass: GtkMainWindow [
 	^ (self new)
 	    initialize;
 	    showAll;
+	    postInitialize;
 	    yourself
     ]
 
@@ -17,6 +18,7 @@ Smalltalk.Object subclass: GtkMainWindow [
 	    initialize;
 	    resize: aPoint;
 	    showAll;
+	    postInitialize;
 	    yourself
     ]
 
@@ -131,6 +133,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	window addAccelGroup: self accelGroup
     ]
 
+    postInitialize [
+	<category: 'initialization'>
+    ]
+
     addMenuItem: aString [
 	<category: 'menubar'>
 
@@ -216,8 +222,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
     showAll [
 	{menuBar->false. toolBar->false. centralWidget->true. statusBar->false} do: [ :each |
-	    each key isNil ifFalse: [self container 
-		packStart: each key expand: each value fill: true padding: 0]].
+	    each key ifNotNil: [ self container 
+		packStart: each key expand: each value fill: true padding: 0 ] ].
 
 	window 
 	    add: self container;

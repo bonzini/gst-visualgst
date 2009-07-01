@@ -4,18 +4,22 @@ GtkMainWindow subclass: GtkImplementor [
     createFileMenus [
         <category: 'user interface'>
 
+	self accelGroup append: {{'<Control>O'. '<GtkImplementor>/File/Open'}.
+            {'<Control><Shift>S'. '<GtkImplementor>/File/SaveAs'}.
+            {'<Control>Q'. '<GtkImplementor>/File/Close'}}.
+
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Open' connectTo: self selector: #open.
+            GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkImplementor>/File/Open' connectTo: self selector: #open.
             GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #saveImage.
-            GTK.GtkMenuItem menuItem: 'Save as...' connectTo: self selector: #saveImageAs.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkImplementor>/File/SaveAs' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Quit' connectTo: self selector: #quit}
+            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkImplementor>/File/Close' connectTo: self selector: #close}
     ]
 
     createEditMenus [
@@ -175,7 +179,13 @@ GtkMainWindow subclass: GtkImplementor [
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
-	finderTree setSearchEntry: searchEntry
+	finderTree setSearchEntry: searchEntry.
+    ]
+
+    postInitialize [
+	<category: 'initialization'>
+
+        searchEntry grabFocus
     ]
 
     aboutImplementor [
