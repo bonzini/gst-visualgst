@@ -286,6 +286,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	iter := contextWidget selectedIter.
 	ctxt := debugger suspendedContext parentContextAt: (contextWidget numberOfContext - ((contextWidget model getPath: iter) getIndices value)).
 	codeWidget sourceCode: ctxt method methodSourceString.
+
+        inspectorWidget object: ctxt receiver.
+        stackInspectorWidget object: ctxt
     ]
 
     step [
