@@ -10,17 +10,11 @@ GTK.GtkAccelGroup class extend [
 	^ {cAccKey value. cAccMod value}
     ]
 
-    acceleratorGroup: aGtkAccelGroup accelerator: aString path: aPathString receiver: receiver selector: selector [
+    acceleratorGroup: aGtkAccelGroup accelerator: aString path: aPathString [
 	<category: 'C call-outs'>
 
 	| result |
 	result := self acceleratorParse: aString.
-	aGtkAccelGroup 
-	    connect: result first 
-	    accelModes: result second 
-	    accelFlags: GTK.Gtk gtkAccelVisible 
-	    receiver: receiver 
-	    selector: selector.
 	GTK.GtkAccelMap addEntry: aPathString accelKey: result first accelMods: result second
     ]
 ]
@@ -41,9 +35,7 @@ GTK.GtkAccelGroup extend [
             self class
                 acceleratorGroup: self
                 accelerator: each first
-                path: each second
-                receiver: (each at: 3)
-                selector: (each at: 4) ]
+                path: each second ]
     ]
 ]
 

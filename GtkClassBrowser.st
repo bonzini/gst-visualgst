@@ -256,61 +256,60 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createEditMenus [
 	<category: 'user interface'>
 
-        self accelGroup append: {{'<Control>Z'. '<GtkBrowser>/Edit/Undo'. self. #undo}.
-            {'<Control>R'. '<GtkClassBrowser>/Edit/Redo'. self. #redo}.
-            {'<Control>X'. '<GtkClassBrowser>/Edit/Cut'. self. #cut}.
-            {'<Control>C'. '<GtkClassBrowser>/Edit/Copy'. self. #copy}.
-            {'<Control>V'. '<GtkClassBrowser>/Edit/Paste'. self. #paste}.
-            {'<Control>A'. '<GtkClassBrowser>/Edit/SelectAll'. self. #selectAll}}.
+        self accelGroup append: {{'<Control>Z'. '<GtkBrowser>/Edit/Undo'}.
+            {'<Control>R'. '<GtkClassBrowser>/Edit/Redo'}.
+            {'<Control>X'. '<GtkClassBrowser>/Edit/Cut'}.
+            {'<Control>C'. '<GtkClassBrowser>/Edit/Copy'}.
+            {'<Control>V'. '<GtkClassBrowser>/Edit/Paste'}.
+            {'<Control>A'. '<GtkClassBrowser>/Edit/SelectAll'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkBrowser>/Edit/Undo'.
-	    GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkClassBrowser>/Edit/Redo'.
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkBrowser>/Edit/Undo' connectTo: self selector: #undo.
+	    GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkClassBrowser>/Edit/Redo' connectTo: self selector: #redo.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkClassBrowser>/Edit/Cut'.
-	    GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkClassBrowser>/Edit/Copy'.
-	    GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkClassBrowser>/Edit/Paste'.
+	    GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkClassBrowser>/Edit/Cut' connectTo: self selector: #cut.
+	    GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkClassBrowser>/Edit/Copy' connectTo: self selector: #copy.
+	    GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkClassBrowser>/Edit/Paste' connectTo: self selector: #paste.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkClassBrowser>/Edit/SelectAll'}.
+	    GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkClassBrowser>/Edit/SelectAll' connectTo: self selector: #selectAll}.
     ]
 
     createSmalltalkMenus [
         <category: 'user interface'>
 
-        self accelGroup append: {{'<Control>D'. '<GtkClassBrowser>/Smalltalk/DoIt'. self. #doIt}.
-            {'<Control>P'. '<GtkClassBrowser>/Smalltalk/PrintIt'. self. #printIt}.
-            {'<Control>I'. '<GtkClassBrowser>/Smalltalk/InspectIt'. self. #inspectIt}.
-            {'<Control>M'. '<GtkClassBrowser>/Smalltalk/Implementors'. self. #implementors}.
-            {'<Control>N'. '<GtkClassBrowser>/Smalltalk/Senders'. self. #senders}.
-	    {'<Control>S'. '<GtkClassBrowser>/Smalltalk/AcceptIt'. self. #acceptIt}}.
+        self accelGroup append: {{'<Control>D'. '<GtkClassBrowser>/Smalltalk/DoIt'}.
+            {'<Control>P'. '<GtkClassBrowser>/Smalltalk/PrintIt'}.
+            {'<Control>I'. '<GtkClassBrowser>/Smalltalk/InspectIt'}.
+            {'<Control>M'. '<GtkClassBrowser>/Smalltalk/Implementors'}.
+            {'<Control>N'. '<GtkClassBrowser>/Smalltalk/Senders'}.
+	    {'<Control>S'. '<GtkClassBrowser>/Smalltalk/AcceptIt'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkClassBrowser>/Smalltalk/DoIt'.
-        GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkClassBrowser>/Smalltalk/PrintIt'.
-        GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkClassBrowser>/Smalltalk/InspectIt'.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkClassBrowser>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+        GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkClassBrowser>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
+        GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkClassBrowser>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
         GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
 	GTK.GtkMenuItem new.
-	GTK.GtkMenuItem menuItem: 'Accept-It' accelPath: '<GtkClassBrowser>/Smalltalk/AcceptIt'}
+	GTK.GtkMenuItem menuItem: 'Accept-It' accelPath: '<GtkClassBrowser>/Smalltalk/AcceptIt' connectTo: self selector: #acceptIt}
     ]
 
     createFileMenus [
 	<category: 'user interface'>
 
-        self accelGroup append: {{'<Control>O'. '<GtkClassBrowser>/File/Open'. self. #open}.
-            "{'<Control>S'. '<GtkClassBrowser>/File/Save'. self. #save}."
-            {'<Control><Shift>S'. '<GtkClassBrowser>/File/SaveAs'. self. #saveAs}.
-            {'<Control>Q'. '<GtkClassBrowser>/File/Close'. self. #close}}.
+        self accelGroup append: {{'<Control>O'. '<GtkClassBrowser>/File/Open'}.
+            {'<Control><Shift>S'. '<GtkClassBrowser>/File/SaveAs'}.
+            {'<Control>Q'. '<GtkClassBrowser>/File/Close'}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkClassBrowser>/File/Open'.
+	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkClassBrowser>/File/Open' connectTo: self selector: #open.
 	    GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #save.
-	    GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkClassBrowser>/File/SaveAs'.
+	    GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkClassBrowser>/File/SaveAs' connectTo: self selector: #saveAs.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
 	    GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Close' connectTo: self selector: #close}
+	    GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkClassBrowser>/File/Close' connectTo: self selector: #close}
     ]
 
     createNamespaceMenus [

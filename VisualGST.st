@@ -256,21 +256,21 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createEditMenus [
 	<category: 'user interface'>
 
-	self accelGroup append: {{'<Control>Z'. '<GtkLauncher>/Edit/Undo'. self. #undo}.
-	    {'<Control>R'. '<GtkLauncher>/Edit/Redo'. self. #redo}.
-	    {'<Control>X'. '<GtkLauncher>/Edit/Cut'. self. #cut}.
-	    {'<Control>C'. '<GtkLauncher>/Edit/Copy'. self. #copy}.
-	    {'<Control>V'. '<GtkLauncher>/Edit/Paste'. self. #paste}.
-	    {'<Control>A'. '<GtkLauncher>/Edit/SelectAll'. self. #selectAll}}.
+	self accelGroup append: {{'<Control>Z'. '<GtkLauncher>/Edit/Undo'}.
+	    {'<Control>R'. '<GtkLauncher>/Edit/Redo'}.
+	    {'<Control>X'. '<GtkLauncher>/Edit/Cut'}.
+	    {'<Control>C'. '<GtkLauncher>/Edit/Copy'}.
+	    {'<Control>V'. '<GtkLauncher>/Edit/Paste'}.
+	    {'<Control>A'. '<GtkLauncher>/Edit/SelectAll'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo'.
-            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkLauncher>/Edit/Redo'.
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo' connectTo: self selector: #undo.
+            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkLauncher>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut'.
-            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkLauncher>/Edit/Copy'.
-            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste'.
+            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut' connectTo: self selector: #cut.
+            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkLauncher>/Edit/Copy' connectTo: self selector: #copy.
+            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste' connectTo: self selector: #paste.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll'.
+            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll' connectTo: self selector: #selectAll.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Clear Transcript' connectTo: self selector: #clearTranscriptWidget}
     ]
@@ -279,23 +279,23 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
         self accelGroup append: 
-	    {{'<Control>O'. '<GtkLauncher>/File/Open'. self. #open}.
-	    {'<Control>S'. '<GtkLauncher>/File/Save'. self. #save}.
-	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'. self. #saveAs}.
-	    {'<Control>Q'. '<GtkLauncher>/File/Quit'. self. #quit}}.
+	    {{'<Control>O'. '<GtkLauncher>/File/Open'}.
+	    {'<Control>S'. '<GtkLauncher>/File/Save'}.
+	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'}.
+	    {'<Control>Q'. '<GtkLauncher>/File/Quit'}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open'.
-            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkLauncher>/File/Save'.
-            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs'.
+	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open' connectTo: self selector: #open.
+            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkLauncher>/File/Save' connectTo: self selector: #save.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs' connectTo: self selector: #saveAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #printIt.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit'}
+            GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit' connectTo: self selector: #quit}
     ]
 
     createProjectMenus [
@@ -313,19 +313,19 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createSmalltalkMenus [
 	<category: 'user interface'>
 
-        self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'. self. #doIt}.
-            {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'. self. #printIt}.
-            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'. self. #inspectIt}.
-            {'<Control>M'. '<GtkLauncher>/Smalltalk/Implementors'. self. #implementors}.
-            {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'. self. #senders}}.
+        self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'}.
+            {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'}.
+            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}.
+            {'<Control>M'. '<GtkLauncher>/Smalltalk/Implementors'}.
+            {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt'.
-            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt'.
-            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt'.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
+            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
             GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors'.
-            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders'}
+            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors' connectTo: self selector: #implementors.
+            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders' connectTo: self selector: #senders}
     ]
 
     createHelpMenus [
@@ -371,7 +371,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
     createToolsMenus [
 	<category: 'user interface'>
-        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'. self. #classBrowserInAWindow}}.
+        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'}}.
 
 	^ self createNewMenuEntry:  {GTK.GtkMenuItem menuItem: 'Browser' connectTo: self selector: #classBrowser.
 	    GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkLauncher>/Tools/ClassBrowser' connectTo: self selector: #classBrowserInAWindow.
