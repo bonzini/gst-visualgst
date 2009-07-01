@@ -315,17 +315,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
         self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'}.
             {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'}.
-            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}.
-            {'<Control>M'. '<GtkLauncher>/Smalltalk/Implementors'}.
-            {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'}}.
+            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}}.
 
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
             GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
-            GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors' connectTo: self selector: #implementors.
-            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders' connectTo: self selector: #senders}
+            GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt}
     ]
 
     createHelpMenus [
@@ -371,12 +366,15 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
     createToolsMenus [
 	<category: 'user interface'>
-        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'}}.
+        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/ClassBrowser'}.
+	    {'<Control>M'. '<GtkLauncher>/Tools/Implementors'}.
+            {'<Control>N'. '<GtkLauncher>/Tools/Senders'}}.
 
 	^ self createNewMenuEntry:  {GTK.GtkMenuItem menuItem: 'Browser' connectTo: self selector: #classBrowser.
 	    GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkLauncher>/Tools/ClassBrowser' connectTo: self selector: #classBrowserInAWindow.
 	    GTK.GtkMenuItem menuItem: 'Workspace' connectTo: self selector: #workspace.
-	    GTK.GtkMenuItem menuItem: 'Inspector' connectTo: self selector: #gtkInspector.
+            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Tools/Implementors' connectTo: self selector: #implementors.
+            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Tools/Senders' connectTo: self selector: #senders.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Assistant' connectTo: self selector: #gtkAssistant.
 	    GTK.GtkMenuItem new.
