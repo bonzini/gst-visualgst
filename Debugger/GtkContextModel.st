@@ -57,20 +57,6 @@ Object subclass: GtkContextModel [
 	^ self model lastIter
     ]
 
-    findIterInAMethod: aString [
-        <category: 'item selection'>
-
-        | iter stack parent path pathString number |
-        iter := GTK.GtkTreeIter new.
-        path := GTK.GtkTreePath newFirst.
-        [self model getIter: iter path: path] whileTrue: [
-            self model getIter: iter path: path.
-            (aString = (self model getOop: iter column: 0))
-                ifTrue: [ ^ iter  ].
-            path next ].
-        self error: 'Context not found'
-    ]
-
     append: aString [
 	<category: 'model builder'>
     
