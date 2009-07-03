@@ -80,10 +80,7 @@ Object subclass: GtkClassModel [
 	| iter string |
 	aClass environment = self namespace ifTrue: [
 	    string := ((aClass displayString) substrings: $.) last.
-	    iter := GTK.GtkTreeIter new.
-	    self model append: iter parent: parentGtkIter.
-	    self model setOop: iter column: 0 value: string.
-	].
+	    iter := self model append: parentGtkIter item: { string } ].
 
 	aClass subclassesDo: [ :each |
 	    self appendClass: each to: iter ]

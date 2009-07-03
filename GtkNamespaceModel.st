@@ -54,11 +54,10 @@ Object subclass: GtkNamespaceModel [
 
     appendNamespace: aNamespace to: parentGtkIter [
 	<category: 'model builder'>
+
 	
 	| iter |
-	iter := GTK.GtkTreeIter new.
-	self model append: iter parent: parentGtkIter.
-	self model setOop: iter column: 0 value: aNamespace displayString.
+	iter := self model append: parentGtkIter item: {aNamespace displayString}.	
 
 	aNamespace subspacesDo: [ :each |
 	    self appendNamespace: each to: iter ]
