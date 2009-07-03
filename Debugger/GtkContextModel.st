@@ -74,10 +74,7 @@ Object subclass: GtkContextModel [
     append: aString [
 	<category: 'model builder'>
     
-	| iter |
-        iter := GTK.GtkTreeIter new.
-        self model prepend: iter.
-        self model setOop: iter column: 0 value: aString
+	self model appendItem: {aString}
     ]
 ]
 

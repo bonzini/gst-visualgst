@@ -251,23 +251,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     findInMethod: anObject [
 	<category: 'find'>
 	
-	| iter |
 	senderResults := Dictionary new.
 	(self literalsAndSpecialSelectors at: anObject asSymbol ifAbsent: [ #() ] ) do: [ :each |
-	    iter := self senderModel insertBefore: nil.
-            self senderModel setOop: iter column: 0 value: each displayString.
+	    self senderModel appendItem: {each displayString}.
 	    senderResults at: each displayString put: each ].
-    ]
-
-    appendSelectors: aCompiledMethod [
-	<category: 'selector accessing'>
-
-	| iter |
-	self selectorModel clear.
-	aCompiledMethod literalsAndSpecialSelectorsDo: [ :each |
-	    each isSymbol ifTrue: [
-		iter := self selectorModel insertBefore: nil.
-		self selectorModel setOop: iter column: 0 value: each asString ] ]
     ]
 
     literalsAndSpecialSelectors [

@@ -47,10 +47,7 @@ GtkConcreteWidget subclass: GtkObjectInspectorView [
     appendVariable: aString [
         <category: 'model builder'>
 
-        | iter |
-        iter := GTK.GtkTreeIter new.
-        self model append: iter.
-        self model setOop: iter column: 0 value: aString
+	self model appendItem: {aString}
     ]
 
     selectedValue: aString [

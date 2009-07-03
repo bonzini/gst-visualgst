@@ -52,10 +52,7 @@ GtkConcreteWidget subclass: GtkStackInspectorView [
     appendVariable: aString [
         <category: 'model builder'>
 
-        | iter |
-        iter := GTK.GtkTreeIter new.
-        self model append: iter.
-        self model setOop: iter column: 0 value: aString
+	self appendItem: {aString}
     ]
 
     selectedValue: aString [
