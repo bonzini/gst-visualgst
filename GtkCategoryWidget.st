@@ -101,14 +101,14 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     hasSelectedCategory [
 	<category: 'testing'>
 
-	^ categoryTree getSelection getSelected isNil not
+	^ categoryTree hasSelectedItem
     ]
 
     selectedCategory [
 	<category: 'accessing'>
 
 	| iter string |
-	(iter := categoryTree getSelection getSelected) ifNil: [self error: 'Nothing is selected'].
+	(iter := categoryTree selectedIter) ifNil: [self error: 'Nothing is selected'].
 	^ self model getOop: iter column: 0.
     ]
 ]

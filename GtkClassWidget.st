@@ -91,14 +91,14 @@ GtkConcreteWidget subclass: GtkClassWidget [
     hasSelectedClass [
 	<category: 'testing'>
 
-	^ classesTree getSelection getSelected isNil not
+	^ classesTree hasSelectedItem
     ]
 
     selectedClass [
 	<category: 'accessing'>
 
 	| iter string |
-	(iter := classesTree getSelection getSelected) ifNil: [self error: 'Nothing is selected'].
+	(iter := self selectedIter) ifNil: [self error: 'Nothing is selected'].
 	string := ((self model getOop: iter column: 0) subStrings: $ ) at: 1.
 	^ self namespace classAt: string asSymbol
     ]
@@ -125,8 +125,7 @@ GtkConcreteWidget subclass: GtkClassWidget [
     selectedIter [
 	<category: 'accessing'>
 
-	| iter |
-	^ (iter := classesTree getSelection getSelected) ifNil: [ self error: 'Nothing is selected' ]
+	^ classesTree selectedIter
     ]
 ]
 

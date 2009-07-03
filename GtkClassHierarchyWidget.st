@@ -100,14 +100,14 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
     hasSelectedClass [
 	<category: 'testing'>
 
-	^ classesTree getSelection getSelected isNil not
+	^ classesTree hasSelectedItem
     ]
 
     selectedClass [
 	<category: 'accessing'>
 
 	| iter string |
-	(iter := classesTree getSelection getSelected) ifNil: [self error: 'Nothing is selected'].
+	(iter := classesTree selectedIter) ifNil: [self error: 'Nothing is selected'].
 	string := ((self model getOop: iter column: 0) subStrings: $ ) at: 1.
 	   
 	^ self lookFor: 1 inside: Smalltalk with: (string subStrings: $.) 

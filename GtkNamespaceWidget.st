@@ -58,14 +58,14 @@ GtkConcreteWidget subclass: GtkNamespaceWidget [
     hasSelectedNamespace [
 	<category: 'testing'>
 
-	^ namespacesTree getSelection getSelected isNil not
+	^ namespacesTree hasSelectedItem 
     ]
 
     selectedIter [
 	<category: 'accessing'>
 
 	| iter |
-        ^ (iter := namespacesTree getSelection getSelected) ifNil: [ self error: 'Nothing is selected' ]
+        ^ (iter := namespacesTree selectedIter) ifNil: [ self error: 'Nothing is selected' ]
     ]
 
     selectedNamespace [
