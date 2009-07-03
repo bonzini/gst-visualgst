@@ -37,3 +37,30 @@ GTK.GtkTreeView class extend [
     ]
 ]
 
+GTK.GtkTreeView extend [
+
+    hasSelectedItem [
+	<category: 'accessing'>
+
+	^ self getSelection getSelected isNil not
+    ]
+
+    numberOfItems [
+	<category: 'accessing'>
+
+	^ self getModel iterNChildren: nil
+    ]
+
+    selectedIter [
+	<category: 'accessing'>
+
+	^ self getSelection getSelected
+    ]
+
+    selectedIndex [
+	<category: 'accessing'>
+
+	self hasSelectedItem ifFalse: [ self error: 'Nothing is selected' ].
+	^ (self getModel getPath: self selectedIter) getIndices value + 1
+    ]
+]

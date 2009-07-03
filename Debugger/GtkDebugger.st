@@ -250,6 +250,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         debugger := Debugger on: aProcess suspend.
     ]
 
+    updateInspectorWidget: aContext [
+	<category: 'context'>
+
+        inspectorWidget object: aContext receiver.
+        stackInspectorWidget object: aContext
+    ]
+
     updateContextWidget [
 	<category: 'context'>
 
@@ -257,8 +264,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             context: debugger suspendedContext;
             selectLastContext.
 
-	inspectorWidget object: debugger receiver.
-	stackInspectorWidget object: debugger suspendedContext
+	self updateInspectorWidget: debugger suspendedContext
     ]
 
     doItProcess: aProcess [
@@ -287,8 +293,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	ctxt := debugger suspendedContext parentContextAt: (contextWidget numberOfContext - ((contextWidget model getPath: iter) getIndices value)).
 	codeWidget sourceCode: ctxt method methodSourceString.
 
-        inspectorWidget object: ctxt receiver.
-        stackInspectorWidget object: ctxt
+	self updateInspectorWidget: ctxt
     ]
 
     step [

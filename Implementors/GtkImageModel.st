@@ -81,7 +81,7 @@ Object subclass: GtkImageModel [
         [ CompiledMethod allInstancesDo: [ :each | | selector |
             selector := each selector asString.
             finderDic at: selector ifAbsentPut: [ self appendToModel: selector. Dictionary new ].
-	    self at: selector addToFinder: (MethodFinder on: each methodClass with: each selector) ] ] forkAt: Processor highestPriority
+	    self at: selector addToFinder: (MethodFinder on: each methodClass with: each selector) ] ] forkAt: Processor lowIOPriority
     ]
 
     at: aSelector addToFinder: aFinderObject [

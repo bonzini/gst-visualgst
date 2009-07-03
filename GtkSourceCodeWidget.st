@@ -125,7 +125,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
                     errorBlock: [ :string :pos | ^ self ];
                     initializeParserWith: aString type: #'on:errorBlock:';
                     yourself.
-        ^ [ parser parseMethod ] on: Error do: [ ^ self ]
+        ^ [ parser parseMethod ] on: Error do: [ :ex | stderr print: ex messageText; nl; print: ex signalingContext; nl; nl ]
     ]
 
     buildCodeView [

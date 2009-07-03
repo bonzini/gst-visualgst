@@ -43,7 +43,12 @@ GtkInspector, Sender
 
 	x Interface
 
-GtkDebuger et SUnit
-===================
+GtkDebuger
+==========
 
-	- 
+	x Debugger
+
+SUnit
+===== 
+
+	- SUnit

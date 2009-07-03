@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkSender [
-    | currentMethod selector finderModel finderTree senderResults senderModel senderTree classBrowserWidget searchEntry |
+    GtkSender class [ | LiteralsAndSpecialSelectors | ]
 
     GtkSender class >> openOn: aSelector [
 	<category: 'instance creation'>
@@ -10,6 +10,20 @@ GtkMainWindow subclass: GtkSender [
             showAll;
             yourself
     ]
+
+    GtkSender class >> literalsAndSpecialSelectors [
+        <category: 'accessing'>
+
+        ^ LiteralsAndSpecialSelectors ifNil: [
+            LiteralsAndSpecialSelectors := Dictionary new.
+            "[" CompiledMethod allInstancesDo: [ :each |
+                each literalsAndSpecialSelectorsDo: [ :lit |
+		    lit isSymbol ifTrue: [
+			(LiteralsAndSpecialSelectors at: lit ifAbsentPut: [ OrderedCollection new ]) add: each ] ] ] "] fork".
+            LiteralsAndSpecialSelectors ]
+    ]
+
+    | currentMethod selector finderModel finderTree senderResults senderModel senderTree classBrowserWidget searchEntry |
 
     selector: aSelector [
 	<category: 'accessor'>
@@ -210,7 +224,7 @@ GtkMainWindow subclass: GtkSender [
         <category: 'events'>
 
         (GTK.GtkAboutDialog new)
-            setVersion: GtkLauncher version;
+            setVersion: VisualGST version;
             setLicense: 'Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation
@@ -227,7 +241,7 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
-            setWebsite: GtkLauncher website;
+            setWebsite: VisualGST website;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'};"
             setProgramName: 'GNU Smalltalk Sender';
@@ -236,12 +250,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
     findInMethod: anObject [
 	<category: 'find'>
-
-	| result |
-	result := Dictionary new.
-	CompiledMethod allInstancesDo: [ :each |
-	    each literalsAndSpecialSelectorsDo: [ :lit | lit = anObject ifTrue: [ result at: each displayString put: each ] ] ].
-	^ result
+	
+	| iter |
+	senderResults := Dictionary new.
+	(self literalsAndSpecialSelectors at: anObject asSymbol) do: [ :each |
+	    iter := self senderModel insertBefore: nil.
+            self senderModel setOop: iter column: 0 value: each displayString.
+	    senderResults at: each displayString put: each ].
     ]
 
     appendSelectors: aCompiledMethod [
@@ -255,18 +270,21 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 		self selectorModel setOop: iter column: 0 value: each asString ] ]
     ]
 
+    literalsAndSpecialSelectors [
+	<category: 'accessing'>
+
+	^ self class literalsAndSpecialSelectors
+    ]
+
     finderSelected [
 	<category: 'finder events'>
 
-	| iter result string |
-	(iter := finderTree getSelection getSelected) ifNil: [ ^ self ].
+	| iter string |
+	(iter := finderTree selectedIter) ifNil: [ ^ self ].
 
-	self clearSenderModel.
-
-	[ senderResults := self findInMethod: (GtkImageModel current selectedItem: iter) values first element.
-	senderResults keysAndValuesDo: [ :key :value |
-	    iter := self senderModel insertBefore: nil.
-	    self senderModel setOop: iter column: 0 value: key ] ] forkAt: Processor highestPriority
+	self 
+	    clearSenderModel;
+	    findInMethod: (GtkImageModel current selectedItem: iter) values first element.
     ]
 
     senderSelected [
