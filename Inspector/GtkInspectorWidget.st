@@ -89,13 +89,13 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
     hasSelectedClass [
         <category: 'testing'>
 
-        ^ inspectorTree getSelection getSelected isNil not
+        ^ inspectorTree hasSelectedItem 
     ]
 
     onVariableChanged [
 	<category: 'events'>
 
-	inspectorTree getSelection getSelected ifNil: [ workspaceWidget text: ''. ^ self ].
+	self hasSelectedClass ifFalse: [ workspaceWidget text: ''. ^ self ].
 	workspaceWidget text: self selectedValue displayString
     ]
 
@@ -103,7 +103,7 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 	<category: 'item selection'>
 
 	| iter |
-        (iter := inspectorTree getSelection getSelected) ifNil: [self error: 'Nothing is selected'].
+        (iter := inspectorTree selectedIter) ifNil: [self error: 'Nothing is selected'].
         ^ self model model getOop: iter column: 0
     ]
 

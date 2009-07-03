@@ -253,7 +253,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	
 	| iter |
 	senderResults := Dictionary new.
-	(self literalsAndSpecialSelectors at: anObject asSymbol) do: [ :each |
+	(self literalsAndSpecialSelectors at: anObject asSymbol ifAbsent: [ #() ] ) do: [ :each |
 	    iter := self senderModel insertBefore: nil.
             self senderModel setOop: iter column: 0 value: each displayString.
 	    senderResults at: each displayString put: each ].
@@ -291,7 +291,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'sender events'>
 
 	| count iter path selectedIter selectedString string |
-        (selectedIter := senderTree getSelection getSelected) ifNil: [ ^ self ].
+        (selectedIter := senderTree selectedIter) ifNil: [ ^ self ].
         selectedString := (self senderModel getOop: selectedIter column: 0).
 	currentMethod := senderResults at: selectedString ifAbsent: [ ^ self error: selectedString, 'not in the list' ].
 

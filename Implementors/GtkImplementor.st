@@ -219,14 +219,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     hasSelectedElement [
 	<category: 'testing'>
 
-	^ finderTree getSelection getSelected isNil not
+	^ finderTree hasSelectedItem
     ]
 
     elementSelected [
 	<category: 'events'>
 
 	| iter string |
-        (iter := finderTree getSelection getSelected) ifNil: [ ^ self ].
+        (iter := finderTree selectedIter) ifNil: [ ^ self ].
         string := (self model getOop: iter column: 0).
    
 	self resultModel clear. 
@@ -242,7 +242,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'events'>
 
 	| selectedIter selectedString |
-	(selectedIter := resultTree getSelection getSelected) ifNil: [ ^ self ].
+	(selectedIter := resultTree selectedIter) ifNil: [ ^ self ].
 	selectedString := (self resultModel getOop: selectedIter column: 0).
 
 	(resultArray at: selectedString) updateBrowser: classBrowserWidget.
