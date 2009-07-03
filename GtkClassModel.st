@@ -70,9 +70,8 @@ Object subclass: GtkClassModel [
 	<category: 'events'>
 	
 	self model clear.
-
 	Class subclassesDo: [ :each |
-		self appendClass: each to: nil].
+	    self appendClass: each to: nil ]
     ]
 
     appendClass: aClass to: parentGtkIter [

@@ -30,6 +30,12 @@ GTK.GtkListStore extend [
 	    self at: aGtkTreeIter column: i - 1 put: (anArray at: i) ]
     ]
 
+    at: aGtkTreeIter do: aBlock [
+        <category: 'accessing'>
+
+        (self at: aGtkTreeIter) do: aBlock
+    ]
+
     appendItem: anArray [
 	<category: 'accessing'>
    
@@ -52,7 +58,7 @@ GTK.GtkListStore extend [
 	<category: 'accessing'>
 
 	| iter |
-	(iter := self getIterFirst) ifNil: [ ^ nil ].
+	((iter := self getIterFirst) isNil or: [ (self iterIsValid: iter) not ] ) ifTrue: [ ^ nil ].
 	aBlock value: iter.
 	[ self iterNext: iter ] whileTrue: [ aBlock value: iter ]
     ]

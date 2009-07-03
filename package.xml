@@ -34,6 +34,7 @@
   <filein>GtkExtend/GtkNotebook.st</filein>
   <filein>GtkExtend/GtkScrolledWindow.st</filein>
   <filein>GtkExtend/GtkListStore.st</filein>
+  <filein>GtkExtend/GtkTreeStore.st</filein>
 
   <filein>ExtendsCairo.st</filein>
   <filein>Notification/AbstractEvent.st</filein>
@@ -141,6 +142,7 @@
   <file>GtkExtend/GtkNotebook.st</file>
   <file>GtkExtend/GtkScrolledWindow.st</file>
   <file>GtkExtend/GtkListStore.st</file>
+  <file>GtkExtend/GtkTreeStore.st</file>
 
   <file>ExtendsCairo.st</file>
   <file>Notification/AbstractEvent.st</file>
