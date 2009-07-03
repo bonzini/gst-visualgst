@@ -103,14 +103,8 @@ Object subclass: GtkMethodModel [
     findIterInAMethod: aString [
         <category: 'item selection'>
 
-        | iter stack parent path pathString number |
-        iter := GTK.GtkTreeIter new.
-        path := GTK.GtkTreePath newFirst.
-        [self model getIter: iter path: path] whileTrue: [
-            self model getIter: iter path: path.
-            (aString = (self model getOop: iter column: 0))
-                ifTrue: [ ^ iter  ].
-            path next ].
+	self model do: [ :elem :iter |
+	    elem first = aString ifTrue: [ ^ iter ] ].
         self error: 'Method not found'
     ]
 

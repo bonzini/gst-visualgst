@@ -1,5 +1,22 @@
 GTK.GtkListStore extend [
 
+    at: aGtkTreeIter [
+	<category: 'accessing'>
+
+	| values |
+	aGtkTreeIter ifNil: [ ^ nil ].
+	values := OrderedCollection new.
+	0 to: self getNColumns - 1 do: [ :column |
+	    values add: (self at: aGtkTreeIter column: column) ].
+	^ values
+    ]
+
+    at: aGtkTreeIter column: anInteger [
+	<category: 'accessing'>
+
+	^ self getOop: aGtkTreeIter column: anInteger
+    ]
+
     at: aGtkTreeIter column: anInteger put: anObject [
 	<category: 'accessing'>
 
@@ -29,6 +46,22 @@ GTK.GtkListStore extend [
         iter := self prepend.
         self at: iter put: anArray.
         ^ iter
+    ]
+
+    itersDo: aBlock [
+	<category: 'accessing'>
+
+	| iter |
+	(iter := self getIterFirst) ifNil: [ ^ nil ].
+	aBlock value: iter.
+	[ self iterNext: iter ] whileTrue: [ aBlock value: iter ]
+    ]
+   
+    do: aBlock [
+	<category: 'accessing'>
+
+	self itersDo: [ :iter |
+	    aBlock value: (self at: iter) value: iter ]
     ]
 
     lastIter [
