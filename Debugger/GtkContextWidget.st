@@ -20,6 +20,7 @@ GtkConcreteWidget subclass: GtkContextWidget [
 	<category: 'accessing'>
 
 	context := aContext.
+	model := nil.
 	self refreshModel
     ]
 
@@ -85,13 +86,13 @@ GtkConcreteWidget subclass: GtkContextWidget [
     hasSelectedContext [
 	<category: 'testing'>
 
-	^ contextTree getSelection getSelected isNil not
+	^ contextTree hasSelectedItem
     ]
 
     selectedIter [
 	<category: 'accessing'>
 	
-	^ (contextTree getSelection getSelected) ifNil: [ self error: 'Nothing is selected' ].
+	^ (contextTree selectedIter) ifNil: [ self error: 'Nothing is selected' ].
     ]
 
     selectedContext [

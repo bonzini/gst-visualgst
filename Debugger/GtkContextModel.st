@@ -47,7 +47,7 @@ Object subclass: GtkContextModel [
 	ctxt := self context.
 	[ ctxt isNil ] whileFalse: [
 	    ctxt printDebugHeaderOn: (stream := WriteStream on: String new).
-	    self append: stream contents.
+	    self prepend: stream contents.
 	    ctxt := ctxt parentContext ].
     ]
 
@@ -57,10 +57,10 @@ Object subclass: GtkContextModel [
 	^ self model lastIter
     ]
 
-    append: aString [
+    prepend: aString [
 	<category: 'model builder'>
     
-	self model appendItem: {aString}
+	self model prependItem: {aString}
     ]
 ]
 

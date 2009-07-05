@@ -300,7 +300,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'execute events'>
 
 	debugger myStep.
-	debugger currentLine printNl.
 	self updateContextWidget
     ]
 
@@ -308,7 +307,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'execute events'>
 
 	debugger myStepInto.
-	debugger currentLine printNl.
 	self updateContextWidget
     ]
 
