@@ -134,23 +134,23 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
         self accelGroup append: 
-	    {{'<Control>O'. '<GtkLauncher>/File/Open'. self. #open}.
-	    {'<Control>S'. '<GtkLauncher>/File/Save'. self. #save}.
-	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'. self. #saveAs}.
-	    {'<Control>Q'. '<GtkLauncher>/File/Close'. self. #close}}.
+	    {{'<Control>O'. '<GtkDebugger>/File/Open'. self. #open}.
+	    {'<Control>S'. '<GtkDebugger>/File/Save'. self. #save}.
+	    {'<Control><Shift>S'. '<GtkDebugger>/File/SaveAs'. self. #saveAs}.
+	    {'<Control>Q'. '<GtkDebugger>/File/Close'. self. #close}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open'.
-            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkLauncher>/File/Save'.
-            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs'.
+	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkDebugger>/File/Open'.
+            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkDebugger>/File/Save'.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkDebugger>/File/SaveAs'.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #printIt.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Close' connectTo: self selector: #close}
+            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkDebugger>/File/Close' connectTo: self selector: #close}
     ]
 
     createExecuteMenus [

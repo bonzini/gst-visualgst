@@ -52,7 +52,7 @@ GtkConcreteWidget subclass: GtkStackInspectorView [
     appendVariable: aString [
         <category: 'model builder'>
 
-	self appendItem: {aString}
+	self model appendItem: {aString}
     ]
 
     selectedValue: aString [

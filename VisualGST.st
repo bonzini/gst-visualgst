@@ -315,12 +315,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
         self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'}.
             {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'}.
-            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}}.
+            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}.
+	    {'<Alt>D'. '<GtkLauncher>/Smalltalk/DebugIt'}}.
 
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
             GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
-            GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt}
+            GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkLauncher>/Smalltalk/DebugIt' connectTo: self selector: #debugIt}
     ]
 
     createHelpMenus [
