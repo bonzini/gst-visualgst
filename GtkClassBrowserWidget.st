@@ -674,5 +674,60 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         cMethodWidget
             class: class withCategory: (class compiledMethodAt: aSelector) methodCategory
     ]
+
+    doIt [
+	<category: 'smalltalk event'>
+
+	| class |
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
+
+	class := classWidget selectedClass.
+
+	codeWidget 
+	    object: class;
+	    doIt
+    ]
+
+
+    debugIt [
+	<category: 'smalltalk event'>
+
+        | class |
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
+
+        class := classWidget selectedClass.
+
+        codeWidget
+            object: class;
+            debugIt
+    ]
+
+
+    inspectIt [
+	<category: 'smalltalk event'>
+
+        | class |
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
+
+        class := classWidget selectedClass.
+
+        codeWidget
+            object: class;
+	    inspectIt
+    ]
+
+
+    printIt [
+	<category: 'smalltalk event'>
+
+        | class |
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
+
+        class := classWidget selectedClass.
+
+        codeWidget
+            object: class;
+            printIt
+    ]
 ]
 

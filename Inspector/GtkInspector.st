@@ -100,18 +100,22 @@ GtkMainWindow subclass: GtkInspector [
     createFileMenus [
 	<category: 'user interface'>
 
+	self accelGroup append: {{'<Control>O'. '<GtkInspector>/File/Open'}.
+            {'<Control><Shift>S'. '<GtkInspector>/File/SaveAs'}.
+            {'<Control>Q'. '<GtkInspector>/File/Close'}}.
+
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Open' connectTo: self selector: #open.
+	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkInspector>/File/Open' connectTo: self selector: #open.
 	    GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #saveImage.
-	    GTK.GtkMenuItem menuItem: 'Save as...' connectTo: self selector: #saveImageAs.
+	    GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkInspector>/File/SaveAs' connectTo: self selector: #saveImageAs.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
 	    GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Close' connectTo: self selector: #close}
+	    GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkInspector>/File/Close' connectTo: self selector: #close}
     ]
 
     createMenus [

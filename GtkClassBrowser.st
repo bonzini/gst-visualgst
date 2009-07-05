@@ -437,5 +437,29 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Arrange' connectTo: self selector: #arrangeWindows.
 	    GTK.GtkMenuItem menuItem: 'Close all' connectTo: self selector: #closeAllWindows}
     ]
+
+    doIt [
+	<category: 'smalltalk events'>
+
+	browserWidget doIt
+    ]
+
+    debugIt [
+        <category: 'smalltalk events'>
+
+	browserWidget debugIt
+    ]
+
+    inspectIt [
+        <category: 'smalltalk events'>
+
+	browserWidget inspectIt
+    ]
+
+    printIt [
+        <category: 'smalltalk events'>
+
+	browserWidget printIt
+    ]
 ]
 

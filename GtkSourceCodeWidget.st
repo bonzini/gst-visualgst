@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkSourceCodeWidget [
-    | codeBuffer codeView |
+    | codeBuffer codeView object |
 
     initialize [
 	<category: 'initialization'>
@@ -166,6 +166,53 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer events'>
 
 	codeView redo
+    ]
+
+    object: anObject [
+	<category: 'accessing'>
+
+	object := anObject
+    ]
+
+    doIt [
+        <category: 'smalltalk event'>
+
+	^ Behavior
+            evaluate: codeBuffer selectedText 
+            to: object
+            ifError: [ :fname :lineNo :errorString | self error: errorString ]
+    ]
+
+
+    debugIt [
+        <category: 'smalltalk event'>
+
+	object class
+            compile: ('Doit [ ^ [ ', self selectedText , ' ] value ]')
+            ifError:  [ :fname :lineNo :errorString |
+                self error: errorString ].
+        (GtkDebugger open)
+            doItProcess: [ object perform: #Doit ] newProcess
+    ]
+
+
+    inspectIt [
+        <category: 'smalltalk event'>
+
+	GtkInspector openOn: self doIt
+    ]
+
+
+    printIt [
+        <category: 'smalltalk event'>
+
+	| iter start end result |
+        iter := codeBuffer iterOfSelectedText second.
+        result := ' ', (self doIt displayString), ' '.
+        codeBuffer insertInteractive: iter text: result len: result size defaultEditable: true.
+        start := codeBuffer getIterAtOffset: (iter getOffset - result size).
+        end := codeBuffer getIterAtOffset: (iter getOffset).
+        codeBuffer selectRange: start bound: end
     ]
 ]
 
