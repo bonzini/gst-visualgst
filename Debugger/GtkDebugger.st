@@ -172,13 +172,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             {'<Control>M'. '<GtkLauncher>/Smalltalk/Implementors'. self. #implementors}.
             {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'. self. #senders}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt'.
-            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt'.
-            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt'.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
+            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
             GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors'.
-            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders'}
+            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors' connectTo: self selector: #implementors.
+            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders' connectTo: self selector: #senders}
     ]
 
     createHelpMenus [
@@ -326,6 +326,40 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	self close.
 	debugger continue
+    ]
+
+    doIt [
+        <category: 'smalltalk event'>
+
+        codeWidget
+            object: debugger suspendedContext receiver;
+            doIt
+    ]
+
+    debugIt [
+        <category: 'smalltalk event'>
+
+        codeWidget
+            object: debugger suspendedContext receiver;
+            debugIt
+    ]
+
+
+    inspectIt [
+        <category: 'smalltalk event'>
+
+        codeWidget
+            object: debugger suspendedContext receiver;
+            inspectIt
+    ]
+
+
+    printIt [
+        <category: 'smalltalk event'>
+
+        codeWidget
+            object: debugger suspendedContext receiver;
+            printIt
     ]
 ]
 
