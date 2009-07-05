@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkDebugger [
-    | windowsMenu codeWidget contextWidget debugger inspectorWidget stackInspectorWidget |
+    | windowsMenu codeWidget contextWidget debugger inspectorWidget stackInspectorWidget selectedContext |
 
     GtkDebugger class >> openOn: aContext [
 	<category: 'user interface'>
@@ -287,19 +287,23 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     contextChanged [
 	<category: 'context events'>
 
-	| ctxt iter |
+	| iter |
 	contextWidget hasSelectedContext ifFalse: [ ^ self ].
 	iter := contextWidget selectedIter.
-	ctxt := debugger suspendedContext parentContextAt: (contextWidget numberOfContext - ((contextWidget model getPath: iter) getIndices value)).
-	codeWidget sourceCode: ctxt method methodSourceString.
+	selectedContext := debugger suspendedContext parentContextAt: (contextWidget numberOfContext - ((contextWidget model getPath: iter) getIndices value)).
+	codeWidget sourceCode: selectedContext method methodSourceString.
 
-	self updateInspectorWidget: ctxt
+	self updateInspectorWidget: selectedContext
     ]
 
     step [
 	<category: 'execute events'>
 
-	debugger myStep.
+	| iter |
+	iter := contextWidget selectedIter.
+	contextWidget numberOfContext = (contextWidget model getPath: iter) getIndices value
+	    ifTrue: [ debugger myStep ]
+	    ifFalse: [ debugger finish: selectedContext ].
 	self updateContextWidget
     ]
 
