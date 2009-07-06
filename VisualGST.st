@@ -1,5 +1,5 @@
 GtkMainWindow subclass: VisualGST [
-    | currentWidget notebook notebookPages transcriptWidget windowsMenu |
+    | currentWidget notebook notebookPages transcriptWidget windowsMenu centralBrowser |
 
     VisualGST class >> open [
 	<category: 'user interface'>
@@ -190,25 +190,35 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    centralWidget: self buildCentralWidget
     ]
 
+    buildNotebookWorkspaceWidget [
+	<category: 'user interface'>
+
+	| workspaceWidget |
+        notebook := GTK.GtkNotebook new
+                        connectSignal: 'switch-page' to: self selector: #switchPageOn:page:number: userData: nil.
+        currentWidget := transcriptWidget := self buildTranscriptWidget.
+        workspaceWidget := self buildWorkspaceWidget.
+        notebookPages
+            addLast: transcriptWidget;
+            addLast: workspaceWidget.
+        ^ notebook
+            appendPage: transcriptWidget mainWidget tabLabel: (self buildLabelWidget: 'Transcript' withIcon: GTK.Gtk gtkStockClose at: transcriptWidget);
+            "setTabDetachable: transcriptWidget mainWidget detachable: true;
+            setTabReorderable:  transcriptWidget mainWidget reorderable: true;"
+            appendPage: workspaceWidget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: workspaceWidget);
+            "setTabDetachable: workspaceWidget mainWidget detachable: true;
+            setTabReorderable:  workspaceWidget mainWidget reorderable: true;"
+            setScrollable: true;
+            yourself
+    ]
+
     buildCentralWidget [
 	<category: 'intialize-release'>
 
-	| workspaceWidget |
-	notebook := GTK.GtkNotebook new
-			connectSignal: 'switch-page' to: self selector: #switchPageOn:page:number: userData: nil.
-	currentWidget := transcriptWidget := self buildTranscriptWidget.
-	workspaceWidget := self buildWorkspaceWidget.
-	notebookPages
-	    addLast: transcriptWidget;
-	    addLast: workspaceWidget.
-	^ notebook 
-	    appendPage: transcriptWidget mainWidget tabLabel: (self buildLabelWidget: 'Transcript' withIcon: GTK.Gtk gtkStockClose at: transcriptWidget);
-            "setTabDetachable: transcriptWidget mainWidget detachable: true;
-            setTabReorderable:  transcriptWidget mainWidget reorderable: true;"
-	    appendPage: workspaceWidget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: workspaceWidget);
-	    "setTabDetachable: wkWidget detachable: true;
-	    setTabReorderable:  wkWidget reorderable: true;"
-	    setScrollable: true;
+        centralBrowser := self buildClassBrowserWidget showAll; yourself.
+	^ GTK.GtkVPaned new
+	    pack1: centralBrowser mainWidget resize: true shrink: true;
+	    pack2: self buildNotebookWorkspaceWidget resize: true shrink: false;
 	    yourself
     ]
 
@@ -298,6 +308,17 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit' connectTo: self selector: #quit}
     ]
 
+    createHistoryMenus [
+	<category: 'user interface'>
+
+	self accelGroup append:
+            {{'<Alt>Left'. '<GtkLauncher>/History/Back'}.
+            {'<Alt>Right'. '<GtkLauncher>/History/Forward'}}.
+
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
+            GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward}
+    ]
+
     createProjectMenus [
 	<category: 'user interface'>
 
@@ -336,6 +357,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	self createMainMenu: {#('File' #createFileMenus).
 	    #('Edit' #createEditMenus).
+	    #('History' #createHistoryMenus).
 	    #('Project' #createProjectMenus).
 	    #('Smalltalk' #createSmalltalkMenus).
 	    #('Tools' #createToolsMenus).
@@ -516,6 +538,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'tools events'>
 
 	GtkWebBrowser open
+    ]
+
+    back [
+	<category: 'history events'>
+
+	centralBrowser back
+    ]
+
+    forward [
+	<category: 'history events'>
+
+	centralBrowser forward
     ]
 ]
 

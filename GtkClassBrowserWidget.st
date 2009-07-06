@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkClassBrowserWidget [
-    | namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide  codeWidget undoStack |
+    | namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget undoStack history historyUpdate |
 
     GtkClassBrowserWidget class >> title [
 	<category: 'accessing'>
@@ -168,6 +168,15 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    notify: GtkClassModel ofSystemChangesOfItem: #class change: #Added using: #'addEvent:'
     ]
 
+    initializeHistory [
+	<category: 'initialize-release'>
+
+	historyUpdate := true.
+	history := HistoryStack new
+		    initialize: self;
+		    yourself
+    ]
+
     initialize [
 	<category: 'initialize-release'>
 
@@ -180,7 +189,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	self mainWidget: vpaned.
 	self initializeNotification.
-    
+	self initializeHistory.
+ 
 	vpaned
 	    pack1: self buildBrowser resize: true shrink: false;
 	    pack2: self buildCodeView resize: true shrink: true ;
@@ -235,6 +245,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	cCategoryWidget class: aClass class.
 	iCategoryWidget unselectAll.
         cCategoryWidget unselectAll.
+
+	historyUpdate ifTrue: [ history push: aClass ].
 
 	iMethodWidget emptyModel.
         cMethodWidget emptyModel.
@@ -688,7 +700,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    doIt
     ]
 
-
     debugIt [
 	<category: 'smalltalk event'>
 
@@ -701,7 +712,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             object: class;
             debugIt
     ]
-
 
     inspectIt [
 	<category: 'smalltalk event'>
@@ -716,7 +726,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    inspectIt
     ]
 
-
     printIt [
 	<category: 'smalltalk event'>
 
@@ -728,6 +737,26 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         codeWidget
             object: class;
             printIt
+    ]
+
+    forward [
+	<category: 'history events'>
+
+	history next
+    ]
+
+    back [
+	<category: 'history events'>
+
+	history previous
+    ]
+
+    updateClass: aClass [
+	<category: 'history events'>
+
+	historyUpdate := false.
+	self selectAClass: aClass.
+	historyUpdate := true.
     ]
 ]
 

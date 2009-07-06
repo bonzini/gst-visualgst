@@ -71,6 +71,7 @@
   <filein>GtkClassBrowserWidget.st</filein>
   <filein>GtkClassBrowser.st</filein>
   <filein>GtkEntryDialog.st</filein>
+  <filein>HistoryStack.st</filein>
   <filein>UndoStack.st</filein>
   <filein>UndoCommand.st</filein>
   <filein>AddNamespaceCommand.st</filein>
@@ -178,6 +179,7 @@
   <file>GtkClassBrowserWidget.st</file>
   <file>GtkClassBrowser.st</file>
   <file>GtkEntryDialog.st</file>
+  <file>HistoryStack.st</file>
   <file>UndoStack.st</file>
   <file>UndoCommand.st</file>
   <file>AddNamespaceCommand.st</file>
