@@ -1,3 +1,3 @@
 #!/bin/sh
 
-/opt/gst/bin/gst-package -t ~/.st ./package.xml
+/opt/GtkLauncher/bin/gst-package -t ~/.st ./package.xml

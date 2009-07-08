@@ -72,18 +72,18 @@
   <filein>GtkClassBrowser.st</filein>
   <filein>GtkEntryDialog.st</filein>
   <filein>HistoryStack.st</filein>
-  <filein>UndoStack.st</filein>
-  <filein>UndoCommand.st</filein>
-  <filein>AddNamespaceCommand.st</filein>
-  <filein>RenameNamespaceCommand.st</filein>
-  <filein>DeleteNamespaceCommand.st</filein>
+  <filein>Undo/UndoStack.st</filein>
+  <filein>Undo/UndoCommand.st</filein>
+  <filein>Undo/AddNamespaceCommand.st</filein>
+  <filein>Undo/RenameNamespaceCommand.st</filein>
+  <filein>Undo/DeleteNamespaceCommand.st</filein>
   <filein>Source/NamespaceSource.st</filein>
   <filein>Source/ClassSource.st</filein>
   <filein>Source/CategorySource.st</filein>
   <filein>Source/MethodSource.st</filein>
-  <filein>AddClassCommand.st</filein>
-  <filein>RenameClassCommand.st</filein>
-  <filein>DeleteClassCommand.st</filein>
+  <filein>Undo/AddClassCommand.st</filein>
+  <filein>Undo/RenameClassCommand.st</filein>
+  <filein>Undo/DeleteClassCommand.st</filein>
   <filein>AbstractFinder.st</filein>
   <filein>NamespaceFinder.st</filein>
   <filein>ClassFinder.st</filein>
@@ -98,15 +98,15 @@
   <filein>GtkMethodModel.st</filein>
   <filein>GtkProjectDialog.st</filein>
   <filein>Project.st</filein>
-  <filein>AddCategoryCommand.st</filein>
-  <filein>RenameCategoryCommand.st</filein>
-  <filein>DeleteCategoryCommand.st</filein>
-  <filein>AddMethodCommand.st</filein>
-  <filein>DeleteMethodCommand.st</filein>
+  <filein>Undo/AddCategoryCommand.st</filein>
+  <filein>Undo/RenameCategoryCommand.st</filein>
+  <filein>Undo/DeleteCategoryCommand.st</filein>
+  <filein>Undo/AddMethodCommand.st</filein>
+  <filein>Undo/DeleteMethodCommand.st</filein>
   <filein>WorkspaceVariableTracker.st</filein>
   <filein>SyntaxHighlighter.st</filein>
-  <filein>InsertTextCommand.st</filein>
-  <filein>DeleteTextCommand.st</filein>
+  <filein>Undo/Text/InsertTextCommand.st</filein>
+  <filein>Undo/Text/DeleteTextCommand.st</filein>
 
   <filein>Clock/GtkClock.st</filein>
 
@@ -180,18 +180,18 @@
   <file>GtkClassBrowser.st</file>
   <file>GtkEntryDialog.st</file>
   <file>HistoryStack.st</file>
-  <file>UndoStack.st</file>
-  <file>UndoCommand.st</file>
-  <file>AddNamespaceCommand.st</file>
-  <file>RenameNamespaceCommand.st</file>
-  <file>DeleteNamespaceCommand.st</file>
+  <file>Undo/UndoStack.st</file>
+  <file>Undo/UndoCommand.st</file>
+  <file>Undo/AddNamespaceCommand.st</file>
+  <file>Undo/RenameNamespaceCommand.st</file>
+  <file>Undo/DeleteNamespaceCommand.st</file>
   <file>Source/NamespaceSource.st</file>
   <file>Source/ClassSource.st</file>
   <file>Source/CategorySource.st</file>
   <file>Source/MethodSource.st</file>
-  <file>AddClassCommand.st</file>
-  <file>RenameClassCommand.st</file>
-  <file>DeleteClassCommand.st</file>
+  <file>Undo/AddClassCommand.st</file>
+  <file>Undo/RenameClassCommand.st</file>
+  <file>Undo/DeleteClassCommand.st</file>
   <file>AbstractFinder.st</file>
   <file>NamespaceFinder.st</file>
   <file>ClassFinder.st</file>
@@ -206,15 +206,15 @@
   <file>GtkMethodModel.st</file>
   <file>GtkProjectDialog.st</file>
   <file>Project.st</file>
-  <file>AddCategoryCommand.st</file>
-  <file>RenameCategoryCommand.st</file>
-  <file>DeleteCategoryCommand.st</file>
-  <file>AddMethodCommand.st</file>
-  <file>DeleteMethodCommand.st</file>
+  <file>Undo/AddCategoryCommand.st</file>
+  <file>Undo/RenameCategoryCommand.st</file>
+  <file>Undo/DeleteCategoryCommand.st</file>
+  <file>Undo/AddMethodCommand.st</file>
+  <file>Undo/DeleteMethodCommand.st</file>
   <file>WorkspaceVariableTracker.st</file>
   <file>SyntaxHighlighter.st</file>
-  <file>InsertTextCommand.st</file>
-  <file>DeleteTextCommand.st</file>
+  <file>Undo/Text/InsertTextCommand.st</file>
+  <file>Undo/Text/DeleteTextCommand.st</file>
 
   <file>Inspector/GtkInspectorSourceWidget.st</file>
   <file>Inspector/GtkInspectorBrowserWidget.st</file>
