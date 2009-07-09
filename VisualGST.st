@@ -348,7 +348,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createHelpMenus [
 	<category: 'user interface'>
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About Launcher' connectTo: self selector: #aboutLauncher.
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Help Contents' connectTo: self selector: #helpcontents.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'About Launcher' connectTo: self selector: #aboutLauncher.
 	    GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 
@@ -550,6 +552,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'history events'>
 
 	centralBrowser forward
+    ]
+
+    helpcontents [
+	<category: 'help events'>
+
+	GtkWebBrowser openOn: 'http://smalltalk.gnu.org/documentation'
     ]
 ]
 

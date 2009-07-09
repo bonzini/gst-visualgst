@@ -1,5 +1,12 @@
 GtkMainWindow subclass: GtkWebBrowser [
-    | workspaceNb notebook browserWindows workspaceWindows windowsMenu |
+    | webview workspaceNb notebook browserWindows workspaceWindows windowsMenu |
+
+    GtkWebBrowser class >> openOn: aString [
+        <category: 'user interface'>
+
+        ^ (self openSized: 450@375)
+	    url: aString
+    ]
 
     GtkWebBrowser class >> open [
 	<category: 'user interface'>
@@ -11,7 +18,7 @@ GtkMainWindow subclass: GtkWebBrowser [
 	<category: 'help events'>
 
 	(GTK.GtkAboutDialog new)
-	    setVersion: '0.2.0';
+	    setVersion: VisualGST version;
 	    setLicense: 'Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation
@@ -53,7 +60,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildCentralWidget [
 	<category: 'intialize-release'>
 
-        | webview |
         GtkWebView registerDLD.
 
         webview := GtkWebView new
@@ -108,11 +114,11 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createMenus [
 	<category: 'user interface'>
 
-	self addMenuItem: 'File' withSubmenu: self createFileMenus.
+	"self addMenuItem: 'File' withSubmenu: self createFileMenus.
 	self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
 	self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
 	self addMenuItem: 'Windows' withSubmenu: self createWindowsMenus.
-	self addMenuItem: 'Help' withSubmenu: self createHelpMenus
+	self addMenuItem: 'Help' withSubmenu: self createHelpMenus"
     ]
 
     createStatusBar [
@@ -177,6 +183,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'edit events'>
 
 	GtkFinder open
+    ]
+
+    url: aString [
+	<category: 'webkit events'>
+
+	webview openUrl: aString
     ]
 ]
 
