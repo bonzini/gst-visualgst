@@ -1,8 +1,8 @@
-UndoCommand subclass: AddMethodCommand [
+UndoCommand subclass: AddMethodUndoCommand [
 
     | selector method category classOrMeta oldCompiledMethod treeStore |
 
-    AddMethodCommand class >> add: aString classified: aCategory in: aClass onModel: aGtkMethodModel [
+    AddMethodUndoCommand class >> add: aString classified: aCategory in: aClass onModel: aGtkMethodModel [
 	<category: 'instance creation'>
 
 	^ (self new)

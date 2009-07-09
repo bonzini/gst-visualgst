@@ -1,7 +1,7 @@
-UndoCommand subclass: AddNamespaceCommand [
+UndoCommand subclass: AddNamespaceUndoCommand [
     | parentNamespace newNamespace treeStore |
 
-    AddNamespaceCommand class >> add: aSymbol to: aNamespace onModel: aGtkNamespaceModel [
+    AddNamespaceUndoCommand class >> add: aSymbol to: aNamespace onModel: aGtkNamespaceModel [
 	<category: 'instance creation'>
 
 	^ (self new)

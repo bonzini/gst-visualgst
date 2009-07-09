@@ -1,8 +1,8 @@
-UndoCommand subclass: RenameCategoryCommand [
+UndoCommand subclass: RenameCategoryUndoCommand [
 
     | category class newCategory treeStore |
 
-    RenameCategoryCommand class >> rename: aString in: aClass as: aNewName onModel: aGtkTreeStore [
+    RenameCategoryUndoCommand class >> rename: aString in: aClass as: aNewName onModel: aGtkTreeStore [
 	<category: 'instance creation'>
 
 	^ (self new)

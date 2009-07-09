@@ -1,8 +1,8 @@
-UndoCommand subclass: DeleteClassCommand [
+UndoCommand subclass: DeleteClassUndoCommand [
 
     |  class treeStore |
 
-    DeleteClassCommand class >> delete: aClass onModel: aGtkClassModel [
+    DeleteClassUndoCommand class >> delete: aClass onModel: aGtkClassModel [
 	<category: 'instance creation'>
 
 	^ (self new)

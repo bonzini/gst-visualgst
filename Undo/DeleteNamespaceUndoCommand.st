@@ -1,8 +1,8 @@
-UndoCommand subclass: DeleteNamespaceCommand [
+UndoCommand subclass: DeleteNamespaceUndoCommand [
 
     |  namespace treeStore |
 
-    DeleteNamespaceCommand class >> delete: aNamespace onModel: aGtkNamespaceModel [
+    DeleteNamespaceUndoCommand class >> delete: aNamespace onModel: aGtkNamespaceModel [
 	<category: 'instance creation'>
 
 	^ (self new)

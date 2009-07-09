@@ -1,8 +1,8 @@
-UndoCommand subclass: DeleteMethodCommand [
+UndoCommand subclass: DeleteMethodUndoCommand [
 
     | selector classOrMeta compiledMethod treeStore |
 
-    DeleteMethodCommand class >> delete: aSymbol in: aClass onModel: aGtkMethodModel [
+    DeleteMethodUndoCommand class >> delete: aSymbol in: aClass onModel: aGtkMethodModel [
 	<category: 'instance creation'>
 
 	^ (self new)

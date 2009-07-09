@@ -1,8 +1,8 @@
-UndoCommand subclass: RenameClassCommand [
+UndoCommand subclass: RenameClassUndoCommand [
 
     | class newClassName oldClassName treeStore |
 
-    RenameClassCommand class >> rename: aClass as: aSymbol onModel: aGtkClassModel [
+    RenameClassUndoCommand class >> rename: aClass as: aSymbol onModel: aGtkClassModel [
 	<category: 'instance creation'>
 
 	^ (self new)

@@ -1,8 +1,8 @@
-UndoCommand subclass: RenameNamespaceCommand [
+UndoCommand subclass: RenameNamespaceUndoCommand [
 
     | namespace oldName newName treeStore |
 
-    RenameNamespaceCommand class >> rename: aNamespace as: aSymbol onModel: aGtkNamespaceModel [
+    RenameNamespaceUndoCommand class >> rename: aNamespace as: aSymbol onModel: aGtkNamespaceModel [
 	<category: 'instance creation'>
 
 	^ (self new)

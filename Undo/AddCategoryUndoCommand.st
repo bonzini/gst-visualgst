@@ -1,8 +1,8 @@
-UndoCommand subclass: AddCategoryCommand [
+UndoCommand subclass: AddCategoryUndoCommand [
 
     | category treeStore |
 
-    AddCategoryCommand class >> add: aSymbol onModel: aGtkCategoryModel [
+    AddCategoryUndoCommand class >> add: aSymbol onModel: aGtkCategoryModel [
 	<category: 'instance creation'>
 
 	^ (self new)

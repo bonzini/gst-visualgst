@@ -1,8 +1,8 @@
-UndoCommand subclass: AddClassCommand [
+UndoCommand subclass: AddUndoClassUndoCommand [
 
     | first namespace newClassName treeStore parentClass newIter newClass |
 
-    AddClassCommand class >> add: aSymbol to: aNamespace onModel: aGtkClassModel withSuperclass: aClass [
+    AddUndoClassUndoCommand class >> add: aSymbol to: aNamespace onModel: aGtkClassModel withSuperclass: aClass [
 	<category: 'instance creation'>
 
 	^ (self new)

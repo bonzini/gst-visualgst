@@ -1,8 +1,8 @@
-UndoCommand subclass: DeleteCategoryCommand [
+UndoCommand subclass: DeleteCategoryUndoCommand [
 
     | category class methods treeStore |
 
-    DeleteCategoryCommand class >> delete: aString in: aClass onModel: aGtkCategoryModel [
+    DeleteCategoryUndoCommand class >> delete: aString in: aClass onModel: aGtkCategoryModel [
 	<category: 'instance creation'>
 
 	^ (self new)
