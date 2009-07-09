@@ -34,6 +34,17 @@ GtkMainWindow subclass: GtkImplementor [
             GTK.GtkMenuItem menuItem: 'Search' connectTo: self selector: #searchClassOrMethod}
     ]
 
+    createHistoryMenus [
+        <category: 'user interface'>
+
+        self accelGroup append:
+            {{'<Alt>Left'. '<GtkLauncher>/History/Back'}.
+            {'<Alt>Right'. '<GtkLauncher>/History/Forward'}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
+            GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward}
+    ]
+
     createToolsMenus [
         <category: 'user interface'>
 
@@ -46,6 +57,20 @@ GtkMainWindow subclass: GtkImplementor [
             GTK.GtkMenuItem menuItem: 'SqueakZilla' connectTo: self selector: #squeakzilla}
     ]
 
+    createSmalltalkMenus [
+        <category: 'user interface'>
+
+        self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'}.
+            {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'}.
+            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}.
+            {'<Alt>D'. '<GtkLauncher>/Smalltalk/DebugIt'}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
+            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
+            GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkLauncher>/Smalltalk/DebugIt' connectTo: self selector: #debugIt}
+    ]
+
     createHelpMenus [
         <category: 'user interface'>
 
@@ -56,10 +81,12 @@ GtkMainWindow subclass: GtkImplementor [
     createMenus [
         <category: 'user interface'>
 
-        self addMenuItem: 'File' withSubmenu: self createFileMenus.
-        self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
-        self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
-        self addMenuItem: 'Help' withSubmenu: self createHelpMenus
+        self createMainMenu: {#('File' #createFileMenus).
+            #('Edit' #createEditMenus).
+            #('History' #createHistoryMenus).
+            #('Smalltalk' #createSmalltalkMenus).
+            #('Tools' #createToolsMenus).
+            #('Help' #createHelpMenus)}
     ]
 
 
@@ -246,6 +273,42 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	selectedString := (self resultModel getOop: selectedIter column: 0).
 
 	(resultArray at: selectedString) updateBrowser: classBrowserWidget.
+    ]
+
+    doIt [
+        <category: 'smalltalk events'>
+
+        classBrowserWidget doIt
+    ]
+
+    printIt [
+        <category: 'smalltalk events'>
+
+        classBrowserWidget printIt
+    ]
+
+    inspectIt [
+        <category: 'smalltalk events'>
+
+        classBrowserWidget inspectIt
+    ]
+
+    debugIt [
+        <category: 'smalltalk events'>
+
+        classBrowserWidget debugIt
+    ]
+
+    back [
+        <category: 'history events'>
+
+        classBrowserWidget back
+    ]
+
+    forward [
+        <category: 'history events'>
+
+        classBrowserWidget forward
     ]
 ]
 
