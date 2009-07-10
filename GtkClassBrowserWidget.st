@@ -778,5 +778,29 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	^ parentWindow getFocus address = codeWidget textview address
     ]
+
+    copy [
+        <category: 'text editing'>
+
+	codeWidget copy
+    ]
+
+    cut [
+        <category: 'text editing'>
+
+	codeWidget cut
+    ]
+
+    paste [
+        <category: 'text editing'>
+
+	codeWidget paste
+    ]
+
+    selectAll [
+        <category: 'text editing'>
+
+	codeWidget selectAll
+    ]
 ]
 

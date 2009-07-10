@@ -215,6 +215,30 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
         codeBuffer selectRange: start bound: end
     ]
 
+    copy [
+        <category: 'text editing'>
+
+        codeView signalEmitByName: 'copy-clipboard' args: {}
+    ]
+
+    cut [
+        <category: 'text editing'>
+
+        codeView signalEmitByName: 'cut-clipboard' args: {}
+    ]
+
+    paste [
+        <category: 'text editing'>
+
+        codeView signalEmitByName: 'paste-clipboard' args: {}.
+    ]
+
+    selectAll [
+        <category: 'text editing'>
+
+        codeView signalEmitByName: 'select-all' args: {true}.
+    ]
+
     textview [
 	<category: 'accessing'>
 

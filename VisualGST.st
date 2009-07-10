@@ -441,37 +441,38 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'edit events'>
 
 	self isCurrentWidgetTranscript ifTrue: [ ^ self ].
-	currentWidget undo
+	self onFocusedTextViewPerform: #undo
     ]
 
     redo [
 	<category: 'edit events'>
 
-	currentWidget redo
+	self isCurrentWidgetTranscript ifTrue: [ ^ self ].
+	self onFocusedTextViewPerform: #redo
     ]
 
     cut [
 	<category: 'edit events'>
 
-	currentWidget cut
+	self onFocusedTextViewPerform: #cut
     ]
 
     copy [
 	<category: 'edit events'>
 
-	currentWidget copy
+	self onFocusedTextViewPerform: #copy
     ]
 
     paste [
 	<category: 'edit events'>
 
-	currentWidget paste
+	self onFocusedTextViewPerform: #paste
     ]
 
     selectAll [
 	<category: 'edit events'>
 
-	currentWidget selectAll
+	self onFocusedTextViewPerform: #selectAll
     ]
 
     clearTranscriptWidget [
@@ -508,39 +509,42 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     ]
 
     focusedTextView [
-	<category: 'accessing'>
+	<category: 'focus'>
 
 	^ centralBrowser sourceCodeWidgetHasFocus
             ifTrue: [ centralBrowser ]
 	    ifFalse: [ currentWidget ]
     ]
 
+    onFocusedTextViewPerform: aSelector [
+	<category: 'focus'>
+
+        self textViewHasFocus ifFalse: [ ^ self ].
+        self focusedTextView perform: aSelector 
+    ]
+
     doIt [
 	<category: 'smalltalk events'>
 
-	self textViewHasFocus ifFalse: [ ^ self ].
-	self focusedTextView doIt
+	self onFocusedTextViewPerform: #doIt
     ]
 
     printIt [
 	<category: 'smalltalk events'>
 
-	self textViewHasFocus ifFalse: [ ^ self ].
-	self focusedTextView printIt
+	self onFocusedTextViewPerform: #printIt
     ]
 
     inspectIt [
 	<category: 'smalltalk events'>
 
-	self textViewHasFocus ifFalse: [ ^ self ].
-	self focusedTextView inspectIt
+	self onFocusedTextViewPerform: #inspectIt
     ]
 
     debugIt [
 	<category: 'smalltalk events'>
 
-	self textViewHasFocus ifFalse: [ ^ self ].
-	self focusedTextView debugIt
+	self onFocusedTextViewPerform: #debugIt
     ]
 
     implementors [
