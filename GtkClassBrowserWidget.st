@@ -104,6 +104,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	codeWidget := (GtkSourceCodeWidget new)
 			initialize;
+			parentWindow: self parentWindow;
 			showAll;
 			yourself.
     
@@ -770,6 +771,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	historyUpdate := false.
 	self selectAClass: aClass.
 	historyUpdate := true.
+    ]
+
+    sourceCodeWidgetHasFocus [
+	<category: 'testing'>
+
+	^ parentWindow getFocus address = codeWidget textview address
     ]
 ]
 

@@ -214,5 +214,11 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
         end := codeBuffer getIterAtOffset: (iter getOffset).
         codeBuffer selectRange: start bound: end
     ]
+
+    textview [
+	<category: 'accessing'>
+
+	^ codeView
+    ]
 ]
 

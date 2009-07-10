@@ -244,6 +244,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	^ (GtkClassBrowserWidget new)
 	    initialize;
+	    parentWindow: window;
 	    yourself
     ]
 
@@ -494,28 +495,52 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	file close.
     ]
 
+    currentWidgetHasFocus [
+	<category: 'testing'>
+
+	^ window getFocus address = currentWidget textview address
+    ]
+
+    textViewHasFocus [
+	<category: 'testing'>
+
+	^ centralBrowser sourceCodeWidgetHasFocus or: [ self currentWidgetHasFocus ]
+    ]
+
+    focusedTextView [
+	<category: 'accessing'>
+
+	^ centralBrowser sourceCodeWidgetHasFocus
+            ifTrue: [ centralBrowser ]
+	    ifFalse: [ currentWidget ]
+    ]
+
     doIt [
 	<category: 'smalltalk events'>
 
-	currentWidget doIt
+	self textViewHasFocus ifFalse: [ ^ self ].
+	self focusedTextView doIt
     ]
 
     printIt [
 	<category: 'smalltalk events'>
 
-	currentWidget printIt
+	self textViewHasFocus ifFalse: [ ^ self ].
+	self focusedTextView printIt
     ]
 
     inspectIt [
 	<category: 'smalltalk events'>
 
-	currentWidget inspectIt
+	self textViewHasFocus ifFalse: [ ^ self ].
+	self focusedTextView inspectIt
     ]
 
     debugIt [
 	<category: 'smalltalk events'>
 
-	currentWidget debugIt
+	self textViewHasFocus ifFalse: [ ^ self ].
+	self focusedTextView debugIt
     ]
 
     implementors [

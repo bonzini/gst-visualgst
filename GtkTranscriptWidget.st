@@ -89,4 +89,10 @@ GtkConcreteWidget subclass: GtkTranscriptWidget [
 
         textview signalEmitByName: 'select-all' args: {true}.
     ]
+
+    textview [
+	<category: 'accessing'>
+
+	^ textview
+    ]
 ]

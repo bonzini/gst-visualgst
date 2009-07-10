@@ -1,6 +1,18 @@
 Smalltalk.Object subclass: GtkConcreteWidget [
-    | child |
+    | child parentWindow |
+
+    parentWindow: aGtkWindow [
+        <category: 'accessing'>
+
+        parentWindow := aGtkWindow
+    ]
     
+    parentWindow [
+	<category: 'accessing'>
+
+	^ parentWindow
+    ]
+
     mainWidget [
 	<category: 'accessing'>
 
