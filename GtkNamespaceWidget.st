@@ -106,5 +106,28 @@ GtkConcreteWidget subclass: GtkNamespaceWidget [
 	    (result := self findNamespace: aString from: each) = self 
 		ifFalse: [ ^ result ] ]
     ]
+
+    newNamespace [
+	<category: 'popup events'>
+
+	AddNamespaceCommand on: self
+    ]
+
+    renameNamespace [
+        <category: 'namespace events'>
+
+        RenameNamespaceCommand on: self
+    ]
+
+    deleteNamespace [
+        <category: 'namespace events'>
+
+        DeleteNamespaceCommand on: self
+    ]
+
+    inspectNamespace [
+        <category: 'namespace events'>
+
+    ]
 ]
 

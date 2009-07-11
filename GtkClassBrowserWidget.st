@@ -417,12 +417,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'namespace events'>
 
 	RenameNamespaceCommand on: self
-        "| dlg name namespace |
-        namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-        dlg := GtkEntryDialog title: 'Rename a namespace' text: 'Name of the new namespace'.
-        dlg hasPressedOk ifTrue: [ name := dlg result.
-            namespace := namespaceWidget selectedNamespace.
-            self undoStack push: (RenameNamespaceCommand rename: namespace as: name asSymbol onModel: GtkNamespaceModel current) ]"
     ]
 
     deleteNamespace [

@@ -85,8 +85,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
-        menu appendMenuItems: {{'Add a method'. self. #newMethod}.
-            {'Rename a method'. self. #renameMethod}.
+        menu appendMenuItems: {{'Rename a method'. self. #renameMethod}.
             {'Delete a method'. self. #deleteMethod}.
             {}.
             {'Inspect a method'. self. #inspectMethod}.
@@ -103,6 +102,20 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 
 	methodTree getSelection
 	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
+    ]
+
+    classOrMetaSelected [
+	<category: 'accessing'>
+
+	^ class
+    ]
+
+    selectedCategory [
+	<category: 'accessing'>
+
+	^ category = '*' 
+	    ifTrue: [ nil ]
+	    ifFalse: [ category ]
     ]
 
     hasSelectedMethod [
@@ -131,6 +144,17 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 
 	self hasSelectedMethod ifFalse: [ self error: 'Nothing is selected' ].
 	^ (self class compiledMethodAt: self selectedMethodSymbol) methodSourceString
+    ]
+
+    deleteMethod [
+        <category: 'method events'>
+
+        DeleteMethodCommand on: self
+    ]
+
+    inspectMethod [
+        <category: 'method events'>
+
     ]
 ]
 

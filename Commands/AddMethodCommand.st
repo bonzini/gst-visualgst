@@ -4,9 +4,7 @@ UndoableCommand subclass: AddMethodCommand [
 	<category: 'command'>
 
         | category |
-        category := target hasSelectedCategory
-                        ifFalse: [ nil ]
-                        ifTrue: [ target selectedCategory ].
+        category := target selectedCategory.
         self push: (AddMethodUndoCommand add: target sourceCode classified: category in: target classOrMetaSelected)
     ]
 ]

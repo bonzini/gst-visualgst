@@ -111,5 +111,30 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	(iter := categoryTree selectedIter) ifNil: [self error: 'Nothing is selected'].
 	^ self model getOop: iter column: 0.
     ]
+
+    viewedCategoryModel [
+	<category: 'accessing'>
+
+	^ GtkCategoryModel currentOn: self class
+    ]
+
+    newCategory [
+        <category: 'category events'>
+
+        AddCategoryCommand on: self
+    ]
+
+    renameCategory [
+        <category: 'category events'>
+
+        RenameCategoryCommand on: self
+    ]
+
+    deleteCategory [
+        <category: 'category events'>
+
+        DeleteCategoryCommand on: self
+    ]
+
 ]
 

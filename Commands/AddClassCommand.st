@@ -4,7 +4,6 @@ UndoableCommand subclass: AddClassCommand [
 	<category: 'command'>
 
 	| dlg superclass |
-	target hasSelectedNamespace ifFalse: [ ^ self ].
 	target hasSelectedClass
             ifTrue: [ superclass := target selectedClass ]
             ifFalse: [ superclass := Object ].

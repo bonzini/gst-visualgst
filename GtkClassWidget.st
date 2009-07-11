@@ -88,6 +88,12 @@ GtkConcreteWidget subclass: GtkClassWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
     ]
 
+    selectedNamespace [
+	<category: 'accessing'>
+
+	^ namespace
+    ]
+
     hasSelectedClass [
 	<category: 'testing'>
 
@@ -126,6 +132,29 @@ GtkConcreteWidget subclass: GtkClassWidget [
 	<category: 'accessing'>
 
 	^ classesTree selectedIter
+    ]
+
+    newClass [
+        <category: 'class events'>
+
+        AddClassCommand on: self
+    ]
+
+    renameClass [
+        <category: 'class events'>
+
+        RenameClassCommand on: self
+    ]
+
+    deleteClass [
+        <category: 'class events'>
+
+        DeleteClassCommand on: self
+    ]
+
+    inspectClass [
+        <category: 'class events'>
+
     ]
 ]
 
