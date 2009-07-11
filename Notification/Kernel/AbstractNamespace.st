@@ -18,5 +18,63 @@ Smalltalk.AbstractNamespace class extend [
 	^ namespace
     ]
 
+    gstNew: parent name: spaceName [
+	<category: '*VisualGST'>
+
+	^ (super new: 24)
+		    setSuperspace: parent;
+		    name: spaceName asSymbol;
+		    yourself
+    ]
+]
+
+Smalltalk.AbstractNamespace extend [
+
+    removeSubspace: aSymbol [
+	"Remove my subspace named aSymbol from the hierarchy."
+
+	<category: 'namespace hierarchy'>
+	| namespace spaceName |
+	spaceName := aSymbol asGlobalKey.	"as with primNew:name:"
+	namespace := self hereAt: spaceName.
+	self subspaces remove: namespace
+	    ifAbsent: 
+	    [SystemExceptions.InvalidValue signalOn: aSymbol
+		reason: 'aSymbol must name a subspace'].
+	VisualGST.SystemChangeNotifier uniqueInstance namespaceRemoved: namespace.
+	^ self removeKey: spaceName
+    ]
+
+    removeClass: aSymbol [
+
+	<category: '*VisualGST'>
+	| class className |
+	className := aSymbol asGlobalKey.
+	class := self hereAt: className.
+	VisualGST.SystemChangeNotifier uniqueInstance classRemoved: class.
+	^ self removeKey: className
+    ]
+
+    insertClass: aClass [
+
+        <category: '*VisualGST'>
+	self at: aClass name put: aClass.
+        VisualGST.SystemChangeNotifier uniqueInstance classAdded: aClass.
+    ]
+
+    insertSubspace: aNamespace [
+	"Insert an existing namespace"
+
+	<category: '*VisuaglGST'>
+
+        self
+            at: aNamespace name asGlobalKey
+            put: aNamespace.
+
+	subspaces add: aNamespace.
+
+	VisualGST.SystemChangeNotifier uniqueInstance namespaceAdded: aNamespace.
+	^ aNamespace
+    ]
 ]
 

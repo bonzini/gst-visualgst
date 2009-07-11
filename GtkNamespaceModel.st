@@ -15,7 +15,16 @@ Object subclass: GtkNamespaceModel [
     GtkNamespaceModel class >> addEvent: anEvent [
 	<category: 'model event'>
 
-	self current refresh
+	self current
+		append: (self current findIterInANamespace: anEvent item superspace)
+		column: 0
+		value: anEvent item displayString
+    ]
+
+    GtkNamespaceModel class >> removeEvent: anEvent [
+	<category: 'model event'>
+
+	self current remove: anEvent item
     ]
 
     initialize [

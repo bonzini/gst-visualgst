@@ -26,6 +26,14 @@ Object subclass: GtkClassModel [
 	model append: parentIter column: 0 value: anEvent item name, ' class'
     ]
 
+    GtkClassModel class >> removeEvent: anEvent [
+        <category: 'model event'>
+
+	| model |
+	model := current at: anEvent item environment ifAbsent: [ ^ self ].
+        model remove: anEvent item
+    ]
+
     | model namespace sorted |
 
     initialize [

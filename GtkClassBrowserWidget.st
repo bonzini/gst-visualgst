@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkClassBrowserWidget [
-    GtkClassBrowserWidget class [ | UndoStack | ]
+    GtkClassBrowserWidget class [ | Undo | ]
 
     | namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget history historyUpdate |
 
@@ -12,9 +12,9 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     GtkClassBrowserWidget class >> undoStack [
 	<category: 'accessing'>
 
-        ^ UndoStack ifNil: [ UndoStack := (UndoStack new)
-					    initialize;
-					    yourself ]
+        ^ Undo ifNil: [ Undo := (UndoStack new)
+				    initialize;
+				    yourself ]
     ]
 
     buildBrowser [
@@ -176,7 +176,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	(SystemChangeNotifier uniqueInstance)
 	    notify: GtkNamespaceModel ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
-	    notify: GtkClassModel ofSystemChangesOfItem: #class change: #Added using: #'addEvent:'
+	    notify: GtkNamespaceModel ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:';
+	    notify: GtkClassModel ofSystemChangesOfItem: #class change: #Added using: #'addEvent:';
+	    notify: GtkClassModel ofSystemChangesOfItem: #class change: #Removed using: #'removeEvent:';
+	    notify: GtkMethodModel ofSystemChangesOfItem: #method change: #Added using: #'addEvent:';
+	    notify: GtkMethodModel ofSystemChangesOfItem: #method change: #Removed using: #'removeEvent:'
     ]
 
     initializeHistory [
@@ -390,37 +394,41 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	parentDir := (Directory home / 'Temp' / namespace name).
 	self fileoutNamespace: namespace on: parentDir
     ]
+
+    hasSelectedNamespace [
+	<category: 'testing'>
+
+	^ namespaceWidget hasSelectedNamespace
+    ]
+
+    selectedNamespace [
+	<category: 'testing'>
+
+	^ namespaceWidget selectedNamespace
+    ]
  
     newNamespace [
 	<category: 'namespace events'>
 
-	| dlg name namespace |
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	dlg := GtkEntryDialog title: 'Add a namespace' text: 'Name of the new namespace'.
-	dlg hasPressedOk ifTrue: [ name := dlg result.
-	    namespace := namespaceWidget selectedNamespace.
-	    self undoStack push: (AddNamespaceCommand add: name asSymbol to: namespace onModel: GtkNamespaceModel current) ]
+	AddNamespaceCommand on: self
     ]
 
     renameNamespace [
 	<category: 'namespace events'>
 
-        | dlg name namespace |
+	RenameNamespaceCommand on: self
+        "| dlg name namespace |
         namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
         dlg := GtkEntryDialog title: 'Rename a namespace' text: 'Name of the new namespace'.
         dlg hasPressedOk ifTrue: [ name := dlg result.
             namespace := namespaceWidget selectedNamespace.
-            self undoStack push: (RenameNamespaceCommand rename: namespace as: name asSymbol onModel: GtkNamespaceModel current) ]
+            self undoStack push: (RenameNamespaceCommand rename: namespace as: name asSymbol onModel: GtkNamespaceModel current) ]"
     ]
 
     deleteNamespace [
 	<category: 'namespace events'>
 
-        | namespace |
-        namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-        namespace := namespaceWidget selectedNamespace.
-	namespace subspaces isEmpty ifFalse: [ self error: 'Namespace has subspaces' ].
-        self undoStack push: (DeleteNamespaceCommand delete: namespace onModel: GtkNamespaceModel current) 
+	DeleteNamespaceCommand on: self
     ]
 
     inspectNamespace [
@@ -468,42 +476,34 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             source
     ]
 
+    hasSelectedClass [
+	<category: 'accessing'>
+
+	^ classWidget hasSelectedClass
+    ]
+
+    selectedClass [
+	<category: 'accessing'>
+
+	^ classWidget selectedClass
+    ]
+
     newClass [
 	<category: 'class events'>
 	
-	| dlg name namespace superclass |
-        namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	namespace := namespaceWidget selectedNamespace.
-	classWidget hasSelectedClass
-	    ifTrue: [ superclass := classWidget selectedClass ]
-	    ifFalse: [ superclass := Object ].
-        dlg := GtkEntryDialog title: 'Add a class' text: 'Name of the new class'.
-        dlg hasPressedOk ifTrue: [ name := dlg result.
-            namespace := namespaceWidget selectedNamespace.
-            self undoStack push: (AddClassCommand add: name asSymbol to: namespace onModel: (GtkClassModel currentOn: namespace) withSuperclass: superclass) ]
+	AddClassCommand on: self
     ]
 
     renameClass [
 	<category: 'class events'>
 
-        | dlg name namespace class |
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-        namespace := namespaceWidget selectedNamespace.
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-        class := classWidget selectedClass.
-        dlg := GtkEntryDialog title: 'Rename a class' text: 'Name of the class'.
-        dlg hasPressedOk ifTrue: [ name := dlg result.
-            self undoStack push: (RenameClassCommand rename: class as: name asSymbol onModel: (GtkClassModel currentOn: namespace)) ]
+	RenameClassCommand on: self
     ]
 
     deleteClass [
 	<category: 'class events'>
 
-        | dlg name namespace |
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-        namespace := namespaceWidget selectedNamespace.
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-        self undoStack push: (DeleteClassCommand delete: classWidget selectedClass onModel: (GtkClassModel currentOn: namespace))
+	DeleteClassCommand on: self
     ]
 
     inspectClass [
@@ -552,39 +552,37 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    source
     ]
 
+    hasSelectedCategory [
+	<category: 'testing'>
+	
+	^ self viewedCategoryWidget hasSelectedCategory
+    ]
+
+    selectedCategory [
+	<category: 'accessing'>
+
+	^ self viewedCategoryWidget selectedCategory
+    ]
+
     newCategory [
         <category: 'category events'>
 
-	| categoryModel dlg name |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	dlg := GtkEntryDialog title: 'Add a category' text: 'Name of the category'.
-	categoryModel := self viewedCategoryModel.
-        dlg hasPressedOk ifTrue: [ name := dlg result.
-            self undoStack push: (AddCategoryCommand add: name onModel: categoryModel) ]
+	AddCategoryCommand on: self
     ]
 
     renameCategory [
         <category: 'category events'>
 
-	| categoryWidget categoryModel dlg name |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	categoryWidget := self viewedCategoryWidget.
-	categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	dlg := GtkEntryDialog title: 'Rename a category' text: 'Name of the category'.
-	categoryModel := self viewedCategoryModel.
-        dlg hasPressedOk ifTrue: [ name := dlg result.
-            self undoStack push: (RenameCategoryCommand rename: categoryWidget selectedCategory in: self classOrMetaSelected as: name onModel: categoryModel) ]
+	RenameCategoryCommand on: self
     ]
 
     deleteCategory [
         <category: 'category events'>
 
-        | categoryWidget categoryModel |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-        categoryModel := self viewedCategoryModel.
-        self undoStack push: (DeleteCategoryCommand delete: categoryWidget selectedCategory in: self classOrMetaSelected onModel: categoryModel)
+	DeleteCategoryCommand on: self
     ]
 
     inspectCategory [
@@ -608,29 +606,37 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             ifFalse: [ GtkMethodModel currentOn: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory ]
     ]
 
+    hasSelectedMethod [
+	<category: 'testing'>
+
+	^ self viewedMethodWidget hasSelectedMethod
+    ]
+
+    selectedMethodSymbol [
+	<category: 'accessing'>
+
+	^ self viewedMethodWidget selectedMethodSymbol
+    ]
+
+    sourceCode [
+	<category: 'accessing'>
+
+	^ codeWidget sourceCode
+    ]
+
     newMethod [
 	<category: 'method events'>
 
-	| category categoryWidget methodModel |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	categoryWidget := self viewedCategoryWidget.
-	methodModel := self viewedMethodModel.
-	category := categoryWidget hasSelectedCategory 
-			ifFalse: [ nil ]
-			ifTrue: [ categoryWidget selectedCategory ].
-	self undoStack push: (AddMethodCommand add: codeWidget sourceCode classified: category in: self classOrMetaSelected onModel: methodModel)
+	AddMethodCommand on: self
     ]
 
 
     deleteMethod [
 	<category: 'method events'>
 
-	| methodModel methodWidget |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	methodWidget := self viewedMethodWidget.
-	methodWidget hasSelectedMethod ifFalse: [ ^ self ].
-	methodModel := self viewedMethodModel.
-	self undoStack push: (DeleteMethodCommand delete: methodWidget selectedMethodSymbol in: self classOrMetaSelected onModel: methodModel)
+	DeleteMethodCommand on: self
     ]
 
     inspectMethod [

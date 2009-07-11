@@ -35,7 +35,7 @@ UndoCommand subclass: DeleteCategoryUndoCommand [
 	<category: 'events'>
 
         methods do: [ :each |
-            class methodDictionary at: each selector put: each ].
+            class methodDictionary insertMethod: each ].
 	methods := nil.
 	treeStore appendCategory: category.
 	(GtkMethodModel
@@ -50,7 +50,7 @@ UndoCommand subclass: DeleteCategoryUndoCommand [
 	    each methodCategory = category 
 		ifTrue: [ methods add: each ] ].
 	methods do: [ :each |
-	    class methodDictionary removeKey: each selector ifAbsent: [ ] ].
+	    class methodDictionary removeMethod: each ].
 	treeStore removeCategory: category.
 	(GtkMethodModel 
 	    currentOn: class withCategory: '*') refreshModel.

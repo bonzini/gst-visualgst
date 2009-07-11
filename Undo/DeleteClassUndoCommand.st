@@ -1,21 +1,20 @@
 UndoCommand subclass: DeleteClassUndoCommand [
 
-    |  class treeStore |
+    |  class |
 
-    DeleteClassUndoCommand class >> delete: aClass onModel: aGtkClassModel [
+    DeleteClassUndoCommand class >> delete: aClass [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    delete: aClass onModel: aGtkClassModel;
+	    delete: aClass;
 	    precondition;
 	    yourself
     ]
 
-    delete: aClass onModel: aGtkClassModel [
+    delete: aClass [
 	<category: 'initialize'>
 
 	class := aClass.
-	treeStore := aGtkClassModel
     ]
 
     description [
@@ -33,20 +32,15 @@ UndoCommand subclass: DeleteClassUndoCommand [
     undo [
 	<category: 'events'>
 
-	| iter |
-	(treeStore hasClass: class superclass) 
-	    ifTrue: [ iter := treeStore findIterInAClass: class superclass ].
-	treeStore append: iter column: 0 value: class name asString, ' class'.
-	class superclass addSubclass: class.
-	class environment at: class name put: class
+	class superclass ifNotNil: [ class superclass addSubclass: class ].
+	class environment insertClass: class
     ]
 
     redo [
 	<category: 'events'>
 
-	treeStore remove: class.
 	class superclass ifNotNil: [ class superclass removeSubclass: class ].
-	class environment removeKey: class name
+	class environment removeClass: class name
     ]
 ]
 

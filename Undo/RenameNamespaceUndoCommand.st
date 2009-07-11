@@ -1,23 +1,23 @@
 UndoCommand subclass: RenameNamespaceUndoCommand [
 
-    | namespace oldName newName treeStore |
+    | namespace oldName newName |
 
-    RenameNamespaceUndoCommand class >> rename: aNamespace as: aSymbol onModel: aGtkNamespaceModel [
+    RenameNamespaceUndoCommand class >> rename: aNamespace as: aSymbol [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    rename: aNamespace as: aSymbol onModel: aGtkNamespaceModel;
+	    rename: aNamespace as: aSymbol;
 	    precondition;
 	    yourself
     ]
 
-    rename: aNamespace as: aSymbol onModel: aGtkNamespaceModel [
+    rename: aNamespace as: aSymbol [
 	<category: 'initialize'>
 
+	aNamespace class printNl.
 	namespace := aNamespace.
 	oldName := namespace name.
 	newName := aSymbol.
-	treeStore := aGtkNamespaceModel.
     ]
 
     description [
@@ -36,23 +36,17 @@ UndoCommand subclass: RenameNamespaceUndoCommand [
     undo [
 	<category: 'events'>
 
-	| iter |
-	iter := treeStore findIterInANamespace: namespace.
-	treeStore at: iter column: 0 value: oldName asString.
-        namespace superspace removeKey: namespace name.
+	namespace superspace removeSubspace: namespace name.
 	namespace name: oldName.
-        namespace superspace at: namespace name put: namespace
+	namespace superspace insertSubspace: namespace
     ]
 
     redo [
 	<category: 'events'>
 
-	| iter |
-	iter := treeStore findIterInANamespace: namespace.
-	treeStore at: iter column: 0 value: newName asString.
-	namespace superspace removeKey: namespace name.
-	namespace name: newName.
-	namespace superspace at: namespace name put: namespace
+	namespace superspace removeSubspace: namespace name.
+        namespace name: newName.
+        namespace superspace insertSubspace: namespace
     ]
 ]
 

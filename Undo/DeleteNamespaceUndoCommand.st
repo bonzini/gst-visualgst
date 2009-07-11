@@ -2,19 +2,18 @@ UndoCommand subclass: DeleteNamespaceUndoCommand [
 
     |  namespace treeStore |
 
-    DeleteNamespaceUndoCommand class >> delete: aNamespace onModel: aGtkNamespaceModel [
+    DeleteNamespaceUndoCommand class >> delete: aNamespace [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    delete: aNamespace onModel: aGtkNamespaceModel;
+	    delete: aNamespace;
 	    yourself
     ]
 
-    delete: aNamespace onModel: aGtkNamespaceModel [
+    delete: aNamespace [
 	<category: 'initialize'>
 
-	namespace := aNamespace.
-	treeStore := aGtkNamespaceModel
+	namespace := aNamespace
     ]
 
     description [
@@ -26,18 +25,12 @@ UndoCommand subclass: DeleteNamespaceUndoCommand [
     undo [
 	<category: 'events'>
 
-	treeStore
-	    append: (treeStore findIterInANamespace: namespace superspace)
-	    column: 0
-	    value: namespace name.
-	namespace superspace at: namespace name put: namespace.
-	namespace superspace subspaces add: namespace
+	namespace superspace insertSubspace: namespace name
     ]
 
     redo [
 	<category: 'events'>
 
-	treeStore remove: namespace.
 	namespace superspace removeSubspace: namespace name
     ]
 ]

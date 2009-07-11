@@ -1,22 +1,21 @@
 UndoCommand subclass: DeleteMethodUndoCommand [
 
-    | selector classOrMeta compiledMethod treeStore |
+    | selector classOrMeta compiledMethod |
 
-    DeleteMethodUndoCommand class >> delete: aSymbol in: aClass onModel: aGtkMethodModel [
+    DeleteMethodUndoCommand class >> delete: aSymbol in: aClass [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    delete: aSymbol in: aClass onModel: aGtkMethodModel;
+	    delete: aSymbol in: aClass;
 	    precondition;
 	    yourself
     ]
 
-    delete: aSymbol in: aClass onModel: aGtkMethodModel [
+    delete: aSymbol in: aClass [
 	<category: 'initialize'>
 
 	selector := aSymbol.
 	classOrMeta := aClass.
-	treeStore := aGtkMethodModel
     ]
 
     description [
@@ -33,16 +32,14 @@ UndoCommand subclass: DeleteMethodUndoCommand [
     undo [
 	<category: 'events'>
 
-	classOrMeta methodDictionary at: selector put: compiledMethod.
-	treeStore appendMethod: selector asString
+	classOrMeta methodDictionary insertMethod: compiledMethod.
     ]
 
     redo [
 	<category: 'events'>
 
 	compiledMethod := classOrMeta >> selector.
-	classOrMeta methodDictionary removeKey: selector.
-	treeStore removeMethod: selector asString
+	classOrMeta methodDictionary removeMethod: compiledMethod.
     ]
 ]
 

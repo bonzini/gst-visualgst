@@ -18,6 +18,24 @@ Object subclass: GtkMethodModel [
 	    yourself
     ]
 
+    GtkMethodModel class >> addEvent: anEvent [
+	<category: 'event'>
+
+	| model |
+	model := (current at: anEvent item methodClass ifAbsent: [ ^ self ])
+		    at: anEvent item methodCategory ifAbsent: [ ^ self ].
+	model appendMethod: anEvent item selector asString
+    ]
+
+    GtkMethodModel class >> removeEvent: anEvent [
+	<category: 'event'>
+
+        | model |
+        model := (current at: anEvent item methodClass ifAbsent: [ ^ self ])
+                    at: anEvent item methodCategory ifAbsent: [ ^ self ].
+        model removeMethod: anEvent item selector asString
+    ]
+
     | model classOrMeta category sorted |
 
     initialize [

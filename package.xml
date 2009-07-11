@@ -51,6 +51,20 @@
   <filein>Notification/SystemChangeNotifier.st</filein>
   <filein>Notification/SystemEventManager.st</filein>
 
+  <filein>Commands/Command.st</filein>
+  <filein>Commands/UndoableCommand.st</filein>
+  <filein>Commands/AddNamespaceCommand.st</filein>
+  <filein>Commands/DeleteNamespaceCommand.st</filein>
+  <filein>Commands/RenameNamespaceCommand.st</filein>
+  <filein>Commands/AddClassCommand.st</filein>
+  <filein>Commands/DeleteClassCommand.st</filein>
+  <filein>Commands/RenameClassCommand.st</filein>
+  <filein>Commands/AddCategoryCommand.st</filein>
+  <filein>Commands/DeleteCategoryCommand.st</filein>
+  <filein>Commands/RenameCategoryCommand.st</filein>
+  <filein>Commands/AddMethodCommand.st</filein>
+  <filein>Commands/DeleteMethodCommand.st</filein>
+
   <filein>GtkMainWindow.st</filein>
   <filein>VisualGST.st</filein>
   <filein>GtkConcreteWidget.st</filein>
@@ -126,6 +140,7 @@
 
   <filein>Notification/Kernel/AbstractNamespace.st</filein>
   <filein>Notification/Kernel/Metaclass.st</filein>
+  <filein>Notification/Kernel/MethodDictionary.st</filein>
 
   <filein>Debugger/GtkStackInspectorView.st</filein>
   <filein>Debugger/GtkStackInspector.st</filein>
@@ -162,6 +177,21 @@
   <file>Notification/SystemEventManager.st</file>
   <file>Notification/Kernel/AbstractNamespace.st</file>
   <file>Notification/Kernel/Metaclass.st</file>
+  <file>Notification/Kernel/MethodDictionary.st</file>
+
+  <file>Commands/Command.st</file>
+  <file>Commands/UndoableCommand.st</file>
+  <file>Commands/AddNamespaceCommand.st</file>
+  <file>Commands/DeleteNamespaceCommand.st</file>
+  <file>Commands/RenameNamespaceCommand.st</file>
+  <file>Commands/AddClassCommand.st</file>
+  <file>Commands/DeleteClassCommand.st</file>
+  <file>Commands/RenameClassCommand.st</file>
+  <file>Commands/AddCategoryCommand.st</file>
+  <file>Commands/DeleteCategoryCommand.st</file>
+  <file>Commands/RenameCategoryCommand.st</file>
+  <file>Commands/AddMethodCommand.st</file>
+  <file>Commands/DeleteMethodCommand.st</file>
 
   <file>GtkMainWindow.st</file>
   <file>VisualGST.st</file>

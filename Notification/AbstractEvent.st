@@ -277,6 +277,12 @@ Object subclass: AbstractEvent [
 	^ self item: aClass kind: AbstractEvent classKind
     ]
 
+    AbstractEvent class >> method: aCompiledMethod [
+        <category: 'instance creation'>
+
+        ^ self item: aCompiledMethod kind: AbstractEvent methodKind
+    ]
+
     AbstractEvent class >> class: aClass category: cat [
 	<category: 'instance creation'>
  

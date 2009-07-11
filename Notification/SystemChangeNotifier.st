@@ -79,6 +79,12 @@ Object subclass: SystemChangeNotifier [
 	self trigger: (AddedEvent namespace: aNamespace)
     ]
 
+    namespaceRemoved: aNamespace [
+        <category: 'system triggers'>
+
+        self trigger: (RemovedEvent namespace: aNamespace)
+    ]
+
     classCategoryAdded: aClassCategoryName [
 	<category: 'system triggers'>
 
@@ -114,6 +120,12 @@ Object subclass: SystemChangeNotifier [
         <category: 'system triggers'>
 
         self trigger: (AddedEvent class: aClass)
+    ]
+
+    classRemoved: aClass [
+	<category: 'system triggers'>
+
+        self trigger: (RemovedEvent class: aClass)
     ]
 
     classAdded: aClass inCategory: aCategoryName [
@@ -176,6 +188,18 @@ Object subclass: SystemChangeNotifier [
 	self trigger: (DoItEvent 
 		expression: expression
 		context: aContext)
+    ]
+
+    methodAdded: aCompiledMethod [
+	<category: 'system triggers'>
+
+	self trigger: (AddedEvent method: aCompiledMethod)
+    ]
+
+    methodRemoved: aCompiledMethod [
+        <category: 'system triggers'>
+
+        self trigger: (RemovedEvent method: aCompiledMethod)
     ]
 
     methodAdded: aMethod selector: aSymbol inClass: aClass [

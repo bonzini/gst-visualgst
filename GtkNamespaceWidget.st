@@ -93,18 +93,18 @@ GtkConcreteWidget subclass: GtkNamespaceWidget [
 	<category: 'searching'>
 
 	| result |
-	(result := self findNamespace: aString from: Smalltalk) = self ifTrue: [self error: 'Namespace ', aString, 'not found'].
+	(result := self findNamespace: aString from: Smalltalk) = self ifTrue: [ self error: 'Namespace ', aString, ' not found' ].
 	^ result
     ]
 
     findNamespace: aString from: aNamespace [
 	<category: 'searching'>
 
-	aNamespace displayString = aString ifTrue: [^ aNamespace].
+	aNamespace displayString = aString ifTrue: [ ^ aNamespace ].
 	
 	aNamespace subspacesDo: [ :each | | result |
 	    (result := self findNamespace: aString from: each) = self 
-		ifFalse: [^ result]]
+		ifFalse: [ ^ result ] ]
     ]
 ]
 

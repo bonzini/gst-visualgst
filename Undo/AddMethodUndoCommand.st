@@ -1,23 +1,22 @@
 UndoCommand subclass: AddMethodUndoCommand [
 
-    | selector method category classOrMeta oldCompiledMethod treeStore |
+    | selector method category classOrMeta oldCompiledMethod compiledMethod |
 
-    AddMethodUndoCommand class >> add: aString classified: aCategory in: aClass onModel: aGtkMethodModel [
+    AddMethodUndoCommand class >> add: aString classified: aCategory in: aClass [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    add: aString classified: aCategory in: aClass onModel: aGtkMethodModel;
+	    add: aString classified: aCategory in: aClass;
 	    precondition;
 	    yourself
     ]
 
-    add: aString classified: aCategory in: aClass onModel: aGtkMethodModel [
+    add: aString classified: aCategory in: aClass [
 	<category: 'initialize'>
 
 	method := aString.
 	category := aCategory.
 	classOrMeta := aClass.
-	treeStore := aGtkMethodModel
     ]
 
     description [
@@ -40,22 +39,21 @@ UndoCommand subclass: AddMethodUndoCommand [
     undo [
 	<category: 'events'>
 
-	classOrMeta methodDictionary removeKey: selector.
+	classOrMeta methodDictionary removeMethod: compiledMethod.
 	oldCompiledMethod 
-	    ifNotNil: [ classOrMeta methodDictionary at: selector put: oldCompiledMethod ]
-	    ifNil: [ treeStore removeMethod: selector asString ]
+	    ifNotNil: [ classOrMeta methodDictionary insertMethod: oldCompiledMethod ]
     ]
 
     redo [
 	<category: 'events'>
 
 	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
-	classOrMeta
-	    compile: method
-	    classified: category
-	    ifError: [ :fname :lineNo :errorString |
-			^ self error: 'Compile error ', errorString ].
-	oldCompiledMethod ifNil: [ treeStore appendMethod: selector asString ]
+	compiledMethod := classOrMeta
+				compile: method
+				classified: category
+				ifError: [ :fname :lineNo :errorString |
+				    ^ self error: 'Compile error ', errorString ].
+	oldCompiledMethod ifNil: [ classOrMeta methodDictionary insertMethod: compiledMethod ]
     ]
 ]
 

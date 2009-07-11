@@ -1,21 +1,21 @@
 UndoCommand subclass: AddNamespaceUndoCommand [
-    | parentNamespace newNamespace treeStore |
+    | parentNamespace namespaceName newNamespace |
 
-    AddNamespaceUndoCommand class >> add: aSymbol to: aNamespace onModel: aGtkNamespaceModel [
+    AddNamespaceUndoCommand class >> add: aSymbol to: aNamespace [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    add: aSymbol to: aNamespace onModel: aGtkNamespaceModel;
+	    add: aSymbol to: aNamespace;
 	    precondition;
 	    yourself
     ]
 
-    add: aSymbol to: aNamespace onModel: aGtkNamespaceModel [
+    add: aSymbol to: aNamespace [
 	<category: 'initialize'>
 
 	parentNamespace := aNamespace.
-	newNamespace := aSymbol.
-	treeStore := aGtkNamespaceModel.
+	namespaceName := aSymbol.
+	newNamespace := Namespace gstNew: parentNamespace name: namespaceName asSymbol
     ]
 
     description [
@@ -34,18 +34,13 @@ UndoCommand subclass: AddNamespaceUndoCommand [
     undo [
 	<category: 'events'>
 
-	treeStore remove: (parentNamespace at: newNamespace).
-	parentNamespace removeSubspace: newNamespace
+	parentNamespace removeSubspace: newNamespace name
     ]
 
     redo [
 	<category: 'events'>
 
-	treeStore
-	    append: (treeStore findIterInANamespace: parentNamespace)
-	    column: 0
-	    value: newNamespace asString.
-	parentNamespace addSubspace: newNamespace
+	parentNamespace insertSubspace: newNamespace
     ]
 ]
 

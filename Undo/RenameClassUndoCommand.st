@@ -1,23 +1,22 @@
 UndoCommand subclass: RenameClassUndoCommand [
 
-    | class newClassName oldClassName treeStore |
+    | class newClassName oldClassName |
 
-    RenameClassUndoCommand class >> rename: aClass as: aSymbol onModel: aGtkClassModel [
+    RenameClassUndoCommand class >> rename: aClass as: aSymbol [
 	<category: 'instance creation'>
 
 	^ (self new)
-	    rename: aClass as: aSymbol onModel: aGtkClassModel;
+	    rename: aClass as: aSymbol;
 	    precondition;
 	    yourself
     ]
 
-    rename: aClass as: aSymbol onModel: aGtkClassModel [
+    rename: aClass as: aSymbol [
 	<category: 'initialize'>
 
 	class := aClass.
 	oldClassName := class name.
 	newClassName := aSymbol.
-	treeStore := aGtkClassModel
     ]
 
     description [
@@ -37,23 +36,17 @@ UndoCommand subclass: RenameClassUndoCommand [
     undo [
 	<category: 'events'>
 	
-	| iter |
-        iter := treeStore findIterInAClass: class.
-        treeStore at: iter column: 0 value: newClassName , ' class'.
+        class environment removeClass: newClassName.
         class setName: oldClassName.
-        class environment at: oldClassName put: class.
-        class environment removeKey: newClassName
+	class environment insertClass: class
     ]
 
     redo [
 	<category: 'events'>
 
-	| iter |
-	iter := treeStore findIterInAClass: class.
-	treeStore at: iter column: 0 value: newClassName , ' class'.
+        class environment removeClass: oldClassName.
 	class setName: newClassName.
-	class environment at: newClassName put: class.
-	class environment removeKey: oldClassName
+	class environment insertClass: class
     ]
 ]
 
