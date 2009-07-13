@@ -31,4 +31,10 @@ Smalltalk.Object subclass: GtkConcreteWidget [
 
 	child showAll
     ]
+
+    hasFocus [
+	<category: 'testing'>
+
+	^ child focusChildFor: self parentWindow
+    ]
 ]

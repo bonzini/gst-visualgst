@@ -103,8 +103,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'user interface'>
 
 	codeWidget := (GtkSourceCodeWidget new)
-			initialize;
 			parentWindow: self parentWindow;
+			initialize;
 			showAll;
 			yourself.
     
@@ -332,13 +332,17 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     undo [
 	<category: 'edit events'>
 
-	self undoStack undo
+	codeWidget hasFocus 
+	    ifTrue: [ codeWidget undo ]
+	    ifFalse: [ self undoStack undo ]
     ]
 
     redo [
 	<category: 'edit events'>
 
-	self undoStack redo
+        codeWidget hasFocus
+            ifTrue: [ codeWidget redo ]
+            ifFalse: [ self undoStack redo ]
     ]
 
     acceptIt [

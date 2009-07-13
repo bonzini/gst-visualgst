@@ -36,6 +36,7 @@
   <filein>GtkExtend/GtkListStore.st</filein>
   <filein>GtkExtend/GtkTreeStore.st</filein>
   <filein>GtkExtend/Gdk.st</filein>
+  <filein>GtkExtend/GtkContainer.st</filein>
 
   <filein>ExtendsCairo.st</filein>
   <filein>Notification/AbstractEvent.st</filein>
@@ -161,6 +162,7 @@
   <file>GtkExtend/GtkListStore.st</file>
   <file>GtkExtend/GtkTreeStore.st</file>
   <file>GtkExtend/Gdk.st</file>
+  <file>GtkExtend/GtkContainer.st</file>
 
   <file>ExtendsCairo.st</file>
   <file>Notification/AbstractEvent.st</file>

@@ -243,8 +243,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	^ (GtkClassBrowserWidget new)
-	    initialize;
 	    parentWindow: window;
+	    initialize;
 	    yourself
     ]
 
@@ -252,6 +252,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	^ GtkTranscriptWidget new
+	    parentWindow: window;
 	    initialize;
 	    yourself
     ]
@@ -260,6 +261,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	^ GtkWorkspaceWidget new
+	    parentWindow: window;
 	    initialize;
 	    yourself
     ]
@@ -494,39 +496,39 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     undo [
 	<category: 'edit events'>
 
-	self isCurrentWidgetTranscript ifTrue: [ ^ self ].
-	self onFocusedTextViewPerform: #undo
+	self isCurrentWidgetTranscript ifTrue: [ currentWidget hasFocus ifTrue: [ ^ self ] ].
+	self onFocusPerform: #undo
     ]
 
     redo [
 	<category: 'edit events'>
 
-	self isCurrentWidgetTranscript ifTrue: [ ^ self ].
-	self onFocusedTextViewPerform: #redo
+	self isCurrentWidgetTranscript ifTrue: [ currentWidget hasFocus ifTrue: [ ^ self ] ].
+	self onFocusPerform: #redo
     ]
 
     cut [
 	<category: 'edit events'>
 
-	self onFocusedTextViewPerform: #cut
+	self onFocusPerform: #cut
     ]
 
     copy [
 	<category: 'edit events'>
 
-	self onFocusedTextViewPerform: #copy
+	self onFocusPerform: #copy
     ]
 
     paste [
 	<category: 'edit events'>
 
-	self onFocusedTextViewPerform: #paste
+	self onFocusPerform: #paste
     ]
 
     selectAll [
 	<category: 'edit events'>
 
-	self onFocusedTextViewPerform: #selectAll
+	self onFocusPerform: #selectAll
     ]
 
     clearTranscriptWidget [
@@ -550,55 +552,37 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	file close.
     ]
 
-    currentWidgetHasFocus [
-	<category: 'testing'>
-
-	^ window getFocus address = currentWidget textview address
-    ]
-
-    textViewHasFocus [
-	<category: 'testing'>
-
-	^ centralBrowser sourceCodeWidgetHasFocus or: [ self currentWidgetHasFocus ]
-    ]
-
-    focusedTextView [
+    onFocusPerform: aSelector [
 	<category: 'focus'>
 
-	^ centralBrowser sourceCodeWidgetHasFocus
-            ifTrue: [ centralBrowser ]
-	    ifFalse: [ currentWidget ]
-    ]
-
-    onFocusedTextViewPerform: aSelector [
-	<category: 'focus'>
-
-        self textViewHasFocus ifFalse: [ ^ self ].
-        self focusedTextView perform: aSelector 
+	^ centralBrowser hasFocus 
+	    ifTrue: [ centralBrowser perform: aSelector ]
+	    ifFalse: [ currentWidget hasFocus 
+			    ifTrue: [ currentWidget perform: aSelector ] ].
     ]
 
     doIt [
 	<category: 'smalltalk events'>
 
-	self onFocusedTextViewPerform: #doIt
+	self onFocusPerform: #doIt
     ]
 
     printIt [
 	<category: 'smalltalk events'>
 
-	self onFocusedTextViewPerform: #printIt
+	self onPerform: #printIt
     ]
 
     inspectIt [
 	<category: 'smalltalk events'>
 
-	self onFocusedTextViewPerform: #inspectIt
+	self onPerform: #inspectIt
     ]
 
     debugIt [
 	<category: 'smalltalk events'>
 
-	self onFocusedTextViewPerform: #debugIt
+	self onPerform: #debugIt
     ]
 
     implementors [
