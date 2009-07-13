@@ -11,6 +11,12 @@ UndoCommand subclass: AddMethodUndoCommand [
 	    yourself
     ]
 
+    compileError: aString [
+	<category: 'error printing'>
+
+	VisualGST compileError: aString
+    ]
+
     add: aString classified: aCategory in: aClass [
 	<category: 'initialize'>
 
@@ -30,10 +36,16 @@ UndoCommand subclass: AddMethodUndoCommand [
 
 	| parser |
         parser := STInST.RBBracketedMethodParser new
-                    errorBlock: [ :string :pos | ^ self error: string ];
+                    errorBlock: [ :string :pos | ^ self compileError: string ];
                     initializeParserWith: method type: #'on:errorBlock:';
                     yourself.
 	selector := parser parseMethod selector.
+	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
+	compiledMethod := classOrMeta
+				compile: method
+				classified: category
+				ifError: [ :fname :lineNo :errorString |
+				    ^ self compileError: 'Compile error ', errorString ].
     ]
 
     undo [
@@ -47,12 +59,6 @@ UndoCommand subclass: AddMethodUndoCommand [
     redo [
 	<category: 'events'>
 
-	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
-	compiledMethod := classOrMeta
-				compile: method
-				classified: category
-				ifError: [ :fname :lineNo :errorString |
-				    ^ self error: 'Compile error ', errorString ].
 	oldCompiledMethod ifNil: [ classOrMeta methodDictionary insertMethod: compiledMethod ]
     ]
 ]

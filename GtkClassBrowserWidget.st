@@ -806,5 +806,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	codeWidget selectAll
     ]
+
+    errorModel: aGtkTextBuffer [
+	<category: 'accessing'>
+
+	
+    ]
 ]
 

@@ -1,4 +1,6 @@
 GtkMainWindow subclass: VisualGST [
+    VisualGST class [ | compileError | ]
+
     | currentWidget notebook notebookPages transcriptWidget windowsMenu centralBrowser |
 
     VisualGST class >> open [
@@ -23,6 +25,18 @@ GtkMainWindow subclass: VisualGST [
 	<category: 'accessing'>
 
 	^ 'http://smalltalk.gnu.org/'
+    ]
+
+    VisualGST class >> compileError: aString [
+	<category: 'accessing'>
+
+	compileError text: aString
+    ]
+
+    VisualGST class >> setCompilerError: aWorkspace [
+	<category: 'accessing'>
+
+	compileError := aWorkspace
     ]
 
     aboutLauncher [
@@ -193,16 +207,20 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildNotebookWorkspaceWidget [
 	<category: 'user interface'>
 
-	| workspaceWidget |
+	| workspaceWidget cmp |
         notebook := GTK.GtkNotebook new
                         connectSignal: 'switch-page' to: self selector: #switchPageOn:page:number: userData: nil.
         currentWidget := transcriptWidget := self buildTranscriptWidget.
-        workspaceWidget := self buildWorkspaceWidget.
+	cmp := self buildWorkspaceWidget.
+	self class setCompilerError: (cmp := self buildWorkspaceWidget).
+	workspaceWidget := self buildWorkspaceWidget.
         notebookPages
             addLast: transcriptWidget;
+	    addLast: cmp;
             addLast: workspaceWidget.
         ^ notebook
             appendPage: transcriptWidget mainWidget tabLabel: (self buildLabelWidget: 'Transcript' withIcon: GTK.Gtk gtkStockClose at: transcriptWidget);
+	    appendPage: cmp mainWidget tabLabel: (self buildLabelWidget: 'Error(s)' withIcon: GTK.Gtk gtkStockClose at: cmp);
             "setTabDetachable: transcriptWidget mainWidget detachable: true;
             setTabReorderable:  transcriptWidget mainWidget reorderable: true;"
             appendPage: workspaceWidget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: workspaceWidget);
@@ -350,7 +368,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open' connectTo: self selector: #open.
-            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkLauncher>/File/Save' connectTo: self selector: #save.
+            GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #save.
             GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs' connectTo: self selector: #saveAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #printIt.
@@ -390,12 +408,15 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'}.
             {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'}.
             {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}.
-	    {'<Alt>D'. '<GtkLauncher>/Smalltalk/DebugIt'}}.
+	    {'<Alt>D'. '<GtkLauncher>/Smalltalk/DebugIt'}.
+	    {'<Control>S'. '<GtkLauncher>/Smalltalk/AcceptIt'}}.
 
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
             GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
-            GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkLauncher>/Smalltalk/DebugIt' connectTo: self selector: #debugIt}
+            GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkLauncher>/Smalltalk/DebugIt' connectTo: self selector: #debugIt.
+	    GTK.GtkMenuItem new.
+	    GTK.GtkMenuItem menuItem: 'Accept-It' accelPath: '<GtkLauncher>/Smalltalk/AcceptIt' connectTo: self selector: #acceptIt}
     ]
 
     createHelpMenus [
@@ -570,19 +591,25 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     printIt [
 	<category: 'smalltalk events'>
 
-	self onPerform: #printIt
+	self onFocusPerform: #printIt
     ]
 
     inspectIt [
 	<category: 'smalltalk events'>
 
-	self onPerform: #inspectIt
+	self onFocusPerform: #inspectIt
     ]
 
     debugIt [
 	<category: 'smalltalk events'>
 
-	self onPerform: #debugIt
+	self onFocusPerform: #debugIt
+    ]
+
+    acceptIt [
+	<category: 'smalltalk events'>
+
+	centralBrowser acceptIt
     ]
 
     implementors [
