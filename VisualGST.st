@@ -286,6 +286,56 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem menuItem: 'Clear Transcript' connectTo: self selector: #clearTranscriptWidget}
     ]
 
+    createNamespaceMenus [
+        <category: 'user interface'>
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a namespace' connectTo: self selector: #newNamespace.
+            GTK.GtkMenuItem menuItem: 'Rename a namespace' connectTo: self selector: #renameNamespace.
+            GTK.GtkMenuItem menuItem: 'Delete a namespace' connectTo: self selector: #deleteNamespace.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Inspect a namespace' connectTo: self selector: #inspectNamespace.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'File out a namespace' connectTo: self selector: #fileoutNamespace.
+            GTK.GtkMenuItem menuItem: 'File out in a project' connectTo: self selector: #fileoutProject}
+    ]
+
+    createClassMenus [
+        <category: 'user interface'>
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a class' connectTo: self selector: #newClass.
+            GTK.GtkMenuItem menuItem: 'Rename a class' connectTo: self selector: #renameClass.
+            GTK.GtkMenuItem menuItem: 'Delete a class' connectTo: self selector: #deleteClass.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Inspect a class' connectTo: self selector: #inspectClass.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'File out a class' connectTo: self selector: #fileoutClass.
+            GTK.GtkMenuItem menuItem: 'File out in a project' connectTo: self selector: #fileoutClassInProject}
+    ]
+
+    createCategoryMenus [
+        <category: 'user interface'>
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
+            GTK.GtkMenuItem menuItem: 'Rename a category' connectTo: self selector: #renameCategory.
+            GTK.GtkMenuItem menuItem: 'Delete a category' connectTo: self selector: #deleteCategory.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Inspect a category' connectTo: self selector: #inspectCategory.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'File out a category' connectTo: self selector: #fileoutCategory}
+    ]
+
+    createMethodMenus [
+        <category: 'user interface'>
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a method' connectTo: self selector: #newMethod.
+            GTK.GtkMenuItem menuItem: 'Rename a method' connectTo: self selector: #renameMethod.
+            GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'File out a method' connectTo: self selector: #fileoutMethod}
+    ]
+
     createFileMenus [
 	<category: 'user interface'>
 
@@ -362,6 +412,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    #('Edit' #createEditMenus).
 	    #('History' #createHistoryMenus).
 	    #('Project' #createProjectMenus).
+	    #('Namespace' #createNamespaceMenus).
+	    #('Class' #createClassMenus).
+	    #('Category' #createCategoryMenus).
+	    #('Method' #createMethodMenus).
 	    #('Smalltalk' #createSmalltalkMenus).
 	    #('Tools' #createToolsMenus).
 	    #('Windows' #createWindowsMenus).
@@ -587,6 +641,120 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'help events'>
 
 	GtkWebBrowser openOn: 'http://smalltalk.gnu.org/documentation'
+    ]
+
+    fileoutNamespace [
+        <category: 'namespace events'>
+
+	centralBrowser fileoutNamespace
+    ]
+
+    fileoutProject [
+        <category: 'namespace events'>
+
+        centralBrowser fileoutProject
+    ]
+
+    newNamespace [
+        <category: 'namespace events'>
+
+        centralBrowser newNamespace
+    ]
+
+    renameNamespace [
+        <category: 'namespace events'>
+
+        centralBrowser renameNamespace
+    ]
+
+    deleteNamespace [
+        <category: 'namespace events'>
+
+        centralBrowser deleteNamespace
+    ]
+
+    inspectNamespace [
+        <category: 'namespace events'>
+
+        centralBrowser inspectNamespace
+    ]
+
+    newClass [
+        <category: 'class events'>
+
+        centralBrowser newClass
+    ]
+
+    renameClass [
+        <category: 'class events'>
+
+	centralBrowser renameClass
+    ]
+
+    deleteClass [
+        <category: 'class events'>
+
+        centralBrowser deleteClass
+    ]
+
+    inspectClass [
+        <category: 'class events'>
+
+        centralBrowser inspectClass
+    ]
+
+    newCategory [
+        <category: 'category events'>
+
+        centralBrowser newCategory
+    ]
+
+    renameCategory [
+        <category: 'category events'>
+
+        centralBrowser renameCategory
+    ]
+
+    deleteCategory [
+        <category: 'category events'>
+
+        centralBrowser deleteCategory
+    ]
+
+    inspectCategory [
+        <category: 'category events'>
+
+        centralBrowser inspectCategory
+    ]
+
+    fileoutCategory [
+        <category: 'method events'>
+
+	centralBrowser fileoutCategory
+    ]
+
+    newMethod [
+        <category: 'method events'>
+
+        centralBrowser newMethod
+    ]
+
+    deleteMethod [
+        <category: 'method events'>
+
+        centralBrowser deleteMethod
+    ]
+
+    inspectMethod [
+        <category: 'method events'>
+
+        centralBrowser inspectMethod
+    ]
+
+    fileoutMethod [
+        <category: 'method events'>
+
+	centralBrowser fileoutMethod
     ]
 ]
 
