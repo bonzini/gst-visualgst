@@ -105,4 +105,14 @@ Object subclass: GtkImageModel [
 	string := (self model getOop: aGtkIter column: 0).
         ^ finderDic at: string ifAbsent: [ self error: 'Element not found' ].
     ]
+
+    matchRegex: aString [
+	<category: 'item selection'>
+
+	| result |
+	result := OrderedCollection new.
+	finderDic keysAndValuesDo: [ :key :value |
+	    (key matchRegex: aString) ifTrue: [ result add: value ] ].
+	^ result
+    ]
 ]

@@ -122,7 +122,9 @@ GtkMainWindow subclass: GtkImplementor [
     buildFinderEntry [
 	<category: 'user interface'>
 
-	searchEntry := GTK.GtkEntry new.
+	searchEntry := (GTK.GtkEntry new)
+			    connectSignal: 'activate' to: self selector: #searchValidate userData: nil;
+			    yourself.
 	^ (GTK.GtkHBox new: true spacing: 3)
 	    add: (GTK.GtkLabel new: 'Class or method :');
 	    add: searchEntry;
@@ -262,7 +264,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    iter := GTK.GtkTreeIter new.
 	    self resultModel append: iter parent: nil.
 	    self resultModel setOop: iter column: 0 value: each ].
-	resultTree getSelection	selectPath: GTK.GtkTreePath newFirst
+	"resultTree getSelection selectPath: GTK.GtkTreePath newFirst"
     ]
 
     resultSelected [
@@ -309,6 +311,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         <category: 'history events'>
 
         classBrowserWidget forward
+    ]
+
+    searchValidate [
+	<category: 'search entry events'>
+
+	(GtkImageModel current matchRegex: searchEntry getText) printNl
     ]
 ]
 
