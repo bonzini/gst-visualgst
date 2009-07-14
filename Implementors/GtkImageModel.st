@@ -110,9 +110,19 @@ Object subclass: GtkImageModel [
 	<category: 'item selection'>
 
 	| result |
-	result := OrderedCollection new.
+	result := Dictionary new.
 	finderDic keysAndValuesDo: [ :key :value |
-	    (key matchRegex: aString) ifTrue: [ result add: value ] ].
-	^ result
+	    (key matchRegex: aString) ifTrue: [ result at: key put: value ] ].
+	^ (self class new)
+	    finderTreeAsModel: result;
+	    yourself
+    ]
+
+    finderTreeAsModel: aDictionary [
+	<category: 'model'>
+
+	finderDic := aDictionary.
+	finderDic keysDo: [ :each |
+	    self appendToModel: each ]
     ]
 ]

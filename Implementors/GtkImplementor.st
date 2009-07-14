@@ -316,7 +316,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     searchValidate [
 	<category: 'search entry events'>
 
-	(GtkImageModel current matchRegex: searchEntry getText) printNl
+	searchEntry getText isEmpty ifTrue: [ ^ finderTree setModel: (model := GtkImageModel currentModel) ].
+	finderTree setModel: (model := (GtkImageModel current matchRegex: searchEntry getText) model).
     ]
 ]
 
