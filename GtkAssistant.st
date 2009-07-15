@@ -95,7 +95,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             {{'<Control>O'. '<GtkLauncher>/File/Open'}.
             {'<Control>S'. '<GtkLauncher>/File/Save'}.
             {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'}.
-            {'<Control>Q'. '<GtkLauncher>/File/Quit'}}.
+            {'<Control>Q'. '<GtkAssistant>/File/Close'}}.
 
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New worskpace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
@@ -108,7 +108,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit' connectTo: self selector: #quit}
+            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkAssistant>/File/Close' connectTo: self selector: #close}
     ]
 
     createSmalltalkMenus [

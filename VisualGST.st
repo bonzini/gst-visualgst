@@ -194,6 +194,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'initialization'>
 
 	super initialize.
+	window maximize.
 	notebookPages := OrderedCollection new.
 	self
 	    clearGlobalState;
