@@ -220,7 +220,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             addLast: workspaceWidget.
         ^ notebook
             appendPage: transcriptWidget mainWidget tabLabel: (self buildLabelWidget: 'Transcript' withIcon: GTK.Gtk gtkStockClose at: transcriptWidget);
-	    appendPage: cmp mainWidget tabLabel: (self buildLabelWidget: 'Error(s)' withIcon: GTK.Gtk gtkStockClose at: cmp);
+	    appendPage: cmp mainWidget tabLabel: (self buildLabelWidget: 'Compiler error(s)' withIcon: GTK.Gtk gtkStockClose at: cmp);
             "setTabDetachable: transcriptWidget mainWidget detachable: true;
             setTabReorderable:  transcriptWidget mainWidget reorderable: true;"
             appendPage: workspaceWidget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: workspaceWidget);
