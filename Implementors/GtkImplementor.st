@@ -135,7 +135,7 @@ GtkMainWindow subclass: GtkImplementor [
 	<category: 'model accessing'>
 
 	^ model ifNil: [
-	    model := GtkImageModel currentModel ]
+	    model := GtkImageModel current ]
     ]
 
     resultModel [
@@ -148,10 +148,10 @@ GtkMainWindow subclass: GtkImplementor [
     buildClassAndMethodList [
 	<category: 'user interface'>
 
-	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Methods and Classes'.
-	GtkImageModel current isSorted ifFalse: [
+	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self model gtkModel title: 'Methods and Classes'.
+	self model isSorted ifFalse: [
 	    (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
-	    GtkImageModel current isSorted: true ].
+	    self model isSorted: true ].
 	finderTree
 	    getSelection
 		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
@@ -256,10 +256,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| iter string |
         (iter := finderTree selectedIter) ifNil: [ ^ self ].
-        string := (self model getOop: iter column: 0).
+        string := (self model gtkModel getOop: iter column: 0).
    
 	self resultModel clear. 
-	resultArray := GtkImageModel current selectedItem: iter.
+	resultArray := self model selectedItem: iter.
 	resultArray keysDo: [ :each |
 	    iter := GTK.GtkTreeIter new.
 	    self resultModel append: iter parent: nil.
@@ -316,8 +316,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     searchValidate [
 	<category: 'search entry events'>
 
-	searchEntry getText isEmpty ifTrue: [ ^ finderTree setModel: (model := GtkImageModel currentModel) ].
-	finderTree setModel: (model := (GtkImageModel current matchRegex: searchEntry getText) model).
+	searchEntry getText isEmpty ifTrue: [ ^ finderTree setModel: (model := GtkImageModel current) gtkModel ].
+	finderTree setModel: (model := (GtkImageModel current matchRegex: searchEntry getText)) gtkModel
     ]
 ]
 

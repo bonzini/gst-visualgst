@@ -6,7 +6,7 @@ GtkLauncher
 
 	x Sauvegarder les fichiers
 	x Charger les fichiers
-	- Mode MDI, SDI
+	x Mode MDI, SDI
 
 GtkTextEditor
 =============
@@ -26,7 +26,7 @@ GtkWorkspace
 GtkClassBrowser
 ===============
 
-	- Inserer un worskpace, transcript (que l'on peut cacher)
+	x Inserer un worskpace, transcript (que l'on peut cacher)
 	x Sauvegarder/Charger des fichiers (namespaces, classes, ...)
 	- Icone si test unitaire
 	* Popup menu

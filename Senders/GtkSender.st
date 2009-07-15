@@ -34,18 +34,24 @@ GtkMainWindow subclass: GtkSender [
     createFileMenus [
         <category: 'user interface'>
 
+        self accelGroup append:
+            {{'<Control>O'. '<GtkSender>/File/Open'}.
+            {'<Control>S'. '<GtkSender>/File/Save'}.
+            {'<Control><Shift>S'. '<GtkSender>/File/SaveAs'}.
+            {'<Control>Q'. '<GtkSender>/File/Close'}}.
+
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Open' connectTo: self selector: #open.
-            GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #saveImage.
-            GTK.GtkMenuItem menuItem: 'Save as...' connectTo: self selector: #saveImageAs.
+            GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkSender>/File/Open' connectTo: self selector: #open.
+            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkSender>/File/Save' connectTo: self selector: #saveImage.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkSender>/File/SaveAs' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Quit' connectTo: self selector: #quit}
+            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkSender>/File/Close' connectTo: self selector: #close}
     ]
 
     createEditMenus [
@@ -58,6 +64,31 @@ GtkMainWindow subclass: GtkSender [
             GTK.GtkMenuItem menuItem: 'Select all' connectTo: self selector: #selectAll.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Search' connectTo: self selector: #searchClassOrMethod}
+    ]
+
+    createHistoryMenus [
+        <category: 'user interface'>
+
+        self accelGroup append:
+            {{'<Alt>Left'. '<GtkLauncher>/History/Back'}.
+            {'<Alt>Right'. '<GtkLauncher>/History/Forward'}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
+            GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward}
+    ]
+
+    createSmalltalkMenus [
+        <category: 'user interface'>
+
+        self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'}.
+            {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'}.
+            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'}.
+            {'<Alt>D'. '<GtkLauncher>/Smalltalk/DebugIt'}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
+            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
+            GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkLauncher>/Smalltalk/DebugIt' connectTo: self selector: #debugIt}
     ]
 
     createToolsMenus [
@@ -81,11 +112,12 @@ GtkMainWindow subclass: GtkSender [
 
     createMenus [
         <category: 'user interface'>
-
-        self addMenuItem: 'File' withSubmenu: self createFileMenus.
-        self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
-        self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
-        self addMenuItem: 'Help' withSubmenu: self createHelpMenus
+        self createMainMenu: {#('File' #createFileMenus).
+            #('Edit' #createEditMenus).
+            #('History' #createHistoryMenus).
+            #('Smalltalk' #createSmalltalkMenus).
+            #('Tools' #createToolsMenus).
+            #('Help' #createHelpMenus)}
     ]
 
 
@@ -121,7 +153,9 @@ GtkMainWindow subclass: GtkSender [
     buildFinderEntry [
 	<category: 'user interface'>
 
-	searchEntry := GTK.GtkEntry new.
+	searchEntry := (GTK.GtkEntry new)
+                            connectSignal: 'activate' to: self selector: #searchValidate userData: nil;
+                            yourself.
 	^ (GTK.GtkHBox new: true spacing: 3)
 	    add: (GTK.GtkLabel new: 'Class or method :');
 	    add: searchEntry;
@@ -131,10 +165,10 @@ GtkMainWindow subclass: GtkSender [
     buildFinderTree [
 	<category: 'user interface'>
 
-	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self finderModel title: 'Selectors'.
-        GtkImageModel current isSorted ifFalse: [
+	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self finderModel gtkModel title: 'Selectors'.
+        self finderModel isSorted ifFalse: [
 	    (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
-	    GtkImageModel current isSorted: true ].
+	    self finderModel isSorted: true ].
         finderTree
             getSelection
                 connectSignal: 'changed' to: self selector: #finderSelected userData: nil.
@@ -145,7 +179,7 @@ GtkMainWindow subclass: GtkSender [
 	<category: 'model accessing'>
 
 	^ finderModel ifNil: [
-	    finderModel := GtkImageModel currentModel ]
+	    finderModel := GtkImageModel current ]
     ]
 
     senderModel [
@@ -271,7 +305,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	self 
 	    clearSenderModel;
-	    findInMethod: (GtkImageModel current selectedItem: iter) values first element.
+	    findInMethod: (self finderModel selectedItem: iter) values first element.
     ]
 
     senderSelected [
@@ -288,6 +322,25 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         currentMethod methodClass isClass
                 ifTrue: [ classBrowserWidget selectAnInstanceMethod: currentMethod selector ]
                 ifFalse: [ classBrowserWidget selectAClassMethod: currentMethod selector  ]
+    ]
+
+    searchValidate [
+        <category: 'search entry events'>
+
+        searchEntry getText isEmpty ifTrue: [ ^ finderTree setModel: (finderModel := GtkImageModel current) gtkModel ].
+        finderTree setModel: (finderModel := (GtkImageModel current matchRegex: searchEntry getText)) gtkModel
+    ]
+
+    back [
+        <category: 'history events'>
+
+        classBrowserWidget back
+    ]
+
+    forward [
+        <category: 'history events'>
+
+        classBrowserWidget forward
     ]
 ]
 

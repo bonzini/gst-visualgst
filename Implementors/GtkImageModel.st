@@ -23,7 +23,7 @@ Object subclass: GtkImageModel [
 	finderDic := Dictionary new.
 	isSorted := false.
 	self
-	    model;
+	    gtkModel;
             buildNamespaceModel;
             buildClassModel;
             buildMethodModel
@@ -41,7 +41,7 @@ Object subclass: GtkImageModel [
 	isSorted := aBoolean
     ]
 
-    model [
+    gtkModel [
 	<category: 'accessing'>
 
 	^ model ifNil: [
@@ -95,14 +95,14 @@ Object subclass: GtkImageModel [
     appendToModel: aString [
         <category: 'model builder'>
 
-        self model insertWithValues: nil position: 0 varargs: {0. aString. -1}
+        self gtkModel insertWithValues: nil position: 0 varargs: {0. aString. -1}
     ]
 
     selectedItem: aGtkIter [
 	<category: 'item selection'>
 
 	| string |
-	string := (self model getOop: aGtkIter column: 0).
+	string := (self gtkModel getOop: aGtkIter column: 0).
         ^ finderDic at: string ifAbsent: [ self error: 'Element not found' ].
     ]
 
