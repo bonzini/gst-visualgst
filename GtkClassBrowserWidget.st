@@ -219,6 +219,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     classInstanceSwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
 	<category: 'events'>
 
+	self checkCodeWidget.
 	aSmallInteger = 0 
 	    ifTrue: [
 		iMethodWidget hasSelectedMethod 
@@ -251,6 +252,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
         | aClass |
+	self checkCodeWidget.
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	aClass := classWidget selectedClass.
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget class: aClass ].
@@ -270,6 +272,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	| aClass |
+	self checkCodeWidget.
 	classHierarchyWidget hasSelectedClass ifFalse: [ ^ self ].
 	classHierarchyUpdate := true.
         aClass := classHierarchyWidget selectedClass.
@@ -282,6 +285,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	| category |
+	self checkCodeWidget.
 	iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
 
@@ -291,6 +295,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     onClassSideCategoryChanged [
 	<category: 'events'>
 	
+	self checkCodeWidget.
 	cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
 
@@ -301,6 +306,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	| method |
+	self checkCodeWidget.
 	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := iMethodWidget selectedMethod.
 	codeWidget sourceCode: iMethodWidget sourceCode
@@ -310,6 +316,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	| method |
+	self checkCodeWidget.
 	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := cMethodWidget selectedMethod.
 	codeWidget sourceCode: cMethodWidget sourceCode

@@ -412,7 +412,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    temp := (GTK.GtkToolItem new)
 			add: ((GTK.GtkEntry new)
 				setCompletion: ((GTK.GtkEntryCompletion new)
-						    setModel: GtkImageModel currentModel;
+						    setModel: GtkImageModel current gtkModel;
 						    setTextColumn: 0;
 						    yourself);
 				yourself);
