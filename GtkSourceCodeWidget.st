@@ -156,6 +156,18 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
         SyntaxHighlighter highlight: node in: codeBuffer
     ]
 
+    hasUndo [
+	<category: 'buffer events'>
+
+	^ codeView hasUndo
+    ]
+
+    clearUndo [
+	<category: 'buffer events'>
+
+	codeView clearUndo
+    ]
+
     undo [
 	<category: 'buffer events'>
 

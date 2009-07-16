@@ -234,6 +234,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	| namespace |
+	self checkCodeWidget.
 	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	namespace := namespaceWidget selectedNamespace.
 	classWidget namespace: namespace.
@@ -807,10 +808,20 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	codeWidget selectAll
     ]
 
-    errorModel: aGtkTextBuffer [
-	<category: 'accessing'>
+    checkCodeWidget [
+	<category: 'text editing'>
 
-	
+	| dlg |
+	codeWidget hasUndo ifFalse: [ ^ self ].
+	dlg := GTK.GtkMessageDialog 
+		    new: parentWindow 
+		    flags: GTK.Gtk gtkDialogDestroyWithParent 
+		    type: GTK.Gtk gtkMessageWarning
+		    buttons: GTK.Gtk gtkButtonsOkCancel
+		    message: 'Do you want to save the text buffer'.
+	dlg runBlockingAndDo: [ :dlg :res |
+	    dlg destroy ].
+	codeWidget clearUndo.
     ]
 ]
 

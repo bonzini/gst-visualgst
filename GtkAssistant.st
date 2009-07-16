@@ -57,7 +57,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         GtkWebView registerDLD.
 
         webview := GtkWebView new
-                        openUrl: 'file:///usr/share/doc/libgtk2.0-doc/gtk/index.html';
+                        openUrl: 'http://library.gnome.org/devel/gtk/stable/index.html';
                         showAll;
                         yourself.
 

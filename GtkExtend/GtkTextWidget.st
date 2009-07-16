@@ -103,6 +103,18 @@ GTK.GtkTextView subclass: GtkTextWidget [
         undoStack push: lastCommand.
     ]
 
+    hasUndo [
+	<category: 'buffer events'>
+
+	^ undoStack hasUndo
+    ]
+
+    clearUndo [
+	<category: 'buffer events'>
+
+	undoStack clear
+    ]
+
     undo [
         <category: 'buffer events'>
 

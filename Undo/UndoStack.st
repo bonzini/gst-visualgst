@@ -31,6 +31,12 @@ Object subclass: UndoStack [
 	undoStack removeFirst
     ]
 
+    hasUndo [
+	<category: 'testing'>
+
+	^ undoStack isEmpty not
+    ]
+
     undo [
 	<category: 'undo-redo'>
 
