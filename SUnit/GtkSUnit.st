@@ -202,7 +202,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             setWebsite: VisualGST website;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'};"
-            setProgramName: 'GNU Smalltalk Implementor';
+            setProgramName: 'GNU Smalltalk SUnit';
             run
     ]
 

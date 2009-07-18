@@ -21,6 +21,7 @@ Object subclass: HistoryStack [
 	<category: 'stack'>
 
 	nextStack empty.
+	(previousStack isEmpty not and: [ previousStack first == aClass ]) ifTrue: [ ^ self ].
 	previousStack addFirst: aClass
     ]
 

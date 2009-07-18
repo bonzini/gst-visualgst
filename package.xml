@@ -75,6 +75,12 @@
   <filein>Debugger/GtkContextWidget.st</filein>
   <filein>Debugger/GtkDebugger.st</filein>
 
+  <filein>BrowserState.st</filein>
+  <filein>NamespaceState.st</filein>
+  <filein>ClassState.st</filein>
+  <filein>CategoryState.st</filein>
+  <filein>MethodState.st</filein>
+
   <filein>GtkWorkspaceWidget.st</filein>
   <filein>GtkNamespaceWidget.st</filein>
   <filein>GtkClassWidget.st</filein>
@@ -269,6 +275,12 @@
   <file>Debugger/GtkContextModel.st</file>
   <file>Debugger/GtkStackInspector.st</file>
   <file>Debugger/GtkStackInspectorView.st</file>
+
+  <file>BrowserState.st</file>
+  <file>NamespaceState.st</file>
+  <file>ClassState.st</file>
+  <file>CategoryState.st</file>
+  <file>MethodState.st</file>
 
   <file>Tests/ExtractLiteralsTest.st</file>
 </package>
