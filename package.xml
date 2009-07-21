@@ -7,19 +7,13 @@
   <prereq>DebugTools</prereq>
   <namespace>VisualGST</namespace>
 
-  <test>
-    <filein>Tests/ExtractLiteralsTest.st</filein>
-
-    <sunit>
-      ExtractLiteralsTest
-    </sunit>
-  </test>
-
   <start>
     GTK.Gtk gstGtkInit.
     VisualGST open.
     GTK.Gtk main
   </start>
+
+  <filein>Tests/ExtractLiteralsTest.st</filein>
 
   <filein>GtkExtend/GtkObject.st</filein>
   <filein>GtkExtend/GtkMenuItem.st</filein>
@@ -152,6 +146,13 @@
   <filein>Debugger/GtkStackInspectorView.st</filein>
   <filein>Debugger/GtkStackInspector.st</filein>
 
+  <filein>Tetris2.st</filein>
+
+  <filein>GtkClassSUnitWidget.st</filein>
+  <filein>GtkClassSUnitModel.st</filein>
+  <filein>GtkMethodSUnitWidget.st</filein>
+  <filein>GtkMethodSUnitModel.st</filein>
+  <filein>SUnit/GtkSUnit.st</filein>
 
   <file>GtkExtend/GtkObject.st</file>
   <file>GtkExtend/GtkMenuItem.st</file>
@@ -283,4 +284,12 @@
   <file>MethodState.st</file>
 
   <file>Tests/ExtractLiteralsTest.st</file>
+
+  <file>Tetris2.st</file>
+
+  <file>GtkClassSUnitWidget.st</file>
+  <file>GtkClassSUnitModel.st</file>
+  <file>GtkMethodSUnitWidget.st</file>
+  <file>GtkMethodSUnitModel.st</file>
+  <file>SUnit/GtkSUnit.st</file>
 </package>

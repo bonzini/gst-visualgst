@@ -14,6 +14,12 @@ GtkConcreteWidget subclass: GtkClassWidget [
 	self mainWidget: self buildTreeView
     ]
 
+    classModel [
+	<category: 'initialization'>
+
+	^ GtkClassModel
+    ]
+
     namespace [
 	<category: 'accessing'>
     
@@ -30,7 +36,7 @@ GtkConcreteWidget subclass: GtkClassWidget [
     model [
 	<category: 'accessing'>
 
-	^ (GtkClassModel currentOn: self namespace)
+	^ (self classModel currentOn: self namespace)
 	    model
     ]
 
@@ -40,10 +46,10 @@ GtkConcreteWidget subclass: GtkClassWidget [
 	classesTree
 	    setModel: self model;
 	    expandAll.
-	(GtkClassModel currentOn: self namespace) isSorted
+	(self classModel currentOn: self namespace) isSorted
             ifFalse: [
                 column signalEmitByName: 'clicked' args: {}.
-                (GtkClassModel currentOn: self namespace) sorted: true ].
+                (self classModel currentOn: self namespace) sorted: true ].
     ]
 
     buildTreeView [
@@ -54,10 +60,10 @@ GtkConcreteWidget subclass: GtkClassWidget [
 			    yourself.
 	column := classesTree getColumn: 0.
 	classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
-	(GtkClassModel currentOn: self namespace) isSorted 
+	(self classModel currentOn: self namespace) isSorted 
 	    ifFalse: [
 		column signalEmitByName: 'clicked' args: {}.
-		(GtkClassModel currentOn: self namespace) sorted: true ].
+		(self classModel currentOn: self namespace) sorted: true ].
 	^ GTK.GtkScrolledWindow withChild: classesTree
     ]
 
@@ -123,7 +129,7 @@ GtkConcreteWidget subclass: GtkClassWidget [
 
 	| result |
 
-	result := (GtkClassModel currentOn: self namespace) findIterInAClass: aClass.
+	result := (self classModel currentOn: self namespace) findIterInAClass: aClass.
 	classesTree scrollToCell: (self model getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
 	^ result 
     ]

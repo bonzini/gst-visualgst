@@ -14,6 +14,12 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	self mainWidget: self buildTreeView
     ]
 
+    methodModel [
+	<category: 'accessing'>
+
+	^ GtkMethodModel
+    ]
+
     class [
 	<category: 'accessing'>
     
@@ -43,7 +49,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     model [
 	<category: 'accessing'>
 
-	^ (GtkMethodModel currentOn: self class withCategory: self category)
+	^ (self methodModel currentOn: self class withCategory: self category)
 	    model.
     ]
 
@@ -57,10 +63,10 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'events'>
 
 	methodTree setModel: self model.
-        (GtkMethodModel currentOn: self class withCategory: self category) isSorted
+        (self methodModel currentOn: self class withCategory: self category) isSorted
             ifFalse: [
                 column signalEmitByName: 'clicked' args: {}.
-                (GtkMethodModel currentOn: self class withCategory: self category) sorted: true ].
+                (self methodModel currentOn: self class withCategory: self category) sorted: true ].
     ]
 
     buildTreeView [
@@ -71,10 +77,10 @@ GtkConcreteWidget subclass: GtkMethodWidget [
                             yourself.
 	column := methodTree getColumn: 0.
 	methodTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
-        (GtkMethodModel currentOn: self class withCategory: self category) isSorted
+        (self methodModel currentOn: self class withCategory: self category) isSorted
             ifFalse: [
                 column signalEmitByName: 'clicked' args: {}.
-                (GtkMethodModel currentOn: self class withCategory: self category) sorted: true ].
+                (self methodModel currentOn: self class withCategory: self category) sorted: true ].
 	^ GTK.GtkScrolledWindow withChild: methodTree
     ]
 

@@ -1,4 +1,4 @@
-TestCase subclass: ExtractLiteralsTest [
+Smalltalk.TestCase subclass: ExtractLiteralsTest [
 
     testObject [
 	<category: 'testing'>

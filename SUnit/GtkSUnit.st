@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkSUnit [
-    | model resultModel set finderTree resultArray resultTree classBrowserWidget searchEntry |
+    | namespaceWidget classWidget methodWidget sourceCodeWidget namespace class |
 
     createFileMenus [
         <category: 'user interface'>
@@ -45,7 +45,7 @@ GtkMainWindow subclass: GtkSUnit [
     createHelpMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About Smalltalk Implementor' connectTo: self selector: #aboutImplementor.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About SUnit' connectTo: self selector: #aboutSUnit.
             GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 
@@ -88,81 +88,37 @@ GtkMainWindow subclass: GtkSUnit [
 
     ]
 
-    buildFinderEntry [
+    buildNamespaceAndClassWidget [
 	<category: 'user interface'>
 
-	searchEntry := GTK.GtkEntry new.
-	^ (GTK.GtkHBox new: true spacing: 3)
-	    add: (GTK.GtkLabel new: 'Class or method :');
-	    add: searchEntry;
+	^ (GTK.GtkHPaned new)
+	    add1: self buildNamespaceWidget;
+	    add2: self buildClassWidget;
 	    yourself
     ]
 
-    model [
-	<category: 'model accessing'>
-
-	^ model ifNil: [
-	    model := GtkImageModel currentModel ]
-    ]
-
-    resultModel [
-        <category: 'model accessing'>
-
-        ^ resultModel ifNil: [
-            resultModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
-    ]
-
-    buildClassAndMethodList [
+    buildNamespaceAndClassAndMethodWidget [
 	<category: 'user interface'>
 
-	finderTree := GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Methods and Classes'.
-	GtkImageModel current isSorted ifFalse: [
-	    (finderTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
-	    GtkImageModel current isSorted: true ].
-	finderTree
-	    getSelection
-		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
-        ^ GTK.GtkScrolledWindow withChild: finderTree
+	^ (GTK.GtkHPaned new)
+	    add1: self buildNamespaceAndClassWidget;
+	    add2: self buildMethodWidget;
+	    yourself
     ]
 
-    buildFinderList [
+    buildMiniBrowser [
 	<category: 'user interface'>
 
-	^ GTK.GtkVPaned new
-            add1: self buildFinderEntry;
-            add2: self buildClassAndMethodList;
-            yourself
-    ]
-
-    buildResultList [
-        <category: 'user interface'>
-
-	resultTree := GTK.GtkTreeView newWithSortedTextColumn: self resultModel title: 'Methods and Classes'.
-	(resultTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
-        resultTree
-            getSelection
-                connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
-        ^ GTK.GtkScrolledWindow withChild: resultTree
-    ]
-
-    buildResultAndClassBrowser [
-	<category: 'user interface'>
-
-        ^ GTK.GtkVPaned new
-            add1: self buildResultList;
-            add2: ((classBrowserWidget := GtkClassBrowserWidget new)
-                        initialize;
-                        mainWidget);
-            yourself
+	^ (GTK.GtkVPaned new)
+	    add1: self buildNamespaceAndClassAndMethodWidget;
+	    add2: self buildSourceCodeWidget;
+	    yourself
     ]
 
     buildCentralWidget [
         <category: 'intialize-release'>
 
-	^ (GTK.GtkHPaned new)
-	    add1: self buildFinderList;
-	    add2: self buildResultAndClassBrowser;
-	    yourself
+	^ self buildMiniBrowser
     ]
 
     initialize [
@@ -175,10 +131,9 @@ GtkMainWindow subclass: GtkSUnit [
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
-	finderTree setSearchEntry: searchEntry
     ]
 
-    aboutImplementor [
+    aboutSUnit [
         <category: 'events'>
 
         (GTK.GtkAboutDialog new)
@@ -206,36 +161,70 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             run
     ]
 
-    hasSelectedElement [
-	<category: 'testing'>
+    buildNamespaceWidget [
+	<category: 'user interface'>
 
-	^ finderTree getSelection getSelected isNil not
+	namespaceWidget := GtkNamespaceWidget new
+				initialize;
+				whenSelectionChangedSend: #onNamespaceChanged to: self;
+				showAll;
+				yourself.
+	^ namespaceWidget mainWidget
     ]
 
-    elementSelected [
-	<category: 'events'>
+    buildClassWidget [
+	<category: 'user interface'>
 
-	| iter string |
-        (iter := finderTree getSelection getSelected) ifNil: [ ^ self ].
-        string := (self model getOop: iter column: 0).
-   
-	self resultModel clear. 
-	resultArray := GtkImageModel current selectedItem: iter.
-	resultArray keysDo: [ :each |
-	    iter := GTK.GtkTreeIter new.
-	    self resultModel append: iter parent: nil.
-	    self resultModel setOop: iter column: 0 value: each ].
-	resultTree getSelection	selectPath: GTK.GtkTreePath newFirst
+	classWidget := GtkClassSUnitWidget new
+				initialize;
+				whenSelectionChangedSend: #onClassChanged to: self;
+				showAll;
+				yourself.
+	^ classWidget mainWidget
     ]
 
-    resultSelected [
-	<category: 'events'>
+    buildMethodWidget [
+	<category: 'user interface'>
 
-	| selectedIter selectedString |
-	(selectedIter := resultTree getSelection getSelected) ifNil: [ ^ self ].
-	selectedString := (self resultModel getOop: selectedIter column: 0).
+	methodWidget := GtkMethodSUnitWidget new
+				initialize;
+				whenSelectionChangedSend: #onMethodChanged to: self;
+                                showAll;
+                                yourself.
+        ^ methodWidget mainWidget
+    ]
 
-	(resultArray at: selectedString) updateBrowser: classBrowserWidget.
+    buildSourceCodeWidget [
+        <category: 'user interface'>
+
+        sourceCodeWidget := GtkSourceCodeWidget new
+				initialize;
+				showAll;
+				yourself.
+        ^ sourceCodeWidget mainWidget
+    ]
+
+    onNamespaceChanged [
+	<category: 'namespace events'>
+
+        namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+        namespace := namespaceWidget selectedNamespace.
+        classWidget namespace: namespace.
+    ]
+
+    onClassChanged [
+	<category: 'class events'>
+
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        class := classWidget selectedClass.
+        methodWidget class: class withCategory: '*'.
+    ]
+
+    onMethodChanged [
+	<category: 'method events'>
+
+	methodWidget hasSelectedMethod ifFalse: [ ^ self ].
+	sourceCodeWidget sourceCode: methodWidget sourceCode
     ]
 ]
 
