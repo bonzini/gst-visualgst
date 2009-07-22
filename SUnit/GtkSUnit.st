@@ -171,10 +171,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildNamespaceWidget [
 	<category: 'user interface'>
 
-	namespaceWidget := GtkNamespaceWidget new
-				initialize;
+	namespaceWidget := GtkNamespaceWidget showAll 
 				whenSelectionChangedSend: #onNamespaceChanged to: self;
-				showAll;
 				yourself.
 	^ namespaceWidget mainWidget
     ]
@@ -182,10 +180,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildClassWidget [
 	<category: 'user interface'>
 
-	classWidget := GtkClassSUnitWidget new
-				initialize;
+	classWidget := GtkClassSUnitWidget showAll 
 				whenSelectionChangedSend: #onClassChanged to: self;
-				showAll;
 				yourself.
 	^ classWidget mainWidget
     ]
@@ -193,10 +189,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildMethodWidget [
 	<category: 'user interface'>
 
-	methodWidget := GtkMethodSUnitWidget new
-				initialize;
+	methodWidget := GtkMethodSUnitWidget showAll
 				whenSelectionChangedSend: #onMethodChanged to: self;
-                                showAll;
                                 yourself.
         ^ methodWidget mainWidget
     ]
@@ -204,10 +198,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildSourceCodeWidget [
         <category: 'user interface'>
 
-        sourceCodeWidget := GtkSourceCodeWidget new
-				initialize;
-				showAll;
-				yourself.
+        sourceCodeWidget := GtkSourceCodeWidget showAll.
         ^ sourceCodeWidget mainWidget
     ]
 

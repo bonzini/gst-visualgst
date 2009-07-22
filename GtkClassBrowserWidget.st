@@ -78,10 +78,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildNamespaceView [
 	<category: 'user interface'>
 
-	namespaceWidget := (GtkNamespaceWidget new)
-				initialize;
+	namespaceWidget := GtkNamespaceWidget showAll
 				whenSelectionChangedSend: #onNamespaceChanged to: self;
-				showAll;
 				yourself.
 
 	^ namespaceWidget mainWidget
@@ -90,10 +88,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildClassView [
 	<category: 'user interface'>
 
-	classWidget := (GtkClassWidget new)
-			    initialize;
+	classWidget := GtkClassWidget showAll
 			    whenSelectionChangedSend: #onClassChanged to: self;
-			    showAll;
 			    yourself.
 
 	^ classWidget mainWidget
@@ -102,10 +98,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildCodeView [
 	<category: 'user interface'>
 
-	codeWidget := (GtkSourceCodeWidget new)
+	codeWidget := GtkSourceCodeWidget showAll 
 			parentWindow: self parentWindow;
-			initialize;
-			showAll;
 			yourself.
     
 	^ codeWidget mainWidget
@@ -114,10 +108,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildHierarchy [
 	<category: 'user interface'>
 
-	classHierarchyWidget := (GtkClassHierarchyWidget new)
-				    initialize;
+	classHierarchyWidget := GtkClassHierarchyWidget showAll
 				    whenSelectionChangedSend: #onClassHierarchyChanged to: self;
-				    showAll;
 				    yourself.
 
 	^ classHierarchyWidget mainWidget
@@ -126,10 +118,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildInstanceCategoryView [
         <category: 'user interface'>
 
-        iCategoryWidget := (GtkCategoryWidget new)
-                            initialize;
+        iCategoryWidget := GtkCategoryWidget showAll
                             whenSelectionChangedSend: #onInstanceSideCategoryChanged to: self;
-                            showAll;
                             yourself.
 
         ^ iCategoryWidget mainWidget
@@ -138,10 +128,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildClassCategoryView [
 	<category: 'user interface'>
 
-	cCategoryWidget := (GtkCategoryWidget new)
-			    initialize;
+	cCategoryWidget := GtkCategoryWidget showAll
 			    whenSelectionChangedSend: #onClassSideCategoryChanged to: self;
-			    showAll;
 			    yourself.
 
 	^ cCategoryWidget mainWidget
@@ -150,10 +138,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildClassMethodView [
 	<category: 'user interface'>
 
-	cMethodWidget := (GtkMethodWidget new)
-			    initialize;
+	cMethodWidget := GtkMethodWidget showAll
 			    whenSelectionChangedSend: #onClassSideMethodChanged to: self;
-			    showAll;
 			    yourself.
 
 	^ cMethodWidget mainWidget
@@ -162,10 +148,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildInstanceMethodView [
         <category: 'user interface'>
 
-        iMethodWidget := (GtkMethodWidget new)
-                            initialize;
+        iMethodWidget := GtkMethodWidget showAll
                             whenSelectionChangedSend: #onInstanceSideMethodChanged to: self;
-                            showAll;
                             yourself.
 
         ^ iMethodWidget mainWidget

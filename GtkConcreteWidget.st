@@ -1,6 +1,15 @@
 Smalltalk.Object subclass: GtkConcreteWidget [
     | child parentWindow |
 
+    GtkConcreteWidget class >> showAll [
+	<category: 'instance creation'>
+
+	^ self new
+	    initialize;
+	    showAll;
+	    yourself
+    ]
+
     parentWindow: aGtkWindow [
         <category: 'accessing'>
 
