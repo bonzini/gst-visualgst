@@ -30,6 +30,12 @@ GtkMainWindow subclass: GtkSUnit [
             GTK.GtkMenuItem menuItem: 'Search' connectTo: self selector: #searchClassOrMethod}
     ]
 
+    createRunMenus [
+        <category: 'user interface'>
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Run test' connectTo: self selector: #runTest}
+    ]
+
     createToolsMenus [
         <category: 'user interface'>
 
@@ -54,6 +60,7 @@ GtkMainWindow subclass: GtkSUnit [
 
         self addMenuItem: 'File' withSubmenu: self createFileMenus.
         self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
+	self addMenuItem: 'Run' withSubmenu: self createRunMenus.
         self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
         self addMenuItem: 'Help' withSubmenu: self createHelpMenus
     ]
@@ -225,6 +232,19 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	methodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	sourceCodeWidget sourceCode: methodWidget sourceCode
+    ]
+
+    runTest [
+	<category: 'run events'>
+
+	| suite |
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	suite := TestSuite named: class name asString.
+	class selectors do: [ :each |
+	    (each matchRegex: 'test' from: 1 to: 4)
+		ifTrue: [ suite addTest: (class selector: each) ]
+	].
+	suite run printNl
     ]
 ]
 

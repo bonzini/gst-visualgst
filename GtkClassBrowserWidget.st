@@ -304,7 +304,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
 
 	codeWidget clearCode.
-	state := CategoryState on: self with: classWidget selectedClass class -> iCategoryWidget selectedCategory
+	state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selectedCategory
     ]
 
     onInstanceSideMethodChanged [
