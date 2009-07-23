@@ -148,6 +148,8 @@
 
   <filein>Tetris2.st</filein>
 
+  <filein>SUnit/TestBacktraceLog.st</filein>
+  <filein>SUnit/GtkSUnitResultWidget.st</filein>
   <filein>GtkClassSUnitWidget.st</filein>
   <filein>GtkClassSUnitModel.st</filein>
   <filein>GtkMethodSUnitWidget.st</filein>
@@ -287,6 +289,8 @@
 
   <file>Tetris2.st</file>
 
+  <file>SUnit/TestBacktraceLog.st</file>
+  <file>SUnit/GtkSUnitResultWidget.st</file>
   <file>GtkClassSUnitWidget.st</file>
   <file>GtkClassSUnitModel.st</file>
   <file>GtkMethodSUnitWidget.st</file>

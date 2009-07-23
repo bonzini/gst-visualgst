@@ -479,6 +479,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    GTK.GtkMenuItem menuItem: 'Workspace' connectTo: self selector: #workspace.
             GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Tools/Implementors' connectTo: self selector: #implementors.
             GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Tools/Senders' connectTo: self selector: #senders.
+	    GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #sunit.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Assistant' connectTo: self selector: #gtkAssistant.
 	    GTK.GtkMenuItem new.
@@ -767,6 +768,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         <category: 'method events'>
 
 	centralBrowser fileoutMethod
+    ]
+
+    sunit [
+	<category: 'tools events'>
+
+	GtkSUnit open
     ]
 ]
 

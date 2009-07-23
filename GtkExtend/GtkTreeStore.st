@@ -63,6 +63,12 @@ GTK.GtkTreeStore extend [
             aBlock value: (self at: iter) value: iter ]
     ]
 
+    appendItem: anArray [
+	<category: 'accessing'>
+
+	^ self append: nil item: anArray
+    ]
+
     append: aGtkTreeIter item: anArray [
 	<category: 'accessing'>
 

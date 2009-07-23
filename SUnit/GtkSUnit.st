@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkSUnit [
-    | namespaceWidget classWidget methodWidget sourceCodeWidget namespace class |
+    | namespaceWidget classWidget methodWidget sourceCodeWidget successfullWidget failedWidget errorWidget namespace class |
 
     createFileMenus [
         <category: 'user interface'>
@@ -122,10 +122,23 @@ GtkMainWindow subclass: GtkSUnit [
 	    yourself
     ]
 
+    buildResultWidget [
+	<category: 'user interface'>
+
+	^ GTK.GtkNotebook new
+	    appendPage: self buildSuccesfullWidget tabLabel: (GTK.GtkLabel new: 'Successfull Tests');
+	    appendPage: self buildFailedWidget tabLabel: (GTK.GtkLabel new: 'Failed Tests');
+	    appendPage: self buildErrorWidget tabLabel: (GTK.GtkLabel new: 'Errors Tests');
+	    yourself
+    ]
+
     buildCentralWidget [
         <category: 'intialize-release'>
 
-	^ self buildMiniBrowser
+	^ (GTK.GtkVPaned new)
+	    add1: self buildMiniBrowser;
+	    add2: self buildResultWidget;
+	    yourself
     ]
 
     initialize [
@@ -202,6 +215,36 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         ^ sourceCodeWidget mainWidget
     ]
 
+    buildSuccesfullWidget [
+	<category: 'user interface'>
+
+	successfullWidget := GtkSUnitResult new
+				initialize;
+				yourself.
+
+	^ successfullWidget mainWidget
+    ]
+
+    buildFailedWidget [
+	<category: 'user interface'>
+
+	failedWidget := GtkSUnitResult new
+				initialize;
+				yourself.
+
+	^ failedWidget mainWidget
+    ]
+
+    buildErrorWidget  [
+	<category: 'user interface'>
+
+	errorWidget := GtkSUnitResult new
+				initialize;
+				yourself.
+
+	^ errorWidget mainWidget
+    ]
+
     onNamespaceChanged [
 	<category: 'namespace events'>
 
@@ -228,14 +271,21 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     runTest [
 	<category: 'run events'>
 
-	| suite |
+	| suite results |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	suite := TestSuite named: class name asString.
 	class selectors do: [ :each |
 	    (each matchRegex: 'test' from: 1 to: 4)
 		ifTrue: [ suite addTest: (class selector: each) ]
 	].
-	suite run printNl
+	suite logPolicy: TestBacktraceLog new.
+	results := suite run.
+
+	successfullWidget results: results passed.
+	failedWidget results: results failures.
+	errorWidget results: results errors.
+
+	results failures do: [ :each | each "logPolicy logStatus inspect" printNl ].
     ]
 ]
 
