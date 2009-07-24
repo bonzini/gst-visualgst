@@ -31,6 +31,14 @@ Object subclass: UndoStack [
 	undoStack removeFirst
     ]
 
+    lasUndoCommand [
+	<category: 'stack'>
+
+	^ self hasUndo 
+	    ifFalse: [ nil ]
+	    ifTrue: [ undoStack first ]
+    ]
+
     hasUndo [
 	<category: 'testing'>
 

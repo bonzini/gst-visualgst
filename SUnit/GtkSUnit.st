@@ -99,8 +99,8 @@ GtkMainWindow subclass: GtkSUnit [
 	<category: 'user interface'>
 
 	^ (GTK.GtkHPaned new)
-	    add1: self buildNamespaceWidget;
-	    add2: self buildClassWidget;
+	    pack1: self buildNamespaceWidget resize: true shrink: false;
+	    pack2: self buildClassWidget resize: true shrink: false;
 	    yourself
     ]
 
@@ -108,8 +108,8 @@ GtkMainWindow subclass: GtkSUnit [
 	<category: 'user interface'>
 
 	^ (GTK.GtkHPaned new)
-	    add1: self buildNamespaceAndClassWidget;
-	    add2: self buildMethodWidget;
+	    pack1: self buildNamespaceAndClassWidget resize: true shrink: false;
+	    pack2: self buildMethodWidget resize: true shrink: false;
 	    yourself
     ]
 
@@ -117,8 +117,8 @@ GtkMainWindow subclass: GtkSUnit [
 	<category: 'user interface'>
 
 	^ (GTK.GtkVPaned new)
-	    add1: self buildNamespaceAndClassAndMethodWidget;
-	    add2: self buildSourceCodeWidget;
+	    pack1: self buildNamespaceAndClassAndMethodWidget resize: true shrink: false;
+	    pack2: self buildSourceCodeWidget resize: true shrink: false;
 	    yourself
     ]
 
@@ -136,8 +136,8 @@ GtkMainWindow subclass: GtkSUnit [
         <category: 'intialize-release'>
 
 	^ (GTK.GtkVPaned new)
-	    add1: self buildMiniBrowser;
-	    add2: self buildResultWidget;
+	    pack1: self buildMiniBrowser resize: true shrink: false;
+	    pack2: self buildResultWidget resize: true shrink: false;
 	    yourself
     ]
 

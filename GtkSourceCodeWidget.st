@@ -157,9 +157,15 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     ]
 
     hasUndo [
-	<category: 'buffer events'>
+	<category: 'testing'>
 
 	^ codeView hasUndo
+    ]
+
+    hasChanged [
+	<category: 'testing'>
+
+	^ codeView hasChanged
     ]
 
     clearUndo [
@@ -255,6 +261,12 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	<category: 'accessing'>
 
 	^ codeView
+    ]
+
+    codeSaved [
+	<category: 'accessing'>
+
+	codeView textSaved
     ]
 ]
 

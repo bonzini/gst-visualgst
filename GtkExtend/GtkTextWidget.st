@@ -1,7 +1,7 @@
 GTK.GtkTextView subclass: GtkTextWidget [
     <shape: #uint64>
 
-    | userAction undoStack lastCommand cut |
+    | userAction undoStack lastCommand cut textSaved lastSavedCommand |
 
     GtkTextWidget class >> new [
 	<category: 'instance creation'>
@@ -15,13 +15,8 @@ GTK.GtkTextView subclass: GtkTextWidget [
         ^ (self basicNew: 1) address: (super newWithBuffer: aGtkTextBuffer) address
     ]
 
-    initialize [
-        <category: 'initialization'>
-
-        cut := userAction := false.
-        undoStack := (UndoStack new)
-                        initialize;
-                        yourself.
+    connectSignals [
+	<category: 'initialization'>
 
 	self 
 	    connectSignal: 'paste-clipboard' to: self selector: #paste userData: nil;
@@ -32,6 +27,17 @@ GTK.GtkTextView subclass: GtkTextWidget [
             connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil;
             connectSignal: 'insert-text' to: self selector: #'insert:at:text:size:' userData: nil;
             connectSignal: 'delete-range' to: self selector: #'delete:from:to:' userData: nil
+    ]
+
+    initialize [
+        <category: 'initialization'>
+
+	textSaved := false.
+        cut := userAction := false.
+        undoStack := (UndoStack new)
+                        initialize;
+                        yourself.
+	self connectSignals
     ]
 
     beginUserAction [
@@ -103,6 +109,16 @@ GTK.GtkTextView subclass: GtkTextWidget [
         undoStack push: lastCommand.
     ]
 
+    hasChanged [
+        <category: 'testing'>
+
+        ^ textSaved
+            ifTrue: [ (self lastUndoCommand == lastSavedCommand) not ]
+            ifFalse: [ self hasUndo
+                            ifFalse: [ false ]
+                            ifTrue: [ true ] ]
+    ]
+
     hasUndo [
 	<category: 'buffer events'>
 
@@ -112,6 +128,8 @@ GTK.GtkTextView subclass: GtkTextWidget [
     clearUndo [
 	<category: 'buffer events'>
 
+        textSaved := false.
+        lastSavedCommand := nil.
 	undoStack clear
     ]
 
@@ -133,6 +151,20 @@ GTK.GtkTextView subclass: GtkTextWidget [
 	<category: 'stack events'>
 
 	undoStack clear
+    ]
+
+    lastUndoCommand [
+	<category: 'buffer events'>
+
+	^ undoStack lasUndoCommand
+    ]
+
+    textSaved [
+        <category: 'accessing'>
+
+        textSaved := true.
+        lastCommand := nil.
+        lastSavedCommand := self lastUndoCommand
     ]
 ]
 

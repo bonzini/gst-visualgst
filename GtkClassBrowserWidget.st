@@ -348,6 +348,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     acceptClassDefinitionOn: aNamespace [
 	<category: 'class event'>
 
+	codeWidget codeSaved.
         Namespace current: aNamespace.
         ^ (ReadStream on: codeWidget sourceCode) fileIn
     ]
@@ -632,7 +633,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'method events'>
 
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	AddMethodCommand on: self
+	AddMethodCommand on: self.
+	codeWidget codeSaved
     ]
 
     deleteMethod [
@@ -816,7 +818,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'text editing'>
 
 	| dlg |
-	codeWidget hasUndo ifFalse: [ ^ self ].
+	codeWidget hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
 	dlg := GTK.GtkMessageDialog 
 		    new: parentWindow 
 		    flags: GTK.Gtk gtkDialogDestroyWithParent 
@@ -826,7 +828,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	dlg runBlockingAndDo: [ :dlg :res |
 	    res = GTK.Gtk gtkResponseOk ifTrue: [ state saveSource ].
 	    dlg destroy ].
-	codeWidget clearUndo.
+	codeWidget clearUndo
     ]
 ]
 
