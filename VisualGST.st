@@ -205,6 +205,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    centralWidget: self buildCentralWidget
     ]
 
+    postInitialize [
+	<category: 'initialization'>
+
+	centralBrowser grabFocus
+    ]
+
     buildNotebookWorkspaceWidget [
 	<category: 'user interface'>
 

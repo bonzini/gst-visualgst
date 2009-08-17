@@ -194,6 +194,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    showAll
     ]
 
+    grabFocus [
+	<category: 'user interface'>
+
+	namespaceWidget mainWidget grabFocus
+    ]
+
     namespaceHierarchySwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
 	<category: 'events'>
 

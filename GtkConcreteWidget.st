@@ -46,4 +46,9 @@ Smalltalk.Object subclass: GtkConcreteWidget [
 
 	^ child focusChildFor: self parentWindow
     ]
+
+    grabFocus [
+	<category: 'user interface'>
+
+    ]
 ]

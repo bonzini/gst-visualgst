@@ -245,6 +245,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    centralWidget: self buildClassBrowserWidget mainWidget
     ]
 
+    postInitialize [
+	<category: 'user interface'>
+
+	browserWidget grabFocus
+    ]
+
     buildClassBrowserWidget [
 	<category: 'user interface'>
 

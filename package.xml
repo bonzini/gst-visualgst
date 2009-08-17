@@ -30,6 +30,7 @@
   <filein>GtkExtend/GtkListStore.st</filein>
   <filein>GtkExtend/GtkTreeStore.st</filein>
   <filein>GtkExtend/Gdk.st</filein>
+  <filein>GtkExtend/GdkEventKey.st</filein>
   <filein>GtkExtend/GtkContainer.st</filein>
 
   <filein>ExtendsCairo.st</filein>
@@ -146,7 +147,11 @@
   <filein>Debugger/GtkStackInspectorView.st</filein>
   <filein>Debugger/GtkStackInspector.st</filein>
 
-  <filein>Tetris2.st</filein>
+  <filein>Tetris/TetrisFieldWidget.st</filein>
+  <filein>Tetris/BlockWidget.st</filein>
+  <filein>Tetris/TetrisField.st</filein>
+  <filein>Tetris/TetrisPiece.st</filein>
+  <filein>Tetris/Tetris.st</filein>
 
   <filein>SUnit/TestBacktraceLog.st</filein>
   <filein>SUnit/GtkSUnitResultWidget.st</filein>
@@ -171,6 +176,7 @@
   <file>GtkExtend/GtkListStore.st</file>
   <file>GtkExtend/GtkTreeStore.st</file>
   <file>GtkExtend/Gdk.st</file>
+  <file>GtkExtend/GdkEventKey.st</file>
   <file>GtkExtend/GtkContainer.st</file>
 
   <file>ExtendsCairo.st</file>
@@ -287,7 +293,11 @@
 
   <file>Tests/ExtractLiteralsTest.st</file>
 
-  <file>Tetris2.st</file>
+  <file>Tetris/TetrisFieldWidget.st</file>
+  <file>Tetris/BlockWidget.st</file>
+  <file>Tetris/TetrisField.st</file>
+  <file>Tetris/TetrisPiece.st</file>
+  <file>Tetris/Tetris.st</file>
 
   <file>SUnit/TestBacktraceLog.st</file>
   <file>SUnit/GtkSUnitResultWidget.st</file>
