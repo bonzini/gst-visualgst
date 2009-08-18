@@ -56,7 +56,7 @@ TetrisPiece subclass: TetrisPieceO [
     TetrisPieceO class >> color [
 	<category: 'piece'>
 
-	^ Cairo.Color r: 138 g: 43 b: 226 "BlueViolet"
+	^ Cairo.Color r: 0.54 g: 0.17 b: 0.88 "BlueViolet"
     ]
 ]
 

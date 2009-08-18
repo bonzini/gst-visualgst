@@ -56,7 +56,7 @@ TetrisPiece subclass: TetrisPieceZ [
     TetrisPieceZ class >> color [
 	<category: 'pieces'>
 
-	^ Cairo.Color r: 255 g: 140 b: 0 "DarkOrange"
+	^ Cairo.Color r: 0.99 g: 0.55 b: 0 "DarkOrange"
     ]
 ]
 

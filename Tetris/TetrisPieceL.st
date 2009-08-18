@@ -56,7 +56,7 @@ TetrisPiece subclass: TetrisPieceL [
     TetrisPieceL class >> color [
 	<category: 'pieces'>
 
-	^ Cairo.Color r: 189 g: 183 b: 107 "DarkKhaki"
+	^ Cairo.Color r: 0.74 g: 0.71 b: 0.42 "DarkKhaki"
     ]
 ]
 

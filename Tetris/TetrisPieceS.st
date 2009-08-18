@@ -56,7 +56,7 @@ TetrisPiece subclass: TetrisPieceS [
     TetrisPieceS class >> color [
 	<category: 'pieces'>
 
-	^ Cairo.Color r: 0 g: 255 b: 255 "Cyan"
+	^ Cairo.Color cyan
     ]
 ]
 
