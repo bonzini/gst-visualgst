@@ -28,10 +28,18 @@
  ======================================================================"
 
 GtkMainWindow subclass: Tetris [
-    | canvasWidget canvas pause delay grid movingBlocks level statsWindow score level lines button |
+    | canvasWidget canvas pause delay grid movingBlocks level score level lines |
     
     <category: 'Graphics-Tetris'>
     <comment: nil>
+
+    Tetris class [ | highScores | ]
+
+    Tetris class >> highScores [
+	<category: 'accessing'>
+
+	^ highScores ifNil: [ highScores := HighScores newSized: 10 ]
+    ]
 
     Tetris class >> open [
 	<category: 'user interface'>
@@ -172,7 +180,9 @@ GtkMainWindow subclass: Tetris [
 	    moveTo: 300@100;
 	    sourceRed: 1 green: 1 blue: 1;
 	    showText: 'Score : ', (self score displayString);
-	    stroke
+	    moveTo: 300@150;
+	    showText: 'Level : ', (self level displayString);
+	    stroke.
     ]
 
     expose: aGtkWidget event: aGdkEventExpose [
@@ -234,23 +244,7 @@ GtkMainWindow subclass: Tetris [
 		  self updateScore: filledLines.
 		  Processor yield ].
 
-	"[ 
-	 grid currentPiece: TetrisPiece random.
-	 self 
-	    slidePiece;
-	    refresh ] whileTrue: [
-		    [ grid currentPiece drawWith: movingBlocks.
-		     grid slidePiece ] whileTrue: [self delay].
-		    grid currentPiece cementOn: grid drawOn: canvas.
-		    self resetMovingBlocks.
-		    filledLines := grid removeLines.
-		    filledLines > 0 ifTrue: [self lines: self lines + filledLines].
-		    Processor yield.
-		    (self lines - 1) // 10 > self level ifTrue: [self level: self level + 1].
-		    self 
-			score: 2 * self level squared + (#(0 50 150 400 900) at: filledLines + 1) 
-				+ self score]."
-	^ self
+	^ self gameOver 
     ]
 
     initializeGame [
@@ -272,6 +266,12 @@ GtkMainWindow subclass: Tetris [
 	Processor activeProcess suspend
     ]
 
+    gameOver [
+	<category: 'game'>
+
+	self highScores addScore: (Score score: self score)
+    ]
+
     resetMovingBlocks [
 	<category: 'game'>
 
@@ -289,8 +289,14 @@ GtkMainWindow subclass: Tetris [
 	pause signal"
     ]
 
+    highScores [
+	<category: 'accessing'>
+
+	^ self class highScores
+    ]
+
     level [
-	<category: 'private'>
+	<category: 'accessing'>
 
 	^ level
     ]
@@ -329,31 +335,33 @@ GtkMainWindow subclass: Tetris [
     updateScore: filledLines [
 	<category: 'private'>
 
-        (self lines - 1) // 10 > self level ifTrue: [ self level: self level + 1 ].
+	self lines: self lines + filledLines.
+        (self lines - 1) // 10 > (self level - 1) ifTrue: [ self advanceLevel ].
         self score: 2 * self level squared + (#(0 50 150 400 900) at: filledLines + 1) + self score
     ]
 
     advanceLevel [
 	<category: 'events'>
-	"self level: self level + 1"
+
+	self level: self level + 1
     ]
 
     movePieceLeft [
 	<category: 'events'>
 
-	^ grid movePieceLeft
+	grid movePieceLeft.
+	self refresh
     ]
 
     movePieceRight [
 	<category: 'events'>
 
-	^ grid movePieceRight
+	grid movePieceRight.
+	self refresh
     ]
 
     pause [
 	<category: 'events'>
-	button label: 'Restart'.
-	button callback: self message: #restart.
 
 	"I like this semaphore a lot!"
 	pause wait
@@ -361,9 +369,6 @@ GtkMainWindow subclass: Tetris [
 
     restart [
 	<category: 'events'>
-	button label: 'Pause'.
-	button callback: self message: #pause.
-	self activate.
 
 	"I like this semaphore a lot!"
 	pause signal
@@ -372,7 +377,8 @@ GtkMainWindow subclass: Tetris [
     rotatePiece [
 	<category: 'events'>
 
-	^ grid rotatePiece
+	grid rotatePiece.
+	self refresh
     ]
 
     slidePiece [
@@ -395,7 +401,8 @@ GtkMainWindow subclass: Tetris [
 
     dropPiece [
 	<category: 'events'>
-	^grid dropPiece
+
+	^ grid dropPiece
     ]
 ]
 

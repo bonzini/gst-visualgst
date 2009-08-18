@@ -147,6 +147,8 @@
   <filein>Debugger/GtkStackInspectorView.st</filein>
   <filein>Debugger/GtkStackInspector.st</filein>
 
+  <filein>Tetris/HighScores.st</filein>
+  <filein>Tetris/Score.st</filein>
   <filein>Tetris/TetrisPieceWidget.st</filein>
   <filein>Tetris/BlockWidget.st</filein>
   <filein>Tetris/TetrisField.st</filein>
@@ -300,6 +302,8 @@
 
   <file>Tests/ExtractLiteralsTest.st</file>
 
+  <file>Tetris/HighScores.st</file>
+  <file>Tetris/Score.st</file>
   <file>Tetris/TetrisPieceWidget.st</file>
   <file>Tetris/BlockWidget.st</file>
   <file>Tetris/TetrisField.st</file>
