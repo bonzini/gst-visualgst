@@ -27,7 +27,7 @@
 |
  ======================================================================"
 
-Object subclass: TetrisFieldWidget [
+Object subclass: TetrisPieceWidget [
 
     | position size color |
 

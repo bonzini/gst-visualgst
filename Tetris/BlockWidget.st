@@ -27,14 +27,14 @@
 |
  ======================================================================"
 
-TetrisFieldWidget subclass: BlockWidget [
+TetrisPieceWidget subclass: BlockWidget [
 
     drawOn: aCanvas [
 	<category: 'drawing'>
 
 	| linear |
         linear := Cairo.LinearGradient from: position to: (position x + size@ position y + size).
-        linear addStopAt: 0 color: Cairo.Color white.
+        linear addStopAt: 0 color: color.
         linear addStopAt: 1 color: Cairo.Color black.
 
         aCanvas

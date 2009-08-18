@@ -147,10 +147,17 @@
   <filein>Debugger/GtkStackInspectorView.st</filein>
   <filein>Debugger/GtkStackInspector.st</filein>
 
-  <filein>Tetris/TetrisFieldWidget.st</filein>
+  <filein>Tetris/TetrisPieceWidget.st</filein>
   <filein>Tetris/BlockWidget.st</filein>
   <filein>Tetris/TetrisField.st</filein>
   <filein>Tetris/TetrisPiece.st</filein>
+  <filein>Tetris/TetrisPieceI.st</filein>
+  <filein>Tetris/TetrisPieceJ.st</filein>
+  <filein>Tetris/TetrisPieceL.st</filein>
+  <filein>Tetris/TetrisPieceO.st</filein>
+  <filein>Tetris/TetrisPieceS.st</filein>
+  <filein>Tetris/TetrisPieceT.st</filein>
+  <filein>Tetris/TetrisPieceZ.st</filein>
   <filein>Tetris/Tetris.st</filein>
 
   <filein>SUnit/TestBacktraceLog.st</filein>
@@ -293,10 +300,17 @@
 
   <file>Tests/ExtractLiteralsTest.st</file>
 
-  <file>Tetris/TetrisFieldWidget.st</file>
+  <file>Tetris/TetrisPieceWidget.st</file>
   <file>Tetris/BlockWidget.st</file>
   <file>Tetris/TetrisField.st</file>
   <file>Tetris/TetrisPiece.st</file>
+  <file>Tetris/TetrisPieceI.st</file>
+  <file>Tetris/TetrisPieceJ.st</file>
+  <file>Tetris/TetrisPieceL.st</file>
+  <file>Tetris/TetrisPieceO.st</file>
+  <file>Tetris/TetrisPieceS.st</file>
+  <file>Tetris/TetrisPieceT.st</file>
+  <file>Tetris/TetrisPieceZ.st</file>
   <file>Tetris/Tetris.st</file>
 
   <file>SUnit/TestBacktraceLog.st</file>

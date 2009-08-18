@@ -172,6 +172,7 @@ Object subclass: TetrisField [
 		    BlockWidget new
 			position: (50 + (x * 15))@(50 + (y * 15));
 			size: 15;
+			color: Cairo.Color white;
 			drawOn: aCanvas ] ] ].
 	self currentPiece drawOn: aCanvas
     ]

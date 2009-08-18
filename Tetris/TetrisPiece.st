@@ -28,194 +28,46 @@
  ======================================================================"
 
 Object subclass: TetrisPiece [
-    | positions rotation color origin |
+    | rotation origin |
     
     <category: 'Graphics-Tetris'>
     <comment: nil>
 
-    BlockSize := nil.
     Pieces := nil.
 
-    TetrisPiece class >> blockSize [
-	<category: 'pieces'>
+    TetrisPiece class >> pieces [
+	<category: 'accessing'>
 
-	^ 12
-    ]
-
-    TetrisPiece class >> initialize [
-	"Initialize the class variables"
-
-	<category: 'pieces'>
-	BlockSize := self blockSize.
-	Pieces := (Array new: 7)
-		    at: 1 put: (TetrisPiece new color: 'DarkKhaki' initialize: self pieceL);
-		    at: 2 put: (TetrisPiece new color: 'Magenta' initialize: self pieceJ);
-		    at: 3 put: (TetrisPiece new color: 'Red' initialize: self pieceI);
-		    at: 4 put: (TetrisPiece new color: 'BlueViolet' initialize: self pieceO);
-		    at: 5 put: (TetrisPiece new color: 'Cyan' initialize: self pieceS);
-		    at: 6
-			put: (TetrisPiece new color: 'DarkOrange' initialize: self pieceZ);
-		    at: 7 put: (TetrisPiece new color: 'ForestGreen' initialize: self pieceT);
-		    yourself
-    ]
-
-    TetrisPiece class >> pieceL [
-	<category: 'pieces'>
-	^#( #(1 0 0 0)
-	    #(1 0 0 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 1 0) 
-	    #(1 0 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 0 0) 
-	    #(0 1 0 0) 
-	    #(0 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 1 0) 
-	    #(1 1 1 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0))
-    ]
-
-    TetrisPiece class >> pieceJ [
-	<category: 'pieces'>
-	^#( #(0 1 0 0) 
-	    #(0 1 0 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(1 0 0 0) 
-	    #(1 1 1 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 0 0) 
-	    #(1 0 0 0) 
-	    #(1 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 1 0) 
-	    #(0 0 1 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0))
-    ]
-
-    TetrisPiece class >> pieceI [
-	<category: 'pieces'>
-	^#( #(1 0 0 0) 
-	    #(1 0 0 0) 
-	    #(1 0 0 0) 
-	    #(1 0 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 1 1) 
-	    #(1 0 0 0) 
-	    #(1 0 0 0) 
-	    #(1 0 0 0) 
-	    #(1 0 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 1 1))
-    ]
-
-    TetrisPiece class >> pieceO [
-	<category: 'pieces'>
-	^#( #(1 1 0 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 0 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 0 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 0 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0))
-    ]
-
-    TetrisPiece class >> pieceS [
-	<category: 'pieces'>
-	^#( #(0 1 0 0) 
-	    #(1 1 0 0) 
-	    #(1 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 0 0) 
-	    #(0 1 1 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(0 1 0 0) 
-	    #(1 1 0 0) 
-	    #(1 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 0 0) 
-	    #(0 1 1 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0))
-    ]
-
-    TetrisPiece class >> pieceZ [
-	<category: 'pieces'>
-	^#( #(1 0 0 0) 
-	    #(1 1 0 0) 
-	    #(0 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 1 1 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 0 0 0) 
-	    #(1 1 0 0) 
-	    #(0 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 1 1 0) 
-	    #(1 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0))
-    ]
-
-    TetrisPiece class >> pieceT [
-	<category: 'pieces'>
-	^#( #(0 1 0 0) 
-	    #(1 1 1 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0)
-	    #(1 0 0 0) 
-	    #(1 1 0 0) 
-	    #(1 0 0 0) 
-	    #(0 0 0 0) 
-	    #(1 1 1 0) 
-	    #(0 1 0 0) 
-	    #(0 0 0 0) 
-	    #(0 0 0 0) 
-	    #(0 1 0 0) 
-	    #(1 1 0 0) 
-	    #(0 1 0 0) 
-	    #(0 0 0 0))
+	^ Pieces ifNil: [ Pieces := self subclasses asOrderedCollection ]
     ]
 
     TetrisPiece class >> random [
 	<category: 'pieces'>
+
 	| piece |
 	piece := Random between: 1 and: 7.
-	^ (Pieces at: piece) copy
+	^ (self pieces at: piece) new
+	    initialize;
+	    yourself
     ]
 
-    color: myColor initialize: table [
-	<category: 'initializing'>
+    initialize [
+	<category: 'initialization'>
 
-	color := myColor.
 	rotation := 1.
-	positions := Array 
-		    with: (table copyFrom: 1 to: 4)
-		    with: (table copyFrom: 5 to: 8)
-		    with: (table copyFrom: 9 to: 12)
-		    with: (table copyFrom: 13 to: 16)
+	origin := Point new
+    ]
+
+    piece [
+	<category: 'accessing'>
+
+	^ self class piece
+    ]
+
+    color [
+	<category: 'drawing'>
+
+	^ self class color
     ]
 
     cementOn: field [
@@ -224,7 +76,7 @@ Object subclass: TetrisPiece [
         | point x y |
         point := Point new.
         y := 0.
-        (positions at: rotation) do: [ :line |
+        (self piece at: rotation) do: [ :line |
                     x := 0.
                     line do: [ :elem |
                         elem = 1 ifTrue: [
@@ -236,25 +88,13 @@ Object subclass: TetrisPiece [
 		    y := y + 1].
     ]
 
-    blockSize [
-	<category: 'drawing'>
-
-	^ BlockSize
-    ]
-
-    color [
-	<category: 'drawing'>
-
-	^ color
-    ]
-
     canMoveInto: field [
 	<category: 'moving'>
 
 	| point x y |
 	point := Point new.
 	y := 0.
-	(positions at: rotation) do: [ :line |
+	(self piece at: rotation) do: [ :line |
 		    x := 0.
 		    line do: [ :elem | 
 			elem = 1 ifTrue: [ 
@@ -287,26 +127,31 @@ Object subclass: TetrisPiece [
 
     origin [
 	<category: 'accessing'>
-	^origin
+
+	^ origin
     ]
 
     x [
 	<category: 'accessing'>
-	^self origin x
+
+	^ self origin x
     ]
 
     x: x [
 	<category: 'accessing'>
+
 	self origin x: x
     ]
 
     y [
 	<category: 'accessing'>
-	^self origin y
+
+	^ self origin y
     ]
 
     y: y [
 	<category: 'accessing'>
+
 	self origin y: y
     ]
 
@@ -315,20 +160,16 @@ Object subclass: TetrisPiece [
 
 	| y |
 	y := 0.
-        (positions at: rotation) do: [ :line |
+        (self piece at: rotation) do: [ :line |
 	    y := y + 1.
             1 to: 4 do: [ :x |
                 (line at: x) ~= 0 ifTrue: [
                     BlockWidget new
                         position: (50 + ((self x + x - 1) * 15))@(50 + ((self y + y - 1) * 15));
                         size: 15;
+			color: self color;
                         drawOn: aCanvas ] ] ]
     ]
 
-    postCopy [
-	<category: 'basic'>
-	rotation := 1.
-	origin := Point new
-    ]
 ]
 

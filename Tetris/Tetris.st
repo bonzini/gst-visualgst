@@ -135,22 +135,26 @@ GtkMainWindow subclass: Tetris [
 	    BlockWidget new
 		position: 50@(50 + ((i - 1) * 15));
 		size: 15;
+		color: Cairo.Color white;
 		drawOn: canvas.
 
             BlockWidget new
                 position: (50 + (11 * 15))@(50 + ((i - 1) * 15));
                 size: 15;
+		color: Cairo.Color white;
                 drawOn: canvas ].
 
 	1 to: 12 do: [ :i |
             BlockWidget new
                 position: (50 + ((i - 1) * 15))@50;
                 size: 15;
+		color: Cairo.Color white;
                 drawOn: canvas.
 
             BlockWidget new
                 position: (50 + ((i - 1) * 15))@(50 + (22 * 15));
                 size: 15;
+		color: Cairo.Color white;
                 drawOn: canvas ]
     ]
 
