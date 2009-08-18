@@ -28,7 +28,7 @@
  ======================================================================"
 
 GtkMainWindow subclass: Tetris [
-    | canvasWidget canvas pause delay grid movingBlocks level statsWindow scoreLabel levelLabel linesLabel button |
+    | canvasWidget canvas pause delay grid movingBlocks level statsWindow score level lines button |
     
     <category: 'Graphics-Tetris'>
     <comment: nil>
@@ -165,6 +165,16 @@ GtkMainWindow subclass: Tetris [
 	grid drawOn: canvas
     ]
 
+    drawScore [
+	<category: 'drawing'>
+
+	canvas
+	    moveTo: 300@100;
+	    sourceRed: 1 green: 1 blue: 1;
+	    showText: 'Score : ', (self score displayString);
+	    stroke
+    ]
+
     expose: aGtkWidget event: aGdkEventExpose [
 	<category: 'drawing event'>
         | cr |
@@ -175,7 +185,8 @@ GtkMainWindow subclass: Tetris [
         self
             clearArea: aGtkWidget getAllocation on: cr;
 	    drawArea;
-	    drawGrid.
+	    drawGrid;
+	    drawScore.
 
         ^ true
     ]
@@ -220,6 +231,7 @@ GtkMainWindow subclass: Tetris [
 				    resetMovingBlocks;
 				    cementPiece;
 				    removeLines.
+		  self updateScore: filledLines.
 		  Processor yield ].
 
 	"[ 
@@ -244,7 +256,10 @@ GtkMainWindow subclass: Tetris [
     initializeGame [
 	<category: 'game'>
 
-	self level: 1.
+	self 
+	    level: 1;
+	    lines: 0;
+	    score: 0.
 	movingBlocks := true
     ]
 
@@ -276,35 +291,46 @@ GtkMainWindow subclass: Tetris [
 
     level [
 	<category: 'private'>
-	^levelLabel label asInteger
+
+	^ level
     ]
 
     level: nextLevel [
 	<category: 'private'>
 
-	| level |
 	level := nextLevel min: 10.
 	delay := Delay forMilliseconds: 825 - (75 * level).
     ]
 
     lines [
 	<category: 'private'>
-	"^linesLabel label asInteger"
+
+	^ lines
     ]
 
     lines: newLines [
 	<category: 'private'>
-	"linesLabel label: newLines printString"
+
+	lines := newLines
     ]
 
     score [
 	<category: 'private'>
-	"^scoreLabel label asInteger"
+
+	^ score
     ]
 
     score: newScore [
 	<category: 'private'>
-	"scoreLabel label: newScore printString"
+
+	score := newScore
+    ]
+
+    updateScore: filledLines [
+	<category: 'private'>
+
+        (self lines - 1) // 10 > self level ifTrue: [ self level: self level + 1 ].
+        self score: 2 * self level squared + (#(0 50 150 400 900) at: filledLines + 1) + self score
     ]
 
     advanceLevel [
