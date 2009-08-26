@@ -70,6 +70,14 @@
   <filein>Debugger/GtkContextWidget.st</filein>
   <filein>Debugger/GtkDebugger.st</filein>
 
+  <filein>Project/Author.st</filein>
+  <filein>Project/Licence.st</filein>
+  <filein>Project/MIT.st</filein>
+  <filein>Project/BSD.st</filein>
+  <filein>Project/GPL.st</filein>
+  <filein>Project/LGPL.st</filein>
+  <filein>Project/GPLV3.st</filein>
+
   <filein>BrowserState.st</filein>
   <filein>NamespaceState.st</filein>
   <filein>ClassState.st</filein>
@@ -293,6 +301,14 @@
   <file>Debugger/GtkContextModel.st</file>
   <file>Debugger/GtkStackInspector.st</file>
   <file>Debugger/GtkStackInspectorView.st</file>
+
+  <file>Project/Author.st</file>
+  <file>Project/Licence.st</file>
+  <file>Project/MIT.st</file>
+  <file>Project/BSD.st</file>
+  <file>Project/GPL.st</file>
+  <file>Project/LGPL.st</file>
+  <file>Project/GPLV3.st</file>
 
   <file>BrowserState.st</file>
   <file>NamespaceState.st</file>
