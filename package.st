@@ -8,9 +8,7 @@ Eval [
     prereq: 'SUnit';
     prereq: 'DebugTools';
     provides: 'Browser';
-    testBuilder: (TestBuilder on: 'Tests' withExtension: '.st');
-    filein: 'Tests/ExtractLiteralsTest.st';
-    filein: 'Tests/EmptyTest.st';
+    testsBelow: 'Tests' matching: '*.st';
     filein: 'Notification/AbstractEvent.st';
     filein: 'Notification/AddedEvent.st';
     filein: 'Notification/CommentedEvent.st';
@@ -139,6 +137,7 @@ Eval [
     filein: 'GtkMethodSUnitWidget.st';
     filein: 'GtkMethodSUnitModel.st';
     filein: 'SUnit/GtkSUnit.st';
-    start: 'VisualGST.VisualGST open. GTK.Gtk main.';
+    start: 'VisualGST.VisualGST open.
+    GTK.Gtk main';
     buildXml
 ]
