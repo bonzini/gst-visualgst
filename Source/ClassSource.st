@@ -75,7 +75,9 @@ Object subclass: ClassSource [
 	<category: 'printing'>
 
 	printClass shape isNil ifTrue: [ ^ self ].
-        printClass superclass isNil ifTrue: [ ^ self ].
+        printClass superclass ifNotNil: [
+	    printClass superclass shape = printClass shape 
+		ifTrue: [ ^ self ] ].
 	stream
 	    nl;
 	    space: 4;

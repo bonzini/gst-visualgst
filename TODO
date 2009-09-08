@@ -1,12 +1,25 @@
+TODO
+====
+
+	VisualGST :
+	===========
+
+		- A namespace can have multiple worskpace (like monticello : a package can have multiple sources)
+
+	Packages :
+	==========
+
+		- Licence/Website/... per Namespace (+ Meta informations ???)
+		- Authors per Class/Namespaces
+		- List of installed packages
+		- List of repositories per packages
+		- ...
+
+
 Choses a faire :
 ================
 
-GtkLauncher
-===========
-
-	x Sauvegarder les fichiers
-	x Charger les fichiers
-	x Mode MDI, SDI
+Associer a un Namespace/Package les informations suivantes : licence, autheurs
 
 GtkTextEditor
 =============

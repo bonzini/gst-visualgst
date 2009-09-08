@@ -14,6 +14,7 @@
   </start>
 
   <filein>Tests/ExtractLiteralsTest.st</filein>
+  <filein>Tests/EmptyTest.st</filein>
 
   <filein>GtkExtend/GtkObject.st</filein>
   <filein>GtkExtend/GtkMenuItem.st</filein>
@@ -32,6 +33,7 @@
   <filein>GtkExtend/Gdk.st</filein>
   <filein>GtkExtend/GdkEventKey.st</filein>
   <filein>GtkExtend/GtkContainer.st</filein>
+  <filein>GtkExtend/GList.st</filein>
 
   <filein>ExtendsCairo.st</filein>
   <filein>Notification/AbstractEvent.st</filein>
@@ -49,15 +51,19 @@
 
   <filein>Commands/Command.st</filein>
   <filein>Commands/UndoableCommand.st</filein>
+  <filein>Commands/FileoutNamespaceCommand.st</filein>
   <filein>Commands/AddNamespaceCommand.st</filein>
   <filein>Commands/DeleteNamespaceCommand.st</filein>
   <filein>Commands/RenameNamespaceCommand.st</filein>
+  <filein>Commands/FileoutClassCommand.st</filein>
   <filein>Commands/AddClassCommand.st</filein>
   <filein>Commands/DeleteClassCommand.st</filein>
   <filein>Commands/RenameClassCommand.st</filein>
+  <filein>Commands/FileoutCategoryCommand.st</filein>
   <filein>Commands/AddCategoryCommand.st</filein>
   <filein>Commands/DeleteCategoryCommand.st</filein>
   <filein>Commands/RenameCategoryCommand.st</filein>
+  <filein>Commands/FileoutMethodCommand.st</filein>
   <filein>Commands/AddMethodCommand.st</filein>
   <filein>Commands/DeleteMethodCommand.st</filein>
 
@@ -195,6 +201,7 @@
   <file>GtkExtend/Gdk.st</file>
   <file>GtkExtend/GdkEventKey.st</file>
   <file>GtkExtend/GtkContainer.st</file>
+  <file>GtkExtend/GList.st</file>
 
   <file>ExtendsCairo.st</file>
   <file>Notification/AbstractEvent.st</file>
@@ -215,15 +222,19 @@
 
   <file>Commands/Command.st</file>
   <file>Commands/UndoableCommand.st</file>
+  <file>Commands/FileoutNamespaceCommand.st</file>
   <file>Commands/AddNamespaceCommand.st</file>
   <file>Commands/DeleteNamespaceCommand.st</file>
   <file>Commands/RenameNamespaceCommand.st</file>
+  <file>Commands/FileoutClassCommand.st</file>
   <file>Commands/AddClassCommand.st</file>
   <file>Commands/DeleteClassCommand.st</file>
   <file>Commands/RenameClassCommand.st</file>
+  <file>Commands/FileoutCategoryCommand.st</file>
   <file>Commands/AddCategoryCommand.st</file>
   <file>Commands/DeleteCategoryCommand.st</file>
   <file>Commands/RenameCategoryCommand.st</file>
+  <file>Commands/FileoutMethodCommand.st</file>
   <file>Commands/AddMethodCommand.st</file>
   <file>Commands/DeleteMethodCommand.st</file>
 
@@ -317,6 +328,7 @@
   <file>MethodState.st</file>
 
   <file>Tests/ExtractLiteralsTest.st</file>
+  <file>Tests/EmptyTest.st</file>
 
   <file>Tetris/HighScores.st</file>
   <file>Tetris/Score.st</file>
