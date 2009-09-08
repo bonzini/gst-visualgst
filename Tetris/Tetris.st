@@ -123,17 +123,17 @@ GtkMainWindow subclass: Tetris [
 	    yourself
     ]
 
-    clearArea: aGtkAllocation on: aCairoContext [
+    clearArea: aGtkAllocation [
         <category: 'drawing'>
 
         | res |
         res := aGtkAllocation castTo: (CIntType arrayType: 4).
 
-        Cairo.Cairo
-            rectangle: aCairoContext x: 0 y: 0 width: (res at: 2) height: (res at: 3);
-            setOperator: aCairoContext operator: Cairo.Cairo operatorClear;
-            fill: aCairoContext;
-            setOperator: aCairoContext operator: Cairo.Cairo operatorOver
+        canvas saveWhile: [ 
+	    canvas
+                rectangle: ((0@0) extent: ((res at: 2) @ (res at: 3)));
+                operator: #clear;
+                fill ]
     ]
 
     drawArea [
@@ -187,17 +187,14 @@ GtkMainWindow subclass: Tetris [
 
     expose: aGtkWidget event: aGdkEventExpose [
 	<category: 'drawing event'>
-        | cr |
-
-        cr := (GTK.Gdk cairoCreate: aGtkWidget getWindow).
-        canvas := Cairo.CairoContext context: cr.
-
-        self
-            clearArea: aGtkWidget getAllocation on: cr;
-	    drawArea;
-	    drawGrid;
-	    drawScore.
-
+        aGtkWidget getWindow withContextDo: [ :cr |
+            canvas := cr.
+            self
+                clearArea: aGtkWidget getAllocation;
+	        drawArea;
+	        drawGrid;
+	        drawScore.
+	].
         ^ true
     ]
 

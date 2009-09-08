@@ -5,37 +5,22 @@
   <prereq>Parser</prereq>
   <prereq>SUnit</prereq>
   <prereq>DebugTools</prereq>
+
+  <provides>Browser</provides>
   <namespace>VisualGST</namespace>
 
   <start>
-    GTK.Gtk gstGtkInit.
-    VisualGST open.
+    VisualGST.VisualGST open.
     GTK.Gtk main
   </start>
+
+  <sunit>VisualGST.ExtractLiteralsTest</sunit>
 
   <filein>Tests/ExtractLiteralsTest.st</filein>
   <filein>Tests/EmptyTest.st</filein>
 
-  <filein>GtkExtend/GtkObject.st</filein>
-  <filein>GtkExtend/GtkMenuItem.st</filein>
-  <filein>GtkExtend/GtkTextWidget.st</filein>
-  <filein>GtkExtend/GtkFileChooserDialog.st</filein>
-  <filein>GtkExtend/GtkAccelGroup.st</filein>
-  <filein>GtkExtend/GtkDialog.st</filein>
-  <filein>GtkExtend/GtkMenu.st</filein>
-  <filein>GtkExtend/GtkTextBuffer.st</filein>
-  <filein>GtkExtend/GtkTreeView.st</filein>
-  <filein>GtkExtend/GtkButton.st</filein>
-  <filein>GtkExtend/GtkNotebook.st</filein>
-  <filein>GtkExtend/GtkScrolledWindow.st</filein>
-  <filein>GtkExtend/GtkListStore.st</filein>
-  <filein>GtkExtend/GtkTreeStore.st</filein>
-  <filein>GtkExtend/Gdk.st</filein>
-  <filein>GtkExtend/GdkEventKey.st</filein>
-  <filein>GtkExtend/GtkContainer.st</filein>
-  <filein>GtkExtend/GList.st</filein>
+  <filein>GtkTextWidget.st</filein>
 
-  <filein>ExtendsCairo.st</filein>
   <filein>Notification/AbstractEvent.st</filein>
   <filein>Notification/AddedEvent.st</filein>
   <filein>Notification/CommentedEvent.st</filein>
@@ -77,12 +62,6 @@
   <filein>Debugger/GtkDebugger.st</filein>
 
   <filein>Project/Author.st</filein>
-  <filein>Project/Licence.st</filein>
-  <filein>Project/MIT.st</filein>
-  <filein>Project/BSD.st</filein>
-  <filein>Project/GPL.st</filein>
-  <filein>Project/LGPL.st</filein>
-  <filein>Project/GPLV3.st</filein>
 
   <filein>BrowserState.st</filein>
   <filein>NamespaceState.st</filein>
@@ -184,26 +163,8 @@
   <filein>GtkMethodSUnitModel.st</filein>
   <filein>SUnit/GtkSUnit.st</filein>
 
-  <file>GtkExtend/GtkObject.st</file>
-  <file>GtkExtend/GtkMenuItem.st</file>
-  <file>GtkExtend/GtkTextWidget.st</file>
-  <file>GtkExtend/GtkFileChooserDialog.st</file>
-  <file>GtkExtend/GtkAccelGroup.st</file>
-  <file>GtkExtend/GtkDialog.st</file>
-  <file>GtkExtend/GtkMenu.st</file>
-  <file>GtkExtend/GtkTextBuffer.st</file>
-  <file>GtkExtend/GtkTreeView.st</file>
-  <file>GtkExtend/GtkButton.st</file>
-  <file>GtkExtend/GtkNotebook.st</file>
-  <file>GtkExtend/GtkScrolledWindow.st</file>
-  <file>GtkExtend/GtkListStore.st</file>
-  <file>GtkExtend/GtkTreeStore.st</file>
-  <file>GtkExtend/Gdk.st</file>
-  <file>GtkExtend/GdkEventKey.st</file>
-  <file>GtkExtend/GtkContainer.st</file>
-  <file>GtkExtend/GList.st</file>
+  <file>GtkTextWidget.st</file>
 
-  <file>ExtendsCairo.st</file>
   <file>Notification/AbstractEvent.st</file>
   <file>Notification/AddedEvent.st</file>
   <file>Notification/CommentedEvent.st</file>
@@ -314,12 +275,6 @@
   <file>Debugger/GtkStackInspectorView.st</file>
 
   <file>Project/Author.st</file>
-  <file>Project/Licence.st</file>
-  <file>Project/MIT.st</file>
-  <file>Project/BSD.st</file>
-  <file>Project/GPL.st</file>
-  <file>Project/LGPL.st</file>
-  <file>Project/GPLV3.st</file>
 
   <file>BrowserState.st</file>
   <file>NamespaceState.st</file>
