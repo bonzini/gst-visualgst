@@ -8,6 +8,7 @@ Eval [
     prereq: 'SUnit';
     prereq: 'DebugTools';
     provides: 'Browser';
+    testBuilder: (TestBuilder on: 'Tests' withExtension: '.st');
     filein: 'Tests/ExtractLiteralsTest.st';
     filein: 'Tests/EmptyTest.st';
     filein: 'Notification/AbstractEvent.st';
@@ -39,6 +40,7 @@ Eval [
     filein: 'Commands/FileoutMethodCommand.st';
     filein: 'Commands/AddMethodCommand.st';
     filein: 'Commands/DeleteMethodCommand.st';
+    filein: 'GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';
     filein: 'GtkConcreteWidget.st';
@@ -137,5 +139,6 @@ Eval [
     filein: 'GtkMethodSUnitWidget.st';
     filein: 'GtkMethodSUnitModel.st';
     filein: 'SUnit/GtkSUnit.st';
+    start: 'VisualGST.VisualGST open. GTK.Gtk main.';
     buildXml
 ]

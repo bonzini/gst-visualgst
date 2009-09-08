@@ -195,7 +195,7 @@ Object subclass: TestBuilder [
 
 
 Object subclass: PackageBuilder [
-  |name namespace prereqs provides testBuilder fileins|
+  |name namespace prereqs provides testBuilder start fileins|
 
   PackageBuilder class >> new [
     ^ self basicNew initialize
@@ -239,6 +239,14 @@ Object subclass: PackageBuilder [
     <category: 'accessing'>
     provides add: aString
   ]
+  start [
+    <category: 'accessing'>
+    ^ start
+  ]
+  start: aString [
+    <category: 'accessing'>
+    start := aString
+  ]
   fileins [
     <category: 'accessing'>
     ^ fileins
@@ -270,6 +278,7 @@ Object subclass: PackageBuilder [
       testBuilder ifNotNil: [ testBuilder renderXmlOn: aStream ].
       aStream wrap: 'filein' aroundEachOf: fileins.
       aStream wrap: 'file' aroundEachOf: fileins.
+      aStream wrap: 'start' around: start.
     ]
   ]
 
