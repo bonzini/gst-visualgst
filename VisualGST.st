@@ -1,7 +1,7 @@
 GtkMainWindow subclass: VisualGST [
     VisualGST class [ | compileError | ]
 
-    | currentWidget notebook notebookPages transcriptWidget windowsMenu centralBrowser |
+    | browsers outputs transcriptWidget windowsMenu |
 
     VisualGST class >> open [
 	<category: 'user interface'>
@@ -12,7 +12,7 @@ GtkMainWindow subclass: VisualGST [
     VisualGST class >> version [
 	<category: 'accessing'>
 
-	^ '0.5.0'
+	^ '0.6.0'
     ]
 
     VisualGST class >> website [
@@ -77,9 +77,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'events'>
 
 	| widget |
-	widget := self buildClassBrowserWidget showAll; yourself.
-	notebookPages addLast: widget.
-        notebook appendPage: widget mainWidget tabLabel: (self buildLabelWidget: 'Class Browser' withIcon: GTK.Gtk gtkStockClose at: widget)
+	browsers addWidget: self buildClassBrowserWidget labeled: 'Browser'
     ]
 
     classBrowserInAWindow [
@@ -99,8 +97,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| widget |
 	widget := self buildWorkspaceWidget showAll.
-	notebookPages addLast: widget.
-	notebook appendPage: widget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: widget)
+	outputs addWidget: widget labeled: 'Workspace'.
     ]
 
     quit [
@@ -114,12 +111,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'file events'>
 
 	| file string |
-	currentWidget == transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
+	outputs currentWidget  == transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
 	(GTK.GtkFileChooserDialog load: 'Load Smalltalk source' parent: window)
 	    runNonBlockingAndDo: [ :dlg :res |
 		res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
 		file := FileStream open: dlg getFilename mode: FileStream read.
-		currentWidget text: file upToEnd.
+		outputs currentWidget text: file upToEnd.
 		dlg destroy ]
     ]
 
@@ -135,7 +132,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             runNonBlockingAndDo: [ :dlg :res |
                 res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
 		file := FileStream open: dlg getFilename mode: FileStream write.
-		file nextPutAll: currentWidget text. 
+		file nextPutAll: outputs currentWidget text. 
                 dlg destroy ]
     ]
 
@@ -173,11 +170,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     workspace [
 	<category: 'events'>
 	
-	self newWorkspace.
-	"workspaceWindows add: (GtkWorkspaceWidget new)
-				initialize;
-				mainWidget.
-	windowsMenu append: (GtkMenuItem label: 'workspace') showAll"
+	self newWorkspace
     ]
 
     clearGlobalState [
@@ -195,7 +188,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	super initialize.
 	window maximize.
-	notebookPages := OrderedCollection new.
 	self
 	    clearGlobalState;
 	    title: 'VisualGST';
@@ -208,60 +200,46 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     postInitialize [
 	<category: 'initialization'>
 
-	centralBrowser grabFocus
+	browsers grabFocus
     ]
 
     buildNotebookWorkspaceWidget [
 	<category: 'user interface'>
 
-	| workspaceWidget cmp |
-        notebook := GTK.GtkNotebook new
-                        connectSignal: 'switch-page' to: self selector: #switchPageOn:page:number: userData: nil.
-        currentWidget := transcriptWidget := self buildTranscriptWidget.
-	cmp := self buildWorkspaceWidget.
+	| cmp |
+	outputs := GtkOutputNotebookWidget new
+					initialize;
+					parentWindow: window;
+					showAll;
+					yourself.
 	self class setCompilerError: (cmp := self buildWorkspaceWidget).
-	workspaceWidget := self buildWorkspaceWidget.
-        notebookPages
-            addLast: transcriptWidget;
-	    addLast: cmp;
-            addLast: workspaceWidget.
-        ^ notebook
-            appendPage: transcriptWidget mainWidget tabLabel: (self buildLabelWidget: 'Transcript' withIcon: GTK.Gtk gtkStockClose at: transcriptWidget);
-	    appendPage: cmp mainWidget tabLabel: (self buildLabelWidget: 'Compiler error(s)' withIcon: GTK.Gtk gtkStockClose at: cmp);
-            "setTabDetachable: transcriptWidget mainWidget detachable: true;
-            setTabReorderable:  transcriptWidget mainWidget reorderable: true;"
-            appendPage: workspaceWidget mainWidget tabLabel: (self buildLabelWidget: 'Workspace' withIcon: GTK.Gtk gtkStockClose at: workspaceWidget);
-            "setTabDetachable: workspaceWidget mainWidget detachable: true;
-            setTabReorderable:  workspaceWidget mainWidget reorderable: true;"
-            setScrollable: true;
-            yourself
+	^ outputs
+	    addTranscript: (transcriptWidget := self buildTranscriptWidget) labeled: 'Transcript';
+	    addWidget: cmp labeled: 'Compiler error(s)';
+	    addWidget: self buildWorkspaceWidget labeled: 'Workspace';
+	    yourself
     ]
 
     buildCentralWidget [
 	<category: 'intialize-release'>
 
-        centralBrowser := self buildClassBrowserWidget showAll; yourself.
 	^ GTK.GtkVPaned new
-	    pack1: centralBrowser mainWidget resize: true shrink: true;
-	    pack2: self buildNotebookWorkspaceWidget resize: true shrink: false;
+	    pack1: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
+	    pack2: self buildNotebookWorkspaceWidget mainWidget resize: true shrink: false;
 	    yourself
     ]
 
-    buildLabelWidget: aString withIcon: aStockString at: aSmallInteger [
+    buildClassBrowserTabbedWidget [
 	<category: 'user interface'>
-	
-	| image close |
-	image := GTK.GtkImage newFromStock: aStockString size: GTK.Gtk gtkIconSizeMenu.
-	close := (GTK.GtkButton new)
-		    setImage: image;
-		    setRelief: GTK.Gtk gtkReliefNone;
-		    connectSignal: 'pressed' to: self selector: #'closeIt:at:' userData: aSmallInteger;
-		    yourself.
-	^ (GTK.GtkHBox new: false spacing: 0)
-	    add: (GTK.GtkLabel new: aString);
-	    add: close;
-	    showAll;
-	    yourself
+
+	browsers := GtkNotebookWidget new
+					initialize;
+					parentWindow: window;
+					showAll;
+					yourself.
+	browsers addWidget: self buildClassBrowserWidget labeled: 'Browser'.
+	^ browsers
+	    
     ]
 
     buildClassBrowserWidget [
@@ -503,36 +481,20 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     isCurrentWidgetTranscript [
 	<category: 'testing'>
 
-	^ currentWidget == transcriptWidget
-    ]
-
-    closeIt: aGtkButton  at: aGtkConcreteWidget [
-	<category: 'notebook events'>
-   
-	| page |
-	aGtkConcreteWidget = transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
-	page := notebook pageNum: aGtkConcreteWidget mainWidget.
-	notebookPages remove: aGtkConcreteWidget.
-	notebook removePage: page
-    ]
-
-    switchPageOn: aGtkNotebook page: aGtkNotebookPage number: anInteger [
-	<category: 'notebook events'>
-
-	currentWidget := notebookPages at: anInteger + 1
+	^ outputs currentWidget == transcriptWidget
     ]
 
     undo [
 	<category: 'edit events'>
 
-	self isCurrentWidgetTranscript ifTrue: [ currentWidget hasFocus ifTrue: [ ^ self ] ].
+	self isCurrentWidgetTranscript ifTrue: [ outputs currentWidget hasFocus ifTrue: [ ^ self ] ].
 	self onFocusPerform: #undo
     ]
 
     redo [
 	<category: 'edit events'>
 
-	self isCurrentWidgetTranscript ifTrue: [ currentWidget hasFocus ifTrue: [ ^ self ] ].
+	self isCurrentWidgetTranscript ifTrue: [ outputs currentWidget hasFocus ifTrue: [ ^ self ] ].
 	self onFocusPerform: #redo
     ]
 
@@ -584,10 +546,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     onFocusPerform: aSelector [
 	<category: 'focus'>
 
-	^ centralBrowser hasFocus 
-	    ifTrue: [ centralBrowser perform: aSelector ]
-	    ifFalse: [ currentWidget hasFocus 
-			    ifTrue: [ currentWidget perform: aSelector ] ].
+	^ browsers hasFocus 
+	    ifTrue: [ browsers currentWidget perform: aSelector ]
+	    ifFalse: [ outputs hasFocus 
+			    ifTrue: [ outputs currentWidget perform: aSelector ] ].
     ]
 
     doIt [
@@ -617,7 +579,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     acceptIt [
 	<category: 'smalltalk events'>
 
-	centralBrowser acceptIt
+	browsers currentWidget acceptIt
     ]
 
     implementors [
@@ -635,25 +597,25 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     gtkAssistant [
 	<category: 'tools events'>
 
-	GtkAssistant open
+	GtkAssistant currentWidget open
     ]
 
     webBrowser [
 	<category: 'tools events'>
 
-	GtkWebBrowser open
+	GtkWebBrowser currentWidget open
     ]
 
     back [
 	<category: 'history events'>
 
-	centralBrowser back
+	browsers currentWidget back
     ]
 
     forward [
 	<category: 'history events'>
 
-	centralBrowser forward
+	browsers currentWidget forward
     ]
 
     helpcontents [
@@ -665,121 +627,121 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     fileoutNamespace [
         <category: 'namespace events'>
 
-	centralBrowser fileoutNamespace
+	browsers currentWidget fileoutNamespace
     ]
 
     fileoutProject [
         <category: 'namespace events'>
 
-        centralBrowser fileoutProject
+        browsers currentWidget fileoutProject
     ]
 
     newNamespace [
         <category: 'namespace events'>
 
-        centralBrowser newNamespace
+        browsers currentWidget newNamespace
     ]
 
     renameNamespace [
         <category: 'namespace events'>
 
-        centralBrowser renameNamespace
+        browsers currentWidget renameNamespace
     ]
 
     deleteNamespace [
         <category: 'namespace events'>
 
-        centralBrowser deleteNamespace
+        browsers currentWidget deleteNamespace
     ]
 
     inspectNamespace [
         <category: 'namespace events'>
 
-        centralBrowser inspectNamespace
+        browsers currentWidget inspectNamespace
     ]
 
     newClass [
         <category: 'class events'>
 
-        centralBrowser newClass
+        browsers currentWidget newClass
     ]
 
     renameClass [
         <category: 'class events'>
 
-	centralBrowser renameClass
+	browsers currentWidget renameClass
     ]
 
     deleteClass [
         <category: 'class events'>
 
-        centralBrowser deleteClass
+        browsers currentWidget deleteClass
     ]
 
     inspectClass [
         <category: 'class events'>
 
-        centralBrowser inspectClass
+        browsers currentWidget inspectClass
     ]
 
     fileoutClass [
         <category: 'class events'>
 
-        centralBrowser fileoutClass
+        browsers currentWidget fileoutClass
     ]
 
     newCategory [
         <category: 'category events'>
 
-        centralBrowser newCategory
+        browsers currentWidget newCategory
     ]
 
     renameCategory [
         <category: 'category events'>
 
-        centralBrowser renameCategory
+        browsers currentWidget renameCategory
     ]
 
     deleteCategory [
         <category: 'category events'>
 
-        centralBrowser deleteCategory
+        browsers currentWidget deleteCategory
     ]
 
     inspectCategory [
         <category: 'category events'>
 
-        centralBrowser inspectCategory
+        browsers currentWidget inspectCategory
     ]
 
     fileoutCategory [
         <category: 'method events'>
 
-	centralBrowser fileoutCategory
+	browsers currentWidget fileoutCategory
     ]
 
     newMethod [
         <category: 'method events'>
 
-        centralBrowser newMethod
+        browsers currentWidget newMethod
     ]
 
     deleteMethod [
         <category: 'method events'>
 
-        centralBrowser deleteMethod
+        browsers currentWidget deleteMethod
     ]
 
     inspectMethod [
         <category: 'method events'>
 
-        centralBrowser inspectMethod
+        browsers currentWidget inspectMethod
     ]
 
     fileoutMethod [
         <category: 'method events'>
 
-	centralBrowser fileoutMethod
+	browsers currentWidget fileoutMethod
     ]
 
     sunit [

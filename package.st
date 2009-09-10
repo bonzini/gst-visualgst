@@ -42,6 +42,8 @@ Eval [
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';
     filein: 'GtkConcreteWidget.st';
+    filein: 'GtkNotebookWidget.st';
+    filein: 'GtkOutputNotebookWidget.st';
     filein: 'GtkTranscriptWidget.st';
     filein: 'Debugger/GtkContextModel.st';
     filein: 'Debugger/GtkContextWidget.st';
