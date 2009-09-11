@@ -411,7 +411,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    #('Method' #createMethodMenus).
 	    #('Smalltalk' #createSmalltalkMenus).
 	    #('Tools' #createToolsMenus).
-	    #('Windows' #createWindowsMenus).
 	    #('Help' #createHelpMenus)}
     ]
 
@@ -452,14 +451,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Assistant' connectTo: self selector: #gtkAssistant.
 	    GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'smallZilla' connectTo: self selector: #webBrowser}
-    ]
-
-    createWindowsMenus [
-	<category: 'user interface'>
-
-	^ windowsMenu := self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Arrange' connectTo: self selector: #arrangeWindows .
-	    GTK.GtkMenuItem menuItem: 'Close all' connectTo: self selector: #closeAllWindows}
+	    GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: self selector: #webBrowser}
     ]
 
     isCurrentWidgetTranscript [
