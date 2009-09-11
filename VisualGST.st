@@ -300,8 +300,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Inspect a namespace' connectTo: self selector: #inspectNamespace.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a namespace' connectTo: self selector: #fileoutNamespace.
-            GTK.GtkMenuItem menuItem: 'File out in a project' connectTo: self selector: #fileoutProject}
+            GTK.GtkMenuItem menuItem: 'File out a namespace' connectTo: self selector: #fileoutNamespace}
     ]
 
     createClassMenus [
@@ -313,8 +312,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Inspect a class' connectTo: self selector: #inspectClass.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a class' connectTo: self selector: #fileoutClass.
-            GTK.GtkMenuItem menuItem: 'File out in a project' connectTo: self selector: #fileoutClassInProject}
+            GTK.GtkMenuItem menuItem: 'File out a class' connectTo: self selector: #fileoutClass}
     ]
 
     createCategoryMenus [
@@ -375,18 +373,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward}
     ]
 
-    createProjectMenus [
-	<category: 'user interface'>
-
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New project' connectTo: self selector: #newProject.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Open project' connectTo: self selector: #openProject.
-            GTK.GtkMenuItem menuItem: 'Save project' connectTo: self selector: #saveProject.
-            GTK.GtkMenuItem menuItem: 'Save project as...' connectTo: self selector: #saveProjectAs.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Close project' connectTo: self selector: #closeProject}
-    ]
-
     createSmalltalkMenus [
 	<category: 'user interface'>
 
@@ -419,7 +405,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	self createMainMenu: {#('File' #createFileMenus).
 	    #('Edit' #createEditMenus).
 	    #('History' #createHistoryMenus).
-	    #('Project' #createProjectMenus).
 	    #('Namespace' #createNamespaceMenus).
 	    #('Class' #createClassMenus).
 	    #('Category' #createCategoryMenus).
@@ -527,21 +512,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	transcriptWidget clear
     ]
 
-    newProject [
-	<category: 'project events'>
-
-	| dlg project file |
-	dlg := GtkProjectDialog open.
-	dlg hasPressedOk ifFalse: [ ^ self ].
-	project := dlg result.
-	file := Directory userBase / (project name).
-	file exists ifTrue: [ self error: 'Project already exist' ].
-	file := FileStream open: file asString mode: FileStream write.
-	(ObjectDumper on: file)
-	    dump: project.
-	file close.
-    ]
-
     onFocusPerform: aSelector [
 	<category: 'focus'>
 
@@ -627,12 +597,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         <category: 'namespace events'>
 
 	browsers currentWidget fileoutNamespace
-    ]
-
-    fileoutProject [
-        <category: 'namespace events'>
-
-        browsers currentWidget fileoutProject
     ]
 
     newNamespace [

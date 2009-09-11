@@ -1,9 +1,9 @@
 <package>
   <name>VisualGST</name>
   <namespace>VisualGST</namespace>
+  <prereq>Parser</prereq>
   <prereq>GTK</prereq>
   <prereq>Cairo</prereq>
-  <prereq>Parser</prereq>
   <prereq>SUnit</prereq>
   <prereq>DebugTools</prereq>
   <provides>Browser</provides>
@@ -99,8 +99,6 @@
   <filein>GtkClassModel.st</filein>
   <filein>GtkCategoryModel.st</filein>
   <filein>GtkMethodModel.st</filein>
-  <filein>GtkProjectDialog.st</filein>
-  <filein>Project.st</filein>
   <filein>Undo/AddCategoryUndoCommand.st</filein>
   <filein>Undo/RenameCategoryUndoCommand.st</filein>
   <filein>Undo/DeleteCategoryUndoCommand.st</filein>
@@ -230,8 +228,6 @@
   <file>GtkClassModel.st</file>
   <file>GtkCategoryModel.st</file>
   <file>GtkMethodModel.st</file>
-  <file>GtkProjectDialog.st</file>
-  <file>Project.st</file>
   <file>Undo/AddCategoryUndoCommand.st</file>
   <file>Undo/RenameCategoryUndoCommand.st</file>
   <file>Undo/DeleteCategoryUndoCommand.st</file>

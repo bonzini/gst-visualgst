@@ -2,9 +2,9 @@ Eval [
   PackageBuilder new
     name: 'VisualGST';
     namespace: 'VisualGST';
+    prereq: 'Parser';
     prereq: 'GTK';
     prereq: 'Cairo';
-    prereq: 'Parser';
     prereq: 'SUnit';
     prereq: 'DebugTools';
     provides: 'Browser';
@@ -91,8 +91,6 @@ Eval [
     filein: 'GtkClassModel.st';
     filein: 'GtkCategoryModel.st';
     filein: 'GtkMethodModel.st';
-    filein: 'GtkProjectDialog.st';
-    filein: 'Project.st';
     filein: 'Undo/AddCategoryUndoCommand.st';
     filein: 'Undo/RenameCategoryUndoCommand.st';
     filein: 'Undo/DeleteCategoryUndoCommand.st';

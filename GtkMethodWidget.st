@@ -149,7 +149,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
 
 	self hasSelectedMethod ifFalse: [ self error: 'Nothing is selected' ].
-	^ (self class compiledMethodAt: self selectedMethodSymbol) methodSourceString
+	^ (self class compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
 
     deleteMethod [
