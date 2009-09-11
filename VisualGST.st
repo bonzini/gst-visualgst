@@ -207,15 +207,15 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
 	| cmp |
-	outputs := GtkOutputNotebookWidget new
-					initialize;
-					parentWindow: window;
-					showAll;
-					yourself.
+	outputs := GtkNotebookWidget new
+				initialize;
+				parentWindow: window;
+				showAll;
+				yourself.
 	self class setCompilerError: (cmp := self buildWorkspaceWidget).
 	^ outputs
-	    addTranscript: (transcriptWidget := self buildTranscriptWidget) labeled: 'Transcript';
-	    addWidget: cmp labeled: 'Compiler error(s)';
+	    addPermanentWidget: (transcriptWidget := self buildTranscriptWidget) labeled: 'Transcript';
+	    addPermanentWidget: cmp labeled: 'Compiler error(s)';
 	    addWidget: self buildWorkspaceWidget labeled: 'Workspace';
 	    yourself
     ]

@@ -52,7 +52,6 @@
   <filein>VisualGST.st</filein>
   <filein>GtkConcreteWidget.st</filein>
   <filein>GtkNotebookWidget.st</filein>
-  <filein>GtkOutputNotebookWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
   <filein>Debugger/GtkContextModel.st</filein>
   <filein>Debugger/GtkContextWidget.st</filein>
@@ -180,7 +179,6 @@
   <file>VisualGST.st</file>
   <file>GtkConcreteWidget.st</file>
   <file>GtkNotebookWidget.st</file>
-  <file>GtkOutputNotebookWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
   <file>Debugger/GtkContextModel.st</file>
   <file>Debugger/GtkContextWidget.st</file>

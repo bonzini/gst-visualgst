@@ -23,13 +23,35 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
     addWidget: aWidget labeled: aString [
 	<category: 'user interface'>
 
-	currentWidget ifNil: [ currentWidget := aWidget ].
+	self addWidget: aWidget labelWidget: (self buildLabelWidget: aString withIcon: GTK.Gtk gtkStockClose at: aWidget)
+	"currentWidget ifNil: [ currentWidget := aWidget ].
 	pages addLast: aWidget.
         notebook 
-	    appendPage: aWidget mainWidget tabLabel: (self buildLabelWidget: aString withIcon: GTK.Gtk gtkStockClose at: aWidget).";
+	    appendPage: aWidget mainWidget tabLabel: (self buildLabelWidget: aString withIcon: GTK.Gtk gtkStockClose at: aWidget);
             setTabDetachable: transcriptWidget mainWidget detachable: true;
-            setTabReorderable:  transcriptWidget mainWidget reorderable: true"
-	pages size > 1 ifTrue: [ notebook setShowTabs: true ]
+            setTabReorderable:  transcriptWidget mainWidget reorderable: true.
+	pages size > 1 ifTrue: [ notebook setShowTabs: true ]"
+    ]
+
+    addPermanentWidget: aWidget labeled: aString [
+        <category: 'user interface'>
+
+	self addWidget: aWidget labelWidget: (GTK.GtkLabel new: aString)
+        "currentWidget ifNil: [ currentWidget := aWidget ].
+        pages addLast: aWidget.
+        notebook
+            appendPage: aWidget mainWidget tabLabel: (GTK.GtkLabel new: aString).
+        pages size > 1 ifTrue: [ notebook setShowTabs: true ]"
+    ]
+
+    addWidget: aWidget labelWidget: aLabelWidget [
+	<category: 'user interface'>
+
+	currentWidget ifNil: [ currentWidget := aWidget ].
+        pages addLast: aWidget.
+        notebook
+            appendPage: aWidget mainWidget tabLabel: aLabelWidget.
+        pages size > 1 ifTrue: [ notebook setShowTabs: true ]
     ]
 
     buildLabelWidget: aString withIcon: aStockString at: aSmallInteger [
