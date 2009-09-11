@@ -72,7 +72,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     buildTreeView [
         <category: 'user interface'>
     
-	methodTree := (GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Classes')
+	methodTree := (GTK.GtkTreeView newWithSortedTextColumn: self model title: 'Methods')
                             connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
                             yourself.
 	column := methodTree getColumn: 0.
