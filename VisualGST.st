@@ -596,13 +596,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     gtkAssistant [
 	<category: 'tools events'>
 
-	GtkAssistant currentWidget open
+	GtkAssistant open
     ]
 
     webBrowser [
 	<category: 'tools events'>
 
-	GtkWebBrowser currentWidget open
+	GtkWebBrowser open
     ]
 
     back [
