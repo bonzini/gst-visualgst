@@ -15,7 +15,9 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 			    connectSignal: 'switch-page'
 			    to: self
 			    selector: #'switchPageOn:page:number:'
-			    userData: nil
+			    userData: nil;
+			    setShowTabs: false;
+			    yourself
     ]
 
     addWidget: aWidget labeled: aString [
@@ -27,9 +29,7 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 	    appendPage: aWidget mainWidget tabLabel: (self buildLabelWidget: aString withIcon: GTK.Gtk gtkStockClose at: aWidget).";
             setTabDetachable: transcriptWidget mainWidget detachable: true;
             setTabReorderable:  transcriptWidget mainWidget reorderable: true"
-	pages size = 1 
-		ifTrue: [ notebook setShowTabs: false ]
-		ifFalse: [ notebook setShowTabs: true ]
+	pages size > 1 ifTrue: [ notebook setShowTabs: true ]
     ]
 
     buildLabelWidget: aString withIcon: aStockString at: aSmallInteger [
@@ -61,7 +61,8 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
         | pageNb |
         pageNb := notebook pageNum: aGtkConcreteWidget mainWidget.
         pages remove: aGtkConcreteWidget.
-        notebook removePage: pageNb
+        notebook removePage: pageNb.
+	pages size = 1 ifTrue: [ notebook setShowTabs: false ]
     ]
 
     currentWidget [
