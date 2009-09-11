@@ -57,7 +57,6 @@
   <filein>Debugger/GtkContextModel.st</filein>
   <filein>Debugger/GtkContextWidget.st</filein>
   <filein>Debugger/GtkDebugger.st</filein>
-  <filein>Project/Author.st</filein>
   <filein>BrowserState.st</filein>
   <filein>NamespaceState.st</filein>
   <filein>ClassState.st</filein>
@@ -186,7 +185,6 @@
   <file>Debugger/GtkContextModel.st</file>
   <file>Debugger/GtkContextWidget.st</file>
   <file>Debugger/GtkDebugger.st</file>
-  <file>Project/Author.st</file>
   <file>BrowserState.st</file>
   <file>NamespaceState.st</file>
   <file>ClassState.st</file>

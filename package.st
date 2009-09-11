@@ -49,7 +49,6 @@ Eval [
     filein: 'Debugger/GtkContextModel.st';
     filein: 'Debugger/GtkContextWidget.st';
     filein: 'Debugger/GtkDebugger.st';
-    filein: 'Project/Author.st';
     filein: 'BrowserState.st';
     filein: 'NamespaceState.st';
     filein: 'ClassState.st';
