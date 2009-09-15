@@ -38,7 +38,6 @@ Eval [
     filein: 'Commands/FileoutMethodCommand.st';
     filein: 'Commands/AddMethodCommand.st';
     filein: 'Commands/DeleteMethodCommand.st';
-    filein: 'GtkExtends/GtkTextBuffer.st';
     filein: 'GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';
