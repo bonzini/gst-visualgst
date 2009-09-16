@@ -100,6 +100,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	codeWidget := GtkSourceCodeWidget showAll 
 			parentWindow: self parentWindow;
+			browser: self;
 			yourself.
     
 	^ codeWidget mainWidget
