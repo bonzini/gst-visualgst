@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
-    | namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget codeWidget undoStack |
+    | namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget codeWidget |
 
     GtkInspectorBrowserWidget class >> title [
 	<category: 'accessing'>
@@ -47,7 +47,9 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'user interface'>
 
 	codeWidget := (GtkSourceCodeWidget new)
+			parentWindow: self parentWindow;
 			initialize;
+			browser: self;
 			showAll;
 			yourself.
     
@@ -155,6 +157,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'events'>
 
 	| method |
+	self checkCodeWidget.
 	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := iMethodWidget selectedMethod.
 	codeWidget sourceCode: iMethodWidget sourceCode
@@ -164,20 +167,12 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'events'>
 
 	| method |
+	self checkCodeWidget.
 	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := cMethodWidget selectedMethod.
 	codeWidget sourceCode: cMethodWidget sourceCode
     ]
 
-    saveContents [
-	<category: 'events'>
-
-       "(self selectedClass isNil or: [self selectedMethod isNil])
-	    ifTrue: [ ^ GtkMessageDialog error: 'Unable to save contents' ].
-	self selectedClass compile: codeBuffer text classified: self selectedMethodCategory.
-	saveButton sensitive: false"
-    ]
-    
     selectAClass: aClass [
 	<category: 'selection'>
 
@@ -207,6 +202,65 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
         cMethodWidget
             class: class withCategory: (class compiledMethodAt: aSelector) methodCategory
+    ]
+
+    cancel [
+        <category: 'buffer events'>
+
+	codeWidget hasFocus ifTrue: [ codeWidget cancel ]
+    ]
+
+    undo [
+        <category: 'buffer events'>
+
+	codeWidget hasFocus ifTrue: [ codeWidget undo ]
+    ]
+
+    redo [
+        <category: 'buffer events'>
+
+	codeWidget hasFocus ifTrue: [ codeWidget redo ]
+    ]
+
+    copy [
+        <category: 'text editing'>
+
+	codeWidget hasFocus ifTrue: [ codeWidget copy ]
+    ]
+
+    cut [
+        <category: 'text editing'>
+
+	codeWidget hasFocus ifTrue: [ codeWidget cut ]
+    ]
+
+    paste [
+        <category: 'text editing'>
+
+	codeWidget hasFocus ifTrue: [ codeWidget paste ]
+    ]
+
+    selectAll [
+        <category: 'text editing'>
+
+	codeWidget hasFocus ifTrue: [ codeWidget selectAll ]
+    ]
+
+    checkCodeWidget [
+        <category: 'text editing'>
+
+        | dlg |
+        codeWidget hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
+        dlg := GTK.GtkMessageDialog
+                    new: parentWindow
+                    flags: GTK.Gtk gtkDialogDestroyWithParent
+                    type: GTK.Gtk gtkMessageWarning
+                    buttons: GTK.Gtk gtkButtonsOkCancel
+                    message: 'Do you want to save the text buffer'.
+        dlg runBlockingAndDo: [ :dlg :res |
+            res = GTK.Gtk gtkResponseOk ifTrue: [ "saveSource" ].
+            dlg destroy ].
+        codeWidget clearUndo
     ]
 ]
 

@@ -23,7 +23,7 @@ Object subclass: GtkClassModel [
 	| model parentIter parent |
 	model := current at: anEvent item environment ifAbsent: [ ^ self ].
 	parentIter := model findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
-	model append: parentIter column: 0 value: anEvent item name, ' class'
+	model append: parentIter column: 0 value: anEvent item name
     ]
 
     GtkClassModel class >> removeEvent: anEvent [
@@ -87,7 +87,7 @@ Object subclass: GtkClassModel [
     
 	| iter string |
 	aClass environment = self namespace ifTrue: [
-	    iter := self model append: parentGtkIter item: { aClass instanceClass name asString, ' ' } ].
+	    iter := self model append: parentGtkIter item: { aClass asClass name asString, ' ' } ].
 
 	aClass subclassesDo: [ :each |
 	    self appendClass: each to: iter ]
