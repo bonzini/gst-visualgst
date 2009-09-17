@@ -3,6 +3,13 @@ GtkMainWindow subclass: VisualGST [
 
     | browsers outputs transcriptWidget windowsMenu |
 
+    VisualGST class >> exit [
+	<category: 'exit'>
+
+	GTK.Gtk mainQuit.
+	ObjectMemory quit	
+    ]
+ 
     VisualGST class >> open [
 	<category: 'user interface'>
 
@@ -100,11 +107,33 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	outputs addWidget: widget labeled: 'Workspace'.
     ]
 
+    delete: aGtkWidget event: aGdkEvent [
+	<category: 'window events'>
+
+	self quit.
+
+	^ true 
+    ]
+
     quit [
 	<category: 'file events'>
 
-	GTK.Gtk mainQuit.
-	ObjectMemory quit	
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'WARNING : You can loose all the data'.
+        dialog
+            addButton: 'Quit without saving' responseId: 0;
+            addButton: 'Save image' responseId: 1;
+            addButton: 'Cancel' responseId: 2;
+            runBlockingAndDo: [ :dlg :res |
+                res = 0 ifTrue: [ self class exit ].
+                res = 1 ifTrue: [ self saveImageAs.
+				  self class exit ].
+                dlg destroy ].
     ]
 
     open [
@@ -200,7 +229,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     postInitialize [
 	<category: 'initialization'>
 
-	browsers grabFocus
+	browsers grabFocus.
+	window 
+	    connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
     ]
 
     buildNotebookWorkspaceWidget [
