@@ -1,11 +1,16 @@
 Object subclass: GtkClassModel [
     GtkClassModel class [ | current | ]
     
+    GtkClassModel class >> current [
+	<category: 'accessing'>
+
+	^ current ifNil: [ current := Dictionary new ].
+    ]
+
     GtkClassModel class >> currentOn: aNamespace [
 	<category: 'accessing'>
 
-	current ifNil: [ current := Dictionary new ].
-	^ current at: aNamespace ifAbsentPut: [ self on: aNamespace]
+	^ self current at: aNamespace ifAbsentPut: [ self on: aNamespace]
     ]
 
     GtkClassModel class >> on: aNamespace [
@@ -21,7 +26,7 @@ Object subclass: GtkClassModel [
 	<category: 'model event'>
 
 	| model parentIter parent |
-	model := current at: anEvent item environment ifAbsent: [ ^ self ].
+	model := self current at: anEvent item environment ifAbsent: [ ^ self ].
 	parentIter := model findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
 	model append: parentIter column: 0 value: anEvent item name
     ]
@@ -31,6 +36,7 @@ Object subclass: GtkClassModel [
 
 	| model |
 	model := current at: anEvent item environment ifAbsent: [ ^ self ].
+	(model hasClass: anEvent item) ifFalse: [ ^ self ].
         model remove: anEvent item
     ]
 

@@ -4,30 +4,46 @@ GtkMainWindow subclass: GtkSUnit [
     createFileMenus [
         <category: 'user interface'>
 
+        self accelGroup append:
+            {{'<Control>O'. '<GtkSUnit>/File/Open'}.
+            {'<Control>S'. '<GtkSUnit>/File/Save'}.
+            {'<Control><Shift>S'. '<GtkSUnit>/File/SaveAs'}.
+            {'<Control>Q'. '<GtkSUnit>/File/Quit'}}.
+
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Open' connectTo: self selector: #open.
-            GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #saveImage.
-            GTK.GtkMenuItem menuItem: 'Save as...' connectTo: self selector: #saveImageAs.
+            GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkSUnit>/File/Open' connectTo: self selector: #open.
+            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkSUnit>/File/Save' connectTo: self selector: #saveImage.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkSUnit>/File/SaveAs' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Quit' connectTo: self selector: #quit}
+            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkSUnit>/File/Quit' connectTo: self selector: #close}
     ]
 
     createEditMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cut' connectTo: self selector: #cut.
-            GTK.GtkMenuItem menuItem: 'Copy' connectTo: self selector: #copy.
-            GTK.GtkMenuItem menuItem: 'Paste' connectTo: self selector: #paste.
+        self accelGroup append: {{'<Control><shift>Z'. '<GtkSUnit>/Edit/Cancel'}.
+            {'<Control>Z'. '<GtkSUnit>/Edit/Undo'}.
+            {'<Control>R'. '<GtkSUnit>/Edit/Redo'}.
+            {'<Control>X'. '<GtkSUnit>/Edit/Cut'}.
+            {'<Control>C'. '<GtkSUnit>/Edit/Copy'}.
+            {'<Control>V'. '<GtkSUnit>/Edit/Paste'}.
+            {'<Control>A'. '<GtkSUnit>/Edit/SelectAll'}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkSUnit>/Edit/Cancel' connectTo: self selector: #cancel.
+            GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkSUnit>/Edit/Undo' connectTo: self selector: #undo.
+            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkSUnit>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Select all' connectTo: self selector: #selectAll.
+	    GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkSUnit>/Edit/Cut' connectTo: self selector: #cut.
+            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkSUnit>/Edit/Copy' connectTo: self selector: #copy.
+            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkSUnit>/Edit/Paste' connectTo: self selector: #paste.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Search' connectTo: self selector: #searchClassOrMethod}
+            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkSUnit>/Edit/SelectAll' connectTo: self selector: #selectAll}
     ]
 
     createRunMenus [
@@ -45,7 +61,7 @@ GtkMainWindow subclass: GtkSUnit [
             GTK.GtkMenuItem menuItem: 'Workspace' connectTo: self selector: #workspace.
             GTK.GtkMenuItem menuItem: 'Inspector' connectTo: self selector: #gtkInspector.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'SqueakZilla' connectTo: self selector: #squeakzilla}
+            GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: self selector: #squeakzilla}
     ]
 
     createHelpMenus [
@@ -153,6 +169,13 @@ GtkMainWindow subclass: GtkSUnit [
             centralWidget: self buildCentralWidget.
     ]
 
+    postInitialize [
+        <category: 'initialization'>
+
+        window
+            connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
+    ]
+
     aboutSUnit [
         <category: 'events'>
 
@@ -213,6 +236,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         <category: 'user interface'>
 
         sourceCodeWidget := GtkSourceCodeWidget showAll.
+	sourceCodeWidget parentWindow: window.
         ^ sourceCodeWidget mainWidget
     ]
 
@@ -287,6 +311,85 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	errorWidget results: results errors.
 
 	results failures do: [ :each | each "logPolicy logStatus inspect" printNl ].
+    ]
+
+    onFocusPerform: aSymbol [
+	<category: 'events'>
+
+	sourceCodeWidget hasFocus ifTrue: [ sourceCodeWidget perform: aSymbol ]
+    ]
+
+    cancel [
+        <category: 'edit events'>
+
+        self onFocusPerform: #cancel
+    ]
+
+    undo [
+        <category: 'edit events'>
+
+        self onFocusPerform: #undo
+    ]
+
+    redo [
+        <category: 'edit events'>
+
+        self onFocusPerform: #redo
+    ]
+
+    cut [
+        <category: 'edit events'>
+
+        self onFocusPerform: #cut
+    ]
+
+    copy [
+        <category: 'edit events'>
+
+        self onFocusPerform: #copy
+    ]
+
+    paste [
+        <category: 'edit events'>
+
+        self onFocusPerform: #paste
+    ]
+
+    selectAll [
+        <category: 'edit events'>
+
+        self onFocusPerform: #selectAll
+    ]
+
+    checkCodeWidget [
+        <category: 'text editing'>
+
+        | dlg |
+        sourceCodeWidget hasChanged ifFalse: [ sourceCodeWidget clearUndo. ^ self ].
+        dlg := GTK.GtkMessageDialog
+                    new: window
+                    flags: GTK.Gtk gtkDialogDestroyWithParent
+                    type: GTK.Gtk gtkMessageWarning
+                    buttons: GTK.Gtk gtkButtonsOkCancel
+                    message: 'Do you want to save the text buffer'.
+        dlg runBlockingAndDo: [ :dlg :res |
+            res = GTK.Gtk gtkResponseOk ifTrue: [ "state saveSource" ].
+            dlg destroy ].
+        sourceCodeWidget clearUndo
+    ]
+
+    close [
+        <cateogory: 'file events'>	
+
+	self checkCodeWidget.
+        super close
+    ]
+
+    delete: aGtkWidget event: aGdkevent [
+	<category: 'window events'>
+
+	self checkCodeWidget.
+        ^ false
     ]
 ]
 

@@ -47,7 +47,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    createStatusBar;
 	    centralWidget: self buildCentralWidget
     ]
-    
+   
+    postInitialize [
+        <category: 'initialization'>
+
+        window
+            connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
+    ]
+ 
     buildContextWidget [
 	<category: 'user interface'>
 
@@ -111,14 +118,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createEditMenus [
 	<category: 'user interface'>
 
-	self accelGroup append: {{'<Control>Z'. '<GtkLauncher>/Edit/Undo'. self. #undo}.
+	self accelGroup append: {{'<Control><shift>Z'. '<GtkLauncher>/Edit/Cancel'}.
+	    {'<Control>Z'. '<GtkLauncher>/Edit/Undo'. self. #undo}.
 	    {'<Control>R'. '<GtkLauncher>/Edit/Redo'. self. #redo}.
 	    {'<Control>X'. '<GtkLauncher>/Edit/Cut'. self. #cut}.
 	    {'<Control>C'. '<GtkLauncher>/Edit/Copy'. self. #copy}.
 	    {'<Control>V'. '<GtkLauncher>/Edit/Paste'. self. #paste}.
 	    {'<Control>A'. '<GtkLauncher>/Edit/SelectAll'. self. #selectAll}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo'.
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkLauncher>/Edit/Cancel' connectTo: self selector: #cancel.
+	    GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo'.
             GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkLauncher>/Edit/Redo'.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut'.
@@ -279,6 +288,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'context events'>
 
 	| iter |
+	self checkCodeWidget.
 	contextWidget hasSelectedContext ifFalse: [ ^ self ].
 	iter := contextWidget selectedIter.
 	selectedContext := debugger suspendedContext parentContextAt: (contextWidget numberOfContext - ((contextWidget model getPath: iter) getIndices value)).
@@ -351,6 +361,37 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         codeWidget
             object: debugger suspendedContext receiver;
             printIt
+    ]
+
+    checkCodeWidget [
+        <category: 'text editing'>
+
+        | dlg |
+        codeWidget hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
+        dlg := GTK.GtkMessageDialog
+                    new: window
+                    flags: GTK.Gtk gtkDialogDestroyWithParent
+                    type: GTK.Gtk gtkMessageWarning
+                    buttons: GTK.Gtk gtkButtonsOkCancel
+                    message: 'Do you want to save the text buffer'.
+        dlg runBlockingAndDo: [ :dlg :res |
+            res = GTK.Gtk gtkResponseOk ifTrue: [ "state saveSource" ].
+            dlg destroy ].
+        codeWidget clearUndo
+    ]
+
+    close [
+        <cateogory: 'file events'>
+
+        self checkCodeWidget.
+        super close
+    ]
+
+    delete: aGtkWidget event: aGdkEvent [
+        <category: 'window events'>
+
+        self checkCodeWidget. 
+        ^ false 
     ]
 ]
 

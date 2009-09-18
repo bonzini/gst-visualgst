@@ -162,6 +162,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	(SystemChangeNotifier uniqueInstance)
 	    notify: GtkNamespaceModel ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
 	    notify: GtkNamespaceModel ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:';
+	    notify: GtkClassSUnitModel ofSystemChangesOfItem: #class change: #Added using: #'addEvent:';
+	    notify: GtkClassSUnitModel ofSystemChangesOfItem: #class change: #Removed using: #'removeEvent:';
 	    notify: GtkClassModel ofSystemChangesOfItem: #class change: #Added using: #'addEvent:';
 	    notify: GtkClassModel ofSystemChangesOfItem: #class change: #Removed using: #'removeEvent:';
 	    notify: GtkMethodModel ofSystemChangesOfItem: #method change: #Added using: #'addEvent:';
