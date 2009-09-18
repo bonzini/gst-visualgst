@@ -849,7 +849,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 		    flags: GTK.Gtk gtkDialogDestroyWithParent 
 		    type: GTK.Gtk gtkMessageWarning
 		    buttons: GTK.Gtk gtkButtonsOkCancel
-		    message: 'Do you want to save the text buffer'.
+		    message: 'Save the changes in the browser ?'.
 	dlg runBlockingAndDo: [ :dlg :res |
 	    res = GTK.Gtk gtkResponseOk ifTrue: [ state saveSource ].
 	    dlg destroy ].
