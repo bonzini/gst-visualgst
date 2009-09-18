@@ -80,15 +80,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             mainWidget
     ]
 
-    buildSourceAndInspectorWidget [
-	<category: 'user interface'>
-
-	^ (GTK.GtkHPaned new)
-            pack1: self buildInspectorWidget resize: true shrink: false;
-            pack2: self buildSourceWidget resize: true shrink: true;
-            yourself
-    ]
-
     buildStackInspectorWidget [
 	<category: 'user interface'>
 
@@ -97,13 +88,22 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    mainWidget
     ]
 
-    buildStateWidget [
+    buildInspectorsWidget [
 	<category: 'user interface'>
 
 	^ (GTK.GtkHPaned new)
-            pack1: self buildSourceAndInspectorWidget resize: true shrink: false;
+            pack1: self buildInspectorWidget resize: true shrink: false;
             pack2: self buildStackInspectorWidget resize: true shrink: true;
             yourself
+    ]
+
+    buildCodeAndStateWidget [
+	<category: 'intialize-release'>
+
+	^ (GTK.GtkVPaned new)
+	    pack1: self buildSourceWidget resize: true shrink: false;
+	    pack2: self buildInspectorsWidget resize: true shrink: true;
+	    yourself
     ]
 
     buildCentralWidget [
@@ -111,7 +111,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	^ (GTK.GtkVPaned new)
 	    pack1: self buildContextWidget resize: true shrink: false;
-	    pack2: self buildStateWidget resize: true shrink: true;
+	    pack2: self buildCodeAndStateWidget resize: true shrink: true;
 	    yourself
     ]
 
