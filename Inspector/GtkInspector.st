@@ -234,19 +234,41 @@ GtkMainWindow subclass: GtkInspector [
     ]
 
     close [
-	<cateogory: 'file events'>
+        <category: 'file events'>
 
-        browserWidget checkCodeWidget.
-
-	super close
+        browserWidget hasChanged ifFalse: [ ^ super close ].
+        browserWidget doNotCheckCode.
+        self saveCodeOnClose: [ super close ] onSave: [ browserWidget saveCode. super close ]
     ]
 
     delete: aGtkWidget event: aGdkEvent [
         <category: 'window events'>
 
-        browserWidget checkCodeWidget.
+        browserWidget hasChanged ifFalse: [ ^ window hideAll ].
+        self saveCodeOnClose: [ window hideAll ] onSave: [ browserWidget saveCode. window hideAll ].
+        ^ true
+    ]
 
-        ^ false
+    saveCodeOnClose: closeEvent onSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting ?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {browserWidget stateString}.
+
+        dialog
+            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Cancel' responseId: 2;
+            addButton: 'Save' responseId: 1;
+            runBlockingAndDo: [ :dlg :res |
+                res = 0 ifTrue: closeEvent.
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
     ]
 ]
 

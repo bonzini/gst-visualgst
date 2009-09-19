@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
-    | namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget codeWidget |
+    | checkCode namespaceWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget codeWidget state |
 
     GtkInspectorBrowserWidget class >> title [
 	<category: 'accessing'>
@@ -97,7 +97,9 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
 	| vpaned |
 	classHierarchyUpdate := false.
+	checkCode := true.
 	vpaned := GTK.GtkVPaned new.
+	state := NamespaceState on: self with: Smalltalk.
 	self mainWidget: vpaned.
     
 	vpaned
@@ -131,7 +133,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
         iMethodWidget class: aClass withCategory: '*'.
         cMethodWidget class: aClass class withCategory: '*'.
 
-        codeWidget sourceCode: ''
+        codeWidget sourceCode: ''.
+	state := ClassState on: self with: aClass
     ]
 
     onInstanceSideCategoryChanged [
@@ -139,18 +142,20 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
 	| category |
 	iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
+	iMethodWidget class: classHierarchyWidget selectedClass withCategory: iCategoryWidget selectedCategory.
 
-	codeWidget sourceCode: ''
+	codeWidget sourceCode: ''.
+	state := CategoryState on: self with: classHierarchyWidget selectedClass -> iCategoryWidget selectedCategory
     ]
 
     onClassSideCategoryChanged [
 	<category: 'events'>
 	
 	cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
+	cMethodWidget class: classHierarchyWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
 
-	codeWidget sourceCode: ''
+	codeWidget sourceCode: ''.
+	state := CategoryState on: self with: classHierarchyWidget selectedClass class -> cCategoryWidget selectedCategory
     ]
 
     onInstanceSideMethodChanged [
@@ -160,7 +165,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	self checkCodeWidget.
 	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := iMethodWidget selectedMethod.
-	codeWidget sourceCode: iMethodWidget sourceCode
+	codeWidget sourceCode: iMethodWidget sourceCode.
+	state := MethodState on: self with: classHierarchyWidget selectedClass -> method
     ]
 
     onClassSideMethodChanged [
@@ -170,7 +176,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	self checkCodeWidget.
 	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := cMethodWidget selectedMethod.
-	codeWidget sourceCode: cMethodWidget sourceCode
+	codeWidget sourceCode: cMethodWidget sourceCode.
+	state := MethodState on: self with: classHierarchyWidget selectedClass class -> method
     ]
 
     selectAClass: aClass [
@@ -180,13 +187,14 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
 	iMethodWidget class: aClass withCategory: '*'.
 	cMethodWidget class: aClass class withCategory: '*'.
+	state := ClassState on: self with: aClass
     ]
 
     selectAnInstanceMethod: aSelector [
         <category: 'selection'>
 
         | class |
-        class := classWidget selectedClass.
+        class := classHierarchyWidget selectedClass.
 
         class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
         iMethodWidget
@@ -197,7 +205,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'selection'>
 
         | class |
-        class := classWidget selectedClass.
+        class := classHierarchyWidget selectedClass.
 
 	class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
         cMethodWidget
@@ -246,21 +254,63 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	codeWidget hasFocus ifTrue: [ codeWidget selectAll ]
     ]
 
+    doNotCheckCode [
+        <category: 'text editing'>
+
+        checkCode := false
+    ]
+
     checkCodeWidget [
         <category: 'text editing'>
 
-        | dlg |
-        codeWidget hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
-        dlg := GTK.GtkMessageDialog
-                    new: parentWindow
-                    flags: GTK.Gtk gtkDialogDestroyWithParent
-                    type: GTK.Gtk gtkMessageWarning
-                    buttons: GTK.Gtk gtkButtonsOkCancel
-                    message: 'Do you want to save the text buffer'.
-        dlg runBlockingAndDo: [ :dlg :res |
-            res = GTK.Gtk gtkResponseOk ifTrue: [ "saveSource" ].
-            dlg destroy ].
+        checkCode ifFalse: [ checkCode := true. ^ self ].
+        self hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
+        self saveCodeOnSave: [ self saveCode ].
         codeWidget clearUndo
+    ]
+
+    saveCodeOnSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: self parentWindow
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting ?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {self stateString}.
+
+        dialog
+            addButton: 'Cancel' responseId: 0;
+            addButton: 'Save' responseId: 1;
+            runBlockingAndDo: [ :dlg :res |
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
+    ]
+
+    hasChanged [
+	<category: 'testing'>
+
+	^ codeWidget hasChanged
+    ]
+
+    stateString [
+	<category: 'text editing'>
+
+	^ state displayString
+    ]
+
+    saveCode [
+        <category: 'text saving'>
+
+        state saveSource
+    ]
+
+    sourceCode [
+	<category: 'accessing'>
+
+	^ codeWidget sourceCode
     ]
 ]
 
