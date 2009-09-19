@@ -463,7 +463,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	browserWidget hasChanged ifFalse: [ ^ super close ].
 	browserWidget doNotCheckCode.
-	self saveCodeOnClose: [ window hideAll ] onSave: [ browserWidget saveCode. window hideAll ]
+	self saveCodeOnClose: [ super close ] onSave: [ browserWidget saveCode. super close ]
     ]
 
     delete: aGtkWidget event: aGdkEvent [

@@ -47,7 +47,6 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'user interface'>
 
 	codeWidget := (GtkSourceCodeWidget new)
-			parentWindow: self parentWindow;
 			initialize;
 			browser: self;
 			showAll;
@@ -111,6 +110,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     classInstanceSwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
 	<category: 'events'>
 
+	self checkCodeWidget.
 	aSmallInteger = 0 
 	    ifTrue: [
 		iMethodWidget hasSelectedMethod 
@@ -126,6 +126,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'events'>
 
 	| aClass |
+	self checkCodeWidget.
 	classHierarchyWidget hasSelectedClass ifFalse: [ ^ self ].
 	classHierarchyUpdate := true.
         aClass := classHierarchyWidget selectedClass.
@@ -134,28 +135,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
         cMethodWidget class: aClass class withCategory: '*'.
 
         codeWidget sourceCode: ''.
-	state := ClassState on: self with: aClass
-    ]
-
-    onInstanceSideCategoryChanged [
-	<category: 'events'>
-
-	| category |
-	iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	iMethodWidget class: classHierarchyWidget selectedClass withCategory: iCategoryWidget selectedCategory.
-
-	codeWidget sourceCode: ''.
 	state := CategoryState on: self with: classHierarchyWidget selectedClass -> iCategoryWidget selectedCategory
-    ]
-
-    onClassSideCategoryChanged [
-	<category: 'events'>
-	
-	cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	cMethodWidget class: classHierarchyWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
-
-	codeWidget sourceCode: ''.
-	state := CategoryState on: self with: classHierarchyWidget selectedClass class -> cCategoryWidget selectedCategory
     ]
 
     onInstanceSideMethodChanged [
@@ -187,7 +167,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
 	iMethodWidget class: aClass withCategory: '*'.
 	cMethodWidget class: aClass class withCategory: '*'.
-	state := ClassState on: self with: aClass
+	state := CategoryState on: self with: aClass -> '*'
     ]
 
     selectAnInstanceMethod: aSelector [
@@ -198,7 +178,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
         class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
         iMethodWidget
-            class: class withCategory: (class compiledMethodAt: aSelector) methodCategory
+            class: class withCategory: (class compiledMethodAt: aSelector) methodCategory.
+	state := CategoryState on: self with: class -> '*'
     ]
 
     selectAClassMethod: aSelector [
@@ -209,7 +190,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
 	class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
         cMethodWidget
-            class: class withCategory: (class compiledMethodAt: aSelector) methodCategory
+            class: class withCategory: (class compiledMethodAt: aSelector) methodCategory.
+	state := CategoryState on: self with: class -> '*'
     ]
 
     cancel [

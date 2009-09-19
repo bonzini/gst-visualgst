@@ -194,6 +194,7 @@ GtkMainWindow subclass: GtkImplementor [
         ^ GTK.GtkVPaned new
             add1: self buildResultList;
             add2: ((classBrowserWidget := GtkClassBrowserWidget new)
+			parentWindow: window;
                         initialize;
                         mainWidget);
             yourself
@@ -374,7 +375,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         classBrowserWidget selectAll
     ]
 
-    close [
+    "close [
         <category: 'file events'>
 
         classBrowserWidget checkCodeWidget.
@@ -388,6 +389,46 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         classBrowserWidget checkCodeWidget.
 
         ^ false
+    ]"
+
+    close [
+        <category: 'file events'>
+
+        classBrowserWidget hasChanged ifFalse: [ ^ super close ].
+        classBrowserWidget doNotCheckCode.
+        self saveCodeOnClose: [ super close ] onSave: [ classBrowserWidget saveCode. super close ]
     ]
+
+    delete: aGtkWidget event: aGdkEvent [
+        <category: 'window events'>
+
+        classBrowserWidget hasChanged ifFalse: [ ^ window hideAll ].
+        self saveCodeOnClose: [ window hideAll ] onSave: [ classBrowserWidget saveCode. window hideAll ].
+        ^ true
+    ]
+
+    saveCodeOnClose: closeEvent onSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting ?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {classBrowserWidget stateString}.
+
+        dialog
+            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Cancel' responseId: 2;
+            addButton: 'Save' responseId: 1;
+            runBlockingAndDo: [ :dlg :res |
+                res = 0 ifTrue: closeEvent.
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
+    ]
+
+
 ]
 
