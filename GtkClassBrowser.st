@@ -495,28 +495,5 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
                 res = 1 ifTrue: saveEvent.
                 dlg destroy ].
     ]
-
-    quit [
-	<category: 'saving'>
-
-        | dialog |
-        dialog := GTK.GtkMessageDialog
-                                new: window
-                                flags: GTK.Gtk gtkDialogDestroyWithParent
-                                type: GTK.Gtk gtkMessageWarning
-                                buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the code before exiting ?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {browserWidget stateString}.
-
-        dialog
-            addButton: 'Close without saving' responseId: 0;
-            addButton: 'Cancel' responseId: 2;
-            addButton: 'Save' responseId: 1;
-            runBlockingAndDo: [ :dlg :res |
-                res = 0 ifTrue: [ self class exit ].
-                res = 1 ifTrue: [ self saveImageAs.
-                                  self class exit ].
-                dlg destroy ].
-    ]
 ]
 

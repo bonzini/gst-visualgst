@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkSUnit [
-    | namespaceWidget classWidget methodWidget sourceCodeWidget successfullWidget failedWidget errorWidget namespace class |
+    | state namespaceWidget classWidget methodWidget sourceCodeWidget successfullWidget failedWidget errorWidget namespace class |
 
     createFileMenus [
         <category: 'user interface'>
@@ -160,6 +160,7 @@ GtkMainWindow subclass: GtkSUnit [
     initialize [
         <category: 'initialization'>
 
+	state := NamespaceState on: self with: Smalltalk.
         super initialize.
         self
             title: 'SUnit';
@@ -273,24 +274,30 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     onNamespaceChanged [
 	<category: 'namespace events'>
 
+	self checkCodeWidget.
         namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
         namespace := namespaceWidget selectedNamespace.
         classWidget namespace: namespace.
+	state := NamespaceState on: self with: namespace
     ]
 
     onClassChanged [
 	<category: 'class events'>
 
+	self checkCodeWidget.
         classWidget hasSelectedClass ifFalse: [ ^ self ].
         class := classWidget selectedClass.
 	methodWidget class: class first withCategory: '*'.
+	state := CategoryState on: self with: class -> '*'
     ]
 
     onMethodChanged [
 	<category: 'method events'>
 
+	self checkCodeWidget.
 	methodWidget hasSelectedMethod ifFalse: [ ^ self ].
-	sourceCodeWidget sourceCode: methodWidget sourceCode
+	sourceCodeWidget sourceCode: methodWidget sourceCode.
+    	state := MethodState on: self with: class -> methodWidget selectedMethod
     ]
 
     runTest [
@@ -361,35 +368,81 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         self onFocusPerform: #selectAll
     ]
 
+    close [
+        <category: 'file events'>
+
+        sourceCodeWidget hasChanged ifFalse: [ ^ super close ].
+        self saveCodeOnClose: [ super close ] onSave: [ state saveSource. super close ]
+    ]
+
+    delete: aGtkWidget event: aGdkEvent [
+        <category: 'window events'>
+
+        sourceCodeWidget hasChanged ifFalse: [ ^ window hideAll ].
+        self saveCodeOnClose: [ window hideAll ] onSave: [ state saveSource. window hideAll ].
+        ^ true
+    ]
+
+    saveCodeOnClose: closeEvent onSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting ?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state displayString}.
+
+        dialog
+            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Cancel' responseId: 2;
+            addButton: 'Save' responseId: 1;
+            runBlockingAndDo: [ :dlg :res |
+                res = 0 ifTrue: closeEvent.
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
+    ]
+
     checkCodeWidget [
         <category: 'text editing'>
 
-        | dlg |
-        sourceCodeWidget hasChanged ifFalse: [ sourceCodeWidget clearUndo. ^ self ].
-        dlg := GTK.GtkMessageDialog
-                    new: window
-                    flags: GTK.Gtk gtkDialogDestroyWithParent
-                    type: GTK.Gtk gtkMessageWarning
-                    buttons: GTK.Gtk gtkButtonsOkCancel
-                    message: 'Do you want to save the text buffer'.
-        dlg runBlockingAndDo: [ :dlg :res |
-            res = GTK.Gtk gtkResponseOk ifTrue: [ "state saveSource" ].
-            dlg destroy ].
+        self hasChanged ifFalse: [ sourceCodeWidget clearUndo. ^ self ].
+        self saveCodeOnSave: [ state saveSource ].
         sourceCodeWidget clearUndo
     ]
 
-    close [
-        <cateogory: 'file events'>	
+    saveCodeOnSave: saveEvent [
+        <category: 'saving'>
 
-	self checkCodeWidget.
-        super close
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting ?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state displayString}.
+
+        dialog
+            addButton: 'Cancel' responseId: 0;
+            addButton: 'Save' responseId: 1;
+            runBlockingAndDo: [ :dlg :res |
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
     ]
 
-    delete: aGtkWidget event: aGdkevent [
-	<category: 'window events'>
+    hasChanged [
+        <category: 'testing'>
 
-	self checkCodeWidget.
-        ^ false
+        ^ sourceCodeWidget hasChanged
+    ]
+
+    sourceCode [
+        <category: 'accessing'>
+
+        ^ sourceCodeWidget sourceCode
     ]
 ]
 
