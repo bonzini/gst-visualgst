@@ -1,5 +1,5 @@
 GtkMainWindow subclass: GtkDebugger [
-    | windowsMenu codeWidget contextWidget debugger inspectorWidget stackInspectorWidget selectedContext |
+    | state windowsMenu codeWidget contextWidget debugger inspectorWidget stackInspectorWidget selectedContext |
 
     GtkDebugger class >> openOn: aContext [
 	<category: 'user interface'>
@@ -253,6 +253,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     updateInspectorWidget: aContext [
 	<category: 'context'>
 
+	state := CategoryState on: self with: aContext receiver class -> '*'.
         inspectorWidget object: aContext receiver.
         stackInspectorWidget object: aContext
     ]
@@ -366,32 +367,65 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     checkCodeWidget [
         <category: 'text editing'>
 
-        | dlg |
         codeWidget hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
-        dlg := GTK.GtkMessageDialog
-                    new: window
-                    flags: GTK.Gtk gtkDialogDestroyWithParent
-                    type: GTK.Gtk gtkMessageWarning
-                    buttons: GTK.Gtk gtkButtonsOkCancel
-                    message: 'Do you want to save the text buffer'.
-        dlg runBlockingAndDo: [ :dlg :res |
-            res = GTK.Gtk gtkResponseOk ifTrue: [ "state saveSource" ].
-            dlg destroy ].
-        codeWidget clearUndo
+	self saveCodeOnSave: [ state saveSource ]
     ]
 
     close [
-        <cateogory: 'file events'>
+        <category: 'file events'>
 
-        self checkCodeWidget.
-        super close
+        codeWidget hasChanged ifFalse: [ ^ super close ].
+        self saveCodeOnClose: [ super close ] onSave: [ state saveSource. super close ]
     ]
 
     delete: aGtkWidget event: aGdkEvent [
         <category: 'window events'>
 
-        self checkCodeWidget. 
-        ^ false 
+        codeWidget hasChanged ifFalse: [ ^ window hideAll ].
+        self saveCodeOnClose: [ window hideAll ] onSave: [ state saveSource. window hideAll ].
+        ^ true
+    ]
+
+    saveCodeOnSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting ?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state displayString}.
+
+        dialog
+            addButton: 'Cancel' responseId: 0;
+            addButton: 'Save' responseId: 1;
+            runBlockingAndDo: [ :dlg :res |
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
+    ]
+
+    saveCodeOnClose: closeEvent onSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting ?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state displayString}.
+
+        dialog
+            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Cancel' responseId: 2;
+            addButton: 'Save' responseId: 1;
+            runBlockingAndDo: [ :dlg :res |
+                res = 0 ifTrue: closeEvent.
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
     ]
 ]
 
