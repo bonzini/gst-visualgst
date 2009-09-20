@@ -392,8 +392,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the code before exiting ?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {state displayString}.
+                                message: 'Save the code before exiting?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state}.
 
         dialog
             addButton: 'Close without saving' responseId: 0;
@@ -422,8 +422,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the code before exiting ?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {state displayString}.
+                                message: 'Save changes to this method?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state}.
 
         dialog
             addButton: 'Cancel' responseId: 0;

@@ -260,7 +260,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the code before exiting ?'
+                                message: 'Save changes to this method?'
                                 tip: 'If you do not save, your changes to %1 will be lost...' % {self stateString}.
 
         dialog

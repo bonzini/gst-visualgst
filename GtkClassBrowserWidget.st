@@ -731,24 +731,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'selection'>
 
 	self select: aSelector in: iMethodWidget
-        "| class |
-        class := classWidget selectedClass.
-
-        class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
-        iMethodWidget
-            class: class withCategory: (class compiledMethodAt: aSelector) methodCategory"
     ]
 
     selectAClassMethod: aSelector [
 	<category: 'selection'>
 
 	self select: aSelector in: cMethodWidget
-        "| class |
-        class := classWidget selectedClass.
-
-	class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
-        cMethodWidget
-            class: class withCategory: (class compiledMethodAt: aSelector) methodCategory"
     ]
 
     doIt [
@@ -877,7 +865,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the code before exiting ?'
+                                message: 'Save the code before exiting?'
                                 tip: 'If you do not save, your changes to %1 will be lost...' % {self stateString}.
 
         dialog

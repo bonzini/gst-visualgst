@@ -118,7 +118,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the image before exiting ?'
+                                message: 'Save the image before exiting?'
 				tip: 'The image hosts all the code changes that you made %<since the last save|since starting VisualGST>1.  Unless you exported these changes, not saving the image will lose them.' % {saved}.
 
         dialog
@@ -127,7 +127,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             addButton: 'Save image' responseId: 1;
             runBlockingAndDo: [ :dlg :res |
                 res = 0 ifTrue: [ self class exit ].
-                res = 1 ifTrue: [ self saveImageAs.
+                res = 1 ifTrue: [ self saveImage.
 				  self class exit ].
                 dlg destroy ].
     ]
