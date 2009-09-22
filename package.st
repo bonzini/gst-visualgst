@@ -38,6 +38,12 @@ Eval [
     filein: 'Commands/FileoutMethodCommand.st';
     filein: 'Commands/AddMethodCommand.st';
     filein: 'Commands/DeleteMethodCommand.st';
+    filein: 'Commands/OpenWindowedBrowserCommand.st';
+    filein: 'Commands/OpenAssistantCommand.st';
+    filein: 'Commands/OpenImplementorCommand.st';
+    filein: 'Commands/OpenSenderCommand.st';
+    filein: 'Commands/OpenSUnitCommand.st';
+    filein: 'Commands/OpenWebBrowserCommand.st';
     filein: 'GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';
@@ -135,6 +141,8 @@ Eval [
     filein: 'GtkMethodSUnitWidget.st';
     filein: 'GtkMethodSUnitModel.st';
     filein: 'SUnit/GtkSUnit.st';
+    filein: 'Commands/OpenBrowserCommand.st';
+    filein: 'Commands/OpenWorkspaceCommand.st';
     start: 'VisualGST.VisualGST open.
     GTK.Gtk main';
     buildXml

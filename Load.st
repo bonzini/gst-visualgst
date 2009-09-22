@@ -1,6 +1,7 @@
 Eval [
     PackageLoader fileInPackage: 'VisualGST'.
-    VisualGST.VisualGST open.
+    VisualGST.GtkWebView registerDLD.
+    VisualGST.VisualGST uniqueInstance.
     GTK.Gtk main
 ]
 
