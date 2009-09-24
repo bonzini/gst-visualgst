@@ -4,7 +4,16 @@ TODO
 	VisualGST :
 	===========
 
-		- A namespace can have multiple worskpace (like monticello : a package can have multiple sources)
+		- A namespace can have multiple branches (like monticello : a package can have multiple sources)
+		- Properties for namespaces, classes, ... (author, comment, versions, branches, licence, bugs, sunit, ...)
+		- drag and drop
+		- provide link from method to senders/implementors
+		- tips ??? (with slint ^^)
+		- icons ( sunit, inheritance, todo message, ... )
+		- automatic fileout
+		- collaborative working ^^
+		- create images
+		- See historic in a pane
 
 	Packages :
 	==========
@@ -15,53 +24,17 @@ TODO
 		- List of repositories per packages
 		- ...
 
+	Workspace :
+	===========
 
-Choses a faire :
-================
+		- See variables in an hiddable pane
+		- syntax coloration
+		- completion
+		- integrated inspector
 
-Associer a un Namespace/Package les informations suivantes : licence, autheurs
+	GtkTextEditor :
+	===============
 
-GtkTextEditor
-=============
+		- Find text : not with a dialog bug but as an hidden widget (like kate)
+		- Find replace
 
-	- Classe basee sur le GtkTextEditor
-	x Undo/Redo
-	x Coloration syntaxique
-	- Completion
-
-GtkWorkspace
-============
-
-	x Ajouter une variable quand elle n'existe pas
-	- avoir la liste de ces variables
-	- Inspecteur integre
-
-GtkClassBrowser
-===============
-
-	x Inserer un worskpace, transcript (que l'on peut cacher)
-	x Sauvegarder/Charger des fichiers (namespaces, classes, ...)
-	- Icone si test unitaire
-	* Popup menu
-	- Integration avec GIT, versioning des modifications locales
-	x Mapping namespace repertoire, classe fichier dans ce repertoire
-	x Les refactorings ^^
-	- Historique de navigation (a la firefox dans une barre laterale ????)
-	- Information sur la licence, auteur, site web ...
-	- Projet ???
-	- ...
-
-GtkInspector, Sender
-====================
-
-	x Interface
-
-GtkDebuger
-==========
-
-	x Debugger
-
-SUnit
-===== 
-
-	x SUnit
