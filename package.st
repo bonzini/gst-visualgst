@@ -143,6 +143,8 @@ Eval [
     filein: 'SUnit/GtkSUnit.st';
     filein: 'Commands/OpenBrowserCommand.st';
     filein: 'Commands/OpenWorkspaceCommand.st';
+    filein: 'Commands/SaveImageCommand.st';
+    filein: 'Commands/SaveImageAsCommand.st';
     start: 'VisualGST.VisualGST open.
     GTK.Gtk main';
     buildXml

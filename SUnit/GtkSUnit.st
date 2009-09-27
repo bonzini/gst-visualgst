@@ -110,11 +110,11 @@ GtkMainWindow subclass: GtkSUnit [
 				yourself);
 	    appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
-				connectSignal: 'clicked' to: self selector: #'saveImage' userData: nil;
+				connectSignal: 'clicked' to: SaveImageCommand selector: #execute userData: nil;
 				setTooltipText: 'Save the image';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save-as')
-				connectSignal: 'clicked' to: self selector: #'saveImageAs' userData: nil;
+				connectSignal: 'clicked' to: SaveImageAsCommand selector: #execute userData: nil;
 				setTooltipText: 'Save the image as';
 				yourself);
 	    appendSeparator;
