@@ -220,10 +220,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     clearGlobalState [
 	<category: 'initialization cleanup'>
 
-	GtkNamespaceModel instVarNamed: #current put: nil.
-	GtkClassModel instVarNamed: #current put: nil.
-	GtkCategoryModel instVarNamed: #current put: nil.
-	GtkMethodModel instVarNamed: #current put: nil.
 	GtkImageModel instVarNamed: #current put: nil.
     ]
 
