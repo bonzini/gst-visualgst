@@ -140,20 +140,34 @@ Object subclass: GtkImageModel [
     ]
     
     addNamespaceEvent: anEvent [
+	<category: 'events'>
+
+        finderDic at: anEvent item displayString ifAbsentPut: [ self appendToModel: anEvent item displayString. Dictionary new ].
+	self at: anEvent item displayString addToFinder: (NamespaceFinder on: anEvent item).
     ]
 
     removeNamespaceEvent: anEvent [
+	<category: 'events'>
     ]
 
     addClassEvent: anEvent [
+	<category: 'events'>
+
+	| string |
+        string := ((anEvent item displayString) substrings: $.) last.
+        finderDic at: string ifAbsentPut: [ self appendToModel: string. Dictionary new ].
+	self at: string addToFinder: (ClassFinder on: anEvent item) 
     ]
 
     removeClassEvent: anEvent [
+	<category: 'events'>
     ]
 
     addMethodEvent: anEvent [
+	<category: 'events'>
     ]
 
     removeMethodEvent: anEvent [
+	<category: 'events'>
     ]
 ]
