@@ -23,10 +23,12 @@ Eval [
     filein: 'Notification/SystemEventManager.st';
     filein: 'Commands/Command.st';
     filein: 'Commands/UndoableCommand.st';
+    filein: 'Commands/InspectNamespaceCommand.st';
     filein: 'Commands/FileoutNamespaceCommand.st';
     filein: 'Commands/AddNamespaceCommand.st';
     filein: 'Commands/DeleteNamespaceCommand.st';
     filein: 'Commands/RenameNamespaceCommand.st';
+    filein: 'Commands/InspectClassCommand.st';
     filein: 'Commands/FileoutClassCommand.st';
     filein: 'Commands/AddClassCommand.st';
     filein: 'Commands/DeleteClassCommand.st';
@@ -36,6 +38,7 @@ Eval [
     filein: 'Commands/DeleteCategoryCommand.st';
     filein: 'Commands/RenameCategoryCommand.st';
     filein: 'Commands/FileoutMethodCommand.st';
+    filein: 'Commands/InspectMethodCommand.st';
     filein: 'Commands/AddMethodCommand.st';
     filein: 'Commands/DeleteMethodCommand.st';
     filein: 'Commands/OpenWindowedBrowserCommand.st';
