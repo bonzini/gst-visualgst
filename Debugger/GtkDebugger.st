@@ -1,10 +1,10 @@
 GtkMainWindow subclass: GtkDebugger [
     | state windowsMenu codeWidget contextWidget debugger inspectorWidget stackInspectorWidget selectedContext |
 
-    GtkDebugger class >> doesNotUnderstand: aString [
-        <category: 'user interface'>
+    GtkDebugger class >> debuggerClass [
+	<category: 'class attributes'>
 
-        aString printNl.
+	^ nil
     ]
 
     GtkDebugger class >> open: aString [
