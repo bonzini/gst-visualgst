@@ -306,3 +306,15 @@ Behavior extend [
     ]
 ]
 
+GTK.GtkTreeModel extend [
+
+    getIter: path [
+	<category: 'accessing'>
+
+	| iter |
+	iter := GTK.GtkTreeIter new.
+	(self getIter: iter path: path) ifFalse: [ ^ self error: 'Bad things happens' ].
+	^ iter
+    ]
+]
+
