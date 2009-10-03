@@ -435,6 +435,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    GTK.GtkMenuItem menuItem: 'Accept It' accelPath: '<GtkLauncher>/Smalltalk/AcceptIt' connectTo: self selector: #acceptIt}
     ]
 
+    createTabsMenus [
+	<category: 'user interface'>
+
+       self accelGroup append: {{'<Control>Page_Up'. '<GtkLauncher>/Tabs/PreviousTab'}.
+	    {'<Control>Page_Down'. '<GtkLauncher>/Tabs/NextTab'}. 
+	    {'<Control>Tab'. '<GtkLauncher>/Tabs/SwitchTab'}}.
+
+	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Previous Tab' accelPath: '<GtkLauncher>/Tabs/PreviousTab' connectTo: self selector: #previousTab.
+	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab.
+	GTK.GtkMenuItem menuItem: 'Switch Tab' accelPath: '<GtkLauncher>/Tabs/SwitchTab' connectTo: self selector: #switchTab}
+    ]
+
     createHelpMenus [
 	<category: 'user interface'>
 
@@ -456,6 +468,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    #('Method' #createMethodMenus).
 	    #('Smalltalk' #createSmalltalkMenus).
 	    #('Tools' #createToolsMenus).
+	    #('Tabs' #createTabsMenus).
 	    #('Help' #createHelpMenus)}
     ]
 
@@ -658,6 +671,24 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'history events'>
 
 	browsers currentWidget forward
+    ]
+
+    previousTab [
+	<category: 'tabs events'>
+
+	browsers currentPage > 0 ifTrue: [browsers currentPage: browsers currentPage - 1 ]
+    ]
+
+    nextTab [
+	<category: 'tabs events'>
+
+	browsers currentPage < browsers numberOfPages ifTrue: [browsers currentPage: browsers currentPage + 1 ]
+    ]
+
+    switchTab [
+	<category: 'tabs events'>
+
+	browsers currentPage: (browsers currentPage + 1 \\ browsers numberOfPages)
     ]
 
     helpcontents [

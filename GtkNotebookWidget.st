@@ -81,5 +81,23 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 
 	^ currentWidget
     ]
+
+    currentPage [
+	<category: 'pages'>
+
+	^ notebook getCurrentPage
+    ]
+
+    currentPage: aSmallInteger [
+	<category: 'pages'>
+
+	notebook setCurrentPage: aSmallInteger
+    ]
+
+    numberOfPages [
+	<category: 'pages'>
+
+	^ notebook getNPages
+    ]
 ]
 
