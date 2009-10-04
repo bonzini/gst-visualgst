@@ -242,7 +242,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'initialization'>
 
 	browsers grabFocus.
-	window 
+	window
+	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil;
 	    connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
     ]
 
@@ -438,13 +439,11 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createTabsMenus [
 	<category: 'user interface'>
 
-       self accelGroup append: {{'<Control>Page_Up'. '<GtkLauncher>/Tabs/PreviousTab'}.
-	    {'<Control>Page_Down'. '<GtkLauncher>/Tabs/NextTab'}. 
-	    {'<Control>Tab'. '<GtkLauncher>/Tabs/SwitchTab'}}.
+       self accelGroup append: {{'<Control><Shift>Tab'. '<GtkLauncher>/Tabs/PreviousTab'}.
+	    {'<Control>Tab'. '<GtkLauncher>/Tabs/NextTab'}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Previous Tab' accelPath: '<GtkLauncher>/Tabs/PreviousTab' connectTo: self selector: #previousTab.
-	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab.
-	GTK.GtkMenuItem menuItem: 'Switch Tab' accelPath: '<GtkLauncher>/Tabs/SwitchTab' connectTo: self selector: #switchTab}
+	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab}
     ]
 
     createHelpMenus [
@@ -676,16 +675,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     previousTab [
 	<category: 'tabs events'>
 
-	browsers currentPage > 0 ifTrue: [browsers currentPage: browsers currentPage - 1 ]
+	browsers currentPage > 0 
+		    ifTrue: [ browsers currentPage: browsers currentPage - 1 ]
+		    ifFalse: [ browsers currentPage: browsers numberOfPages - 1 ] 
     ]
 
     nextTab [
-	<category: 'tabs events'>
-
-	browsers currentPage < browsers numberOfPages ifTrue: [browsers currentPage: browsers currentPage + 1 ]
-    ]
-
-    switchTab [
 	<category: 'tabs events'>
 
 	browsers currentPage: (browsers currentPage + 1 \\ browsers numberOfPages)
@@ -809,6 +804,20 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         <category: 'method events'>
 
 	browsers currentWidget fileoutMethod
+    ]
+
+    keyPressedOn: aGtkWidget keyEvent: aGdkEventKey [
+        <category: 'key event'>
+
+        | event |
+        event := aGdkEventKey castTo: GTK.GdkEventKey type.
+
+	(event state value bitAnd: GTK.Gdk gdkControlMask) = 0 ifTrue: [ ^ false ].
+	(#(65417 65289 65056) includes: event keyval value) ifFalse: [ ^ false ].
+	(event state value bitAnd: GTK.Gdk gdkShiftMask) = 0  
+					    ifFalse: [ self previousTab ]
+					    ifTrue: [ self nextTab ].
+        ^ true
     ]
 ]
 
