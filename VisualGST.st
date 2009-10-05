@@ -156,7 +156,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             addButton: 'Save image' responseId: 1;
             runBlockingAndDo: [ :dlg :res |
                 res = 0 ifTrue: [ self class exit ].
-                res = 1 ifTrue: [ self saveImage.
+                res = 1 ifTrue: [ saved ifTrue: [ self saveImage ] ifFalse: [ self saveImageAs ].
 				  self class exit ].
                 dlg destroy ].
     ]
@@ -195,13 +195,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     ]
 
     saveImage [
-        <category: 'events'>
+        <category: 'file events'>
 
         saved := ObjectMemory snapshot not
     ]
 
     saveImageAs [
-	<category: 'events'>
+	<category: 'file events'>
 
 	(GTK.GtkFileChooserDialog save: 'Save image as...' parent: window)
 	    runNonBlockingAndDo: [ :dlg :res |
