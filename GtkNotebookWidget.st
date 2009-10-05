@@ -99,5 +99,14 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 
 	^ notebook getNPages
     ]
+
+    closeCurrentPage [
+	<category: 'pages'>
+
+	self numberOfPages = 1 ifTrue: [ ^ self ].
+        pages removeAtIndex: self currentPage + 1.
+	notebook removePage: self currentPage.
+	pages size = 1 ifTrue: [ notebook setShowTabs: false ]
+    ]
 ]
 

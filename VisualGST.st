@@ -440,10 +440,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'user interface'>
 
        self accelGroup append: {{'<Control><Shift>Tab'. '<GtkLauncher>/Tabs/PreviousTab'}.
-	    {'<Control>Tab'. '<GtkLauncher>/Tabs/NextTab'}}.
+	    {'<Control>Tab'. '<GtkLauncher>/Tabs/NextTab'}.
+	    {'<Control>w'. '<GtkLauncher>/Tabs/CloseTab'}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Previous Tab' accelPath: '<GtkLauncher>/Tabs/PreviousTab' connectTo: self selector: #previousTab.
-	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab}
+	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab.
+	GTK.GtkMenuItem new.
+	GTK.GtkMenuItem menuItem: 'Close Tab' accelPath: '<GtkLauncher>/Tabs/CloseTab' connectTo: self selector: #closeTab.}
     ]
 
     createHelpMenus [
@@ -684,6 +687,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'tabs events'>
 
 	browsers currentPage: (browsers currentPage + 1 \\ browsers numberOfPages)
+    ]
+
+    closeTab [
+	<category: 'tabs events'>
+
+	browsers closeCurrentPage
     ]
 
     helpcontents [
