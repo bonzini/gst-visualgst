@@ -156,7 +156,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             addButton: 'Save image' responseId: 1;
             runBlockingAndDo: [ :dlg :res |
                 res = 0 ifTrue: [ self class exit ].
-                res = 1 ifTrue: [ saved ifTrue: [ self saveImage ] ifFalse: [ self saveImageAs ].
+                res = 1 ifTrue: [ self saveImage.
 				  self class exit ].
                 dlg destroy ].
     ]
@@ -197,6 +197,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     saveImage [
         <category: 'file events'>
 
+	"ObjectMemory>>#snapshot breaks hard links due to
+	 http://bugzilla.kernel.org/show_bug.cgi?id=9138, so we have to
+	 check the permission of the directory rather than the file."
+	File image parent isWriteable ifFalse: [ ^ self saveImageAs ].
         saved := ObjectMemory snapshot not
     ]
 
