@@ -402,7 +402,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| iter |
 	iter := contextWidget selectedIter.
-	contextWidget numberOfContext = (contextWidget model getPath: iter) getIndices value
+
+	contextWidget numberOfContext = ((contextWidget model getPath: iter) getIndices value + 1)
 	    ifTrue: [ debugger myStep ]
 	    ifFalse: [ debugger finish: selectedContext ].
 	self updateContextWidget
