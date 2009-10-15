@@ -237,8 +237,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	aClass := classWidget selectedClass.
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget class: aClass ].
-	iCategoryWidget class: aClass.
-	cCategoryWidget class: aClass class.
+	iCategoryWidget classOrMeta: aClass.
+	cCategoryWidget classOrMeta: aClass class.
 	iCategoryWidget unselectAll.
         cCategoryWidget unselectAll.
 
@@ -532,9 +532,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     viewedCategoryModel [
 	<category: 'category events'>
 
-	^ classAndInstanceSide getCurrentPage = 0
-            ifTrue: [ GtkCategoryModel currentOn: classWidget selectedClass ]
-            ifFalse: [ GtkCategoryModel currentOn: classWidget selectedClass class ]
+	^ self viewedCategoryWidget model 
     ]
 
     fileoutCategory [
@@ -871,6 +869,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'text saving'>
 
 	state saveSource
+    ]
+
+    codeSaved [
+	<category: 'code saved'>
+
+	codeWidget codeSaved
     ]
 
     close [
