@@ -201,7 +201,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	 http://bugzilla.kernel.org/show_bug.cgi?id=9138, so we have to
 	 check the permission of the directory rather than the file."
 	File image parent isWriteable ifFalse: [ ^ self saveImageAs ].
-        saved := ObjectMemory snapshot not
+	saved := ObjectMemory snapshot not
     ]
 
     saveImageAs [
@@ -211,7 +211,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    runNonBlockingAndDo: [ :dlg :res |
 		res = GTK.Gtk gtkResponseAccept ifTrue: [ | name |
 		    name := dlg getFilename.
-		    saved := (ObjectMemory snapshot: name) not ].
+		    saved := ObjectMemory snapshot not ].
 		dlg destroy ]
     ]
 

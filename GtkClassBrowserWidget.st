@@ -78,7 +78,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildNamespaceView [
 	<category: 'user interface'>
 
-	namespaceWidget := GtkNamespaceWidget showAll
+	namespaceWidget := GtkCategorizedNamespaceWidget showAll
 				whenSelectionChangedSend: #onNamespaceChanged to: self;
 				yourself.
 
@@ -692,8 +692,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
         classWidget selectAClass: aClass.
 	classHierarchyWidget class: aClass.
-        iCategoryWidget class: aClass.
-        cCategoryWidget class: aClass class.
+        iCategoryWidget classOrMeta: aClass.
+        cCategoryWidget classOrMeta: aClass class.
 
         iMethodWidget emptyModel.
         cMethodWidget emptyModel

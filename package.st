@@ -63,6 +63,7 @@ Eval [
     filein: 'MethodState.st';
     filein: 'GtkWorkspaceWidget.st';
     filein: 'GtkNamespaceWidget.st';
+    filein: 'GtkCategorizedNamespaceWidget.st';
     filein: 'GtkClassWidget.st';
     filein: 'GtkCategoryWidget.st';
     filein: 'GtkMethodWidget.st';
@@ -94,6 +95,7 @@ Eval [
     filein: 'Extensions.st';
     filein: 'GtkAssistant.st';
     filein: 'GtkNamespaceModel.st';
+    filein: 'GtkCategorizedNamespaceModel.st';
     filein: 'GtkClassModel.st';
     filein: 'GtkCategoryModel.st';
     filein: 'GtkMethodModel.st';
