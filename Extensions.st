@@ -306,37 +306,3 @@ Behavior extend [
     ]
 ]
 
-GTK.GtkTreeModel extend [
-
-    getIter: path [
-	<category: 'accessing'>
-
-	| iter |
-	iter := GTK.GtkTreeIter new.
-	(self getIter: iter path: path) ifFalse: [ ^ self error: 'Bad things happens' ].
-	^ iter
-    ]
-]
-
-GTK.GtkTreeView class extend [
-
-    newWith: aGtkModel columns: anArray [
-        <category: 'user interface'>
-
-        | i view col render |
-        view := self new
-		    setModel: aGtkModel;
-		    yourself.
-	i := 0.
-	anArray do: [ :each |
-	    col := (GtkTreeViewColumn new)
-		    packStart: (render := each key = 'pixbuf' ifTrue: [ GTK.GtkCellRendererPixbuf new ] ifFalse: [ GTK.GtkCellRendererText new ]) expand: true;
-		    addAttribute: render attribute: each key column: i;
-		    yourself.
-	    each value isEmpty ifFalse: [ col setTitle: each value ].
-	    i := i + 1.
-	    view insertColumn: col position: -1 ].
-	^ view
-    ]
-]
-
