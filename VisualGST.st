@@ -211,7 +211,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    runNonBlockingAndDo: [ :dlg :res |
 		res = GTK.Gtk gtkResponseAccept ifTrue: [ | name |
 		    name := dlg getFilename.
-		    saved := ObjectMemory snapshot not ].
+		    saved := (ObjectMemory snapshot: name) not ].
 		dlg destroy ]
     ]
 
