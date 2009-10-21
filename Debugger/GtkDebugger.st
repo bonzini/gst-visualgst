@@ -17,8 +17,14 @@ GtkMainWindow subclass: GtkDebugger [
 		debugger: debugger ] forkDebugger
     ]
     
+    GtkDebugger class >> debuggerClass [
+        <category: 'debugging interface'>
+
+        ^nil
+    ]
+
     GtkDebugger class >> debuggingPriority [
-	<category: 'user interface'>
+	<category: 'debugging interface'>
 
 	^ 1
     ]
