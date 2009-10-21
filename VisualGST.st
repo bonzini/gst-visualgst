@@ -42,7 +42,7 @@ GtkMainWindow subclass: VisualGST [
     VisualGST class >> open [
 	<category: 'user interface'>
 
-        ^ self error: self instanceCreationErrorString
+        self uniqueInstance
     ]
 
     VisualGST class >> version [
