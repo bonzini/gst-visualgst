@@ -18,14 +18,14 @@ GtkConcreteWidget subclass: GtkNamespaceWidget [
     buildTreeView [
 	<category: 'user interface'>
     
-	namespacesTree := (GTK.GtkTreeView newWithSortedTextColumn: self model gtkModel title: 'Namespaces')
+	namespacesTree := (GTK.GtkTreeView newWith: self model gtkModel columns: {'pixbuf'->'Kind'. 'text'->'Namespaces'})
 			    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
 			    expandAll;
                             yourself.
 	namespacesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	self model isSorted 
 	    ifFalse: [ 
-		(namespacesTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+		(namespacesTree getColumn: 1) signalEmitByName: 'clicked' args: {}.
 		self model sorted: true ].
 	^ GTK.GtkScrolledWindow withChild: namespacesTree
     ]

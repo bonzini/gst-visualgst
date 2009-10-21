@@ -65,6 +65,7 @@ Eval [
     filein: 'GtkNamespaceWidget.st';
     filein: 'GtkCategorizedNamespaceWidget.st';
     filein: 'GtkClassWidget.st';
+    filein: 'GtkCategorizedClassWidget.st';
     filein: 'GtkCategoryWidget.st';
     filein: 'GtkMethodWidget.st';
     filein: 'GtkSourceCodeWidget.st';
@@ -97,6 +98,7 @@ Eval [
     filein: 'GtkNamespaceModel.st';
     filein: 'GtkCategorizedNamespaceModel.st';
     filein: 'GtkClassModel.st';
+    filein: 'GtkCategorizedClassModel.st';
     filein: 'GtkCategoryModel.st';
     filein: 'GtkMethodModel.st';
     filein: 'Undo/AddCategoryUndoCommand.st';
@@ -122,6 +124,7 @@ Eval [
     filein: 'Senders/GtkSender.st';
     filein: 'Notification/Kernel/AbstractNamespace.st';
     filein: 'Notification/Kernel/Metaclass.st';
+    filein: 'Notification/Kernel/Class.st';
     filein: 'Notification/Kernel/MethodDictionary.st';
     filein: 'Debugger/GtkStackInspectorView.st';
     filein: 'Debugger/GtkStackInspector.st';
@@ -150,6 +153,8 @@ Eval [
     filein: 'Commands/OpenWorkspaceCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
+    ressource: 'Icons/category.png';
+    ressource: 'Icons/namespace.png';
     start: 'VisualGST.VisualGST open.
     GTK.Gtk main';
     buildXml

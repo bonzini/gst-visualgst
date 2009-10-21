@@ -195,16 +195,17 @@ Object subclass: TestBuilder [
 
 
 Object subclass: PackageBuilder [
-  |name namespace prereqs provides testBuilder start fileins|
+  |name namespace prereqs provides testBuilder start fileins ressources|
 
   PackageBuilder class >> new [
     ^ self basicNew initialize
   ]
 
-  initialize [ 
+  initialize [
     prereqs := OrderedCollection new.
     provides := OrderedCollection new.
-    fileins := OrderedCollection new
+    fileins := OrderedCollection new.
+    ressources := OrderedCollection new
   ]
 
   name [
@@ -256,6 +257,11 @@ Object subclass: PackageBuilder [
     fileins add: aString
   ]
 
+  ressource: aString [
+    <category: 'accessing'>
+    ressources add: aString
+  ]
+
   testsBelow: aDirname matching: aPattern [ 
     <category: 'accessing'>
     <comment: 'Make a testbuilder for the given specs.'>
@@ -278,6 +284,8 @@ Object subclass: PackageBuilder [
       testBuilder ifNotNil: [ testBuilder renderXmlOn: aStream ].
       aStream wrap: 'filein' aroundEachOf: fileins.
       aStream wrap: 'file' aroundEachOf: fileins.
+      "aStream wrap: 'filein' aroundEachOf: ressources."
+      aStream wrap: 'file' aroundEachOf: ressources.
       aStream wrap: 'start' around: start.
     ]
   ]

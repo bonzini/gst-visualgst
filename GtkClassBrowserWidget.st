@@ -88,7 +88,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildClassView [
 	<category: 'user interface'>
 
-	classWidget := GtkClassWidget showAll
+	classWidget := GtkCategorizedClassWidget showAll
 			    whenSelectionChangedSend: #onClassChanged to: self;
 			    yourself.
 
@@ -218,7 +218,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	self checkCodeWidget.
 	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	namespace := namespaceWidget selectedNamespace.
-	classWidget namespace: namespace.
+	classWidget namespace: namespace category: namespaceWidget selectedCategory.
 
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
 	iCategoryWidget emptyModel.

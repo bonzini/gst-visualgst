@@ -18,14 +18,14 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     buildTreeView [
 	<category: 'user interface'>
     
-	namespacesTree := (GTK.GtkTreeView newWithSortedTextColumn: self model gtkModel title: 'Namespaces')
+	namespacesTree := (GTK.GtkTreeView newWith: self model gtkModel columns: {'pixbuf'->''. 'text'->'Namespaces'})
 			    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
 			    expandAll;
                             yourself.
 	namespacesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	self model isSorted 
 	    ifFalse: [ 
-		(namespacesTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+		(namespacesTree getColumn: 1) signalEmitByName: 'clicked' args: {}.
 		self model sorted: true ].
 	^ GTK.GtkScrolledWindow withChild: namespacesTree
     ]
@@ -74,15 +74,30 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
 	<category: 'accessing'>
 
 	| iter path |
-	'N' = (self model gtkModel getOop: self selectedIter column: 1) ifTrue: [ 
-	    ^ self findNamespace: (self model gtkModel getOop: self selectedIter column: 0) ].
+	'N' = (self model gtkModel getOop: self selectedIter column: 3) ifTrue: [ 
+	    ^ self model gtkModel getOop: self selectedIter column: 2 ].
 	path := self model gtkModel getPath: self selectedIter.
 	iter := GTK.GtkTreeIter new.
 	[ path up.
 	  (self model gtkModel getIter: iter path: path) ifFalse: [ self error: 'Selected category not found' ].
-	  (self model gtkModel getOop: self selectedIter column: 0) printNl.
-	  'N' = (self model gtkModel getOop: iter column: 1) ] whileFalse.
-	^ self findNamespace: (self model gtkModel getOop: iter column: 0)
+	  'N' = (self model gtkModel getOop: iter column: 3) ] whileFalse.
+	^ self model gtkModel getOop: iter column: 2
+    ]
+
+    selectedCategory [
+	<category: 'accessing'>
+
+	| iter path cat |
+	'N' = (self model gtkModel getOop: self selectedIter column: 3) ifTrue: [ ^ '' ].
+	path := self model gtkModel getPath: self selectedIter.
+        iter := GTK.GtkTreeIter new.
+	cat := self model gtkModel getOop: self selectedIter column: 1.
+        [ path up.
+          (self model gtkModel getIter: iter path: path) ifFalse: [ self error: 'Selected category not found' ].
+          'N' = (self model gtkModel getOop: iter column: 3)
+				    ifFalse: [ cat := (self model gtkModel getOop: iter column: 1), '-', cat. false ] 
+				    ifTrue: [ true ] ] whileFalse.
+	^ cat
     ]
 
     selectANamespace: aNamespace [
