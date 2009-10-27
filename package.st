@@ -155,6 +155,7 @@ Eval [
     filein: 'Commands/SaveImageAsCommand.st';
     ressource: 'Icons/category.png';
     ressource: 'Icons/namespace.png';
+    ressource: 'Icons/next.png';
     start: 'VisualGST.VisualGST open.
     GTK.Gtk main';
     buildXml

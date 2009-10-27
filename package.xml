@@ -307,6 +307,7 @@
   <file>Commands/SaveImageAsCommand.st</file>
   <file>Icons/category.png</file>
   <file>Icons/namespace.png</file>
+  <file>Icons/next.png</file>
   <start>VisualGST.VisualGST open.
     GTK.Gtk main</start>
 </package>

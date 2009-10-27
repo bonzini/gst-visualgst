@@ -232,6 +232,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     createToolbar [
 	<category: 'user interface'>
 
+	| package |
+	package := PackageLoader packageAt: 'VisualGST'.
 	self
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
 				connectSignal: 'clicked' to: OpenWorkspaceCommand selector: #execute userData: nil;
@@ -289,6 +291,11 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-apply')
 				connectSignal: 'clicked' to: self selector: #acceptIt userData: nil;
 				setTooltipText: 'Accept It';
+				yourself);
+	    appendSeparator;
+	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (package / 'Icons/next.png') file displayString) label: '')
+				connectSignal: 'clicked' to: self selector: #step userData: nil;
+				setTooltipText: 'Step';
 				yourself)
     ]
 
