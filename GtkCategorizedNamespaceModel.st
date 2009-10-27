@@ -55,7 +55,7 @@ Object subclass: GtkCategorizedNamespaceModel [
 	<category: 'accessing'>
 
 	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: 4 varargs: {GTK.GdkPixbuf getType. GTK.GValue gTypeString. GTK.GLib gstType. GTK.GValue gTypeString}.
+	    model := GTK.GtkTreeStore new: 4 varargs: {GTK.GdkPixbuf getType. GTK.GValue gTypeString. GTK.GLib oopType. GTK.GValue gTypeString}.
 	    self appendNamespace: Smalltalk to: nil.
 	    model ]
     ]

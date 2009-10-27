@@ -299,11 +299,11 @@ Debugger extend [
 
 Behavior extend [
 
-    "debuggerClass [
+    debuggerClass [
 	<category: '*VisualGST'>
 
 	^ VisualGST.GtkDebugger
-    ]"
+    ]
 ]
 
 GTK.GtkTreeModel extend [
