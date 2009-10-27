@@ -36,8 +36,7 @@ Object subclass: GtkCategorizedNamespaceModel [
 	(SystemChangeNotifier uniqueInstance)
 	    notify: self ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
 	    notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:';
-            notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedClassEvent:';
-            notify: self ofSystemChangesOfItem: #class change: #Removed using: #'removeClassEvent:'
+            notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedClassEvent:'
     ]
 
     isSorted [
@@ -165,12 +164,8 @@ Object subclass: GtkCategorizedNamespaceModel [
 
        | iter |
         iter := self findIterInANamespace: anEvent item environment.
-	self appendCategoriesOfClass: anEvent item into: iter.
+	self appendCategoriesOfClass: anEvent item into: iter
     ]
 
-
-    removeClassEvent: anEvent [
-	<category: 'model event'>
-    ]
 ]
 

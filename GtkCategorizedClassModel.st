@@ -23,7 +23,8 @@ Object subclass: GtkCategorizedClassModel [
 
 	(SystemChangeNotifier uniqueInstance)
 	    notify: self ofSystemChangesOfItem: #class change: #Added using: #'addEvent:';
-	    notify: self ofSystemChangesOfItem: #class change: #Removed using: #'removeEvent:'
+	    notify: self ofSystemChangesOfItem: #class change: #Removed using: #'removeEvent:';
+	    notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedEvent:'
     ]
 
     isSorted [
@@ -185,6 +186,7 @@ Object subclass: GtkCategorizedClassModel [
 
 	| parentIter parent |
 	anEvent item environment == self namespace ifFalse: [ ^ self ].
+	(anEvent item category == self category or: [ self category isNil ]) ifFalse: [ ^ self ].
 	parentIter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
 	self append: parentIter column: 0 value: (anEvent item name, ' ')
     ]
@@ -193,8 +195,21 @@ Object subclass: GtkCategorizedClassModel [
         <category: 'model event'>
 
 	anEvent item environment == self namespace ifFalse: [ ^ self ].
+	(anEvent item category == self category or: [ self category isNil ]) ifFalse: [ ^ self ].
 	(self hasClass: anEvent item) ifFalse: [ ^ self ].
         self remove: anEvent item
+    ]
+
+    recategorizedEvent: anEvent [
+        <category: 'model event'>
+
+       | iter |
+	anEvent item environment == self namespace ifFalse: [ ^ self ].
+	anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
+	(anEvent oldCategory = self category or: [ self category isNil ]) ifTrue: [ ^ self remove: anEvent item ].
+	(anEvent item category = self category or: [ self category isNil ]) ifTrue: [ 
+	    iter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
+	    self append: iter column: 0 value: (anEvent item name, ' ') ].
     ]
 ]
 
