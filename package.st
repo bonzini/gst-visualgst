@@ -155,7 +155,24 @@ Eval [
     filein: 'Commands/SaveImageAsCommand.st';
     ressource: 'Icons/category.png';
     ressource: 'Icons/namespace.png';
-    ressource: 'Icons/next.png';
+    ressource: 'Icons/go-bottom.png';
+    ressource: 'Icons/go-down.png';
+    ressource: 'Icons/go-first.png';
+    ressource: 'Icons/go-home.png';
+    ressource: 'Icons/go-jump.png';
+    ressource: 'Icons/go-last.png';
+    ressource: 'Icons/go-next.png';
+    ressource: 'Icons/go-previous.png';
+    ressource: 'Icons/go-run.png';
+    ressource: 'Icons/go-top.png';
+    ressource: 'Icons/go-up.png';
+    ressource: 'Icons/NUnit.Failed.png';
+    ressource: 'Icons/NUnit.Loading.png';
+    ressource: 'Icons/NUnit.None.png';
+    ressource: 'Icons/NUnit.NotRun.png';
+    ressource: 'Icons/NUnit.Running.png';
+    ressource: 'Icons/NUnit.SuccessAndFailed.png';
+    ressource: 'Icons/NUnit.Success.png';
     start: 'VisualGST.VisualGST open.
     GTK.Gtk main';
     buildXml

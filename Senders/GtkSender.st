@@ -188,28 +188,28 @@ GtkMainWindow subclass: GtkSender [
 		connectSignal: 'clicked' to: self selector: #redo userData: nil;
 		setTooltipText: 'Redo';
 		yourself);
-            appendSeparator;
-        appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-execute')
-		connectSignal: 'clicked' to: self selector: #doIt userData: nil;
-		setTooltipText: 'Do It';
-		yourself);
-        appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-print')
-		connectSignal: 'clicked' to: self selector: #printIt userData: nil;
-		setTooltipText: 'Print It';
-		yourself);
-        appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-convert')
-		connectSignal: 'clicked' to: self selector: #inspectIt userData: nil;
-		setTooltipText: 'Inspect It';
-		yourself);
-        appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-sort-descending')
-		connectSignal: 'clicked' to: self selector: #debugIt userData: nil;
-		setTooltipText: 'Debug It';
-		yourself);
         appendSeparator;
-        appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-apply')
-		connectSignal: 'clicked' to: self selector: #acceptIt userData: nil;
-		setTooltipText: 'Accept It';
-		yourself)
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-execute' label: 'Do It')
+                                connectSignal: 'clicked' to: self selector: #doIt userData: nil;
+                                setTooltipText: 'Do It';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-print' label: 'Print It')
+                                connectSignal: 'clicked' to: self selector: #printIt userData: nil;
+                                setTooltipText: 'Print It';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-convert' label: 'Inspect It')
+                                connectSignal: 'clicked' to: self selector: #inspectIt userData: nil;
+                                setTooltipText: 'Inspect It';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-sort-descending' label: 'Debug It')
+                                connectSignal: 'clicked' to: self selector: #debugIt userData: nil;
+                                setTooltipText: 'Debug It';
+                                yourself);
+        appendSeparator;
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-apply' label: 'Accept')
+                                connectSignal: 'clicked' to: self selector: #acceptIt userData: nil;
+                                setTooltipText: 'Accept';
+                                yourself)
     ]
 
 "    createToolbar [

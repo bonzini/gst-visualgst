@@ -307,7 +307,17 @@
   <file>Commands/SaveImageAsCommand.st</file>
   <file>Icons/category.png</file>
   <file>Icons/namespace.png</file>
-  <file>Icons/next.png</file>
+  <file>Icons/go-bottom.png</file>
+  <file>Icons/go-down.png</file>
+  <file>Icons/go-first.png</file>
+  <file>Icons/go-home.png</file>
+  <file>Icons/go-jump.png</file>
+  <file>Icons/go-last.png</file>
+  <file>Icons/go-next.png</file>
+  <file>Icons/go-previous.png</file>
+  <file>Icons/go-run.png</file>
+  <file>Icons/go-top.png</file>
+  <file>Icons/go-up.png</file>
   <start>VisualGST.VisualGST open.
     GTK.Gtk main</start>
 </package>

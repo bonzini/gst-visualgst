@@ -299,9 +299,17 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 				setTooltipText: 'Accept It';
 				yourself);
 	    appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (package / 'Icons/next.png') file displayString) label: '')
+	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (package / 'Icons/go-run.png') file displayString) label: 'Continue')
+				connectSignal: 'clicked' to: self selector: #run userData: nil;
+				setTooltipText: 'Continue';
+				yourself);
+	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (package / 'Icons/go-next.png') file displayString) label: 'Step into')
+				connectSignal: 'clicked' to: self selector: #stepInto userData: nil;
+				setTooltipText: 'Step into';
+				yourself);
+	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (package / 'Icons/go-jump.png') file displayString) label: 'Step to here')
 				connectSignal: 'clicked' to: self selector: #step userData: nil;
-				setTooltipText: 'Step';
+				setTooltipText: 'Step to here';
 				yourself)
     ]
 
