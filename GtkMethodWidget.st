@@ -20,12 +20,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	^ GtkMethodModel
     ]
 
-    class [
-	<category: 'accessing'>
-    
-	^ class
-    ]
-
     category [
 	<category: 'accessing'>
 
@@ -50,7 +44,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
 
 	
-	^ model ifNil: [ model := self methodModel on: self class withCategory: self category ]
+	^ model ifNil: [ model := self methodModel on: self classOrMetaSelected withCategory: self category ]
     ]
 
     emptyModel [
@@ -62,7 +56,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     refreshModel [
 	<category: 'events'>
 
-	model := self methodModel on: self class withCategory: self category.
+	model := self methodModel on: self classOrMetaSelected withCategory: self category.
 	methodTree setModel: self model gtkModel.
         self model isSorted
             ifFalse: [
@@ -143,7 +137,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
 
 	self hasSelectedMethod ifFalse: [ self error: 'Nothing is selected' ].
-	^ self class compiledMethodAt: self selectedMethodSymbol
+	^ self classOrMetaSelected compiledMethodAt: self selectedMethodSymbol
     ]
 
     selectAMethod: aString [
@@ -170,7 +164,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
 
 	self hasSelectedMethod ifFalse: [ self error: 'Nothing is selected' ].
-	^ (self class compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
+	^ (self classOrMetaSelected compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
 
     deleteMethod [
