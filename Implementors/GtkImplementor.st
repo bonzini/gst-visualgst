@@ -1,5 +1,15 @@
 GtkMainWindow subclass: GtkImplementor [
-    | model resultModel set finderTree resultArray resultTree classBrowserWidget searchEntry |
+    | model selector resultModel set finderTree resultArray resultTree classBrowserWidget searchEntry |
+
+    GtkImplementor class >> openOn: aSelector [
+        <category: 'instance creation'>
+
+        ^ (self new)
+            selector: aSelector;
+            initialize;
+            showAll;
+            yourself
+    ]
 
     createFileMenus [
         <category: 'user interface'>
@@ -235,6 +245,7 @@ GtkMainWindow subclass: GtkImplementor [
 	finderTree
 	    getSelection
 		connectSignal: 'changed' to: self selector: #elementSelected userData: nil.
+	finderTree setSearchEntry: searchEntry.
         ^ GTK.GtkScrolledWindow withChild: finderTree
     ]
 
@@ -273,6 +284,7 @@ GtkMainWindow subclass: GtkImplementor [
     buildCentralWidget [
         <category: 'intialize-release'>
 
+	self selector isNil ifFalse: [ ^self buildResultAndClassBrowser ].
 	^ (GTK.GtkHPaned new)
 	    add1: self buildFinderList;
 	    add2: self buildResultAndClassBrowser;
@@ -289,7 +301,6 @@ GtkMainWindow subclass: GtkImplementor [
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
-	finderTree setSearchEntry: searchEntry.
     ]
 
     postInitialize [
@@ -339,15 +350,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| iter string |
         (iter := finderTree selectedIter) ifNil: [ ^ self ].
-        string := (self model gtkModel getOop: iter column: 0).
-   
-	self resultModel clear. 
-	resultArray := self model selectedItem: iter.
-	resultArray keysDo: [ :each |
-	    iter := GTK.GtkTreeIter new.
-	    self resultModel append: iter parent: nil.
-	    self resultModel setOop: iter column: 0 value: each ].
-	"resultTree getSelection selectPath: GTK.GtkTreePath newFirst"
+        self selector: (self model gtkModel getOop: iter column: 0).
     ]
 
     resultSelected [
@@ -394,6 +397,26 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         <category: 'history events'>
 
         classBrowserWidget forward
+    ]
+
+    selector [
+	<category: 'accessing'>
+
+	^selector
+    ]
+
+    selector: aSymbol [
+	<category: 'accessing'>
+
+	| iter |
+	selector := aSymbol.
+	self resultModel clear. 
+	resultArray := self model matchSelector: aSymbol.
+	resultArray keysDo: [ :each |
+	    iter := GTK.GtkTreeIter new.
+	    self resultModel append: iter parent: nil.
+	    self resultModel setOop: iter column: 0 value: each ].
+	"resultTree getSelection selectPath: GTK.GtkTreePath newFirst"
     ]
 
     searchValidate [

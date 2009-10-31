@@ -5,8 +5,8 @@ GtkMainWindow subclass: GtkSender [
 	<category: 'instance creation'>
 
 	^ (self new)
-            initialize;
             selector: aSelector;
+            initialize;
             showAll;
             yourself
     ]
@@ -25,10 +25,19 @@ GtkMainWindow subclass: GtkSender [
 
     | currentMethod selector finderModel finderTree senderResults senderModel senderTree classBrowserWidget searchEntry |
 
-    selector: aSelector [
+    selector [
 	<category: 'accessor'>
 
-	selector := aSelector
+	^selector
+    ]
+
+    selector: aSymbol [
+	<category: 'accessor'>
+
+	selector := aSymbol asSymbol.
+	self 
+	    clearSenderModel;
+	    findInMethod: (self finderModel matchSelector: aSymbol) values first element.
     ]
 
     createFileMenus [
@@ -229,6 +238,7 @@ GtkMainWindow subclass: GtkSender [
         finderTree
             getSelection
                 connectSignal: 'changed' to: self selector: #finderSelected userData: nil.
+	finderTree setSearchEntry: searchEntry.
         ^ GTK.GtkScrolledWindow withChild: finderTree
     ]
 
@@ -287,6 +297,7 @@ GtkMainWindow subclass: GtkSender [
     buildCentralWidget [
         <category: 'intialize-release'>
 
+	self selector isNil ifFalse: [ ^self buildSenderAndClassBrowser ].
 	^ (GTK.GtkHPaned new)
 	    add1: self buildFinderList;
 	    add2: self buildSenderAndClassBrowser;
@@ -303,7 +314,6 @@ GtkMainWindow subclass: GtkSender [
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
-	finderTree setSearchEntry: searchEntry.
     ]
 
     postInitialize [
@@ -362,10 +372,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| iter string |
 	(iter := finderTree selectedIter) ifNil: [ ^ self ].
-
-	self 
-	    clearSenderModel;
-	    findInMethod: (self finderModel selectedItem: iter) values first element.
+	string := (self finderModel gtkModel getOop: iter column: 0).
+	self selector: string asSymbol.
     ]
 
     senderSelected [

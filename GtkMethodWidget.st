@@ -94,7 +94,10 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         menu := GTK.GtkMenu new.
 	self isTestMethod ifTrue: [
             menu appendMenuItems: {{'Run test'. self. #runTest}} ].
-        menu appendMenuItems: {{'Rename method'. self. #renameMethod}.
+        menu appendMenuItems: {{'Browse senders'. self. #browseSenders}.
+	    {'Browse implementors'. self. #browseImplementors}.
+	    {}.
+	    {'Rename method'. self. #renameMethod}.
             {'Delete method'. self. #deleteMethod}.
             {}.
             {'Inspect method'. self. #inspectMethod}.
@@ -185,6 +188,18 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         <category: 'method events'>
 
 	InspectMethodCommand on: self
+    ]
+
+    browseSenders [
+        <category: 'method events'>
+
+	OpenSenderCommand on: self
+    ]
+
+    browseImplementors [
+        <category: 'method events'>
+
+	OpenImplementorCommand on: self
     ]
 
     runTest [
