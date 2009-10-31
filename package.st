@@ -41,6 +41,7 @@ Eval [
     filein: 'Commands/InspectMethodCommand.st';
     filein: 'Commands/AddMethodCommand.st';
     filein: 'Commands/DeleteMethodCommand.st';
+    filein: 'Commands/RunTestCommand.st';
     filein: 'Commands/OpenWindowedBrowserCommand.st';
     filein: 'Commands/OpenAssistantCommand.st';
     filein: 'Commands/OpenImplementorCommand.st';
