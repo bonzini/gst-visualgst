@@ -241,20 +241,15 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	| package |
 	package := PackageLoader packageAt: 'VisualGST'.
 	self
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
+	    "appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
 				connectSignal: 'clicked' to: OpenWorkspaceCommand selector: #execute userData: nil;
 				setTooltipText: 'Create a new workspace';
-				yourself);
-	    appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
+				yourself);"
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
 				connectSignal: 'clicked' to: SaveImageCommand selector: #execute userData: nil;
 				setTooltipText: 'Save the image';
 				yourself);
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save-as')
-				connectSignal: 'clicked' to: SaveImageAsCommand selector: #execute userData: nil;
-				setTooltipText: 'Save the image as';
-				yourself);
-	    appendSeparator;
+            appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-cut')
 				connectSignal: 'clicked' to: self selector: #cut userData: nil;
 				setTooltipText: 'Cut';

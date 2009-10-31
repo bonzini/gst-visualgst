@@ -122,18 +122,13 @@ GtkMainWindow subclass: GtkImplementor [
     <category: 'user interface'>
 
     self
-        appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
+        "appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
 		connectSignal: 'clicked' to: OpenWorkspaceCommand selector: #execute userData: nil;
 		setTooltipText: 'Create a new workspace';
-		yourself);
-        appendSeparator;
+		yourself);"
         appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
 		connectSignal: 'clicked' to: SaveImageCommand selector: #execute userData: nil;
 		setTooltipText: 'Save the image';
-		yourself);
-        appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save-as')
-		connectSignal: 'clicked' to: SaveImageAsCommand selector: #execute userData: nil;
-		setTooltipText: 'Save the image as';
 		yourself);
         appendSeparator;
         appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-cut')
