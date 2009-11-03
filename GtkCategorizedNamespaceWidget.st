@@ -45,9 +45,11 @@ GtkNamespaceWidget subclass: GtkCategorizedNamespaceWidget [
 
     childToggled: model path: path iter: iter [
 	<category: 'signals'>
+	namespacesTree collapseRow: path.
 	(self model isIterNamespace: iter)
-	    ifTrue: [ namespacesTree expandRow: path openAll: false ]
-	    ifFalse: [ namespacesTree collapseRow: path ].
+	    ifTrue: [
+		(path castTo: GTK.GtkTreePath type) up.
+		namespacesTree expandRow: path openAll: false ]
     ]
 ]
 
