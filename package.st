@@ -48,6 +48,7 @@ Eval [
     filein: 'Commands/OpenSenderCommand.st';
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
+    filein: 'GtkListModel.st';
     filein: 'GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';
