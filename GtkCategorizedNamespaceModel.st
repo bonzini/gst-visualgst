@@ -41,9 +41,7 @@ GtkNamespaceModel subclass: GtkCategorizedNamespaceModel [
 	<category: 'accessing'>
 
 	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: 4 varargs: {GTK.GdkPixbuf getType. GTK.GValue gTypeString. GTK.GLib oopType. GTK.GValue gTypeString}.
-	    self appendNamespace: Smalltalk to: nil.
-	    model ]
+	    model := GTK.GtkTreeStore new: 4 varargs: {GTK.GdkPixbuf getType. GTK.GValue gTypeString. GTK.GLib oopType. GTK.GValue gTypeString} ]
     ]
 
     appendNamespace: aNamespace to: parentGtkIter [
@@ -112,6 +110,12 @@ GtkNamespaceModel subclass: GtkCategorizedNamespaceModel [
 	| iter |
 	iter := self findIterInANamespace: anEvent item superspace.
 	self gtkModel append: iter item: {namespaceIcon. anEvent item displayString. anEvent item. 'N'}
+    ]
+
+    isIterNamespace: aGtkIter [
+        <category: 'iter accessing'>
+
+	^ 'N' = (self gtkModel getOop: aGtkIter column: self class categoryColumn)
     ]
 
     recategorizedClassEvent: anEvent [
