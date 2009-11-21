@@ -49,6 +49,7 @@ Eval [
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
     filein: 'GtkListModel.st';
+    filein: 'GtkTreeModel.st';
     filein: 'GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';

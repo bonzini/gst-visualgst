@@ -57,6 +57,7 @@
   <filein>Commands/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWebBrowserCommand.st</filein>
   <filein>GtkListModel.st</filein>
+  <filein>GtkTreeModel.st</filein>
   <filein>GtkTextWidget.st</filein>
   <filein>GtkMainWindow.st</filein>
   <filein>VisualGST.st</filein>
@@ -203,6 +204,7 @@
   <file>Commands/OpenSUnitCommand.st</file>
   <file>Commands/OpenWebBrowserCommand.st</file>
   <file>GtkListModel.st</file>
+  <file>GtkTreeModel.st</file>
   <file>GtkTextWidget.st</file>
   <file>GtkMainWindow.st</file>
   <file>VisualGST.st</file>
