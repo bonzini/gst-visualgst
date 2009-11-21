@@ -62,6 +62,8 @@
   <filein>GtkMainWindow.st</filein>
   <filein>VisualGST.st</filein>
   <filein>GtkConcreteWidget.st</filein>
+  <filein>GtkListWidget.st</filein>
+  <filein>GtkTreeWidget.st</filein>
   <filein>GtkNotebookWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
   <filein>Debugger/GtkContextModel.st</filein>
@@ -209,6 +211,8 @@
   <file>GtkMainWindow.st</file>
   <file>VisualGST.st</file>
   <file>GtkConcreteWidget.st</file>
+  <file>GtkListWidget.st</file>
+  <file>GtkTreeWidget.st</file>
   <file>GtkNotebookWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
   <file>Debugger/GtkContextModel.st</file>
