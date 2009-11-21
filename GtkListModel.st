@@ -1,6 +1,20 @@
 Object subclass: GtkListModel [
 
-    | columns contentsBlock item model |
+    GtkListModel class >> new [
+	<category: 'instance creation'>
+
+	^ super new
+	    initialize;
+	    yourself
+    ]
+
+    | columns contentsBlock item model sorted |
+
+    initialize [
+	<category: 'initialization'>
+
+	sorted := false
+    ]
 
     columns: anInteger [
 	<category: 'accessing'>
@@ -42,13 +56,21 @@ Object subclass: GtkListModel [
 	<category: 'accessing'>
 
 	^ model ifNil: [
-	    model := GTK.GtkListStore new: columns size varargs: columns ]
+	    model := GTK.GtkListStore new: self columns size varargs: self columns ]
     ]
 
     append: anArray [
 	<category:' model'>
 
-	self gtkModel append: anArray
+	self gtkModel appendItem: anArray
+    ]
+
+    remove: anObject [
+	<category: 'model'>
+
+	| iter |
+	(iter := self findIter: anObject) ifNil: [ self error: 'item not found' ].
+	self gtkModel remove: iter
     ]
 
     clear [
@@ -60,10 +82,9 @@ Object subclass: GtkListModel [
     refresh [
 	<category: 'model'>
 
-	| elem |
-	self clearModel.
+	self clear.
 	self item ifNil: [ ^ self ].
-	self item do: [ :each | self append: self childrenBlock value: each ]
+	self item do: [ :each | self append: (self contentsBlock value: each) ]
     ]
 
     findIter: anObject ifAbsent: aBlock [
@@ -85,6 +106,18 @@ Object subclass: GtkListModel [
 
         self findIter: anObject ifAbsent: [ ^ false ].
 	^ true 
+    ]
+
+    isSorted [
+        <category: 'testing'>
+
+        ^ sorted
+    ]
+
+    sorted: aBoolean [
+        <category: 'accessing'>
+
+        sorted := aBoolean
     ]
 ]
 
