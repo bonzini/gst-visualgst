@@ -1,4 +1,4 @@
-Object subclass: GtkCategorizedClassModel [
+GtkTreeModel subclass: GtkCategorizedClassModel [
 
     GtkCategorizedClassModel class >> on: aNamespace category: aString [
 	<category: 'instance creation'>
@@ -9,7 +9,7 @@ Object subclass: GtkCategorizedClassModel [
 	    yourself
     ]
 
-    | category model namespace sorted |
+    | category namespace |
 
     initialize [
 	<category: 'initialize-release'>
@@ -27,18 +27,6 @@ Object subclass: GtkCategorizedClassModel [
 	    notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedEvent:'
     ]
 
-    isSorted [
-        <category: 'testing'>
-
-        ^ sorted
-    ]
-
-    sorted: aBoolean [
-        <category: 'accessing'>
-
-        sorted := aBoolean
-    ]
-
     namespace [
 	<category: 'accessing'>
     
@@ -49,7 +37,7 @@ Object subclass: GtkCategorizedClassModel [
 	<category: 'accessing'>
 
 	namespace := aNamespace.
-	self refreshModel
+	self refresh
     ]
 
     category: aString [
@@ -72,131 +60,87 @@ Object subclass: GtkCategorizedClassModel [
 	    namespace: aNamespace
     ]
 
-    gtkModel [
-	<category: 'accessing'>
+    columns [
+        <category: 'accessing'>
 
-	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
+        ^ {GTK.GValue gTypeString}
     ]
 
-    refreshModel [
-	<category: 'events'>
-	
-	self gtkModel clear.
-	Class subclassesDo: [ :each |
-	    self appendClass: each to: nil ]
+    item [
+    <category: 'accessing'>
+
+    ^ Class
     ]
 
-    appendClass: aClass to: parentGtkIter [
-	<category: 'model builder'>
-    
-	| iter string |
-	aClass environment = self namespace ifTrue: [
-	    self category = '' ifTrue: [
-		iter := self gtkModel append: parentGtkIter item: { aClass asClass name asString, ' ' } ]
-			       ifFalse: [
-		self category = aClass category ifTrue: [ iter := self gtkModel append: parentGtkIter item: { aClass asClass name asString, ' ' } ].
-		(self namespace displayString, '-', self category) = aClass category ifTrue: [ iter := self gtkModel append: parentGtkIter item: { aClass asClass name asString, ' ' } ]. ] ].
+    isInEnvironment: aClass [
+    <category: 'testing'>
 
-	aClass subclassesDo: [ :each |
-	    self appendClass: each to: iter ]
+        aClass environment == self namespace ifFalse: [ ^ false ].
+        ^ (self category = '' or: [ self category = aClass category ]) or: [ (self namespace displayString, '-', self category) = aClass category ]
     ]
 
-    buildClassArray: aClass [
-        <category: 'item selection'>
+    childrenBlock [
+    <category: 'accessing'>
 
-        | result class |
-        result := OrderedCollection new.
-        class := aClass.
-        [ class isNil not and: [ class environment = self namespace ] ] whileTrue: [
-            result add: (class name asString, ' ').
-            class := class superclass ].
-
-        ^ result
+    ^ [ :elem | | item |
+        item := OrderedCollection new.
+        elem subclassesDo: [ :each |
+	(self isInEnvironment: each) ifTrue: [ item add: each ] ].
+        item ]
     ]
 
-    hasClass: aClass [
-	<category: 'item testing'>
+    contentsBlock [
+    <category: 'accessing'>
 
-	| iter stack parent path pathString number |
-        stack := self buildClassArray: aClass.
-	stack isEmpty ifTrue: [ ^ false ].
-        iter := GTK.GtkTreeIter new.
-        path := GTK.GtkTreePath newFirst.
-        1 to: stack size do: [ :i | | each |
-            each := stack at: (stack size + 1 - i).
-            self gtkModel getIter: iter path: path.
-            [each = (self gtkModel getOop: iter column: 0)] whileFalse: [
-                path next.
-                (self gtkModel getIter: iter path: path)  ifFalse: [ ^ false ] ].
-            path down ].
-        ^ true
+    ^ [ :elem | {elem asClass name asString, ' '} ]
     ]
 
-    findIterInAClass: aClass [
-        <category: 'item selection'>
+    refresh [
+        <category: 'model'>
 
-	^ self findIterInAClass: aClass ifAbsent: [ self error: aClass name, ' is not found' ]
+        self clear.
+        self item ifNil: [ ^ self ].
+    self item subclassesDo: [ :each | self refresh: each parent: nil ]
     ]
 
-    findIterInAClass: aClass ifAbsent: aBlock [
-        <category: 'item selection'>
-
-        | iter stack parent path pathString number |
-        stack := self buildClassArray: aClass.
-	stack isEmpty ifTrue: [ ^ aBlock value ].
-        iter := GTK.GtkTreeIter new.
-        path := GTK.GtkTreePath newFirst.
-        1 to: stack size do: [ :i | | each |
-            each := stack at: (stack size + 1 - i).
-            self gtkModel getIter: iter path: path.
-            [each = (self gtkModel getOop: iter column: 0)] whileFalse: [
-                path next.
-                (self gtkModel getIter: iter path: path)  ifFalse: [ ^ aBlock value ] ].
-            path down ].
-        ^ iter
-    ]
-
-    at: aGtkIter column: aSmallInteger value: anObject [
-        <category: 'item accessing'>
-
-        self gtkModel setOop: aGtkIter column: aSmallInteger value: anObject
-    ]
-
-    append: aParentIter column: aSmallInteger value: anObject [
-        <category: 'item accessing'>
+    refresh: anObject parent: aGtkIter [
+        <category: 'model'>
 
         | iter |
-        iter := GTK.GtkTreeIter new.
-        (self gtkModel)
-            append: iter parent: aParentIter;
-            setOop: iter column: aSmallInteger value: anObject
+    (self isInEnvironment: anObject) ifTrue: [ 
+        iter := self append: (self contentsBlock value: anObject) parent: aGtkIter ].
+    
+    anObject subclassesDo: [ :each | self refresh: each parent: iter ]
+    ]
+
+    findIter: aClass ifAbsent: aBlock [
+        <category: 'item selection'>
+
+    ^ super findIter: (self contentsBlock value: aClass) first ifAbsent: aBlock
     ]
 
     remove: aClass [
-	<category: 'item removing'>
+    <category: 'item removing'>
 
-	| iter |
-	iter := self findIterInAClass: aClass ifAbsent: [ nil ].
-	iter isNil ifFalse: [ self gtkModel remove: iter ]
+    | iter |
+    iter := self findIter: aClass ifAbsent: [ nil ].
+    iter isNil ifFalse: [ self gtkModel remove: iter ]
     ]
 
     addEvent: anEvent [
-	<category: 'model event'>
+    <category: 'model event'>
 
-	| parentIter parent |
-	anEvent item environment == self namespace ifFalse: [ ^ self ].
-	(anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
-	parentIter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
-	self append: parentIter column: 0 value: (anEvent item name, ' ')
+    | iter |
+    (self isInEnvironment: anEvent item) ifFalse: [ ^ self ].
+    iter := self findIter: anEvent item superclass ifAbsent: [ nil ].
+    self append: (self contentsBlock value: anEvent item) parent: iter
     ]
 
     removeEvent: anEvent [
         <category: 'model event'>
 
-	anEvent item environment == self namespace ifFalse: [ ^ self ].
-	(anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
-	(self hasClass: anEvent item) ifFalse: [ ^ self ].
+    (self isInEnvironment: anEvent item) ifFalse: [ ^ self ].
+    (self hasItem: anEvent item) ifFalse: [ ^ self ].
         self remove: anEvent item
     ]
 
@@ -204,12 +148,12 @@ Object subclass: GtkCategorizedClassModel [
         <category: 'model event'>
 
        | iter |
-	anEvent item environment == self namespace ifFalse: [ ^ self ].
-	anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
-	(anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ self remove: anEvent item ].
-	(anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [ 
-	    iter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
-	    self append: iter column: 0 value: (anEvent item name, ' ') ].
+    anEvent item environment == self namespace ifFalse: [ ^ self ].
+    anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
+    (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ self remove: anEvent item ].
+    (anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [ 
+        iter := self findIter: anEvent item superclass ifAbsent: [ nil ].
+        self append: (self contentsBlock value: anEvent) parent: iter ].
     ]
 ]
 
