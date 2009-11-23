@@ -1,4 +1,5 @@
-GtkNamespaceModel subclass: GtkCategorizedNamespaceModel [
+GtkTreeModel subclass: GtkCategorizedNamespaceModel [
+
     | categoryIcon model namespaceIcon |
 
     GtkCategorizedNamespaceModel class >> displayedNamespaceColumn [
@@ -19,6 +20,23 @@ GtkNamespaceModel subclass: GtkCategorizedNamespaceModel [
         ^ 3
     ]
 
+    columns [
+        <category: 'accessing'>
+
+	^ {GTK.GdkPixbuf getType. GTK.GValue gTypeString. GTK.GLib oopType. GTK.GValue gTypeString}
+    ]
+
+    item [
+        <category: 'accessing'>
+
+        ^ Smalltalk
+    ]
+
+    isSorted [
+
+	^ true
+    ]
+
     initialize [
 	<category: 'initialize-release'>
 
@@ -27,6 +45,14 @@ GtkNamespaceModel subclass: GtkCategorizedNamespaceModel [
 	categoryIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/category.png') file displayString error: nil.
 	namespaceIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/namespace.png') file displayString error: nil.
 	super initialize.
+	self refresh.
+    ]
+
+    childrenBlock [
+
+	| result |
+	result := OrderedCollection new.
+        ^ [ :item | self appendNamespace: item to: result. result ]
     ]
 
     registerNotifier [
@@ -37,25 +63,18 @@ GtkNamespaceModel subclass: GtkCategorizedNamespaceModel [
             notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedClassEvent:'
     ]
 
-    gtkModel [
-	<category: 'accessing'>
-
-	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: 4 varargs: {GTK.GdkPixbuf getType. GTK.GValue gTypeString. GTK.GLib oopType. GTK.GValue gTypeString} ]
-    ]
-
-    appendNamespace: aNamespace to: parentGtkIter [
+    appendNamespace: aNamespace to: anArray [
 	<category: 'model builder'>
 
 	| iter |
-	iter := self gtkModel append: parentGtkIter item: {namespaceIcon. aNamespace displayString. aNamespace. 'N'}.
+	anArray add: ({namespaceIcon. aNamespace displayString. aNamespace. 'N'}->(iter := OrderedCollection new)).
 
 	(aNamespace subspaces collect: [ :each | each name ]) asSortedCollection
 	    do: [ :each | self appendNamespace: (aNamespace at: each) to: iter ].
 	self appendCategoriesOf: aNamespace into: iter.
     ]
 
-    appendCategoriesOf: aNamespace into: aGtkIter [
+    appendCategoriesOf: aNamespace into: anArray [
 	<category: 'model builder'>
 
 	| classes |
@@ -63,21 +82,21 @@ GtkNamespaceModel subclass: GtkCategorizedNamespaceModel [
 	classes := classes select: [ :each | (aNamespace at: each) isClass ].
 	(classes collect: [ :each | (aNamespace at: each) category ])
 	    asSortedCollection
-	        do: [ :each | self appendCategory: each for: aNamespace into: aGtkIter ]
+		do: [ :each | self appendCategory: each for: aNamespace into: anArray ]
     ]
 
-    appendCategory: aString for: aNamespace into: aGtkIter [
+    appendCategory: aString for: aNamespace into: anArray [
         <category: 'model builder'>
 
-	| iter token |
+	| child token iter |
         token := aString ifNil: [ #() ] ifNotNil: [ aString tokenize: '-' ].
-	token isEmpty ifTrue: [^self].
-	"(token size = 1 and: [ token first = aNamespace name asString ]) ifTrue: [ ^self ]."
+	token isEmpty ifTrue: [ ^ self ].
 
-        token inject: aGtkIter into: [ :iter :item |
-            | result |
-            (self findIterInACategory: item parent: iter)
-                ifNil: [ self gtkModel append: iter item: {categoryIcon. item. nil. 'C'} ] ]
+	child := anArray.
+	token do: [ :each |
+	    (child anySatisfy: [ :assoc | iter := assoc value. (assoc key at: 2) = each ]) ifFalse: [
+		child add: ({categoryIcon. each. nil. 'C'}->(iter := OrderedCollection new)) ].
+	    child := iter ]
     ]
 
     findIterInACategory: aString parent: aGtkIter [

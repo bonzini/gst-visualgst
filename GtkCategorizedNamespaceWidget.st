@@ -1,14 +1,34 @@
-GtkNamespaceWidget subclass: GtkCategorizedNamespaceWidget [
+"GtkNamespaceWidget subclass: GtkCategorizedNamespaceWidget ["
+
+GtkTreeWidget subclass: GtkCategorizedNamespaceWidget [
+    sortedColumn [
+	<category: 'accessing'>
+
+	^ 1
+    ]
+
+    viewedItems [
+	<category: 'accessing'>
+
+	^ #('pixbuf' 'text')
+    ]
+
+    title [
+	<category: 'accessing'>
+
+	^ 'Namespaces'
+    ]
+
     model [
 	<category: 'accessing'>
 
 	^ model ifNil: [
 	    model := GtkCategorizedNamespaceModel new
-				    initialize;
-				    yourself.
+				    "initialize;
+				    yourself".
 	    model gtkModel
 		connectSignal: 'row-has-child-toggled' to: self
-		selector: #childToggled:path:iter:.
+		selector: #'childToggled:path:iter:'.
 
 	    model
 	 ]
@@ -45,11 +65,56 @@ GtkNamespaceWidget subclass: GtkCategorizedNamespaceWidget [
 
     childToggled: model path: path iter: iter [
 	<category: 'signals'>
-	namespacesTree collapseRow: path.
+
+	listWidget collapseRow: path.
 	(self model isIterNamespace: iter)
 	    ifTrue: [
 		(path castTo: GTK.GtkTreePath type) up.
-		namespacesTree expandRow: path openAll: false ]
+		listWidget expandRow: path openAll: false ]
+    ]
+
+    buildPopupMenu [
+	<category: 'popup event'>
+
+	^ GTK.GtkMenu new
+	    appendMenuItems: {{'Add a namespace'. self. #newNamespace}.
+	    {'Rename a namespace'. self. #renameNamespace}.
+	    {'Delete a namespace'. self. #deleteNamespace}.
+	    {}.
+	    {'Inspect a namespace'. self. #inspectNamespace}.
+	    {}.
+	    {'File out a namespace'. self. #fileoutNamespace}};
+	    yourself
+    ]
+
+    newNamespace [
+        <category: 'popup events'>
+
+        AddNamespaceCommand on: self
+    ]
+
+    renameNamespace [
+        <category: 'namespace events'>
+
+        RenameNamespaceCommand on: self
+    ]
+
+    deleteNamespace [
+        <category: 'namespace events'>
+
+        DeleteNamespaceCommand on: self
+    ]
+
+    inspectNamespace [
+        <category: 'namespace events'>
+
+        InspectNamespaceCommand on: self
+    ]
+
+    fileoutNamespace [
+        <category: 'namespace events'>
+
+        FileoutNamespaceCommand on: self selectedNamespace
     ]
 ]
 

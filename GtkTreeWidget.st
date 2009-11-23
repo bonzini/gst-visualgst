@@ -12,15 +12,15 @@ GtkConcreteWidget subclass: GtkTreeWidget [
         <category: 'user interface'>
 
 	| column |
-        listWidget := (GTK.GtkTreeView newWithSortedTextColumn: self model gtkModel title: 'Method categories')
+        listWidget := (GTK.GtkTreeView newWith: self model gtkModel pack: self viewedItems title: self title)
                             connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
                             yourself.
-        column := listWidget getColumn: self sortedColumn.
+        "column := listWidget getColumn: self sortedColumn."
         listWidget getSelection setMode: GTK.Gtk gtkSelectionBrowse.
-        self model isSorted
+        "self model isSorted
             ifFalse: [
                 column signalEmitByName: 'clicked' args: {}.
-                self model sorted: true ].
+                self model sorted: true ]."
         ^ GTK.GtkScrolledWindow withChild: listWidget 
     ]
 
@@ -108,6 +108,12 @@ GtkConcreteWidget subclass: GtkTreeWidget [
     ]
 
     title [
+	<category: 'accessing'>
+
+	^ self subclassResponsibility
+    ]
+
+    viewedItems [
 	<category: 'accessing'>
 
 	^ self subclassResponsibility
