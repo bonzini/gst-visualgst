@@ -216,7 +216,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| namespace |
 	self checkCodeWidget.
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	namespaceWidget hasSelection ifFalse: [ ^ self ].
 	namespace := namespaceWidget selectedNamespace.
 	classWidget namespace: namespace category: namespaceWidget selectedCategory.
 

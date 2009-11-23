@@ -61,6 +61,12 @@ GtkConcreteWidget subclass: GtkTreeWidget [
 	^ listWidget hasSelectedItem
     ]
 
+    selectedIter [
+	<category: 'testing'>
+
+        ^ listWidget selectedIter ifNil: [ self error: 'Nothing is selected' ].
+    ]
+
     unselectAll [
         <category: 'selection'>
 
@@ -70,9 +76,7 @@ GtkConcreteWidget subclass: GtkTreeWidget [
     selection [
         <category: 'selection'>
 
-        | iter |
-        (iter := listWidget selectedIter) ifNil: [self error: 'Nothing is selected'].
-        ^ self model gtkModel at: iter
+        ^ self model gtkModel at: self selectedIter 
     ]
 
     whenSelectionChangedSend: aSelector to: anObject [
