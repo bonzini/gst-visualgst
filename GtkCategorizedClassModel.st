@@ -82,15 +82,16 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
     childrenBlock [
 	<category: 'accessing'>
 
-	^ [ :elem |
-	    self append: elem to: OrderedCollection new ]
+	^ [ :elem | self append: elem to: OrderedCollection new ]
     ]
 
     append: aClass to: anArray [
 	<category: 'accessing'>
 
 	aClass subclassesDo: [ :each |
-	    (self isInEnvironment: each) ifTrue: [ anArray add: ({each asClass name asString, ' '} -> (self append: each to: OrderedCollection new)) ] ].
+	    (self isInEnvironment: each) 
+		ifTrue: [ anArray add: ({each asClass name asString, ' '} -> (self append: each to: OrderedCollection new)) ]
+		ifFalse: [ self append: each to: anArray ] ].
 	^ anArray
     ]
 
