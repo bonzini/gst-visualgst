@@ -67,9 +67,9 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
     ]
 
     item [
-    <category: 'accessing'>
+	<category: 'accessing'>
 
-    ^ Class
+	^ Class
     ]
 
     isInEnvironment: aClass [
@@ -80,67 +80,49 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
     ]
 
     childrenBlock [
+	<category: 'accessing'>
+
+	^ [ :elem | | item |
+	    item := OrderedCollection new.
+	    elem subclassesDo: [ :each |
+		(self isInEnvironment: each) ifTrue: [ item add: ({each asClass name asString, ' '} -> #()) ] ].
+	    item ]
+    ]
+
+    "contentsBlock [
     <category: 'accessing'>
 
-    ^ [ :elem | | item |
-        item := OrderedCollection new.
-        elem subclassesDo: [ :each |
-	(self isInEnvironment: each) ifTrue: [ item add: each ] ].
-        item ]
-    ]
-
-    contentsBlock [
-    <category: 'accessing'>
-
-    ^ [ :elem | {elem asClass name asString, ' '} ]
-    ]
-
-    refresh [
-        <category: 'model'>
-
-        self clear.
-        self item ifNil: [ ^ self ].
-    self item subclassesDo: [ :each | self refresh: each parent: nil ]
-    ]
-
-    refresh: anObject parent: aGtkIter [
-        <category: 'model'>
-
-        | iter |
-    (self isInEnvironment: anObject) ifTrue: [ 
-        iter := self append: (self contentsBlock value: anObject) parent: aGtkIter ].
-    
-    anObject subclassesDo: [ :each | self refresh: each parent: iter ]
-    ]
+	^ [ :elem | {elem asClass name asString, ' '} ]
+    ]"
 
     findIter: aClass ifAbsent: aBlock [
         <category: 'item selection'>
 
-    ^ super findIter: (self contentsBlock value: aClass) first ifAbsent: aBlock
+	^ super findIter: (self contentsBlock value: aClass) first ifAbsent: aBlock
     ]
 
     remove: aClass [
-    <category: 'item removing'>
+	<category: 'item removing'>
 
-    | iter |
-    iter := self findIter: aClass ifAbsent: [ nil ].
-    iter isNil ifFalse: [ self gtkModel remove: iter ]
+	| iter |
+	iter := self findIter: aClass ifAbsent: [ nil ].
+	iter isNil ifFalse: [ self gtkModel remove: iter ]
     ]
 
     addEvent: anEvent [
-    <category: 'model event'>
+	<category: 'model event'>
 
-    | iter |
-    (self isInEnvironment: anEvent item) ifFalse: [ ^ self ].
-    iter := self findIter: anEvent item superclass ifAbsent: [ nil ].
-    self append: (self contentsBlock value: anEvent item) parent: iter
+	| iter |
+	(self isInEnvironment: anEvent item) ifFalse: [ ^ self ].
+	iter := self findIter: anEvent item superclass ifAbsent: [ nil ].
+	self append: (self contentsBlock value: anEvent item) parent: iter
     ]
 
     removeEvent: anEvent [
         <category: 'model event'>
 
-    (self isInEnvironment: anEvent item) ifFalse: [ ^ self ].
-    (self hasItem: anEvent item) ifFalse: [ ^ self ].
+	(self isInEnvironment: anEvent item) ifFalse: [ ^ self ].
+	(self hasItem: anEvent item) ifFalse: [ ^ self ].
         self remove: anEvent item
     ]
 
@@ -148,12 +130,12 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
         <category: 'model event'>
 
        | iter |
-    anEvent item environment == self namespace ifFalse: [ ^ self ].
-    anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
-    (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ self remove: anEvent item ].
-    (anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [ 
-        iter := self findIter: anEvent item superclass ifAbsent: [ nil ].
-        self append: (self contentsBlock value: anEvent) parent: iter ].
+	anEvent item environment == self namespace ifFalse: [ ^ self ].
+	anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
+	(anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ self remove: anEvent item ].
+	(anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [ 
+	    iter := self findIter: anEvent item superclass ifAbsent: [ nil ].
+	    self append: (self contentsBlock value: anEvent) parent: iter ].
     ]
 ]
 

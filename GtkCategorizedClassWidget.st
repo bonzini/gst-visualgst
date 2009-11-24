@@ -93,7 +93,7 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
     hasSelectedClass [
 	<category: 'testing'>
 
-	^ classesTree hasSelectedItem
+	^ listWidget hasSelectedItem
     ]
 
     selectedClass [
@@ -109,7 +109,7 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
 	<category: 'item selection'>
 
 	| selection |
-        selection := classesTree getSelection.
+        selection := listWidget getSelection.
         selection unselectAll.
         selection selectIter: (self findIterInAClass: aClass)
     ]
@@ -120,7 +120,7 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
 	| result |
 
 	result := self model findIterInAClass: aClass.
-	classesTree scrollToCell: (self model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
+	listWidget scrollToCell: (self model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
 	^ result 
     ]
 
@@ -152,26 +152,6 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
         <category: 'class events'>
 
 	FileoutClassCommand on: self selectedClass
-    ]
-
-    category: aString [
-	<category: 'accessing'>
-
-	category := aString.
-    ]
-
-    category [
-	<category: 'accessing'>
-
-	^ category
-    ]
-
-    namespace: aNamespace category: aString [
-	<category: 'accessing'>
-
-	self
-	    category: aString;
-	    namespace: aNamespace
     ]
 
 ]
