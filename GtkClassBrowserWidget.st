@@ -192,7 +192,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     namespaceHierarchySwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
 	<category: 'events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	aSmallInteger = 0 ifTrue: [ classHierarchyWidget class: classWidget selectedClass ].
     ]
 
@@ -234,7 +234,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
         | aClass |
 	self checkCodeWidget.
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	aClass := classWidget selectedClass.
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget class: aClass ].
 	iCategoryWidget classOrMeta: aClass.
@@ -446,7 +446,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     fileoutClass [
 	<category: 'class events'>
     
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
 	FileoutClassCommand on: classWidget selectedClass
     ]
 
@@ -454,7 +454,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'class events'>
 
         | class stream |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
         class := classWidget selectedClass.
         stream := FileStream open: aFile mode: FileStream write.
         (ClassSource write: class on: stream)
@@ -476,7 +476,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedClass [
 	<category: 'accessing'>
 
-	^ classWidget hasSelectedClass
+	^ classWidget hasSelection
     ]
 
     selectedClass [
@@ -506,7 +506,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     inspectClass [
 	<category: 'class events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	GtkInspector openOn: classWidget selectedClass
     ]
 
@@ -514,7 +514,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'class accessing'>
 
 	| class |
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	class := classWidget selectedClass.
 	^ classAndInstanceSide getCurrentPage = 0
             ifTrue: [ class ]
@@ -539,7 +539,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'category events'>
 
         | categoryWidget |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
         categoryWidget := self viewedCategoryWidget.
         categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	FileoutCategoryCommand on: self classOrMetaSelected categorized: categoryWidget selectedCategory
@@ -549,7 +549,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'category events'>
 
         | categoryWidget stream |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
         categoryWidget := self viewedCategoryWidget.
         categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	stream := FileStream open: aFile mode: FileStream write.
@@ -572,21 +572,21 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newCategory [
         <category: 'category events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	AddCategoryCommand on: self
     ]
 
     renameCategory [
         <category: 'category events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	RenameCategoryCommand on: self
     ]
 
     deleteCategory [
         <category: 'category events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	DeleteCategoryCommand on: self
     ]
 
@@ -632,7 +632,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newMethod [
 	<category: 'method events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	AddMethodCommand on: self.
 	codeWidget codeSaved
     ]
@@ -640,7 +640,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     deleteMethod [
 	<category: 'method events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	DeleteMethodCommand on: self
     ]
 
@@ -648,7 +648,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'method events'>
 
 	| methodWidget |
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 	methodWidget := self viewedMethodWidget.
         GtkInspector openOn: methodWidget selectedMethod
     ]
@@ -657,7 +657,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'method events'>
 
         | methodWidget stream |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
         methodWidget := self viewedMethodWidget.
 	FileoutMethodCommand on: methodWidget selectedMethod
     ]
@@ -666,7 +666,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'method events'>
 
         | methodWidget stream |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
         methodWidget := self viewedMethodWidget.
         stream := FileStream open: aFile mode: FileStream write.
         (MethodSource write: methodWidget selectedMethod on: stream)
@@ -732,7 +732,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
 	| class |
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	classWidget hasSelection ifFalse: [ ^ self ].
 
 	class := classWidget selectedClass.
 
@@ -745,7 +745,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
         | class |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
 
         class := classWidget selectedClass.
 
@@ -758,7 +758,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
         | class |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
 
         class := classWidget selectedClass.
 
@@ -771,7 +771,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
         | class |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
+        classWidget hasSelection ifFalse: [ ^ self ].
 
         class := classWidget selectedClass.
 

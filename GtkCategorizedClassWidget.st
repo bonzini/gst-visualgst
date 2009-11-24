@@ -90,11 +90,11 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
 	^ self model namespace
     ]
 
-    hasSelectedClass [
+"    hasSelectedClass [
 	<category: 'testing'>
 
 	^ listWidget hasSelectedItem
-    ]
+    ]"
 
     selectedClass [
 	<category: 'accessing'>

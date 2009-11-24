@@ -3,7 +3,7 @@ Command subclass: InspectClassCommand [
     execute [
 	<category: 'command'>
 
-	target hasSelectedClass ifFalse: [ ^ self ].
+	target hasSelection ifFalse: [ ^ self ].
         GtkInspector openOn: target selectedClass
     ]
 ]
