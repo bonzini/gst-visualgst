@@ -79,6 +79,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'user interface'>
 
 	namespaceWidget := GtkCategorizedNamespaceWidget showAll
+				namespace: Smalltalk;
 				whenSelectionChangedSend: #onNamespaceChanged to: self;
 				yourself.
 

@@ -1,6 +1,5 @@
 GtkTreeModel subclass: GtkCategorizedNamespaceModel [
-
-    | categoryIcon model namespaceIcon |
+    | category categoryIcon namespace namespaceIcon |
 
     GtkCategorizedNamespaceModel class >> displayedNamespaceColumn [
         <category: 'accessing'>
@@ -20,6 +19,39 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
         ^ 3
     ]
 
+    namespace: aNamespace [
+        <category: 'accessing'>
+
+	namespace := aNamespace.
+	self refresh
+    ]
+
+    namespace [
+        <category: 'accessing'>
+
+        ^ namespace ifNil: [ namespace := Smalltalk ]
+    ]
+
+    category: aString [
+        <category: 'accessing'>
+
+        category := aString
+    ]
+
+    category [
+        <category: 'accessing'>
+
+	^ category ifNil: [ category := '' ]
+    ]
+
+    namespace: aNamespace category: aString [
+        <category: 'accessing'>
+
+        self
+	    category: aString; 
+	    namespace: aNamespace
+    ]    
+
     columns [
         <category: 'accessing'>
 
@@ -29,7 +61,7 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
     item [
         <category: 'accessing'>
 
-        ^ Smalltalk
+        ^ self namespace
     ]
 
     isSorted [
@@ -45,14 +77,12 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
 	categoryIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/category.png') file displayString error: nil.
 	namespaceIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/namespace.png') file displayString error: nil.
 	super initialize.
-	self refresh.
+	self refresh
     ]
 
     childrenBlock [
 
-	| result |
-	result := OrderedCollection new.
-        ^ [ :item | self appendNamespace: item to: result. result ]
+        ^ [ :item | self appendNamespace: item to: OrderedCollection new ]
     ]
 
     registerNotifier [
@@ -72,6 +102,8 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
 	(aNamespace subspaces collect: [ :each | each name ]) asSortedCollection
 	    do: [ :each | self appendNamespace: (aNamespace at: each) to: iter ].
 	self appendCategoriesOf: aNamespace into: iter.
+
+	^ anArray
     ]
 
     appendCategoriesOf: aNamespace into: anArray [

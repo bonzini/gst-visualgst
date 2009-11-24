@@ -1,6 +1,34 @@
-"GtkNamespaceWidget subclass: GtkCategorizedNamespaceWidget ["
-
 GtkTreeWidget subclass: GtkCategorizedNamespaceWidget [
+    namespace: aNamespace [
+	<category: 'accessing'>
+
+	self model namespace: aNamespace
+    ]
+
+    namespace [
+	<category: 'accessing'>
+
+	^ self model namespace
+    ]
+
+    category: aString [
+	<category: 'accessing'>
+
+	self model category: aString
+    ]
+
+    category [
+	<category: 'accessing'>
+
+	^ self model category
+    ]
+
+    namespace: aNamespace category: aString [
+	<category: 'accessing'>
+
+	self model namespace: aNamespace category: aString
+    ]
+
     sortedColumn [
 	<category: 'accessing'>
 
@@ -23,9 +51,8 @@ GtkTreeWidget subclass: GtkCategorizedNamespaceWidget [
 	<category: 'accessing'>
 
 	^ model ifNil: [
-	    model := GtkCategorizedNamespaceModel new
-				    "initialize;
-				    yourself".
+	    model := GtkCategorizedNamespaceModel new.
+
 	    model gtkModel
 		connectSignal: 'row-has-child-toggled' to: self
 		selector: #'childToggled:path:iter:'.
