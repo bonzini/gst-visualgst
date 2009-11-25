@@ -8,7 +8,7 @@ Object subclass: GtkTreeModel [
 	    yourself
     ]
 
-    | columns childrenBlock contentsBlock item model sorted |
+    | columns childrenBlock contentsBlock findBlock item model sorted |
 
     initialize [
 	<category: 'initialization'>
@@ -62,6 +62,18 @@ Object subclass: GtkTreeModel [
 	<category: 'accessing'>
 
 	^ contentsBlock
+    ]
+
+    findBlock: aBlock [
+	<category: 'accessing'>
+
+	findBlock := aBlock
+    ]
+
+    findBlock [
+	<category: 'accessing'>
+
+	^ findBlock
     ]
 
     gtkModel [
@@ -118,7 +130,7 @@ Object subclass: GtkTreeModel [
 	<category: 'item selection'>
 
 	self gtkModel do: [ :elem :iter |
-	    elem first = anObject ifTrue: [ ^ iter ] ].
+	    (self findBlock value: elem value: anObject) ifTrue: [ ^ iter ] ].
 	aBlock value
     ]
 

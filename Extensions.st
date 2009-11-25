@@ -282,3 +282,40 @@ GTK.GtkToolButton class extend [
 	    yourself
     ]
 ]
+
+GTK.GdkPixbuf extend [
+    finalize []
+     copyNotFinalized [
+         <category: 'accessing'>
+         ^ (self copy)
+                 removeToBeFinalized;
+                 yourself
+    ]
+]
+
+GTK.GtkTreeModel extend [
+    sonsOf: aGtkIter do: aBlock [
+	<category: 'accessing'>
+
+	| iter path |
+	iter := GTK.GtkTreeIter new.
+	path := self getPath: aGtkIter.
+	path down.
+	[ self getIter: iter path: path ] whileTrue: [
+	    aBlock value: iter.
+	    path next ] 
+    ]
+]
+
+GTK.GtkTreeStore extend [
+    insert: anArray before: aGtkIter [
+	<category: 'accessing'>
+
+	| iter |
+	iter := GTK.GtkTreeIter new.
+	self 
+	    insertBefore: iter parent: nil sibling: aGtkIter;
+	    at: iter put: anArray.
+    ]
+]
+

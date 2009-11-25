@@ -343,7 +343,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk events'>
 
         | categoryWidget |
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	namespaceWidget hasSelection ifFalse: [ ^ self ].
 	categoryWidget := self viewedCategoryWidget.
         categoryWidget hasSelectedCategory ifFalse: [ ^ self acceptClassDefinition ].
 	self newMethod
@@ -361,7 +361,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'class event'>
 
 	^ self 
-	    acceptClassDefinitionOn: (namespaceWidget hasSelectedNamespace
+	    acceptClassDefinitionOn: (namespaceWidget hasSelection
 					ifTrue: [ namespaceWidget selectedNamespace ]
 					ifFalse: [ Smalltalk ]).
     ]
@@ -375,7 +375,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     fileoutNamespace [
 	<category: 'namespace events'>
 
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	namespaceWidget hasSelection ifFalse: [ ^ self ].
 	FileoutNamespaceCommand on: namespaceWidget selectedNamespace
     ]
 
@@ -383,7 +383,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'namespace events'>
 
 	| namespace stream |
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	namespaceWidget hasSelection ifFalse: [ ^ self ].
 	namespace := namespaceWidget selectedNamespace.
 	self fileoutNamespace: namespace on: (File name: aDirectory) / namespace name
     ]
@@ -410,7 +410,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedNamespace [
 	<category: 'testing'>
 
-	^ namespaceWidget hasSelectedNamespace
+	^ namespaceWidget hasSelection
     ]
 
     selectedNamespace [
@@ -440,8 +440,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     inspectNamespace [
 	<category: 'namespace events'>
 
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	GtkInspector openOn: namespaceWidget selectedNamespace
+	InspectNamespaceCommand on: self
     ]
 
     fileoutClass [

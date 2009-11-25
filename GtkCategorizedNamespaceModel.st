@@ -72,24 +72,39 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
     initialize [
 	<category: 'initialize-release'>
 
+	super initialize.
+	self 
+	    registerNotifier;
+	    extractIcons
+    ]
+
+    extractIcons [
+	<category: 'initialize-release'>
+
 	| package |
 	package := PackageLoader packageAt: 'VisualGST'.
 	categoryIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/category.png') file displayString error: nil.
 	namespaceIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/namespace.png') file displayString error: nil.
-	super initialize.
-	self refresh
     ]
 
     childrenBlock [
+	<category: 'accessing'>
 
         ^ [ :item | self appendNamespace: item to: OrderedCollection new ]
+    ]
+
+    findBlock [
+	<category: 'accessing'>
+
+	^ [ :aLine :aNamespace | (aLine at: 2) = aNamespace displayString ]
     ]
 
     registerNotifier [
 	<category: 'initialize-release'>
 
-	super registerNotifier.
 	(SystemChangeNotifier uniqueInstance)
+            notify: self ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
+            notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:';
             notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedClassEvent:'
     ]
 
@@ -97,7 +112,7 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
 	<category: 'model builder'>
 
 	| iter |
-	anArray add: ({namespaceIcon. aNamespace displayString. aNamespace. 'N'}->(iter := OrderedCollection new)).
+	anArray add: ({namespaceIcon copyNotFinalized. aNamespace displayString. aNamespace. 'N'}->(iter := OrderedCollection new)).
 
 	(aNamespace subspaces collect: [ :each | each name ]) asSortedCollection
 	    do: [ :each | self appendNamespace: (aNamespace at: each) to: iter ].
@@ -127,7 +142,7 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
 	child := anArray.
 	token do: [ :each |
 	    (child anySatisfy: [ :assoc | iter := assoc value. (assoc key at: 2) = each ]) ifFalse: [
-		child add: ({categoryIcon. each. nil. 'C'}->(iter := OrderedCollection new)) ].
+		child add: ({categoryIcon copyNotFinalized. each. nil. 'C'}->(iter := OrderedCollection new)) ].
 	    child := iter ]
     ]
 
@@ -155,18 +170,26 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
 	^ self error: 'Namespace ', aNamespace displayString , ' not found'
     ]
 
-    addEvent: anEvent [
-	<category: 'model event'>
-
-	| iter |
-	iter := self findIterInANamespace: anEvent item superspace.
-	self gtkModel append: iter item: {namespaceIcon. anEvent item displayString. anEvent item. 'N'}
-    ]
-
     isIterNamespace: aGtkIter [
         <category: 'iter accessing'>
 
-	^ 'N' = (self gtkModel getOop: aGtkIter column: self class categoryColumn)
+	^ 'N' = (self gtkModel at: aGtkIter column: self class categoryColumn)
+    ]
+
+    addEvent: anEvent [
+	<category: 'model event'>
+
+	|  parentIter previous |
+	parentIter := self findIterInANamespace: anEvent item superspace.
+	self gtkModel sonsOf: parentIter do: [ :iter |
+	    ((self gtkModel at: iter) at: 2) > anEvent item displayString ifTrue: [
+		^ self gtkModel insert: {namespaceIcon copyNotFinalized. anEvent item displayString. anEvent item. 'N'} before: iter ] ]
+    ]
+
+    removeEvent: anEvent [
+        <category: 'model event'>
+
+        self remove: anEvent item
     ]
 
     recategorizedClassEvent: anEvent [

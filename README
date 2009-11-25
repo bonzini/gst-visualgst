@@ -1,10 +1,10 @@
-Gwen, voici les conventions que j'utilise pour gst:
+VisualGST is a Smalltalk IDE, it is designed to be simple
+and make development as effective as possible
 
--suivre les coding conventions de GNU a savoir:
-	- 4 espaces pour une tabulation
-	- 1 tabulation de 8 espaces pour 2 tabulations
-	(cf http://smalltalk.gnu.org/wiki/gst-and-vim)
+VisualGST's features include:
+- a browser
+- a debugger
+- an inspector
+- sender/implementor tools
+- sunit
 
-	- 1 fichier par classe
-
-Rajoute ce que tu veux :)
