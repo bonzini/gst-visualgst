@@ -73,7 +73,7 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
     ]
 
     isInEnvironment: aClass [
-    <category: 'testing'>
+	<category: 'testing'>
 
         aClass environment == self namespace ifFalse: [ ^ false ].
         ^ (self category = '' or: [ self category = aClass category ]) or: [ (self namespace displayString, '-', self category) = aClass category ]
@@ -85,6 +85,18 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
 	^ [ :elem | self append: elem to: OrderedCollection new ]
     ]
 
+    contentsBlock [
+	<category: 'accessing'>
+
+	^ [ :elem | {elem asClass name asString, ' '} ]
+    ]
+
+    findBlock [
+	<category: 'accessing'>
+
+	^ [ :aLine :aClass | aLine first = (aClass asClass name asString, ' ') ]
+    ]
+
     append: aClass to: anArray [
 	<category: 'accessing'>
 
@@ -93,18 +105,6 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
 		ifTrue: [ anArray add: ({each asClass name asString, ' '} -> (self append: each to: OrderedCollection new)) ]
 		ifFalse: [ self append: each to: anArray ] ].
 	^ anArray
-    ]
-
-    "contentsBlock [
-    <category: 'accessing'>
-
-	^ [ :elem | {elem asClass name asString, ' '} ]
-    ]"
-
-    findIter: aClass ifAbsent: aBlock [
-        <category: 'item selection'>
-
-	^ super findIter: (self contentsBlock value: aClass) first ifAbsent: aBlock
     ]
 
     remove: aClass [
@@ -118,10 +118,13 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
     addEvent: anEvent [
 	<category: 'model event'>
 
-	| iter |
+	| parentIter |
 	(self isInEnvironment: anEvent item) ifFalse: [ ^ self ].
-	iter := self findIter: anEvent item superclass ifAbsent: [ nil ].
-	self append: (self contentsBlock value: anEvent item) parent: iter
+	parentIter := self findIter: anEvent item superclass ifAbsent: [ nil ].
+        self gtkModel sonsOf: parentIter do: [ :iter |
+            ((self gtkModel at: iter) at: 1) > anEvent item displayString ifTrue: [
+                ^ self gtkModel insert: {anEvent item displayString, ' '} before: iter ] ]
+	"self append: (self contentsBlock value: anEvent item) parent: iter"
     ]
 
     removeEvent: anEvent [
