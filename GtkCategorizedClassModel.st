@@ -124,7 +124,6 @@ GtkTreeModel subclass: GtkCategorizedClassModel [
         self gtkModel sonsOf: parentIter do: [ :iter |
             ((self gtkModel at: iter) at: 1) > anEvent item displayString ifTrue: [
                 ^ self gtkModel insert: {anEvent item displayString, ' '} before: iter ] ]
-	"self append: (self contentsBlock value: anEvent item) parent: iter"
     ]
 
     removeEvent: anEvent [
