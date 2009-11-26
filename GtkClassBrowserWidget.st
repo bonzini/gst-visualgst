@@ -224,8 +224,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
 	iCategoryWidget emptyModel.
 	cCategoryWidget emptyModel.
-	iMethodWidget emptyModel.
-	cMethodWidget emptyModel.
+	iMethodWidget clear.
+	cMethodWidget clear.
 	codeWidget namespaceDefinition: (NamespaceSource on: namespace).
 	state := NamespaceState on: self with: namespace
     ]
@@ -245,8 +245,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	historyUpdate ifTrue: [ history push: aClass ].
 
-	iMethodWidget emptyModel.
-        cMethodWidget emptyModel.
+	iMethodWidget clear.
+        cMethodWidget clear.
 	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
 	state := ClassState on: self with: aClass
     ]
