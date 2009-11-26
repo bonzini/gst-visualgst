@@ -26,19 +26,19 @@ GtkListModel subclass: GtkCategoryModel [
     item [
 	<category: 'model builder'>
  
-	| category |
-	item := Set new.
-	item add: '*'.
-	self classOrMeta selectors do: [ :each |
-	    category := (self classOrMeta compiledMethodAt: each) methodCategory.
-	    item add: category ].
-	^ item
+	^ self classOrMeta 
     ]
  
     contentsBlock [
 	<category: 'accessing'>
  
-	^ [ :elem | {elem} ]
+	^ [ :elem | | category |
+	    item := Set new.
+	    item add: {'*'}.
+	    self classOrMeta selectors do: [ :each |
+		category := (self classOrMeta compiledMethodAt: each) methodCategory.
+		item add: {category} ].
+	    item ]
     ]
  
     registerNotifier [

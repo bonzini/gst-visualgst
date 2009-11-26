@@ -9,6 +9,18 @@ GtkListWidget subclass: GtkMethodWidget [
 	    class: aClass withCategory: aCategory;
 	    yourself
     ]
+
+    title [
+	<category: 'accessing'>
+
+	^ 'Methods'
+    ]
+
+    viewedItems [
+        <category: 'accessing'>
+
+        ^ #('text')
+    ]
  
     methodModel [
 	<category: 'accessing'>

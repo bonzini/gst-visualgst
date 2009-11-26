@@ -8,12 +8,11 @@ Object subclass: GtkListModel [
 	    yourself
     ]
 
-    | columns contentsBlock item model sorted |
+    | columns contentsBlock item model |
 
     initialize [
 	<category: 'initialization'>
 
-	sorted := false
     ]
 
     columns: anInteger [
@@ -84,7 +83,8 @@ Object subclass: GtkListModel [
 
 	self clear.
 	self item ifNil: [ ^ self ].
-	self item do: [ :each | self append: (self contentsBlock value: each) ]
+	(self contentsBlock value: self item) do: [ :each | self append: each ].
+	"self item do: [ :each | self append: (self contentsBlock value: each) ]"
     ]
 
     findIter: anObject ifAbsent: aBlock [
@@ -106,18 +106,6 @@ Object subclass: GtkListModel [
 
         self findIter: anObject ifAbsent: [ ^ false ].
 	^ true 
-    ]
-
-    isSorted [
-        <category: 'testing'>
-
-        ^ sorted
-    ]
-
-    sorted: aBoolean [
-        <category: 'accessing'>
-
-        sorted := aBoolean
     ]
 ]
 

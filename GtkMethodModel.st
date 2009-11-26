@@ -26,17 +26,18 @@ GtkListModel subclass: GtkMethodModel [
     item [
         <category: 'accessing'>
  
-        item := OrderedCollection new.
-	self classOrMeta selectors do: [ :each |
-	    (self includesCategory: (self classOrMeta compiledMethodAt: each) methodCategory)
-		ifTrue: [ item add: each ] ].
-	^ item
+	^ self classOrMeta
     ]
  
     contentsBlock [
         <category: 'accessing'>
  
-        ^ [ :elem | {elem} ]
+        ^ [ :elem | 
+	        item := OrderedCollection new.
+		self classOrMeta selectors do: [ :each |
+		    (self includesCategory: (self classOrMeta compiledMethodAt: each) methodCategory)
+			ifTrue: [ item add: {each} ] ].
+	    item ]
     ]
  
     registerNotifier [

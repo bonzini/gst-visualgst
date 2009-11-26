@@ -203,11 +203,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	self checkCodeWidget.
 	aSmallInteger = 0 
 	    ifTrue: [
-		iMethodWidget hasSelectedMethod 
+		iMethodWidget hasSelection 
 		    ifTrue: [ codeWidget sourceCode: iMethodWidget sourceCode ]
 		    ifFalse: [ codeWidget clearCode ] ]
 	    ifFalse: [
-                cMethodWidget hasSelectedMethod
+                cMethodWidget hasSelection
                     ifTrue: [ codeWidget sourceCode: cMethodWidget sourceCode ]
                     ifFalse: [ codeWidget clearCode ] ]
     ]
@@ -222,8 +222,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	classWidget namespace: namespace category: namespaceWidget selectedCategory.
 
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
-	iCategoryWidget emptyModel.
-	cCategoryWidget emptyModel.
+	iCategoryWidget clear.
+	cCategoryWidget clear.
 	iMethodWidget clear.
 	cMethodWidget clear.
 	codeWidget namespaceDefinition: (NamespaceSource on: namespace).
@@ -269,22 +269,22 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| category |
 	self checkCodeWidget.
-	iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
+	iCategoryWidget hasSelection ifFalse: [ ^ self ].
+	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selection.
 
 	codeWidget clearCode.
-	state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selectedCategory
+	state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selection
     ]
 
     onClassSideCategoryChanged [
 	<category: 'events'>
 	
 	self checkCodeWidget.
-	cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
+	cCategoryWidget hasSelection ifFalse: [ ^ self ].
+	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selection.
 
 	codeWidget clearCode.
-	state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selectedCategory
+	state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selection
     ]
 
     onInstanceSideMethodChanged [
@@ -292,7 +292,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidget.
-	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
+	iMethodWidget hasSelection ifFalse: [ ^ self ].
 	method := iMethodWidget selectedMethod.
 	codeWidget sourceCode: iMethodWidget sourceCode.
 	state := MethodState on: self with: classWidget selectedClass class -> method
@@ -303,7 +303,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidget.
-	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
+	cMethodWidget hasSelection ifFalse: [ ^ self ].
 	method := cMethodWidget selectedMethod.
 	codeWidget sourceCode: cMethodWidget sourceCode.
 	state := MethodState on: self with: classWidget selectedClass class -> method
@@ -345,7 +345,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         | categoryWidget |
 	namespaceWidget hasSelection ifFalse: [ ^ self ].
 	categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelectedCategory ifFalse: [ ^ self acceptClassDefinition ].
+        categoryWidget hasSelection ifFalse: [ ^ self acceptClassDefinition ].
 	self newMethod
     ]
     
@@ -541,7 +541,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         | categoryWidget |
         classWidget hasSelection ifFalse: [ ^ self ].
         categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
+        categoryWidget hasSelection ifFalse: [ ^ self ].
 	FileoutCategoryCommand on: self classOrMetaSelected categorized: categoryWidget selectedCategory
     ]
 
@@ -551,7 +551,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         | categoryWidget stream |
         classWidget hasSelection ifFalse: [ ^ self ].
         categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
+        categoryWidget hasSelection ifFalse: [ ^ self ].
 	stream := FileStream open: aFile mode: FileStream write.
 	(CategorySource write: categoryWidget selectedCategory of: self classOrMetaSelected on: stream)
 	    source
@@ -560,7 +560,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedCategory [
 	<category: 'testing'>
 	
-	^ self viewedCategoryWidget hasSelectedCategory
+	^ self viewedCategoryWidget hasSelection
     ]
 
     selectedCategory [
@@ -614,7 +614,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedMethod [
 	<category: 'testing'>
 
-	^ self viewedMethodWidget hasSelectedMethod
+	^ self viewedMethodWidget hasSelection
     ]
 
     selectedMethodSymbol [
