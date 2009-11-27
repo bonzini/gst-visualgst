@@ -182,14 +182,19 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
 	|  parentIter previous |
 	parentIter := self findIterInANamespace: anEvent item superspace.
 	self gtkModel sonsOf: parentIter do: [ :iter |
+	    (self isIterNamespace: iter) ifFalse: [
+		 ^ self gtkModel insert: {namespaceIcon copyNotFinalized. anEvent item displayString. anEvent item. 'N'} before: iter ].
 	    ((self gtkModel at: iter) at: 2) > anEvent item displayString ifTrue: [
-		^ self gtkModel insert: {namespaceIcon copyNotFinalized. anEvent item displayString. anEvent item. 'N'} before: iter ] ]
+		^ self gtkModel insert: {namespaceIcon copyNotFinalized. anEvent item displayString. anEvent item. 'N'} before: iter ] ].
+	self append: {namespaceIcon copyNotFinalized. anEvent item displayString. anEvent item. 'N'} parent: parentIter
     ]
 
     removeEvent: anEvent [
         <category: 'model event'>
 
-        self remove: anEvent item
+	| iter |
+	iter := self findIterInANamespace: anEvent item.
+        self gtkModel remove: iter
     ]
 
     recategorizedClassEvent: anEvent [
@@ -200,6 +205,5 @@ GtkTreeModel subclass: GtkCategorizedNamespaceModel [
         iter := self findIterInANamespace: namespace.
 	self appendCategory: anEvent item category for: namespace into: iter
     ]
-
 ]
 

@@ -422,19 +422,19 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newNamespace [
 	<category: 'namespace events'>
 
-	AddNamespaceCommand on: self
+	AddNamespaceCommand on: namespaceWidget
     ]
 
     renameNamespace [
 	<category: 'namespace events'>
 
-	RenameNamespaceCommand on: self
+	RenameNamespaceCommand on: namespaceWidget
     ]
 
     deleteNamespace [
 	<category: 'namespace events'>
 
-	DeleteNamespaceCommand on: self
+	DeleteNamespaceCommand on: namespaceWidget
     ]
 
     inspectNamespace [
