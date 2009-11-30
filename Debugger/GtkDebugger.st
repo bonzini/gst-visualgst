@@ -12,7 +12,7 @@ GtkMainWindow subclass: GtkDebugger [
 
 	[ :debugger |
 	    Processor activeProcess name: 'Notifier/Debugger'.
-	    (self openSized: 450@375)
+	    (self openSized: 1024@600)
 		title: ('VisualGST Debugger ', aString);
 		debugger: debugger ] forkDebugger
     ]
