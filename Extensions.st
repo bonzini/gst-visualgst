@@ -284,6 +284,7 @@ GTK.GtkToolButton class extend [
     ]
 ]
 
+<<<<<<< HEAD:Extensions.st
 GTK.GdkPixbuf extend [
     finalize []
      copyNotFinalized [
@@ -320,3 +321,11 @@ GTK.GtkTreeStore extend [
     ]
 ]
 
+GTK.GtkWidget extend [
+
+    setSensitive: aBoolean [
+	aBoolean
+	     ifTrue: [ self setFlags: Gtk gtkSensitive ]
+	     ifFalse: [ self unsetFlags: Gtk gtkSensitive ]
+    ]
+]

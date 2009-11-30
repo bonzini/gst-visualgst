@@ -33,7 +33,7 @@ GtkListModel subclass: GtkMethodModel [
         <category: 'accessing'>
  
         ^ [ :elem | 
-	        item := OrderedCollection new.
+		item := OrderedCollection new.
 		self classOrMeta selectors do: [ :each |
 		    (self includesCategory: (self classOrMeta compiledMethodAt: each) methodCategory)
 			ifTrue: [ item add: {each} ] ].
@@ -81,8 +81,44 @@ GtkListModel subclass: GtkMethodModel [
 	self classOrMeta ifNil: [ ^ self ].
 	super refresh
     ]
- 
-    includesCategory: aSymbol [
+
+    "
+    buildCategory [
+	<category: 'model builder'>
+
+	| category set |
+	set := Set new.
+	self classOrMeta selectors do: [ :each |
+	    category := (self classOrMeta compiledMethodAt: each) methodCategory.
+	    set add: category ].
+	^ set
+    ]
+
+    findIterInAMethod: aString [
+        <category: 'item selection'>
+
+	self gtkModel do: [ :elem :iter |
+	    elem first = aString ifTrue: [ ^ iter ] ].
+        ^nil
+    ]
+
+    appendMethod: aString [
+	<category: 'model builder'>
+    
+        (self findIterInAMethod: aString) isNil ifFalse: [^self].
+	self gtkModel appendItem: {aString}
+    ]
+
+    removeMethod: aString [
+        <category: 'model builder'>
+
+        | iter |
+        iter := self findIterInAMethod: aString.
+	iter isNil ifTrue: [^self].
+        self gtkModel remove: iter
+    ]
+
+    "includesCategory: aSymbol [
 	<category: 'testing'>
  
 	self category = '*' ifTrue: [ ^ true ].
@@ -102,6 +138,6 @@ GtkListModel subclass: GtkMethodModel [
  
 	(anEvent item methodClass == self classOrMeta and: [ self includesCategory: anEvent item methodCategory ]) ifFalse: [ ^ self ].
         self remove: anEvent item selector asString
-    ]
+    ]"
 ]
 

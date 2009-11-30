@@ -95,13 +95,26 @@ GtkListWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
  
 	^ super selection first asSymbol
+"=======
+
+        | iter string |
+        (iter := methodTree selectedIter) ifNil: [ ^nil ].
+        ^ (self model gtkModel getOop: iter column: 0) asSymbol
+>>>>>>> c5bbd60da660972b1a855c8459e450fc1165960a:GtkMethodWidget.st"
     ]
  
     selectedMethod [
 	<category: 'accessing'>
+<<<<<<< HEAD:GtkMethodWidget.st
  
 	self hasSelection ifFalse: [ self error: 'Nothing is selected' ].
 	^ self classOrMetaSelected compiledMethodAt: self selection
+=======
+"
+	| symbol |
+	(symbol := self selectedMethodSymbol) ifNil: [ ^nil ].
+	^ self classOrMetaSelected compiledMethodAt: symbol
+>>>>>>> c5bbd60da660972b1a855c8459e450fc1165960a:GtkMethodWidget.st"
     ]
  
     sourceCode [
