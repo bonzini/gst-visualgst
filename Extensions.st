@@ -184,7 +184,7 @@ BlockContext extend [
 
         | variables method |
         method := self method method parserClass parseMethod: self method method methodSourceString.
-        (variables := method argumentNames) addAll: method body temporaryNames.
+        variables := method argumentNames,  method body temporaryNames.
         ^ variables
     ]
 ]
@@ -271,7 +271,8 @@ Behavior extend [
     debuggerClass [
 	<category: '*VisualGST'>
 
-	^ VisualGST.GtkDebugger
+	^ nil
+	"^ VisualGST.GtkDebugger"
     ]
 ]
 
@@ -291,3 +292,4 @@ GTK.GtkWidget extend [
 	     ifFalse: [ self unsetFlags: Gtk gtkSensitive ]
     ]
 ]
+
