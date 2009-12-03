@@ -16,6 +16,7 @@ Command subclass: UndoableCommand [
     push: anUndoCommand [
 	<category: 'accessing'>
 
+	anUndoCommand precondition ifFalse: [ ^ self ].
 	self undoStack push: anUndoCommand
     ]
 ]

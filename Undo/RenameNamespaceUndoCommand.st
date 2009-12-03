@@ -7,14 +7,13 @@ UndoCommand subclass: RenameNamespaceUndoCommand [
 
 	^ (self new)
 	    rename: aNamespace as: aSymbol;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 
     rename: aNamespace as: aSymbol [
 	<category: 'initialize'>
 
-	aNamespace class printNl.
 	namespace := aNamespace.
 	oldName := namespace name.
 	newName := aSymbol.
@@ -31,6 +30,7 @@ UndoCommand subclass: RenameNamespaceUndoCommand [
 
         newName = #Smalltalk ifTrue: [ self error: 'Namespace name can''t be the same has a namespace name'  ].
         Smalltalk subspacesDo: [ :each | each name = newName ifTrue: [ self error: 'Namespace name can''t be the same has a namespace name'  ] ].
+	^ true
     ]
 
     undo [

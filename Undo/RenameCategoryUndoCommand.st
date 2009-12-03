@@ -7,7 +7,7 @@ UndoCommand subclass: RenameCategoryUndoCommand [
 
 	^ (self new)
 	    rename: aString in: aClass as: aNewName onModel: aGtkTreeStore;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 
@@ -30,7 +30,8 @@ UndoCommand subclass: RenameCategoryUndoCommand [
         <category: 'checking'>
 
 	newCategory = '*' ifTrue: [ self error: 'Can''t create a * category' ].
-        (treeStore hasCategory: newCategory asString) ifTrue: [ self error: 'Category is present' ]
+        (treeStore hasCategory: newCategory asString) ifTrue: [ self error: 'Category is present' ].
+	^ true
     ]
 
     undo [

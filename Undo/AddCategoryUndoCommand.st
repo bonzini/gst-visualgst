@@ -6,7 +6,7 @@ UndoCommand subclass: AddCategoryUndoCommand [
 
 	^ (self new)
 	    add: aSymbol onWidget: aGtkCategoryWidget;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 

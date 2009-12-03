@@ -7,7 +7,7 @@ UndoCommand subclass: DeleteCategoryUndoCommand [
 
 	^ (self new)
 	    delete: aString in: aClass onModel: aGtkCategoryModel;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 

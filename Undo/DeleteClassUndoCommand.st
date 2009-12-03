@@ -7,7 +7,7 @@ UndoCommand subclass: DeleteClassUndoCommand [
 
 	^ (self new)
 	    delete: aClass;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 

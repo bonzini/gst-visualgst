@@ -7,6 +7,12 @@ Object subclass: UndoCommand [
 	^ self subclassResponsibility 
     ]
 
+    precondition [
+	<category: 'checking'>
+
+	^ true
+    ]
+
     undo [
 	<category: 'events'>
 

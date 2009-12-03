@@ -7,7 +7,7 @@ UndoCommand subclass: AddMethodUndoCommand [
 
 	^ (self new)
 	    add: aString classified: aCategory in: aClass;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 
@@ -16,7 +16,7 @@ UndoCommand subclass: AddMethodUndoCommand [
 
         ^ (self new)
             add: aString classified: aCategory in: aClass browser: aGtkBrowserWidget;
-            precondition;
+            "precondition;"
             yourself
     ]
 
@@ -78,12 +78,7 @@ UndoCommand subclass: AddMethodUndoCommand [
 	    ifNil: [ selector := nil ].
 
 	browserWidget ifNil: [ ^ self ].
-	browserWidget codeSaved.
-	"browserWidget ifNil: [ ^ self ].
-	browserWidget codeSaved.
-	oldCompiledMethod methodClass isMetaclass
-	    ifTrue: [ browserWidget selectAClassMethod: selector ]
-	    ifFalse: [ browserWidget selectAnInstanceMethod: selector ]."
+	browserWidget codeSaved
     ]
 
     redo [
@@ -92,12 +87,7 @@ UndoCommand subclass: AddMethodUndoCommand [
 	classOrMeta methodDictionary insertMethod: compiledMethod.
 
 	browserWidget ifNil: [ ^ self ].
-	browserWidget codeSaved.
-	"browserWidget ifNil: [ ^ self ].
-	browserWidget codeSaved.
-	compiledMethod methodClass isMetaclass
-	    ifTrue: [ browserWidget selectAClassMethod: compiledMethod selector ]
-	    ifFalse: [ browserWidget selectAnInstanceMethod: compiledMethod selector ]."
+	browserWidget codeSaved
     ]
 ]
 
