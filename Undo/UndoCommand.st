@@ -37,5 +37,22 @@ Object subclass: UndoCommand [
 
 	self subclassResponsibility 
     ]
+
+    displayError [
+        <Category: 'error'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: nil
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: self description
+                                tip: self error.
+
+        dialog
+            addButton: 'Ok' responseId: 1;
+            runBlockingAndDo: [ :dlg :res | dlg destroy ].
+    ]
 ]
 

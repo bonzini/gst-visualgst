@@ -65,6 +65,7 @@ UndoCommand subclass: AddMethodUndoCommand [
 				classified: category
 				ifError: [ :fname :lineNo :errorString |
 				    ^ self compileError: 'Compile error ', errorString ].
+	^ true
     ]
 
     undo [
@@ -89,6 +90,11 @@ UndoCommand subclass: AddMethodUndoCommand [
 
 	browserWidget ifNil: [ ^ self ].
 	browserWidget codeSaved
+    ]
+
+    displayError [
+        <Category: 'error'>
+
     ]
 ]
 
