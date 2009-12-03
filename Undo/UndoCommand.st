@@ -1,5 +1,5 @@
 Object subclass: UndoCommand [
-    | description |
+    | description preconditionError |
 
     description [
 	<category: 'accessing'>
@@ -11,6 +11,19 @@ Object subclass: UndoCommand [
 	<category: 'checking'>
 
 	^ true
+    ]
+
+    preconditionFailed: aString [
+	<category: 'checking'>
+
+	preconditionError := aString.
+	^ false
+    ]
+
+    error [
+	<category: 'checking'>
+
+	^ preconditionError
     ]
 
     undo [

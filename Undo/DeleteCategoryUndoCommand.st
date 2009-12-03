@@ -28,7 +28,8 @@ UndoCommand subclass: DeleteCategoryUndoCommand [
     precondition [
         <category: 'checking'>
 
-        category = '*' ifTrue: [ self error: 'Can''t delete a * category' ].
+        category = '*' ifTrue: [ ^ self preconditionFailed: 'Can''t delete a * category' ].
+	^ true
     ]
 
     undo [

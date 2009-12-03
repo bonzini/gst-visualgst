@@ -28,8 +28,8 @@ UndoCommand subclass: RenameNamespaceUndoCommand [
     precondition [
         <category: 'checking'>
 
-        newName = #Smalltalk ifTrue: [ self error: 'Namespace name can''t be the same has a namespace name'  ].
-        Smalltalk subspacesDo: [ :each | each name = newName ifTrue: [ self error: 'Namespace name can''t be the same has a namespace name'  ] ].
+        newName = #Smalltalk ifTrue: [ ^ self preconditionFailed: 'Namespace name can''t be the same has a namespace name'  ].
+        namespace subspacesDo: [ :each | each name = newName ifTrue: [ ^ self preconditionFailed: 'Namespace name can''t be the same has a namespace name'  ] ].
 	^ true
     ]
 

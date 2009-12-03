@@ -23,7 +23,8 @@ UndoCommand subclass: AddMethodUndoCommand [
     compileError: aString [
 	<category: 'error printing'>
 
-	VisualGST compileError: aString
+	VisualGST compileError: aString.
+	^ self preconditionFailed: aString
     ]
 
     add: aString classified: aCategory in: aClass browser: aGtkBrowserWidget [

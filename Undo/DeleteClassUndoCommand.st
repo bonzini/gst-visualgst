@@ -26,7 +26,8 @@ UndoCommand subclass: DeleteClassUndoCommand [
     precondition [
 	<category: 'checking'>
 
-        class subclasses isEmpty ifFalse: [ self error: 'class has subclasses' ].
+        class subclasses isEmpty ifFalse: [ ^ self preconditionFailed: 'class has subclasses' ].
+	^ true
     ]
 
     undo [

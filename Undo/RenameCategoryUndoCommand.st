@@ -29,8 +29,8 @@ UndoCommand subclass: RenameCategoryUndoCommand [
     precondition [
         <category: 'checking'>
 
-	newCategory = '*' ifTrue: [ self error: 'Can''t create a * category' ].
-        (treeStore hasCategory: newCategory asString) ifTrue: [ self error: 'Category is present' ].
+	newCategory = '*' ifTrue: [ ^ self preconditionFailed: 'Can''t create a * category' ].
+        (treeStore hasCategory: newCategory asString) ifTrue: [ ^ self preconditionFailed: 'Category is present' ].
 	^ true
     ]
 
