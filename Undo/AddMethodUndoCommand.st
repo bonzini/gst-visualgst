@@ -7,7 +7,6 @@ UndoCommand subclass: AddMethodUndoCommand [
 
 	^ (self new)
 	    add: aString classified: aCategory in: aClass;
-	    "precondition;"
 	    yourself
     ]
 
@@ -16,7 +15,6 @@ UndoCommand subclass: AddMethodUndoCommand [
 
         ^ (self new)
             add: aString classified: aCategory in: aClass browser: aGtkBrowserWidget;
-            "precondition;"
             yourself
     ]
 
