@@ -100,7 +100,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	^ (codeWidget := GtkSourceCodeWidget new)
             initialize;
-	    appendTag: #debug description: #('background' 'cyan4' 'foreground' 'NavyBlue' nil);
+	    appendTag: #debug
+	        description: #('paragraph-background' 'grey83' 'foreground' 'black' nil);
 	    parentWindow: window;
 	    browser: self;
             mainWidget
@@ -403,6 +404,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	self 
 	    initializeProcess: aProcess;
 	    updateContextWidget
+    ]
+
+    inspectMethod [
+	<category: 'method events'>
+
+	InspectMethodCommand on: self
+    ]
+
+    selectedMethod [
+	<category: 'method events'>
+
+	^selectedContext ifNotNil: [ selectedContext method ].
     ]
 
     contextChanged [
