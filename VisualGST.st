@@ -227,7 +227,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| oldMessage |
 	oldMessage := Transcript message.
-	Transcript message: nil->nil.
+	Transcript message: stdout->#nextPutAllFlush:.
 	self class uniqueInstance: nil.
 	(saved := aBlock value not)
 	    ifTrue: [ self class uniqueInstance: self.
