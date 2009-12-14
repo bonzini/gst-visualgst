@@ -439,6 +439,12 @@ Object subclass: SystemChangeNotifier [
 	^ UniqueInstance
     ]
 
+    SystemChangeNotifier class >> uniqueInstance: aSystemChangeNotifier [
+        <category: 'public'>
+
+        UniqueInstance := aSystemChangeNotifier
+    ]
+
     SystemChangeNotifier class >> createInstance [
 	<category: 'private'>
 

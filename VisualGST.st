@@ -225,12 +225,15 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
     saveImage: aBlock [
 
-	| oldMessage |
+	| oldMessage oldNotification |
+	oldNotification := SystemChangeNotifier uniqueInstance.
 	oldMessage := Transcript message.
 	Transcript message: stdout->#nextPutAllFlush:.
+	SystemChangeNotifier uniqueInstance: nil.
 	self class uniqueInstance: nil.
 	(saved := aBlock value not)
 	    ifTrue: [ self class uniqueInstance: self.
+		SystemChangeNotifier uniqueInstance: oldNotification.
 		Transcript message: oldMessage ]
     ]
 
