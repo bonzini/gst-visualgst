@@ -184,7 +184,7 @@ BlockContext extend [
 
         | variables method |
         method := self method method parserClass parseMethod: self method method methodSourceString.
-        (variables := method argumentNames) addAll: method body temporaryNames.
+        variables := method argumentNames,  method body temporaryNames.
         ^ variables
     ]
 ]
@@ -271,8 +271,22 @@ Behavior extend [
     debuggerClass [
 	<category: '*VisualGST'>
 
-	"^ VisualGST.GtkDebugger"
-	^ nil
+	^ VisualGST.GtkDebugger
+    ]
+]
+
+VariableBinding extend [
+
+    hasLiterals [
+	<category: '*VisualGST'>
+
+	^ true
+    ]
+
+    symbolFromliterals [
+	<category: '*VisualGST'>
+
+	^ {self key}
     ]
 ]
 
@@ -284,48 +298,35 @@ GTK.GtkToolButton class extend [
     ]
 ]
 
-<<<<<<< HEAD:Extensions.st
-GTK.GdkPixbuf extend [
-    finalize []
-     copyNotFinalized [
-         <category: 'accessing'>
-         ^ (self copy)
-                 removeToBeFinalized;
-                 yourself
-    ]
-]
-
-GTK.GtkTreeModel extend [
-    sonsOf: aGtkIter do: aBlock [
-	<category: 'accessing'>
-
-	| iter path |
-	iter := GTK.GtkTreeIter new.
-	path := self getPath: aGtkIter.
-	path down.
-	[ self getIter: iter path: path ] whileTrue: [
-	    aBlock value: iter.
-	    path next ] 
-    ]
-]
-
-GTK.GtkTreeStore extend [
-    insert: anArray before: aGtkIter [
-	<category: 'accessing'>
-
-	| iter |
-	iter := GTK.GtkTreeIter new.
-	self 
-	    insertBefore: iter parent: nil sibling: aGtkIter;
-	    at: iter put: anArray.
-    ]
-]
-
 GTK.GtkWidget extend [
 
     setSensitive: aBoolean [
 	aBoolean
 	     ifTrue: [ self setFlags: Gtk gtkSensitive ]
 	     ifFalse: [ self unsetFlags: Gtk gtkSensitive ]
+    ]
+]
+
+Metaclass extend [
+    displaySymbol [
+	<category: '*VisualGST'>
+
+	^ self instanceClass name
+    ]
+]
+
+AbstractNamespace extend [
+    displaySymbol [
+	<category: '*VisualGST'>
+
+	^ self displayString asSymbol
+    ]
+]
+
+Symbol extend [
+    displaySymbol [
+	<category: '*VisualGST'>
+
+	^ self
     ]
 ]

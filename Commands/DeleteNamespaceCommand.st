@@ -4,7 +4,7 @@ UndoableCommand subclass: DeleteNamespaceCommand [
 	<category: 'command'>
 
 	| namespace |
-        target hasSelection ifFalse: [ ^ self ].
+        target hasSelectedNamespace ifFalse: [ ^ self ].
         namespace := target selectedNamespace.
         namespace subspaces isEmpty ifFalse: [ self error: 'Namespace has subspaces' ].
         self push: (DeleteNamespaceUndoCommand delete: namespace)

@@ -1,5 +1,15 @@
 BrowserState subclass: CategoryState [
 
+    printOn: aStream [
+	<category: 'printing'>
+
+	aStream
+	    print: self classOrMeta;
+	    nextPutAll: ' (';
+	    display: self category;
+	    nextPut: $)
+    ]
+
     namespace [
 	<category: 'accessing'>
 
@@ -46,6 +56,11 @@ BrowserState subclass: CategoryState [
 	<category: 'printing'>
 
 	^ self classOrMeta displayString
+    ]
+
+    codeSaved [
+
+        browser codeSaved
     ]
 ]
 

@@ -6,7 +6,7 @@ UndoCommand subclass: AddCategoryUndoCommand [
 
 	^ (self new)
 	    add: aSymbol onWidget: aGtkCategoryWidget;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 
@@ -26,22 +26,23 @@ UndoCommand subclass: AddCategoryUndoCommand [
     precondition [
         <category: 'checking'>
 
-	category = '*' ifTrue: [ self error: 'Can''t create a * category' ].
-	(categoryWidget hasCategory: category asString) ifTrue: [ self error: 'Category is present' ].
-	categoryWidget hasSelectedCategory ifTrue: [ selectedCategory := categoryWidget selectedCategory ]
+	category = '*' ifTrue: [ ^ self preconditionFailed: 'Can''t create a * category' ].
+	(categoryWidget hasCategory: category asString) ifTrue: [ ^ self preconditionFailed: 'Category is present' ].
+	categoryWidget hasSelectedCategory ifTrue: [ selectedCategory := categoryWidget selectedCategory ].
+	^ true
     ]
 
     undo [
 	<category: 'events'>
 
-	SystemChangeNotifier uniqueInstance categoryRemoved: category asString inClass: categoryWidget classOrMeta.
+	SystemChangeNotifier root categoryRemoved: category asString inClass: categoryWidget classOrMeta.
 	categoryWidget selectACategory: selectedCategory
     ]
 
     redo [
 	<category: 'events'>
 
-	SystemChangeNotifier uniqueInstance categoryAdded: category asString inClass: categoryWidget classOrMeta.
+	SystemChangeNotifier root categoryAdded: category asString inClass: categoryWidget classOrMeta.
 	categoryWidget selectACategory: category asString
     ]
 ]

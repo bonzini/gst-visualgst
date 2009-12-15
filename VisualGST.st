@@ -1,12 +1,12 @@
 GtkMainWindow subclass: VisualGST [
     VisualGST class [ | compileError uniqueInstance | ]
 
-    | browsers outputs saved transcriptWidget windowsMenu |
+    | browsers outputs saved transcriptWidget windowsMenu systemChangeNotifier |
 
     VisualGST class >> uniqueInstance [
 	<category: 'public'>
 
-	uniqueInstance ifNil: [ uniqueInstance := self createInstance ].
+	uniqueInstance ifNil: [ self createInstance ].
         ^ uniqueInstance
     ]
 
@@ -21,10 +21,11 @@ GtkMainWindow subclass: VisualGST [
     VisualGST class >> createInstance [
         <category: 'private'>
 
-        ^ self basicNew
+        ^(uniqueInstance :=  self basicNew)
             initialize;
             showAll;
             postInitialize;
+	    resize: 1024@600;
             yourself
     ]
 
@@ -209,24 +210,34 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	 http://bugzilla.kernel.org/show_bug.cgi?id=9138, so we have to
 	 check the permission of the directory rather than the file."
 	File image parent isWriteable ifFalse: [ ^ self saveImageAs ].
-        self saveImage: [ObjectMemory snapshot]
+        self saveImage: [ ObjectMemory snapshot ]
     ]
 
     saveImageAs [
 	<category: 'file events'>
 
 	(GTK.GtkFileChooserDialog save: 'Save image as...' parent: window)
-	    runNonBlockingAndDo: [ :dlg :res |
-		res = GTK.Gtk gtkResponseAccept ifTrue: [ | name |
-		    name := dlg getFilename.
-		    self saveImage: [ObjectMemory snapshot: name] ].
-		dlg destroy ]
+	    runNonBlockingAndDo: [ :dlg :res | | name |
+		name := dlg getFilename.
+		dlg destroy.
+		res = GTK.Gtk gtkResponseAccept ifTrue: [ self saveImage: [ ObjectMemory snapshot: name ] ] ]
     ]
 
     saveImage: aBlock [
+	| oldMessage oldNotifier |
+	oldNotifier := SystemChangeNotifier uniqueInstance.
+	oldMessage := Transcript message.
+
+	Transcript message: stdout->#nextPutAllFlush:.
+	SystemChangeNotifier root remove: systemChangeNotifier.
+	systemChangeNotifier := nil.
 	self class uniqueInstance: nil.
-	(saved := aBlock value not)
-	    ifTrue: [self class uniqueInstance: self]
+
+	(saved := aBlock value not) ifTrue: [
+            self class uniqueInstance: self.
+	    systemChangeNotifier := oldNotifier.
+	    SystemChangeNotifier root add: oldNotifier.
+	    Transcript message: oldMessage ]
     ]
 
     workspace [
@@ -235,10 +246,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	self newWorkspace
     ]
 
+    systemChangeNotifier [
+	<category: 'notifications'>
+
+	^systemChangeNotifier
+    ]
+
     clearGlobalState [
 	<category: 'initialization cleanup'>
 
-	GtkImageModel instVarNamed: #current put: nil.
+	GtkImageModel release
     ]
 
     initialize [
@@ -246,6 +263,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	super initialize.
 	saved := false.
+        systemChangeNotifier := SystemChangeNotifier new.
+        SystemChangeNotifier root add: systemChangeNotifier.
 	window maximize.
 	self
 	    clearGlobalState;
@@ -408,7 +427,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
         self accelGroup append: 
 	    {{'<Control>O'. '<GtkLauncher>/File/Open'}.
-	    {'<Control>S'. '<GtkLauncher>/File/Save'}.
 	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'}.
 	    {'<Control>Q'. '<GtkLauncher>/File/Quit'}}.
 

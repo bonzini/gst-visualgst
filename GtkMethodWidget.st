@@ -1,162 +1,217 @@
-GtkListWidget subclass: GtkMethodWidget [
-    | column class category |
- 
-    GtkMethodWidget class >> on: aClass withCategory: aCategory [
-	<category: 'instance creation'>
- 
-	^ (self new)
-	    initialize;
-	    class: aClass withCategory: aCategory;
-	    yourself
+GtkConcreteWidget subclass: GtkMethodWidget [
+    | column methodTree model class category |
+
+    GtkMethodWidget >> on: aClass withCategory: aCategory [
+    ^ (self new)
+        initialize;
+	class: aClass withCategory: aCategory;
+        yourself
     ]
 
-    title [
-	<category: 'accessing'>
+    initialize [
+	<category: 'initialization'>
 
-	^ 'Methods'
+	self mainWidget: self buildTreeView
     ]
 
-    viewedItems [
-        <category: 'accessing'>
-
-        ^ #('text')
-    ]
- 
     methodModel [
 	<category: 'accessing'>
- 
+
 	^ GtkMethodModel
     ]
- 
-    classOrMetaSelected [
-        <category: 'accessing'>
- 
-        ^ self model classOrMeta
-    ]
- 
+
     category [
 	<category: 'accessing'>
- 
-	^ self model category
+
+	^ category
     ]
- 
+
     category: aString [
 	<category: 'accessing'>
- 
-	self model category: aString.
+
+	category := aString.
+	self refreshModel
     ]
- 
+
     class: aClass withCategory: aString [
 	<category: 'accessing'>
- 
-	self model classOrMeta: aClass withCategory: aString
+
+	class := aClass.
+	self category: aString
     ]
- 
+
     model [
 	<category: 'accessing'>
- 
- 
-	^ model ifNil: [ model := self methodModel new ]
+
+	
+	^ model ifNil: [ model := self methodModel on: self classOrMetaSelected withCategory: self category ]
     ]
- 
+
+    emptyModel [
+        <category: 'accessing'>
+
+        methodTree setModel: (GTK.GtkListStore new: 1 varargs: {GTK.GValue gTypeString})
+    ]
+
+    refreshModel [
+	<category: 'events'>
+
+	model := self methodModel on: self classOrMetaSelected withCategory: self category.
+	methodTree setModel: self model gtkModel.
+        self model isSorted
+            ifFalse: [
+                column signalEmitByName: 'clicked' args: {}.
+                self model sorted: true ].
+    ]
+
+    buildTreeView [
+        <category: 'user interface'>
+    
+	methodTree := (GTK.GtkTreeView newWithSortedTextColumn: self model gtkModel title: 'Methods')
+                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+                            yourself.
+	column := methodTree getColumn: 0.
+	methodTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+        self model isSorted
+            ifFalse: [
+                column signalEmitByName: 'clicked' args: {}.
+                self model sorted: true ].
+	^ GTK.GtkScrolledWindow withChild: methodTree
+    ]
+
     isTestMethod [
-	<category: 'testing'>
- 
-	^ (self classOrMetaSelected inheritsFrom: TestCase) and: [ self selectedMethodSymbol startsWith: 'test' ]
+	<category: 'button event'>
+	^(self classOrMetaSelected inheritsFrom: TestCase)
+	    and: [ self selectedMethodSymbol startsWith: 'test' ]
     ]
- 
-    buildPopupMenu [
-	<category: 'popup menu'>
- 
-	| menu |
+
+    onPress: aGtkWidget event: aGdkEvent [
+        <category: 'button event'>
+
+        | menu aGdkButtonEvent |
+        aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
+        aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
-	self isTestMethod ifTrue: [ menu appendMenuItems: {{'Run test'. self. #runTest}} ].
-	^ menu appendMenuItems: {{'Browse senders'. self. #browseSenders}.
+	self isTestMethod ifTrue: [
+            menu appendMenuItems: {{'Run test'. self. #runTest}} ].
+        menu appendMenuItems: {{'Browse senders'. self. #browseSenders}.
 	    {'Browse implementors'. self. #browseImplementors}.
 	    {}.
 	    {'Rename method'. self. #renameMethod}.
-	    {'Delete method'. self. #deleteMethod}.
-	    {}.
-	    {'Inspect method'. self. #inspectMethod}.
-	    {}.
-	    {'File out method'. self. #fileoutMethod}};
-	    yourself
+            {'Delete method'. self. #deleteMethod}.
+            {}.
+            {'Inspect method'. self. #inspectMethod}.
+            {}.
+            {'File out method'. self. #fileoutMethod}}.
+        menu attachToWidget: methodTree detacher: nil.
+        menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
+        menu showAll.
+        ^ true
     ]
- 
+
+    whenSelectionChangedSend: aSelector to: anObject [
+	<category: 'events'>
+
+	methodTree getSelection
+	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
+    ]
+
+    classOrMetaSelected [
+	<category: 'accessing'>
+
+	^ class
+    ]
+
     selectedCategory [
 	<category: 'accessing'>
- 
-	^ category = '*'
+
+	^ category = '*' 
 	    ifTrue: [ nil ]
 	    ifFalse: [ category ]
     ]
- 
-    selection [
+
+    hasSelectedMethod [
+	<category: 'testing'>
+
+	^ methodTree hasSelectedItem
+    ]
+
+    selectedMethodSymbol [
 	<category: 'accessing'>
- 
-	^ super selection first asSymbol
-"=======
 
         | iter string |
         (iter := methodTree selectedIter) ifNil: [ ^nil ].
         ^ (self model gtkModel getOop: iter column: 0) asSymbol
->>>>>>> c5bbd60da660972b1a855c8459e450fc1165960a:GtkMethodWidget.st"
     ]
- 
+
     selectedMethod [
 	<category: 'accessing'>
-<<<<<<< HEAD:GtkMethodWidget.st
- 
-	self hasSelection ifFalse: [ self error: 'Nothing is selected' ].
-	^ self classOrMetaSelected compiledMethodAt: self selection
-=======
-"
+
 	| symbol |
 	(symbol := self selectedMethodSymbol) ifNil: [ ^nil ].
 	^ self classOrMetaSelected compiledMethodAt: symbol
->>>>>>> c5bbd60da660972b1a855c8459e450fc1165960a:GtkMethodWidget.st"
     ]
- 
+
+    selectAMethod: aString [
+        <category: 'item selection'>
+
+        | selection |
+        selection := methodTree getSelection.
+        selection unselectAll.
+        aString ifNil: [ ^ self ].
+        selection selectIter: (self findIterInAMethod: aString)
+    ]
+
+    findIterInAMethod: aString [
+        <category: 'item selection'>
+
+        | result |
+
+        result := self model findIterInAMethod: aString.
+        methodTree scrollToCell: (self model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
+        ^ result
+    ]
+
     sourceCode [
 	<category: 'accessing'>
- 
-	self hasSelection ifFalse: [ self error: 'Nothing is selected' ].
-	^ (self classOrMetaSelected compiledMethodAt: self selection) methodRecompilationSourceString
+
+	self hasSelectedMethod ifFalse: [ self error: 'Nothing is selected' ].
+	^ (self classOrMetaSelected compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
- 
+
     deleteMethod [
         <category: 'method events'>
- 
+
         DeleteMethodCommand on: self
     ]
- 
+
     inspectMethod [
         <category: 'method events'>
- 
+
 	InspectMethodCommand on: self
     ]
- 
+
     browseSenders [
         <category: 'method events'>
- 
+
 	OpenSenderCommand on: self
     ]
- 
+
     browseImplementors [
         <category: 'method events'>
- 
+
 	OpenImplementorCommand on: self
     ]
- 
+
     runTest [
         <category: 'method events'>
- 
+
 	RunTestCommand on: self
     ]
- 
+
     fileoutMethod [
         <category: 'method events'>
- 
+
 	FileoutMethodCommand on: self selectedMethod
     ]
 ]

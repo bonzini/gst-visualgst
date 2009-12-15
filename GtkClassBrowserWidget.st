@@ -79,7 +79,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'user interface'>
 
 	namespaceWidget := GtkCategorizedNamespaceWidget showAll
-				namespace: Smalltalk;
 				whenSelectionChangedSend: #onNamespaceChanged to: self;
 				yourself.
 
@@ -193,8 +192,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     namespaceHierarchySwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
 	<category: 'events'>
 
-	classWidget hasSelection ifFalse: [ ^ self ].
-	aSmallInteger = 0 ifTrue: [ classHierarchyWidget class: classWidget selectedClass ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
+	aSmallInteger = 0 ifTrue: [ classHierarchyWidget classOrMeta: classWidget selectedClass ].
     ]
 
     classInstanceSwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
@@ -203,11 +202,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	self checkCodeWidget.
 	aSmallInteger = 0 
 	    ifTrue: [
-		iMethodWidget hasSelection 
+		iMethodWidget hasSelectedMethod 
 		    ifTrue: [ codeWidget sourceCode: iMethodWidget sourceCode ]
 		    ifFalse: [ codeWidget clearCode ] ]
 	    ifFalse: [
-                cMethodWidget hasSelection
+                cMethodWidget hasSelectedMethod
                     ifTrue: [ codeWidget sourceCode: cMethodWidget sourceCode ]
                     ifFalse: [ codeWidget clearCode ] ]
     ]
@@ -217,15 +216,15 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| namespace |
 	self checkCodeWidget.
-	namespaceWidget hasSelection ifFalse: [ ^ self ].
+	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	namespace := namespaceWidget selectedNamespace.
 	classWidget namespace: namespace category: namespaceWidget selectedCategory.
 
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
-	iCategoryWidget clear.
-	cCategoryWidget clear.
-	iMethodWidget clear.
-	cMethodWidget clear.
+	iCategoryWidget emptyModel.
+	cCategoryWidget emptyModel.
+	iMethodWidget emptyModel.
+	cMethodWidget emptyModel.
 	codeWidget namespaceDefinition: (NamespaceSource on: namespace).
 	state := NamespaceState on: self with: namespace
     ]
@@ -235,9 +234,9 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
         | aClass |
 	self checkCodeWidget.
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	aClass := classWidget selectedClass.
-	classHierarchyUpdate ifFalse: [ classHierarchyWidget class: aClass ].
+	classHierarchyUpdate ifFalse: [ classHierarchyWidget classOrMeta: aClass ].
 	iCategoryWidget classOrMeta: aClass.
 	cCategoryWidget classOrMeta: aClass class.
 	iCategoryWidget unselectAll.
@@ -245,8 +244,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	historyUpdate ifTrue: [ history push: aClass ].
 
-	iMethodWidget clear.
-        cMethodWidget clear.
+	iMethodWidget emptyModel.
+        cMethodWidget emptyModel.
 	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
 	state := ClassState on: self with: aClass
     ]
@@ -269,22 +268,22 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| category |
 	self checkCodeWidget.
-	iCategoryWidget hasSelection ifFalse: [ ^ self ].
-	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selection.
+	iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
+	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
 
 	codeWidget clearCode.
-	state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selection
+	state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selectedCategory
     ]
 
     onClassSideCategoryChanged [
 	<category: 'events'>
-	
+
 	self checkCodeWidget.
-	cCategoryWidget hasSelection ifFalse: [ ^ self ].
-	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selection.
+	cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
+	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
 
 	codeWidget clearCode.
-	state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selection
+	state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selectedCategory
     ]
 
     onInstanceSideMethodChanged [
@@ -292,10 +291,10 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidget.
-	iMethodWidget hasSelection ifFalse: [ ^ self ].
+	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := iMethodWidget selectedMethod.
 	codeWidget sourceCode: iMethodWidget sourceCode.
-	state := MethodState on: self with: classWidget selectedClass class -> method
+	state := MethodState on: self with: classWidget selectedClass -> method
     ]
 
     onClassSideMethodChanged [
@@ -303,7 +302,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidget.
-	cMethodWidget hasSelection ifFalse: [ ^ self ].
+	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := cMethodWidget selectedMethod.
 	codeWidget sourceCode: cMethodWidget sourceCode.
 	state := MethodState on: self with: classWidget selectedClass class -> method
@@ -343,9 +342,9 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk events'>
 
         | categoryWidget |
-	namespaceWidget hasSelection ifFalse: [ ^ self ].
+	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelection ifFalse: [ ^ self acceptClassDefinition ].
+        categoryWidget hasSelectedCategory ifFalse: [ ^ self acceptClassDefinition ].
 	self newMethod
     ]
     
@@ -361,7 +360,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'class event'>
 
 	^ self 
-	    acceptClassDefinitionOn: (namespaceWidget hasSelection
+	    acceptClassDefinitionOn: (namespaceWidget hasSelectedNamespace
 					ifTrue: [ namespaceWidget selectedNamespace ]
 					ifFalse: [ Smalltalk ]).
     ]
@@ -375,7 +374,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     fileoutNamespace [
 	<category: 'namespace events'>
 
-	namespaceWidget hasSelection ifFalse: [ ^ self ].
+	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	FileoutNamespaceCommand on: namespaceWidget selectedNamespace
     ]
 
@@ -383,7 +382,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'namespace events'>
 
 	| namespace stream |
-	namespaceWidget hasSelection ifFalse: [ ^ self ].
+	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	namespace := namespaceWidget selectedNamespace.
 	self fileoutNamespace: namespace on: (File name: aDirectory) / namespace name
     ]
@@ -410,7 +409,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedNamespace [
 	<category: 'testing'>
 
-	^ namespaceWidget hasSelection
+	^ namespaceWidget hasSelectedNamespace
     ]
 
     selectedNamespace [
@@ -422,31 +421,32 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newNamespace [
 	<category: 'namespace events'>
 
-	AddNamespaceCommand on: namespaceWidget
+	AddNamespaceCommand on: self
     ]
 
     renameNamespace [
 	<category: 'namespace events'>
 
-	RenameNamespaceCommand on: namespaceWidget
+	RenameNamespaceCommand on: self
     ]
 
     deleteNamespace [
 	<category: 'namespace events'>
 
-	DeleteNamespaceCommand on: namespaceWidget
+	DeleteNamespaceCommand on: self
     ]
 
     inspectNamespace [
 	<category: 'namespace events'>
 
-	InspectNamespaceCommand on: self
+	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	GtkInspector openOn: namespaceWidget selectedNamespace
     ]
 
     fileoutClass [
 	<category: 'class events'>
     
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
 	FileoutClassCommand on: classWidget selectedClass
     ]
 
@@ -454,7 +454,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'class events'>
 
         | class stream |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
         class := classWidget selectedClass.
         stream := FileStream open: aFile mode: FileStream write.
         (ClassSource write: class on: stream)
@@ -476,7 +476,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedClass [
 	<category: 'accessing'>
 
-	^ classWidget hasSelection
+	^ classWidget hasSelectedClass
     ]
 
     selectedClass [
@@ -506,7 +506,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     inspectClass [
 	<category: 'class events'>
 
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	GtkInspector openOn: classWidget selectedClass
     ]
 
@@ -514,7 +514,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'class accessing'>
 
 	| class |
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	class := classWidget selectedClass.
 	^ classAndInstanceSide getCurrentPage = 0
             ifTrue: [ class ]
@@ -539,9 +539,9 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'category events'>
 
         | categoryWidget |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
         categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelection ifFalse: [ ^ self ].
+        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	FileoutCategoryCommand on: self classOrMetaSelected categorized: categoryWidget selectedCategory
     ]
 
@@ -549,9 +549,9 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'category events'>
 
         | categoryWidget stream |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
         categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelection ifFalse: [ ^ self ].
+        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	stream := FileStream open: aFile mode: FileStream write.
 	(CategorySource write: categoryWidget selectedCategory of: self classOrMetaSelected on: stream)
 	    source
@@ -560,7 +560,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedCategory [
 	<category: 'testing'>
 	
-	^ self viewedCategoryWidget hasSelection
+	^ self viewedCategoryWidget hasSelectedCategory
     ]
 
     selectedCategory [
@@ -572,21 +572,21 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newCategory [
         <category: 'category events'>
 
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	AddCategoryCommand on: self
     ]
 
     renameCategory [
         <category: 'category events'>
 
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	RenameCategoryCommand on: self
     ]
 
     deleteCategory [
         <category: 'category events'>
 
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	DeleteCategoryCommand on: self
     ]
 
@@ -614,7 +614,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedMethod [
 	<category: 'testing'>
 
-	^ self viewedMethodWidget hasSelection
+	^ self viewedMethodWidget hasSelectedMethod
     ]
 
     selectedMethodSymbol [
@@ -632,15 +632,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newMethod [
 	<category: 'method events'>
 
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	AddMethodCommand on: self.
-	codeWidget codeSaved
     ]
 
     deleteMethod [
 	<category: 'method events'>
 
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	DeleteMethodCommand on: self
     ]
 
@@ -648,7 +647,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'method events'>
 
 	| methodWidget |
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	methodWidget := self viewedMethodWidget.
         GtkInspector openOn: methodWidget selectedMethod
     ]
@@ -657,7 +656,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'method events'>
 
         | methodWidget stream |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
         methodWidget := self viewedMethodWidget.
 	FileoutMethodCommand on: methodWidget selectedMethod
     ]
@@ -666,7 +665,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'method events'>
 
         | methodWidget stream |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
         methodWidget := self viewedMethodWidget.
         stream := FileStream open: aFile mode: FileStream write.
         (MethodSource write: methodWidget selectedMethod on: stream)
@@ -691,7 +690,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'selection'>
 
         classWidget selectAClass: aClass.
-	classHierarchyWidget class: aClass.
+	classHierarchyWidget classOrMeta: aClass.
         iCategoryWidget classOrMeta: aClass.
         cCategoryWidget classOrMeta: aClass class.
 
@@ -708,8 +707,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
             class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
 	    aCategoryWidget
-	        classOrMeta: class;
-	        selectACategory: (class compiledMethodAt: aSelector) methodCategory.
+		classOrMeta: class;
+		selectACategory: (class compiledMethodAt: aSelector) methodCategory.
             aMethodWidget
                 class: class withCategory: (class compiledMethodAt: aSelector) methodCategory ].
 
@@ -734,7 +733,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
 	| class |
-	classWidget hasSelection ifFalse: [ ^ self ].
+	classWidget hasSelectedClass ifFalse: [ ^ self ].
 
 	class := classWidget selectedClass.
 
@@ -747,7 +746,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
         | class |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
 
         class := classWidget selectedClass.
 
@@ -760,7 +759,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
         | class |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
 
         class := classWidget selectedClass.
 
@@ -773,7 +772,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
         | class |
-        classWidget hasSelection ifFalse: [ ^ self ].
+        classWidget hasSelectedClass ifFalse: [ ^ self ].
 
         class := classWidget selectedClass.
 

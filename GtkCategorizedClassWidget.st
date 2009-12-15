@@ -1,4 +1,5 @@
-GtkTreeWidget subclass: GtkCategorizedClassWidget [
+GtkConcreteWidget subclass: GtkCategorizedClassWidget [
+    | classesTree column model namespace category |
 
     GtkCategorizedClassWidget >> on: aNamespace [
 	^ (self new)
@@ -7,16 +8,11 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
 	    yourself
     ]
 
-    viewedItems [
-        <category: 'accessing'>
+    initialize [
+	<category: 'initialization'>
 
-        ^ #('text')
-    ]
-
-    title [
-        <category: 'accessing'>
-
-        ^ 'Classes'
+	category := ''.
+	self mainWidget: self buildTreeView
     ]
 
     classModel [
@@ -25,76 +21,98 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
 	^ GtkCategorizedClassModel
     ]
 
-    category [
-	<category: 'accessing'>
-
-	^ self model category
-    ]
-
-    category: aString [
-	<category: 'accessing'>
-
-	self model category: aString
-    ]
-
     namespace [
 	<category: 'accessing'>
     
-	^ self model namespace
+	^ namespace
     ]
 
     namespace: aNamespace [
 	<category: 'accessing'>
 
-	self model namespace: aNamespace.
-	listWidget expandAll
-    ]
-
-    namespace: aNamespace category: aString [
-	<category: 'accessing'>
-
-	self model
-	    namespace: aNamespace category: aString.
-	listWidget expandAll
+	namespace := aNamespace.
+	self refreshModel
     ]
 
     model [
 	<category: 'accessing'>
 
-	^ model ifNil: [ model := self classModel new ]
+	^ model ifNil: [ model := self classModel on: self namespace category: self category ]
     ]
 
-    buildPopupMenu [
-        <category: 'popup event'>
+    refreshModel [
+	<category: 'events'>
 
-        ^ GTK.GtkMenu new
-	    appendMenuItems: {{'Add a class'. self. #newClass}.
-	    {'Rename a class'. self. #renameClass}.
-	    {'Delete a class'. self. #deleteClass}.
-	    {}.
-	    {'Inspect a class'. self. #inspectClass}.
-	    {}.
-	    {'File out a class'. self. #fileoutClass}};
-	    yourself
+	model := self classModel on: self namespace category: self category.
+
+	classesTree
+	    setModel: self model gtkModel;
+	    expandAll.
+	self model isSorted
+            ifFalse: [
+                column signalEmitByName: 'clicked' args: {}.
+                self model sorted: true ].
+    ]
+
+    buildTreeView [
+	<category: 'user interface'>
+    
+	classesTree := (GTK.GtkTreeView newWithSortedTextColumn: self model gtkModel title: 'Classes')
+			    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+			    yourself.
+	column := classesTree getColumn: 0.
+	classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+	self model isSorted 
+	    ifFalse: [
+		column signalEmitByName: 'clicked' args: {}.
+		self model sorted: true ].
+	^ GTK.GtkScrolledWindow withChild: classesTree
+    ]
+
+    onPress: aGtkWidget event: aGdkEvent [
+        <category: 'button event'>
+
+        | menu aGdkButtonEvent |
+        aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
+        aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
+        menu := GTK.GtkMenu new.
+        menu appendMenuItems: {{'Add a class'. self. #newClass}.
+            {'Rename a class'. self. #renameClass}.
+            {'Delete a class'. self. #deleteClass}.
+            {}.
+            {'Inspect a class'. self. #inspectClass}.
+            {}.
+            {'File out a class'. self. #fileoutClass}}.
+        menu attachToWidget: classesTree detacher: nil.
+        menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
+        menu showAll.
+        ^ true
+    ]
+
+    whenSelectionChangedSend: aSelector to: anObject [
+	<category: 'events'>
+
+	classesTree getSelection
+	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
     ]
 
     selectionMode: aSelectionMode [
 	<category: 'user interface'>
 
-	listWidget getSelection setMode: aSelectionMode.
+	classesTree getSelection setMode: aSelectionMode.
     ]
 
     selectedNamespace [
 	<category: 'accessing'>
 
-	^ self model namespace
+	^ namespace
     ]
 
-"    hasSelectedClass [
+    hasSelectedClass [
 	<category: 'testing'>
 
-	^ listWidget hasSelectedItem
-    ]"
+	^ classesTree hasSelectedItem
+    ]
 
     selectedClass [
 	<category: 'accessing'>
@@ -109,7 +127,7 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
 	<category: 'item selection'>
 
 	| selection |
-        selection := listWidget getSelection.
+        selection := classesTree getSelection.
         selection unselectAll.
         selection selectIter: (self findIterInAClass: aClass)
     ]
@@ -120,8 +138,14 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
 	| result |
 
 	result := self model findIterInAClass: aClass.
-	listWidget scrollToCell: (self model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
+	classesTree scrollToCell: (self model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
 	^ result 
+    ]
+
+    selectedIter [
+	<category: 'accessing'>
+
+	^ classesTree selectedIter
     ]
 
     newClass [
@@ -152,6 +176,26 @@ GtkTreeWidget subclass: GtkCategorizedClassWidget [
         <category: 'class events'>
 
 	FileoutClassCommand on: self selectedClass
+    ]
+
+    category: aString [
+	<category: 'accessing'>
+
+	category := aString.
+    ]
+
+    category [
+	<category: 'accessing'>
+
+	^ category
+    ]
+
+    namespace: aNamespace category: aString [
+	<category: 'accessing'>
+
+	self
+	    category: aString;
+	    namespace: aNamespace
     ]
 
 ]

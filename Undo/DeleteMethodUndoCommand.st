@@ -7,7 +7,7 @@ UndoCommand subclass: DeleteMethodUndoCommand [
 
 	^ (self new)
 	    delete: aSymbol in: aClass;
-	    precondition;
+	    "precondition;"
 	    yourself
     ]
 
@@ -27,6 +27,7 @@ UndoCommand subclass: DeleteMethodUndoCommand [
     precondition [
         <category: 'checking'>
 
+	^ true
     ]
 
     undo [

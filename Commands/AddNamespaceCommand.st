@@ -4,7 +4,7 @@ UndoableCommand subclass: AddNamespaceCommand [
 	<category: 'command'>
 
 	| dlg |
-	target hasSelection ifFalse: [ ^ self ].
+	target hasSelectedNamespace ifFalse: [ ^ self ].
         dlg := GtkEntryDialog title: 'Add a namespace' text: 'Name of the new namespace'.
         dlg hasPressedOk ifTrue: [ 
             self push: (AddNamespaceUndoCommand add: dlg result asSymbol to: target selectedNamespace) ]

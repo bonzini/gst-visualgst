@@ -7,7 +7,6 @@ UndoCommand subclass: AddMethodUndoCommand [
 
 	^ (self new)
 	    add: aString classified: aCategory in: aClass;
-	    precondition;
 	    yourself
     ]
 
@@ -16,14 +15,14 @@ UndoCommand subclass: AddMethodUndoCommand [
 
         ^ (self new)
             add: aString classified: aCategory in: aClass browser: aGtkBrowserWidget;
-            precondition;
             yourself
     ]
 
     compileError: aString [
 	<category: 'error printing'>
 
-	VisualGST compileError: aString
+	VisualGST compileError: aString.
+	^ self preconditionFailed: aString
     ]
 
     add: aString classified: aCategory in: aClass browser: aGtkBrowserWidget [
@@ -40,7 +39,7 @@ UndoCommand subclass: AddMethodUndoCommand [
         category := (#('still unclassified' '*') includes: (aCategory))
 					    ifTrue: [ nil ]
 					    ifFalse: [ aCategory ].
-	classOrMeta := aClass.
+	classOrMeta := aClass
     ]
 
     description [
@@ -64,6 +63,7 @@ UndoCommand subclass: AddMethodUndoCommand [
 				classified: category
 				ifError: [ :fname :lineNo :errorString |
 				    ^ self compileError: 'Compile error ', errorString ].
+	^ true
     ]
 
     undo [
@@ -77,11 +77,8 @@ UndoCommand subclass: AddMethodUndoCommand [
 		selector := oldCompiledMethod selector ]
 	    ifNil: [ selector := nil ].
 
-	browserWidget ifNil: [^self].
-	oldCompiledMethod methodClass isMetaclass
-	    ifTrue: [ browserWidget selectAClassMethod: selector ]
-	    ifFalse: [ browserWidget selectAnInstanceMethod: selector ].
-	browserWidget codeSaved.
+	browserWidget ifNil: [ ^ self ].
+	browserWidget codeSaved
     ]
 
     redo [
@@ -89,11 +86,13 @@ UndoCommand subclass: AddMethodUndoCommand [
 
 	classOrMeta methodDictionary insertMethod: compiledMethod.
 
-	browserWidget ifNil: [^self].
-	compiledMethod methodClass isMetaclass
-	    ifTrue: [ browserWidget selectAClassMethod: compiledMethod selector ]
-	    ifFalse: [ browserWidget selectAnInstanceMethod: compiledMethod selector ].
-	browserWidget codeSaved.
+	browserWidget ifNil: [ ^ self ].
+	browserWidget codeSaved
+    ]
+
+    displayError [
+        <Category: 'error'>
+
     ]
 ]
 

@@ -1,61 +1,14 @@
-GtkTreeWidget subclass: GtkCategorizedNamespaceWidget [
-    namespace: aNamespace [
-	<category: 'accessing'>
-
-	self model namespace: aNamespace
-    ]
-
-    namespace [
-	<category: 'accessing'>
-
-	^ self model namespace
-    ]
-
-    category: aString [
-	<category: 'accessing'>
-
-	self model category: aString
-    ]
-
-    category [
-	<category: 'accessing'>
-
-	^ self model category
-    ]
-
-    namespace: aNamespace category: aString [
-	<category: 'accessing'>
-
-	self model namespace: aNamespace category: aString
-    ]
-
-    sortedColumn [
-	<category: 'accessing'>
-
-	^ 1
-    ]
-
-    viewedItems [
-	<category: 'accessing'>
-
-	^ #('pixbuf' 'text')
-    ]
-
-    title [
-	<category: 'accessing'>
-
-	^ 'Namespaces'
-    ]
-
+GtkNamespaceWidget subclass: GtkCategorizedNamespaceWidget [
     model [
 	<category: 'accessing'>
 
 	^ model ifNil: [
-	    model := GtkCategorizedNamespaceModel new.
-
+	    model := GtkCategorizedNamespaceModel new
+				    initialize;
+				    yourself.
 	    model gtkModel
 		connectSignal: 'row-has-child-toggled' to: self
-		selector: #'childToggled:path:iter:'.
+		selector: #childToggled:path:iter:.
 
 	    model
 	 ]
@@ -93,55 +46,10 @@ GtkTreeWidget subclass: GtkCategorizedNamespaceWidget [
     childToggled: model path: path iter: iter [
 	<category: 'signals'>
 
-	listWidget collapseRow: path.
-	(self model isIterNamespace: iter)
-	    ifTrue: [
-		(path castTo: GTK.GtkTreePath type) up.
-		listWidget expandRow: path openAll: false ]
-    ]
-
-    buildPopupMenu [
-	<category: 'popup event'>
-
-	^ GTK.GtkMenu new
-	    appendMenuItems: {{'Add a namespace'. self. #newNamespace}.
-	    {'Rename a namespace'. self. #renameNamespace}.
-	    {'Delete a namespace'. self. #deleteNamespace}.
-	    {}.
-	    {'Inspect a namespace'. self. #inspectNamespace}.
-	    {}.
-	    {'File out a namespace'. self. #fileoutNamespace}};
-	    yourself
-    ]
-
-    newNamespace [
-        <category: 'popup events'>
-
-        AddNamespaceCommand on: self
-    ]
-
-    renameNamespace [
-        <category: 'namespace events'>
-
-        RenameNamespaceCommand on: self
-    ]
-
-    deleteNamespace [
-        <category: 'namespace events'>
-
-        DeleteNamespaceCommand on: self
-    ]
-
-    inspectNamespace [
-        <category: 'namespace events'>
-
-        InspectNamespaceCommand on: self
-    ]
-
-    fileoutNamespace [
-        <category: 'namespace events'>
-
-        FileoutNamespaceCommand on: self selectedNamespace
+	namespacesTree collapseRow: path.
+	(self model isIterNamespace: iter) ifTrue: [
+	    ((self model gtkModel at: iter) at: 3) subspaces isEmpty ifFalse: [
+		namespacesTree expandRow: path openAll: false ] ]
     ]
 ]
 
