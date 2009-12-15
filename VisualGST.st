@@ -122,7 +122,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'tools events'>
 
 	| widget |
-	browsers addWidget: self buildClassBrowserWidget labeled: 'Browser'
+	browsers addWidget: (widget := self buildClassBrowserWidget) labeled: 'Browser'.
+	^ widget
     ]
 
     classBrowserInAWindow [
@@ -663,10 +664,22 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     onFocusPerform: aSelector [
 	<category: 'focus'>
 
-	^ browsers hasFocus 
+	^ self browserHasFocus 
 	    ifTrue: [ browsers currentWidget perform: aSelector ]
 	    ifFalse: [ outputs hasFocus 
 			    ifTrue: [ outputs currentWidget perform: aSelector ] ].
+    ]
+
+    browserHasFocus [
+	<category: 'testing'>
+
+	^ browsers hasFocus
+    ]
+
+    currentWidgetOfBrowser [
+	<category: 'focus'>
+
+	^ browsers currentWidget
     ]
 
     doIt [
