@@ -44,7 +44,6 @@ Eval [
     filein: 'Commands/AddMethodCommand.st';
     filein: 'Commands/DeleteMethodCommand.st';
     filein: 'Commands/RunTestCommand.st';
-    filein: 'Commands/OpenWindowedBrowserCommand.st';
     filein: 'Commands/OpenAssistantCommand.st';
     filein: 'Commands/OpenImplementorCommand.st';
     filein: 'Commands/OpenSenderCommand.st';
@@ -154,6 +153,8 @@ Eval [
     filein: 'GtkMethodSUnitModel.st';
     filein: 'SUnit/GtkSUnit.st';
     filein: 'Commands/OpenBrowserCommand.st';
+    filein: 'Commands/OpenWindowedBrowserCommand.st';
+    filein: 'Commands/OpenTabbedBrowserCommand.st';
     filein: 'Commands/OpenWorkspaceCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';

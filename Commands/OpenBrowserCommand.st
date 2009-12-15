@@ -1,5 +1,27 @@
 Command subclass: OpenBrowserCommand [
 
+    extractSingleToken: aToken [
+	<category: 'parsing'>
+
+	| result |
+        result := Smalltalk at: aToken asSymbol ifAbsent: [ ^ Smalltalk -> Object ].
+        result isClass ifTrue: [ ^ Smalltalk -> result ].
+        result isNamespace ifTrue: [ ^ result -> nil ].
+        ^ Smalltalk -> Object
+    ]
+
+    extractMultipleToken: anArray [
+	<category: 'parsing'>
+
+	| start |
+        start := Smalltalk.
+        anArray do: [ :each |
+            start := start at: each asSymbol ifAbsent: [ ^ Smalltalk -> Object ] ].
+        start isClass ifTrue: [ ^ start environment -> start ].
+        start isNamespace ifTrue: [ ^ start -> nil ].
+        ^ Smalltalk -> Object
+    ]
+
     extractNamespaceAndClassFrom: aString [
 	<category: 'parsing'>
 
@@ -7,20 +29,8 @@ Command subclass: OpenBrowserCommand [
 	node := STInST.RBParser parseExpression: aString.
 	node isVariable ifFalse: [ ^ Smalltalk->Object ].
 	token := node name tokenize: '\.'.
-	token size = 1 ifTrue: [ | result |
-		result := Smalltalk at: token first asSymbol ifAbsent: [ ^ Smalltalk -> Object ].
-		result isClass ifTrue: [ ^ Smalltalk -> result ].
-		result isNamespace ifTrue: [ ^ result -> nil ].
-		^ Smalltalk -> Object ].
-	start := Smalltalk.
-	token do: [ :each |
-	    start printNl.
-	    each printNl.
-	    start := start at: each asSymbol ifAbsent: [ ^ Smalltalk -> Object ] ].
-	start isClass 
-		ifTrue: [ ^ start environment -> start ].
-	start isNamespace ifTrue:  [ ^ start -> nil ].
-	^ Smalltalk -> Object
+	token size = 1 ifTrue: [ ^ self extractSingleToken: token first ].
+	^ self extractMultipleToken: token
     ]
 
     extractSelectedItems [
@@ -45,26 +55,15 @@ Command subclass: OpenBrowserCommand [
 	^ result
     ]
 
-    buildBrowserAndSelect: anAssociation [
-	<category: 'user interface'>
+    selection [
+	<category: 'accessing'>
 
-	| browser |
-        browser := VisualGST uniqueInstance classBrowser.
-        browser selectANamespace: anAssociation key.
-        anAssociation value ifNotNil: [ browser selectAClass: anAssociation value ].
-    ]
-
-    execute [
-        <category: 'command'>
-
-	| node selection result |
-	VisualGST uniqueInstance browserHasFocus 
-		    ifTrue: [
-			(VisualGST uniqueInstance currentWidgetOfBrowser sourceCodeWidgetHasFocus and: [ VisualGST uniqueInstance currentWidgetOfBrowser selectedText isNil not ]) 
-							    ifTrue: [ result := self extractNamespaceAndClassFrom: VisualGST uniqueInstance currentWidgetOfBrowser selectedText ]
-							    ifFalse: [ result := self extractSelectedItems ] ]
-		    ifFalse: [ result := self extractFromSelection ].
-	self buildBrowserAndSelect: result.
+        ^ VisualGST uniqueInstance browserHasFocus
+                    ifTrue: [
+                        (VisualGST uniqueInstance currentWidgetOfBrowser sourceCodeWidgetHasFocus and: [ VisualGST uniqueInstance currentWidgetOfBrowser selectedText isNil not ])
+                                                            ifTrue: [ self extractNamespaceAndClassFrom: VisualGST uniqueInstance currentWidgetOfBrowser selectedText ]
+                                                            ifFalse: [ self extractSelectedItems ] ]
+                    ifFalse: [ self extractFromSelection ]
     ]
 ]
 
