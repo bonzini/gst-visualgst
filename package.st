@@ -13,6 +13,9 @@ Eval [
     filein: 'Notification/AddedEvent.st';
     filein: 'Notification/CommentedEvent.st';
     filein: 'Notification/DoItEvent.st';
+    filein: 'Notification/SystemEventManager.st';
+    filein: 'Notification/EventMultiplexer.st';
+    filein: 'Notification/EventDispatcher.st';
     filein: 'Notification/ModifiedEvent.st';
     filein: 'Notification/ModifiedClassDefinitionEvent.st';
     filein: 'Notification/RecategorizedEvent.st';
@@ -20,7 +23,6 @@ Eval [
     filein: 'Notification/RenamedEvent.st';
     filein: 'Notification/ReorganizedEvent.st';
     filein: 'Notification/SystemChangeNotifier.st';
-    filein: 'Notification/SystemEventManager.st';
     filein: 'Commands/Command.st';
     filein: 'Commands/UndoableCommand.st';
     filein: 'Commands/InspectNamespaceCommand.st';
