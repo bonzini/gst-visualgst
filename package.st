@@ -55,6 +55,8 @@ Eval [
     filein: 'VisualGST.st';
     filein: 'GtkConcreteWidget.st';
     filein: 'GtkNotebookWidget.st';
+    filein: 'Image/GtkImageModel.st';
+    filein: 'Image/GtkImageWidget.st';
     filein: 'GtkTranscriptWidget.st';
     filein: 'Debugger/GtkContextModel.st';
     filein: 'Debugger/GtkContextWidget.st';
@@ -122,7 +124,6 @@ Eval [
     filein: 'Inspector/GtkCharacterInspectorView.st';
     filein: 'Inspector/GtkIntegerInspectorView.st';
     filein: 'Inspector/GtkFloatInspectorView.st';
-    filein: 'Implementors/GtkImageModel.st';
     filein: 'Implementors/GtkImplementor.st';
     filein: 'Senders/GtkSender.st';
     filein: 'Notification/Kernel/AbstractNamespace.st';
