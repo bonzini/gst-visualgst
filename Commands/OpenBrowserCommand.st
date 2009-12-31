@@ -26,7 +26,7 @@ Command subclass: OpenBrowserCommand [
 	<category: 'parsing'>
 
 	| node token start |
-	node := STInST.RBParser parseExpression: aString.
+	[ node := STInST.RBParser parseExpression: aString ] on: Error do: [ ^ Smalltalk->Object ].
 	node isVariable ifFalse: [ ^ Smalltalk->Object ].
 	token := node name tokenize: '\.'.
 	token size = 1 ifTrue: [ ^ self extractSingleToken: token first ].
