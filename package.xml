@@ -63,6 +63,8 @@
   <filein>VisualGST.st</filein>
   <filein>GtkConcreteWidget.st</filein>
   <filein>GtkNotebookWidget.st</filein>
+  <filein>Image/GtkImageModel.st</filein>
+  <filein>Image/GtkImageWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
   <filein>Debugger/GtkContextModel.st</filein>
   <filein>Debugger/GtkContextWidget.st</filein>
@@ -130,7 +132,6 @@
   <filein>Inspector/GtkCharacterInspectorView.st</filein>
   <filein>Inspector/GtkIntegerInspectorView.st</filein>
   <filein>Inspector/GtkFloatInspectorView.st</filein>
-  <filein>Implementors/GtkImageModel.st</filein>
   <filein>Implementors/GtkImplementor.st</filein>
   <filein>Senders/GtkSender.st</filein>
   <filein>Notification/Kernel/AbstractNamespace.st</filein>
@@ -212,6 +213,8 @@
   <file>VisualGST.st</file>
   <file>GtkConcreteWidget.st</file>
   <file>GtkNotebookWidget.st</file>
+  <file>Image/GtkImageModel.st</file>
+  <file>Image/GtkImageWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
   <file>Debugger/GtkContextModel.st</file>
   <file>Debugger/GtkContextWidget.st</file>
@@ -279,7 +282,6 @@
   <file>Inspector/GtkCharacterInspectorView.st</file>
   <file>Inspector/GtkIntegerInspectorView.st</file>
   <file>Inspector/GtkFloatInspectorView.st</file>
-  <file>Implementors/GtkImageModel.st</file>
   <file>Implementors/GtkImplementor.st</file>
   <file>Senders/GtkSender.st</file>
   <file>Notification/Kernel/AbstractNamespace.st</file>
