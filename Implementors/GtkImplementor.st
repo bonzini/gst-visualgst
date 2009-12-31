@@ -299,6 +299,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     elementSelected [
 	<category: 'events'>
 
+	imageWidget hasSelection ifFalse: [ ^ self ].
         self selector: imageWidget selection
     ]
 

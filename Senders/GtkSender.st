@@ -347,6 +347,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     finderSelected [
 	<category: 'finder events'>
 
+	imageWidget hasSelection ifFalse: [ ^ self ].
 	self selector: imageWidget selection asSymbol.
     ]
 

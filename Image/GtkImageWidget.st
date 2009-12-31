@@ -77,6 +77,12 @@ GtkConcreteWidget subclass: GtkImageWidget [
         imageTree setModel: (model := (GtkImageModel current matchRegex: searchEntry getText)) gtkModel
     ]
 
+    hasSelection [
+	<category: 'accessing'>
+
+	^ imageTree hasSelectedItem
+    ]
+
     selection [
 	<category: 'accessing'>
 
