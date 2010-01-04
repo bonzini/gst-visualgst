@@ -123,6 +123,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| widget |
 	browsers addWidget: (widget := self buildClassBrowserWidget) labeled: 'Browser'.
+	widget postInitialize.
 	^ widget
     ]
 
@@ -281,6 +282,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'initialization'>
 
 	browsers grabFocus.
+	browsers currentWidget postInitialize.
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil;
 	    connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
@@ -361,7 +363,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    {'<Control>X'. '<GtkLauncher>/Edit/Cut'}.
 	    {'<Control>C'. '<GtkLauncher>/Edit/Copy'}.
 	    {'<Control>V'. '<GtkLauncher>/Edit/Paste'}.
-	    {'<Control>A'. '<GtkLauncher>/Edit/SelectAll'}}.
+	    {'<Control>A'. '<GtkLauncher>/Edit/SelectAll'}.
+	    {'<Control>F'. '<GtkLauncher>/Edit/Find'}.
+	    {'<Control>H'. '<GtkLauncher>/Edit/Replace'}}.
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkLauncher>/Edit/Cancel' connectTo: self selector: #cancel.
 	    GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo' connectTo: self selector: #undo.
@@ -372,6 +376,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste' connectTo: self selector: #paste.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll' connectTo: self selector: #selectAll.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Find' accelPath: '<GtkLauncher>/Edit/Find' connectTo: self selector: #find.
+            GTK.GtkMenuItem menuItem: 'Replace' accelPath: '<GtkLauncher>/Edit/Replace' connectTo: self selector: #replace.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Clear Transcript' connectTo: self selector: #clearTranscriptWidget}
     ]
@@ -654,6 +661,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'edit events'>
 
 	self onFocusPerform: #selectAll
+    ]
+
+    find [
+	<category: 'edit events'>
+
+	browsers currentWidget showFind
+    ]
+
+    replace [
+	<category: 'edit events'>
+
+	browsers currentWidget showReplace
     ]
 
     clearTranscriptWidget [

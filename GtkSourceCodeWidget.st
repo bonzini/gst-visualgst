@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkSourceCodeWidget [
-    | browser codeText codeBuffer codeView object |
+    | find replace browser codeText codeBuffer codeView object |
 
     initialize [
 	<category: 'initialization'>
@@ -154,7 +154,8 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 
     buildCodeView [
 	<category: 'user interface'>
-
+	
+	| temp |
         codeView := (GtkTextWidget new)
 			initialize;
 			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
@@ -165,9 +166,22 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	codeBuffer 
 	    connectSignal: 'changed' to: self selector: #'changed' userData: nil.
 
+        temp := (GTK.GtkVBox new: false spacing: 3)
+		    packStart: (GTK.GtkScrolledWindow withChild: codeView) expand: true fill: true padding: 0;
+		    packEnd: ((find := GtkFindWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
+		    packEnd: ((replace := GtkReplaceWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
+		    yourself.
+
         ^ (GTK.GtkFrame new: 'Code')
-            add: (GTK.GtkScrolledWindow withChild: codeView);
+            add: temp "(GTK.GtkScrolledWindow withChild: codeView)";
             yourself
+    ]
+
+    postInitialize [
+	<category: 'initialize'>
+
+	find mainWidget hide.
+	replace mainWidget hide
     ]
 
     changed [
@@ -373,5 +387,18 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	codeBuffer applyTagByName: aSymbol start: start end: end
     ]
 
+    showFind [
+	<category: 'user interface'>
+
+	replace mainWidget hide.
+	find mainWidget show
+    ]
+
+    showReplace [
+	<category: 'user interface'>
+
+	find mainWidget hide.
+	replace mainWidget show
+    ]
 ]
 

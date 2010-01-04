@@ -183,6 +183,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    showAll
     ]
 
+    postInitialize [
+	<category: 'initialize'>
+
+	codeWidget postInitialize
+    ]
+
     grabFocus [
 	<category: 'user interface'>
 
@@ -900,6 +906,18 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'testing'>
 
 	^ codeWidget hasChanged
+    ]
+
+    showFind [
+	<category: 'user interface'>
+
+	codeWidget showFind
+    ]
+
+    showReplace [
+	<category: 'user interface'>
+
+	codeWidget showReplace
     ]
 ]
 
