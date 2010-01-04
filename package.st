@@ -54,8 +54,9 @@ Eval [
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';
     filein: 'GtkConcreteWidget.st';
-    filein: 'GtkFindWidget.st';
-    filein: 'GtkReplaceWidget.st';
+    filein: 'Text/GtkTextPluginWidget.st';
+    filein: 'Text/GtkFindWidget.st';
+    filein: 'Text/GtkReplaceWidget.st';
     filein: 'GtkNotebookWidget.st';
     filein: 'Image/GtkImageModel.st';
     filein: 'Image/GtkImageWidget.st';

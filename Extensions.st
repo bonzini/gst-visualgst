@@ -307,6 +307,38 @@ GTK.GtkWidget extend [
     ]
 ]
 
+GTK.GtkButton class extend [
+
+    createButton: aStockId [
+        <category: 'instance creation'>
+
+        | image |
+        image := GTK.GtkImage newFromStock: aStockId size: GTK.Gtk gtkIconSizeMenu.
+        ^ (GTK.GtkButton new)
+                setImage: image;
+                setRelief: GTK.Gtk gtkReliefNone;
+                yourself
+    ]
+
+    closeButton [
+	<category: 'instance creation'>
+
+        ^ self createButton: GTK.Gtk gtkStockClose
+    ]
+
+    previousButton [
+	<category: 'instance creation'>
+
+        ^ self createButton: GTK.Gtk gtkStockGoBack
+    ]
+
+    nextButton [
+	<category: 'instance creation'>
+
+         ^ self createButton: GTK.Gtk gtkStockGoForward
+    ]
+]
+
 Metaclass extend [
     displaySymbol [
 	<category: '*VisualGST'>
