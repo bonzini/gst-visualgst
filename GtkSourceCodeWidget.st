@@ -390,6 +390,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     showFind [
 	<category: 'user interface'>
 
+	find mainWidget getVisible ifTrue: [ ^ find mainWidget hide ].
 	replace mainWidget hide.
 	find mainWidget show
     ]
@@ -397,6 +398,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     showReplace [
 	<category: 'user interface'>
 
+	replace mainWidget getVisible ifTrue: [ ^ replace mainWidget hide ].
 	find mainWidget hide.
 	replace mainWidget show
     ]
