@@ -14,10 +14,10 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	<category: 'initialization'>
 
 	textWidget
-	    connectSignal: 'paste-clipboard' to: self selector: #paste userData: nil;
-            connectSignal: 'cut-clipboard' to: self selector: #cut userData: nil.
+	    connectSignal: 'paste-clipboard' to: self selector: #pasteFromClipboard userData: nil;
+            connectSignal: 'cut-clipboard' to: self selector: #cutFromClipboard userData: nil.
 
-	(textWidget getBuffer)
+	(self buffer)
             connectSignal: 'begin-user-action' to: self selector: #'beginUserAction' userData: nil;
             connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil;
             connectSignal: 'insert-text' to: self selector: #'insert:at:text:size:' userData: nil;
@@ -68,16 +68,16 @@ GtkConcreteWidget subclass: GtkTextWidget [
         userAction := false
     ]
 
-    paste [
+    pasteFromClipboard [
         <category: 'clipboard events'>
 
         lastCommand := nil
     ]
 
-    cut [
+    cutFromClipboard [
         <category: 'clipboard events'>
 
-        cut := true and: [ self getBuffer getHasSelection ].
+        cut := true and: [ self buffer getHasSelection ].
         cut ifTrue: [ lastCommand := nil ]
     ]
 
@@ -88,19 +88,19 @@ GtkConcreteWidget subclass: GtkTextWidget [
         userAction ifFalse: [ ^ self ].
         gtkTextIter := GTK.GtkTextIter address: aCObject address.
 	(aString size = 1 and: [ aString first = Character lf]) 
-	    ifTrue: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: self getBuffer.
+	    ifTrue: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: self buffer.
                 undoStack push: lastCommand.
 		lastCommand := nil.
 		^ self ].
         (lastCommand isNil or: [ aString size > 1 ])
-            ifTrue: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: self getBuffer.
+            ifTrue: [ lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: self buffer.
                 undoStack push: lastCommand.
                 aString size > 1 ifTrue: [ lastCommand := nil ].
                 ^ self ].
         ((gtkTextIter getOffset = (lastCommand offset + lastCommand size)) and: [ lastCommand isInsertCommand ])
             ifTrue: [ lastCommand string: (lastCommand string, aString).
                 ^ self ].
-        lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: self getBuffer.
+        lastCommand := InsertTextCommand insert: aString at: gtkTextIter getOffset on: self buffer.
         undoStack push: lastCommand.
     ]
 
@@ -111,9 +111,9 @@ GtkConcreteWidget subclass: GtkTextWidget [
         userAction ifFalse: [ cut := false. ^ self ].
         startIter := GTK.GtkTextIter address: aStartCObject address.
         endIter := GTK.GtkTextIter address: anEndCObject address.
-        text := self getBuffer getText: startIter end: endIter includeHiddenChars: false.
+        text := self buffer getText: startIter end: endIter includeHiddenChars: false.
         (lastCommand isNil or: [ cut ])
-            ifTrue: [ lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: self getBuffer.
+            ifTrue: [ lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: self buffer.
                 undoStack push: lastCommand.
                 cut ifTrue: [ lastCommand := nil ].
                 cut := false.
@@ -121,7 +121,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
         ((startIter getOffset = (lastCommand offset - lastCommand size)) and: [ lastCommand isDeleteCommand ])
             ifTrue: [ lastCommand string: (text, lastCommand string).
                 ^ self ].
-        lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: self getBuffer.
+        lastCommand := DeleteTextCommand from: startIter getOffset to: endIter getOffset text: text on: self buffer.
         undoStack push: lastCommand.
     ]
 

@@ -1,5 +1,5 @@
 GtkTextWidget subclass: GtkSourceCodeWidget [
-    | browser codeText codeView object |
+    | browser codeText object |
 
     initialize [
 	<category: 'initialization'>
@@ -11,7 +11,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     initializeHighlighter [
 	<category: 'initialization'>
 
-	(textWidget getBuffer)
+	(self buffer)
 	    createTag: #classVar varargs: #('foreground' 'cyan4' nil);
 	    createTag: #globalVar varargs: #('foreground' 'cyan4' nil);
 	    createTag: #poolVar varargs: #('foreground' 'cyan4' nil);
@@ -106,7 +106,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     sourceCode [
 	<category: 'accessing'>
 
-	^ textWidget getBuffer text
+	^ self buffer text
     ]
 
     namespaceDefinition: aString [
@@ -114,7 +114,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self emptyStack.
 	self codeText: aString. 
-	textWidget getBuffer setText: aString
+	self buffer setText: aString
     ]
 
     classDefinition: aString [
@@ -122,13 +122,13 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self emptyStack.
 	self codeText: aString. 
-	textWidget getBuffer setText: aString
+	self buffer setText: aString
     ]
 
     clearCode [
 	<category: 'accessing'>
 
-	textWidget getBuffer setText: ''
+	self buffer setText: ''
     ]
 
     sourceCode: aString [
@@ -136,8 +136,8 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self emptyStack.
 	self codeText: aString. 
-	textWidget getBuffer setText: aString.
-	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: textWidget getBuffer ]
+	self buffer setText: aString.
+	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ]
     ]
 
     parseSource: aString ifParsed: aOneArgBlock [
@@ -156,7 +156,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         <category: 'initialization'>
 
 	super connectSignals.
-        (textWidget getBuffer)
+        (self buffer)
 	    connectSignal: 'changed' to: self selector: #'changed' userData: nil
     ]
 
@@ -183,8 +183,8 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer changed'>
 
 	| node text |
-	(text := textWidget getBuffer text) = '' ifTrue: [ ^ self ].
-	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: textWidget getBuffer ]
+	(text := self buffer text) = '' ifTrue: [ ^ self ].
+	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ]
     ]
 
     accept [
@@ -197,7 +197,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer events'>
 
 	self clearUndo.
-	textWidget getBuffer setText: self codeText
+	self buffer setText: self codeText
     ]
 
     object: anObject [
@@ -210,7 +210,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         <category: 'smalltalk event'>
 
 	^ Behavior
-            evaluate: textWidget getBuffer selectedText 
+            evaluate: self buffer selectedText 
             to: object
             ifError: [ :fname :lineNo :errorString | self error: errorString ]
     ]
@@ -237,54 +237,48 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         <category: 'smalltalk event'>
 
 	| iter start end result |
-        iter := textWidget getBuffer iterOfSelectedText second.
+        iter := self buffer iterOfSelectedText second.
         result := ' ', (self doIt displayString), ' '.
-        textWidget getBuffer insertInteractive: iter text: result len: result size defaultEditable: true.
-        start := textWidget getBuffer getIterAtOffset: (iter getOffset - result size).
-        end := textWidget getBuffer getIterAtOffset: (iter getOffset).
-        textWidget getBuffer selectRange: start bound: end
+        self buffer insertInteractive: iter text: result len: result size defaultEditable: true.
+        start := self buffer getIterAtOffset: (iter getOffset - result size).
+        end := self buffer getIterAtOffset: (iter getOffset).
+        self buffer selectRange: start bound: end
     ]
 
     copy [
         <category: 'text editing'>
 
-        codeView signalEmitByName: 'copy-clipboard' args: {}
+        textWidget signalEmitByName: 'copy-clipboard' args: {}
     ]
 
     cut [
         <category: 'text editing'>
 
-        codeView signalEmitByName: 'cut-clipboard' args: {}
+        textWidget signalEmitByName: 'cut-clipboard' args: {}
     ]
 
     paste [
         <category: 'text editing'>
 
-        codeView signalEmitByName: 'paste-clipboard' args: {}.
+        textWidget signalEmitByName: 'paste-clipboard' args: {}.
     ]
 
     selectAll [
         <category: 'text editing'>
 
-        codeView signalEmitByName: 'select-all' args: {true}.
+        textWidget signalEmitByName: 'select-all' args: {true}.
     ]
 
     selectedText [
         <category: 'text accessing'>
 
-        ^ codeView getBuffer selectedText
-    ]
-
-    textview [
-	<category: 'accessing'>
-
-	^ codeView
+        ^ self buffer selectedText
     ]
 
     codeSaved [
 	<category: 'accessing'>
 
-	codeView textSaved
+	self textSaved
     ]
 
     codeText [
@@ -308,7 +302,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     selectedMethodSymbol [
         | iters stream parser node |
 	stream := self sourceCode readStream.
-        iters := textWidget getBuffer getSelectionBounds.
+        iters := self buffer getSelectionBounds.
         parser := STInST.RBBracketedMethodParser new.
         parser errorBlock: [:message :position | ^nil].
         parser 
@@ -337,7 +331,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     appendTag: aSymbol description: anArray [
 	<category: 'text buffer'>
 
-	textWidget getBuffer
+	self buffer
             createTag: aSymbol varargs: anArray
     ]
 
@@ -345,9 +339,9 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'text buffer'>
 
 	| start end |
-	start := textWidget getBuffer getIterAtLine: anInteger - 1.
-	end := textWidget getBuffer getIterAtLine: anInteger.
-	textWidget getBuffer applyTagByName: aSymbol start: start end: end
+	start := self buffer getIterAtLine: anInteger - 1.
+	end := self buffer getIterAtLine: anInteger.
+	self buffer applyTagByName: aSymbol start: start end: end
     ]
 ]
 
