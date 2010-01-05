@@ -183,12 +183,6 @@ GtkConcreteWidget subclass: GtkTextWidget [
         lastSavedCommand := self lastUndoCommand
     ]
 
-    textWidget [
-	<category: 'accessing'>
-
-	^ textWidget
-    ]
-
     buffer [
 	<category: 'accessing'>
 
@@ -215,6 +209,60 @@ GtkConcreteWidget subclass: GtkTextWidget [
         replaceWidget mainWidget getVisible ifTrue: [ ^ replaceWidget mainWidget hide ].
         findWidget mainWidget hide.
         replaceWidget mainWidget show
+    ]
+
+    copy [
+        <category: 'text editing'>
+
+        textWidget signalEmitByName: 'copy-clipboard' args: {}
+    ]
+
+    cut [
+        <category: 'text editing'>
+
+        textWidget signalEmitByName: 'cut-clipboard' args: {}
+    ]
+
+    paste [
+        <category: 'text editing'>
+
+        textWidget signalEmitByName: 'paste-clipboard' args: {}.
+    ]
+
+    selectAll [
+        <category: 'text editing'>
+
+        textWidget signalEmitByName: 'select-all' args: {true}.
+    ]
+
+    iterOfSelectedText [
+        <category: 'text accessing'>
+
+        ^ textWidget getBuffer iterOfSelectedText
+    ]
+
+    selectedText [
+        <category: 'text accessing'>
+
+        ^ self buffer selectedText
+    ]
+
+    clear [
+        <category: 'updating'>
+
+        self text: ''
+    ]
+
+    text [
+        <category: 'text accessing'>
+
+        ^ self buffer text
+    ]
+
+    text: aString [
+        <category: 'text accessing'>
+
+        self buffer setText: aString
     ]
 ]
 

@@ -125,12 +125,6 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	self buffer setText: aString
     ]
 
-    clearCode [
-	<category: 'accessing'>
-
-	self buffer setText: ''
-    ]
-
     sourceCode: aString [
 	<category: 'accessing'>
 
@@ -232,36 +226,6 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         start := self buffer getIterAtOffset: (iter getOffset - result size).
         end := self buffer getIterAtOffset: (iter getOffset).
         self buffer selectRange: start bound: end
-    ]
-
-    copy [
-        <category: 'text editing'>
-
-        textWidget signalEmitByName: 'copy-clipboard' args: {}
-    ]
-
-    cut [
-        <category: 'text editing'>
-
-        textWidget signalEmitByName: 'cut-clipboard' args: {}
-    ]
-
-    paste [
-        <category: 'text editing'>
-
-        textWidget signalEmitByName: 'paste-clipboard' args: {}.
-    ]
-
-    selectAll [
-        <category: 'text editing'>
-
-        textWidget signalEmitByName: 'select-all' args: {true}.
-    ]
-
-    selectedText [
-        <category: 'text accessing'>
-
-        ^ self buffer selectedText
     ]
 
     codeSaved [

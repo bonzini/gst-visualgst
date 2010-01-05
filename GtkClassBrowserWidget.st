@@ -210,11 +210,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    ifTrue: [
 		iMethodWidget hasSelectedMethod 
 		    ifTrue: [ codeWidget sourceCode: iMethodWidget sourceCode ]
-		    ifFalse: [ codeWidget clearCode ] ]
+		    ifFalse: [ codeWidget clear ] ]
 	    ifFalse: [
                 cMethodWidget hasSelectedMethod
                     ifTrue: [ codeWidget sourceCode: cMethodWidget sourceCode ]
-                    ifFalse: [ codeWidget clearCode ] ]
+                    ifFalse: [ codeWidget clear ] ]
     ]
 
     onNamespaceChanged [
@@ -277,7 +277,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
 
-	codeWidget clearCode.
+	codeWidget clear.
 	state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selectedCategory
     ]
 
@@ -288,7 +288,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
 	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
 
-	codeWidget clearCode.
+	codeWidget clear.
 	state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selectedCategory
     ]
 
