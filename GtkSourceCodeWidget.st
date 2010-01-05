@@ -112,7 +112,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     namespaceDefinition: aString [
 	<category: 'accessing'>
 
-	textWidget emptyStack.
+	self emptyStack.
 	self codeText: aString. 
 	textWidget getBuffer setText: aString
     ]
@@ -120,7 +120,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     classDefinition: aString [
 	<category: 'accessing'>
 
-	textWidget emptyStack.
+	self emptyStack.
 	self codeText: aString. 
 	textWidget getBuffer setText: aString
     ]
@@ -134,7 +134,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     sourceCode: aString [
 	<category: 'accessing'>
 
-	textWidget emptyStack.
+	self emptyStack.
 	self codeText: aString. 
 	textWidget getBuffer setText: aString.
 	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: textWidget getBuffer ]
@@ -187,24 +187,6 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: textWidget getBuffer ]
     ]
 
-    hasUndo [
-	<category: 'testing'>
-
-	^ codeView hasUndo
-    ]
-
-    hasChanged [
-	<category: 'testing'>
-
-	^ textWidget hasChanged
-    ]
-
-    clearUndo [
-	<category: 'buffer events'>
-
-	textWidget clearUndo
-    ]
-
     accept [
 	<category: 'buffer events'>
 
@@ -216,18 +198,6 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self clearUndo.
 	textWidget getBuffer setText: self codeText
-    ]
-
-    undo [
-	<category: 'buffer events'>
-
-	textWidget undo
-    ]
-
-    redo [
-	<category: 'buffer events'>
-
-	textWidget redo
     ]
 
     object: anObject [
@@ -257,13 +227,11 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
             doItProcess: [ object perform: #Doit ] newProcess
     ]
 
-
     inspectIt [
         <category: 'smalltalk event'>
 
 	GtkInspector openOn: self doIt
     ]
-
 
     printIt [
         <category: 'smalltalk event'>
