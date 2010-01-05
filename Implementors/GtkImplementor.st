@@ -14,8 +14,8 @@ GtkMainWindow subclass: GtkImplementor [
         <category: 'instance creation'>
 
         ^ (self new)
-            selector: aSelector;
             initialize;
+            selector: aSelector;
 	    resize: 1024@600;
             showAll;
             yourself

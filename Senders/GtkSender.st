@@ -13,8 +13,8 @@ GtkMainWindow subclass: GtkSender [
 	<category: 'instance creation'>
 
 	^ (self new)
-            selector: aSelector;
             initialize;
+            selector: aSelector;
 	    resize: 1024@600;
             showAll;
             yourself
@@ -40,7 +40,7 @@ GtkMainWindow subclass: GtkSender [
     selector [
 	<category: 'accessor'>
 
-	^selector
+	^ selector
     ]
 
     selector: aSymbol [
