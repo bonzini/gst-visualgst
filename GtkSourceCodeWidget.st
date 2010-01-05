@@ -1,17 +1,17 @@
-GtkConcreteWidget subclass: GtkSourceCodeWidget [
-    |  browser codeBuffer codeText codeView object textWidget |
+GtkTextWidget subclass: GtkSourceCodeWidget [
+    |  browser codeBuffer codeText codeView object |
 
     initialize [
 	<category: 'initialization'>
 
-	self mainWidget: self buildCodeView.
+	super initialize.
 	self initializeHighlighter
     ]
 
     initializeHighlighter [
 	<category: 'initialization'>
 
-	codeBuffer 
+	(textWidget getBuffer)
 	    createTag: #classVar varargs: #('foreground' 'cyan4' nil);
 	    createTag: #globalVar varargs: #('foreground' 'cyan4' nil);
 	    createTag: #poolVar varargs: #('foreground' 'cyan4' nil);
@@ -152,10 +152,18 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	^ aOneArgBlock value: node
     ]
 
-    buildCodeView [
+    connectSignals [
+        <category: 'initialization'>
+
+	super connectSignals.
+        (textWidget getBuffer)
+	    connectSignal: 'changed' to: self selector: #'changed' userData: nil
+    ]
+
+    buildWidget [
 	<category: 'user interface'>
 	
-        codeView := ((textWidget := GtkTextWidget new) 
+        "codeView := ((textWidget := GtkTextWidget new) 
 			initialize;
 			textWidget)
 			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
@@ -164,17 +172,11 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	codeBuffer := textWidget buffer.
 
 	codeBuffer 
-	    connectSignal: 'changed' to: self selector: #'changed' userData: nil.
+	    connectSignal: 'changed' to: self selector: #'changed' userData: nil."
 
         ^ (GTK.GtkFrame new: 'Code')
-            add: textWidget mainWidget;
+            add: super buildWidget;
             yourself
-    ]
-
-    postInitialize [
-	<category: 'initialize'>
-
-	textWidget postInitialize
     ]
 
     changed [
@@ -378,18 +380,6 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
 	start := codeBuffer getIterAtLine: anInteger - 1.
 	end := codeBuffer getIterAtLine: anInteger.
 	codeBuffer applyTagByName: aSymbol start: start end: end
-    ]
-
-    showFind [
-        <category: 'user interface'>
-
-	textWidget showFind
-    ]
-
-    showReplace [
-        <category: 'user interface'>
-
-	textWidget showReplace
     ]
 ]
 
