@@ -163,17 +163,6 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     buildWidget [
 	<category: 'user interface'>
 	
-        "codeView := ((textWidget := GtkTextWidget new) 
-			initialize;
-			textWidget)
-			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
-			yourself.
-
-	codeBuffer := textWidget buffer.
-
-	codeBuffer 
-	    connectSignal: 'changed' to: self selector: #'changed' userData: nil."
-
         ^ (GTK.GtkFrame new: 'Code')
             add: super buildWidget;
             yourself
