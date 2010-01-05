@@ -1,5 +1,5 @@
 GtkTextWidget subclass: GtkSourceCodeWidget [
-    |  browser codeBuffer codeText codeView object |
+    | browser codeText codeView object |
 
     initialize [
 	<category: 'initialization'>
@@ -106,7 +106,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     sourceCode [
 	<category: 'accessing'>
 
-	^ codeBuffer text
+	^ textWidget getBuffer text
     ]
 
     namespaceDefinition: aString [
@@ -114,7 +114,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	textWidget emptyStack.
 	self codeText: aString. 
-	codeBuffer setText: aString
+	textWidget getBuffer setText: aString
     ]
 
     classDefinition: aString [
@@ -122,13 +122,13 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	textWidget emptyStack.
 	self codeText: aString. 
-	codeBuffer setText: aString
+	textWidget getBuffer setText: aString
     ]
 
     clearCode [
 	<category: 'accessing'>
 
-	codeBuffer setText: ''
+	textWidget getBuffer setText: ''
     ]
 
     sourceCode: aString [
@@ -136,8 +136,8 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	textWidget emptyStack.
 	self codeText: aString. 
-	codeBuffer setText: aString.
-	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: codeBuffer ]
+	textWidget getBuffer setText: aString.
+	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: textWidget getBuffer ]
     ]
 
     parseSource: aString ifParsed: aOneArgBlock [
@@ -183,8 +183,8 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer changed'>
 
 	| node text |
-	(text := codeBuffer text) = '' ifTrue: [ ^ self ].
-	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: codeBuffer ]
+	(text := textWidget getBuffer text) = '' ifTrue: [ ^ self ].
+	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: textWidget getBuffer ]
     ]
 
     hasUndo [
@@ -215,7 +215,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer events'>
 
 	self clearUndo.
-	codeBuffer setText: self codeText
+	textWidget getBuffer setText: self codeText
     ]
 
     undo [
@@ -240,7 +240,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         <category: 'smalltalk event'>
 
 	^ Behavior
-            evaluate: codeBuffer selectedText 
+            evaluate: textWidget getBuffer selectedText 
             to: object
             ifError: [ :fname :lineNo :errorString | self error: errorString ]
     ]
@@ -269,12 +269,12 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         <category: 'smalltalk event'>
 
 	| iter start end result |
-        iter := codeBuffer iterOfSelectedText second.
+        iter := textWidget getBuffer iterOfSelectedText second.
         result := ' ', (self doIt displayString), ' '.
-        codeBuffer insertInteractive: iter text: result len: result size defaultEditable: true.
-        start := codeBuffer getIterAtOffset: (iter getOffset - result size).
-        end := codeBuffer getIterAtOffset: (iter getOffset).
-        codeBuffer selectRange: start bound: end
+        textWidget getBuffer insertInteractive: iter text: result len: result size defaultEditable: true.
+        start := textWidget getBuffer getIterAtOffset: (iter getOffset - result size).
+        end := textWidget getBuffer getIterAtOffset: (iter getOffset).
+        textWidget getBuffer selectRange: start bound: end
     ]
 
     copy [
@@ -340,7 +340,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     selectedMethodSymbol [
         | iters stream parser node |
 	stream := self sourceCode readStream.
-        iters := codeBuffer getSelectionBounds.
+        iters := textWidget getBuffer getSelectionBounds.
         parser := STInST.RBBracketedMethodParser new.
         parser errorBlock: [:message :position | ^nil].
         parser 
@@ -369,7 +369,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     appendTag: aSymbol description: anArray [
 	<category: 'text buffer'>
 
-	codeBuffer
+	textWidget getBuffer
             createTag: aSymbol varargs: anArray
     ]
 
@@ -377,9 +377,9 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'text buffer'>
 
 	| start end |
-	start := codeBuffer getIterAtLine: anInteger - 1.
-	end := codeBuffer getIterAtLine: anInteger.
-	codeBuffer applyTagByName: aSymbol start: start end: end
+	start := textWidget getBuffer getIterAtLine: anInteger - 1.
+	end := textWidget getBuffer getIterAtLine: anInteger.
+	textWidget getBuffer applyTagByName: aSymbol start: start end: end
     ]
 ]
 
