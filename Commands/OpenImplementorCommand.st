@@ -3,9 +3,10 @@ Command subclass: OpenImplementorCommand [
     execute [
         <category: 'command'>
 
-	target isNil
-	    ifTrue: [ GtkImplementor open ]
-	    ifFalse: [ GtkImplementor openOn: target selectedMethodSymbol ]
+        | selection |
+        (selection := VisualGST uniqueInstance onFocusPerform: #selectedText)
+                ifNotNil: [ GtkImplementor openOn: (STInST.RBParser selectedSymbol: selection) ]
+                ifNil: [ GtkImplementor open ].
     ]
 ]
 

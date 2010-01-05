@@ -836,7 +836,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	codeWidget selectAll
     ]
-   
+  
     selectedText [
 	<category: 'text editing'>
 

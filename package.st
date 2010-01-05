@@ -45,8 +45,6 @@ Eval [
     filein: 'Commands/DeleteMethodCommand.st';
     filein: 'Commands/RunTestCommand.st';
     filein: 'Commands/OpenAssistantCommand.st';
-    filein: 'Commands/OpenImplementorCommand.st';
-    filein: 'Commands/OpenSenderCommand.st';
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
     filein: 'GtkConcreteWidget.st';
@@ -160,6 +158,8 @@ Eval [
     filein: 'Commands/OpenWindowedBrowserCommand.st';
     filein: 'Commands/OpenTabbedBrowserCommand.st';
     filein: 'Commands/OpenWorkspaceCommand.st';
+    filein: 'Commands/OpenImplementorCommand.st';
+    filein: 'Commands/OpenSenderCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
     ressource: 'Icons/category.png';

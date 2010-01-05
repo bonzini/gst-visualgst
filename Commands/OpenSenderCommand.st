@@ -3,9 +3,10 @@ Command subclass: OpenSenderCommand [
     execute [
         <category: 'command'>
 
-	target isNil
-	    ifTrue: [ GtkSender open ]
-	    ifFalse: [ GtkSender openOn: target selectedMethodSymbol ]
+        | selection |
+        (selection := VisualGST uniqueInstance onFocusPerform: #selectedText)
+                ifNotNil: [ GtkSender openOn: (STInST.RBParser selectedSymbol: selection) ]
+                ifNil: [ GtkSender open ].
     ]
 ]
 

@@ -369,3 +369,21 @@ Symbol extend [
 	^ self
     ]
 ]
+
+STInST.RBParser class extend [
+
+    selectedSymbol: aString [
+
+        | stream parser node |
+        stream := aString readStream.
+        parser := STInST.RBBracketedMethodParser new.
+        parser errorBlock: [ :message :position | ^ nil ].
+        parser scanner: (parser scannerClass on: stream errorBlock: parser errorBlock).
+        node := parser parseExpression.
+        node := node bestNodeFor: (1 to: aString size).
+        [ node isNil ifTrue: [ ^ nil ].
+          node isMessage] whileFalse: [ node := node parent ].
+        ^ node selector
+    ]	
+]
+

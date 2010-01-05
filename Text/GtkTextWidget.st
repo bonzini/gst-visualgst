@@ -270,5 +270,12 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
         self buffer setText: aString
     ]
+
+    textview [
+	<category: 'text widget'>
+
+	^ textWidget
+    ]
+
 ]
 
