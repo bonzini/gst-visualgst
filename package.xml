@@ -57,11 +57,11 @@
   <filein>Commands/OpenSenderCommand.st</filein>
   <filein>Commands/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWebBrowserCommand.st</filein>
+  <filein>GtkConcreteWidget.st</filein>
   <filein>GtkListModel.st</filein>
-  <filein>GtkTextWidget.st</filein>
+  <filein>Text/GtkTextWidget.st</filein>
   <filein>GtkMainWindow.st</filein>
   <filein>VisualGST.st</filein>
-  <filein>GtkConcreteWidget.st</filein>
   <filein>Text/GtkTextPluginWidget.st</filein>
   <filein>Text/GtkFindWidget.st</filein>
   <filein>Text/GtkReplaceWidget.st</filein>
@@ -210,11 +210,11 @@
   <file>Commands/OpenSenderCommand.st</file>
   <file>Commands/OpenSUnitCommand.st</file>
   <file>Commands/OpenWebBrowserCommand.st</file>
+  <file>GtkConcreteWidget.st</file>
   <file>GtkListModel.st</file>
-  <file>GtkTextWidget.st</file>
+  <file>Text/GtkTextWidget.st</file>
   <file>GtkMainWindow.st</file>
   <file>VisualGST.st</file>
-  <file>GtkConcreteWidget.st</file>
   <file>Text/GtkTextPluginWidget.st</file>
   <file>Text/GtkFindWidget.st</file>
   <file>Text/GtkReplaceWidget.st</file>

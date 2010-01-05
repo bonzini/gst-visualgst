@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkWorkspaceWidget [
-    | textview variableTracker object |
+    | pp textview variableTracker object |
     
     popupMenuOn: aGtkWidget menu: aGtkMenu [
 	<category: 'events'>
@@ -38,17 +38,23 @@ GtkConcreteWidget subclass: GtkWorkspaceWidget [
 	variableTracker := (WorkspaceVariableTracker new)
 				initialize;
 				yourself.
-	object := variableTracker objectClass new
+	object := variableTracker objectClass new.
+    ]
+
+    postInitialize [
+	<category: 'initialization'>
+
+	pp postInitialize
     ]
 
     buildTextView [
 	<category: 'user interface'>
 
-	textview := (GtkTextWidget newWithBuffer: GTK.GtkTextBuffer new)
-			initialize;
-			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
-			yourself.
-	^ GTK.GtkScrolledWindow withChild: textview
+	pp := GtkTextWidget new initialize; yourself.
+	pp textWidget connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil.
+	textview := pp textWidget.
+
+	^ pp mainWidget
     ]
 
     text: aString [

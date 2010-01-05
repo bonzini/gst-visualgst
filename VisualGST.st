@@ -1,7 +1,7 @@
 GtkMainWindow subclass: VisualGST [
     VisualGST class [ | compileError uniqueInstance | ]
 
-    | browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | compilerError browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     VisualGST class >> uniqueInstance [
 	<category: 'public'>
@@ -138,6 +138,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	| widget |
 	widget := self buildWorkspaceWidget showAll.
+	widget postInitialize.
 	outputs addWidget: widget labeled: 'Workspace'.
     ]
 
@@ -283,6 +284,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	browsers grabFocus.
 	browsers currentWidget postInitialize.
+	1 to: 3 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil;
 	    connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
@@ -291,16 +293,15 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     buildNotebookWorkspaceWidget [
 	<category: 'user interface'>
 
-	| cmp |
 	outputs := GtkNotebookWidget new
 				initialize;
 				parentWindow: window;
 				showAll;
 				yourself.
-	self class setCompilerError: (cmp := self buildWorkspaceWidget).
+	self class setCompilerError: (compilerError := self buildWorkspaceWidget).
 	^ outputs
 	    addPermanentWidget: (transcriptWidget := self buildTranscriptWidget) labeled: 'Transcript';
-	    addPermanentWidget: cmp labeled: 'Compiler error(s)';
+	    addPermanentWidget: compilerError labeled: 'Compiler error(s)';
 	    addWidget: self buildWorkspaceWidget labeled: 'Workspace';
 	    yourself
     ]

@@ -1,4 +1,4 @@
-GtkConcreteWidget subclass: GtkTranscriptWidget [
+GtkTextWidget subclass: GtkTranscriptWidget [
     | textview |
     
     popupMenuOn: aGtkWidget menu: aGtkMenu [
@@ -42,7 +42,7 @@ GtkConcreteWidget subclass: GtkTranscriptWidget [
 	<category: 'initialization'>
 
 	Transcript message: self->#update:.
-	self mainWidget: self buildTextView
+	super initialize
     ]
 
     update: aString [

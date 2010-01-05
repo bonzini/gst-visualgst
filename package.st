@@ -49,11 +49,11 @@ Eval [
     filein: 'Commands/OpenSenderCommand.st';
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
+    filein: 'GtkConcreteWidget.st';
     filein: 'GtkListModel.st';
-    filein: 'GtkTextWidget.st';
+    filein: 'Text/GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';
-    filein: 'GtkConcreteWidget.st';
     filein: 'Text/GtkTextPluginWidget.st';
     filein: 'Text/GtkFindWidget.st';
     filein: 'Text/GtkReplaceWidget.st';

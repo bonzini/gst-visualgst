@@ -271,7 +271,8 @@ Behavior extend [
     debuggerClass [
 	<category: '*VisualGST'>
 
-	^ VisualGST.GtkDebugger
+	^ nil
+	"^ VisualGST.GtkDebugger"
     ]
 ]
 
@@ -336,6 +337,12 @@ GTK.GtkButton class extend [
 	<category: 'instance creation'>
 
          ^ self createButton: GTK.Gtk gtkStockGoForward
+    ]
+
+    replaceButton [
+        <category: 'instance creation'>
+
+         ^ self createButton: GTK.Gtk gtkStockFindAndReplace
     ]
 ]
 

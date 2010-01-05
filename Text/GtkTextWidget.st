@@ -1,26 +1,23 @@
-GTK.GtkTextView subclass: GtkTextWidget [
-    | userAction undoStack lastCommand cut textSaved lastSavedCommand |
-
-    GtkTextWidget class >> new [
-	<category: 'instance creation'>
-
-	^ (self basicNew: 1) address: super new address
-    ]
+GtkConcreteWidget subclass: GtkTextWidget [
+    | findWidget replaceWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand |
 
     GtkTextWidget class >> newWithBuffer: aGtkTextBuffer [
         <category: 'instance creation'>
 
-        ^ (self basicNew: 1) address: (super newWithBuffer: aGtkTextBuffer) address
+	^ self new
+	    initialize;
+	    buffer: aGtkTextBuffer;
+	    yourself
     ]
 
     connectSignals [
 	<category: 'initialization'>
 
-	self
+	textWidget
 	    connectSignal: 'paste-clipboard' to: self selector: #paste userData: nil;
             connectSignal: 'cut-clipboard' to: self selector: #cut userData: nil.
 
-	(self getBuffer)
+	(textWidget getBuffer)
             connectSignal: 'begin-user-action' to: self selector: #'beginUserAction' userData: nil;
             connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil;
             connectSignal: 'insert-text' to: self selector: #'insert:at:text:size:' userData: nil;
@@ -35,7 +32,28 @@ GTK.GtkTextView subclass: GtkTextWidget [
         undoStack := (UndoStack new)
                         initialize;
                         yourself.
-	self connectSignals
+	textWidget := GTK.GtkTextView new.
+	self 
+	    mainWidget: self buildWidget;
+	    connectSignals.
+	
+    ]
+
+    postInitialize [
+        <category: 'initialize'>
+
+        findWidget mainWidget hide.
+        replaceWidget mainWidget hide
+    ]
+
+    buildWidget [
+	<category: 'user interface'>
+
+        ^ (GTK.GtkVBox new: false spacing: 3)
+                    packStart: (GTK.GtkScrolledWindow withChild: textWidget) expand: true fill: true padding: 0;
+                    packEnd: ((findWidget := GtkFindWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
+                    packEnd: ((replaceWidget := GtkReplaceWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
+                    yourself
     ]
 
     beginUserAction [
@@ -165,5 +183,38 @@ GTK.GtkTextView subclass: GtkTextWidget [
         lastSavedCommand := self lastUndoCommand
     ]
 
+    textWidget [
+	<category: 'accessing'>
+
+	^ textWidget
+    ]
+
+    buffer [
+	<category: 'accessing'>
+
+	^ textWidget getBuffer
+    ]
+
+    buffer: aGtkTextBuffer [
+	<category: 'accessing'>
+
+	textWidget setBuffer: aGtkTextBuffer
+    ]
+
+    showFind [
+        <category: 'user interface'>
+
+        findWidget mainWidget getVisible ifTrue: [ ^ findWidget mainWidget hide ].
+        replaceWidget mainWidget hide.
+        findWidget mainWidget show
+    ]
+
+    showReplace [
+        <category: 'user interface'>
+
+        replaceWidget mainWidget getVisible ifTrue: [ ^ replaceWidget mainWidget hide ].
+        findWidget mainWidget hide.
+        replaceWidget mainWidget show
+    ]
 ]
 

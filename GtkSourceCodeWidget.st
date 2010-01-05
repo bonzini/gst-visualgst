@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkSourceCodeWidget [
-    | find replace browser codeText codeBuffer codeView object |
+    |  browser codeBuffer codeText codeView object textWidget |
 
     initialize [
 	<category: 'initialization'>
@@ -112,7 +112,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     namespaceDefinition: aString [
 	<category: 'accessing'>
 
-	codeView emptyStack.
+	textWidget emptyStack.
 	self codeText: aString. 
 	codeBuffer setText: aString
     ]
@@ -120,7 +120,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     classDefinition: aString [
 	<category: 'accessing'>
 
-	codeView emptyStack.
+	textWidget emptyStack.
 	self codeText: aString. 
 	codeBuffer setText: aString
     ]
@@ -134,7 +134,7 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     sourceCode: aString [
 	<category: 'accessing'>
 
-	codeView emptyStack.
+	textWidget emptyStack.
 	self codeText: aString. 
 	codeBuffer setText: aString.
 	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: codeBuffer ]
@@ -155,33 +155,26 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     buildCodeView [
 	<category: 'user interface'>
 	
-	| temp |
-        codeView := (GtkTextWidget new)
+        codeView := ((textWidget := GtkTextWidget new) 
 			initialize;
+			textWidget)
 			connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
 			yourself.
 
-	codeBuffer := codeView getBuffer.
+	codeBuffer := textWidget buffer.
 
 	codeBuffer 
 	    connectSignal: 'changed' to: self selector: #'changed' userData: nil.
 
-        temp := (GTK.GtkVBox new: false spacing: 3)
-		    packStart: (GTK.GtkScrolledWindow withChild: codeView) expand: true fill: true padding: 0;
-		    packEnd: ((find := GtkFindWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
-		    packEnd: ((replace := GtkReplaceWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
-		    yourself.
-
         ^ (GTK.GtkFrame new: 'Code')
-            add: temp "(GTK.GtkScrolledWindow withChild: codeView)";
+            add: textWidget mainWidget;
             yourself
     ]
 
     postInitialize [
 	<category: 'initialize'>
 
-	find mainWidget hide.
-	replace mainWidget hide
+	textWidget postInitialize
     ]
 
     changed [
@@ -201,13 +194,13 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     hasChanged [
 	<category: 'testing'>
 
-	^ codeView hasChanged
+	^ textWidget hasChanged
     ]
 
     clearUndo [
 	<category: 'buffer events'>
 
-	codeView clearUndo
+	textWidget clearUndo
     ]
 
     accept [
@@ -226,13 +219,13 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     undo [
 	<category: 'buffer events'>
 
-	codeView undo
+	textWidget undo
     ]
 
     redo [
 	<category: 'buffer events'>
 
-	codeView redo
+	textWidget redo
     ]
 
     object: anObject [
@@ -388,19 +381,15 @@ GtkConcreteWidget subclass: GtkSourceCodeWidget [
     ]
 
     showFind [
-	<category: 'user interface'>
+        <category: 'user interface'>
 
-	find mainWidget getVisible ifTrue: [ ^ find mainWidget hide ].
-	replace mainWidget hide.
-	find mainWidget show
+	textWidget showFind
     ]
 
     showReplace [
-	<category: 'user interface'>
+        <category: 'user interface'>
 
-	replace mainWidget getVisible ifTrue: [ ^ replace mainWidget hide ].
-	find mainWidget hide.
-	replace mainWidget show
+	textWidget showReplace
     ]
 ]
 
