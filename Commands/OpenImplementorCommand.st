@@ -3,7 +3,9 @@ Command subclass: OpenImplementorCommand [
     openWithSelection [
 	<category: 'focus checking'>
 
-        (VisualGST uniqueInstance onFocusPerform: #hasSelection)
+
+        (VisualGST uniqueInstance notebookHasFocus and:
+	    [ VisualGST uniqueInstance onFocusPerform: #hasSelection ])
                 ifTrue: [ GtkImplementor openOn: ( STInST.RBParser selectedSymbol: (VisualGST uniqueInstance onFocusPerform: #selectedText)) ]
                 ifFalse: [ GtkImplementor open ]
     ]
@@ -20,7 +22,8 @@ Command subclass: OpenImplementorCommand [
 													    VisualGST uniqueInstance currentWidgetOfBrowser selectedText) ]
                                                             ifFalse: [ 
 								    VisualGST uniqueInstance currentWidgetOfBrowser hasSelectedMethod ifTrue: [
-									GtkImplementor openOn: VisualGST uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ] ] ]
+									GtkImplementor openOn: VisualGST uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ]
+																      ifFalse: [ GtkImplementor open ] ] ]
                     ifFalse: [ self openWithSelection ]
     ]
 

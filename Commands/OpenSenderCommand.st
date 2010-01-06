@@ -3,7 +3,8 @@ Command subclass: OpenSenderCommand [
     openWithSelection [
         <category: 'focus checking'>
 
-        (VisualGST uniqueInstance onFocusPerform: #hasSelection)
+        (VisualGST uniqueInstance notebookHasFocus and:
+            [ VisualGST uniqueInstance onFocusPerform: #hasSelection ])
                 ifTrue: [ GtkSender openOn: ( STInST.RBParser selectedSymbol: (VisualGST uniqueInstance onFocusPerform: #selectedText)) ]
                 ifFalse: [ GtkSender open ]
     ]
@@ -20,7 +21,8 @@ Command subclass: OpenSenderCommand [
                                                                                                             VisualGST uniqueInstance currentWidgetOfBrowser selectedText) ]
                                                             ifFalse: [
                                                                     VisualGST uniqueInstance currentWidgetOfBrowser hasSelectedMethod ifTrue: [
-                                                                        GtkSender openOn: VisualGST uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ] ] ]
+                                                                        GtkSender openOn: VisualGST uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ]
+																      ifFalse: [ GtkSender open ] ] ]
                     ifFalse: [ self openWithSelection ]
     ]
 

@@ -279,11 +279,19 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    centralWidget: self buildCentralWidget
     ]
 
+    browserPostInitialize [
+	<category: 'initialization'>
+
+        browsers grabFocus.
+        browsers currentWidget postInitialize.
+        browsers currentWidget selectANamespace: Smalltalk.
+        browsers currentWidget selectAClass: Object.
+    ]
+
     postInitialize [
 	<category: 'initialization'>
 
-	browsers grabFocus.
-	browsers currentWidget postInitialize.
+	self browserPostInitialize.
 	1 to: 3 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil;
@@ -884,6 +892,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         <category: 'method events'>
 
 	browsers currentWidget fileoutMethod
+    ]
+
+    notebookHasFocus [
+	<category: 'testing'>
+
+	^ outputs hasFocus
     ]
 
     keyPressedOn: aGtkWidget keyEvent: aGdkEventKey [

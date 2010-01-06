@@ -49,7 +49,8 @@ Command subclass: OpenBrowserCommand [
 	<category: ''>
 
 	| result |
-	(VisualGST uniqueInstance onFocusPerform: #hasSelection)
+        (VisualGST uniqueInstance notebookHasFocus and:
+            [ VisualGST uniqueInstance onFocusPerform: #hasSelection ])
                 ifTrue: [ result := self extractNamespaceAndClassFrom: (VisualGST uniqueInstance onFocusPerform: #selectedText)]
                 ifFalse: [ result := Smalltalk->Object ].
 	^ result
