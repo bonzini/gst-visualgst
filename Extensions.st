@@ -373,6 +373,7 @@ Symbol extend [
 STInST.RBParser class extend [
 
     selectedSymbol: aString [
+	<category: '*VisualGST'>
 
         | stream parser node |
         stream := aString readStream.

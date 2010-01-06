@@ -836,7 +836,13 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	codeWidget selectAll
     ]
-  
+ 
+    hasSelection [
+	<category:'text testing'>
+
+	^ codeWidget hasSelection
+    ]
+ 
     selectedText [
 	<category: 'text editing'>
 

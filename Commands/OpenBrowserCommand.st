@@ -60,7 +60,7 @@ Command subclass: OpenBrowserCommand [
 
         ^ VisualGST uniqueInstance browserHasFocus
                     ifTrue: [
-                        (VisualGST uniqueInstance currentWidgetOfBrowser sourceCodeWidgetHasFocus and: [ VisualGST uniqueInstance currentWidgetOfBrowser selectedText isNil not ])
+                        (VisualGST uniqueInstance currentWidgetOfBrowser sourceCodeWidgetHasFocus and: [ VisualGST uniqueInstance currentWidgetOfBrowser hasSelection ])
                                                             ifTrue: [ self extractNamespaceAndClassFrom: VisualGST uniqueInstance currentWidgetOfBrowser selectedText ]
                                                             ifFalse: [ self extractSelectedItems ] ]
                     ifFalse: [ self extractFromSelection ]

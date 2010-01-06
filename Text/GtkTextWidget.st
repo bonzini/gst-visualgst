@@ -247,6 +247,12 @@ GtkConcreteWidget subclass: GtkTextWidget [
         ^ textWidget getBuffer iterOfSelectedText
     ]
 
+    hasSelection [
+        <category: 'text accessing'>
+
+	^ self buffer getHasSelection
+    ]
+
     selectedText [
         <category: 'text accessing'>
 
