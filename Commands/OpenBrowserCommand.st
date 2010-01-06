@@ -48,10 +48,10 @@ Command subclass: OpenBrowserCommand [
     extractFromSelection [
 	<category: ''>
 
-	| result selection |
-	(selection := VisualGST uniqueInstance onFocusPerform: #selectedText)
-                ifNotNil: [ result := self extractNamespaceAndClassFrom: selection ]
-                ifNil: [ result := Smalltalk->Object ].
+	| result |
+	(VisualGST uniqueInstance onFocusPerform: #hasSelection)
+                ifTrue: [ result := self extractNamespaceAndClassFrom: (VisualGST uniqueInstance onFocusPerform: #selectedText)]
+                ifFalse: [ result := Smalltalk->Object ].
 	^ result
     ]
 
