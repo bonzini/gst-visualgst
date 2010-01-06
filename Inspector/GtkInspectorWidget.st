@@ -17,6 +17,12 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 	self mainWidget: self buildView
     ]
 
+    postInitialize [
+	<category: 'initialization'>
+
+	workspaceWidget postInitialize
+    ]
+
     object [
 	<category: 'accessing'>
 	
