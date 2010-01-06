@@ -206,7 +206,8 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
         findWidget mainWidget getVisible ifTrue: [ ^ findWidget mainWidget hide ].
         replaceWidget mainWidget hide.
-        findWidget mainWidget show
+        findWidget mainWidget show.
+	findWidget grabFocus
     ]
 
     showReplace [
@@ -214,7 +215,8 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
         replaceWidget mainWidget getVisible ifTrue: [ ^ replaceWidget mainWidget hide ].
         findWidget mainWidget hide.
-        replaceWidget mainWidget show
+        replaceWidget mainWidget show.
+	replaceWidget grabFocus
     ]
 
     copy [

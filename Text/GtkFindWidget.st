@@ -1,19 +1,30 @@
 GtkTextPluginWidget subclass: GtkFindWidget [
+    | entry matchCase next previous |
+
+    buildEntry [
+	<category: 'user interface'>
+
+	^ entry := GTK.GtkEntry new
+			connectSignal: 'activate' to: self selector: #keyPressed userData: nil;
+			yourself
+    ]
 
     buildPreviousButton [
 	<category: 'user interface'>
 
-        ^ GTK.GtkButton previousButton
-                connectSignal: 'pressed' to: self selector: #'closeIt:at:' userData: nil;
-                yourself.
+        ^ previous := GTK.GtkButton previousButton
     ]
 
     buildNextButton [
         <category: 'user interface'>
 
-        ^ GTK.GtkButton nextButton
-                connectSignal: 'pressed' to: self selector: #'closeIt:at:' userData: nil;
-                yourself.
+        ^ next := GTK.GtkButton nextButton
+    ]
+
+    buildMatchCaseButton [
+        <category: 'user interface'>
+
+	^ matchCase := GTK.GtkCheckButton newWithLabel: 'match case'
     ]
 
     hBox [
@@ -21,11 +32,22 @@ GtkTextPluginWidget subclass: GtkFindWidget [
 
 	^ super hBox
 	    packStart: (GTK.GtkLabel new: 'find :') expand: false fill: false padding: 2;
-	    packStart: GTK.GtkEntry new expand: false fill: false padding: 15;
+	    packStart: self buildEntry expand: false fill: false padding: 15;
 	    packStart: self buildPreviousButton expand: false fill: false padding: 0; 
 	    packStart: self buildNextButton expand: false fill: false padding: 0;
-	    packStart: (GTK.GtkCheckButton newWithLabel: 'match case') expand: false fill: false padding: 0;
+	    packStart: self buildMatchCaseButton expand: false fill: false padding: 0;
 	    yourself
+    ]
+
+    grabFocus [
+	<category: 'focus'>
+
+	entry grabFocus
+    ]
+
+    keyPressed [
+	<category: 'entry events'>
+
     ]
 ]
 
