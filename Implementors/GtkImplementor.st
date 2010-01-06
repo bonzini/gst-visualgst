@@ -263,6 +263,7 @@ GtkMainWindow subclass: GtkImplementor [
     postInitialize [
 	<category: 'initialization'>
 
+	classBrowserWidget postInitialize.
         imageWidget grabFocus.
         window
             connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
