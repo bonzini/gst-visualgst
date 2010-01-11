@@ -1,50 +1,57 @@
-GtkTextPluginWidget subclass: GtkReplaceWidget [
-    | searchEntry |
+GtkFindWidget subclass: GtkReplaceWidget [
+    | replaceWidget replaceButton replaceAllButton |
 
-    hBox [
+    replaceEntry [
+	<category: 'user interface'>
+
+	^ replaceWidget := GTK.GtkEntry new
+			    connectSignal: 'activate' to: self selector: #replacePressed;
+			    yourself
+    ]
+
+    replaceButton [
         <category: 'user interface'>
 
-	^ super hBox
-            packStart: (GTK.GtkLabel new: 'search for :') expand: false fill: false padding: 2;
-            packStart: (searchEntry := GTK.GtkEntry new) expand: false fill: false padding: 15;
+	^ replaceButton := GTK.GtkButton newWithLabel: 'Replace'
+    ]
+
+    replaceAllButton [
+        <category: 'user interface'>
+
+	^ replaceAllButton := GTK.GtkButton newWithLabel: 'Replace All'
+    ]
+
+    replaceBox [
+        <category: 'user interface'>
+
+	| hBox |
+	^ (GTK.GtkHBox new: false spacing: 3)
             packStart: (GTK.GtkLabel new: 'replace with :') expand: false fill: false padding: 2;
-            packStart: GTK.GtkEntry new expand: false fill: false padding: 15;
-            packStart: (GTK.GtkCheckButton newWithLabel: 'match case') expand: false fill: false padding: 0;
+            packStart: self replaceEntry expand: false fill: false padding: 15;
+	    packStart: self replaceButton expand: false fill: false padding: 15;
+            packStart: self replaceAllButton expand: false fill: false padding: 15;
 	    yourself
     ]
-
-    buildReplaceButton [
-        <category: 'user interface'>
-
-        | image close |
-        image := GTK.GtkImage newFromStock: GTK.Gtk gtkStockFindAndReplace size: GTK.Gtk gtkIconSizeMenu.
-        ^ (GTK.GtkButton new)
-                setImage: image;
-                setRelief: GTK.Gtk gtkReliefNone;
-                connectSignal: 'pressed' to: self selector: #'closeIt:at:' userData: nil;
-                yourself.
-    ]
-
 
     buildWidget [
 	<category: 'user interface'>
 
-	| hbox |
-	(hbox := GTK.GtkHBox new: false spacing: 3)
-	    packStart: (GTK.GtkButton newWithLabel: 'Replace all') expand: false fill: false padding: 0;
-	    packStart: GTK.GtkButton replaceButton expand: false fill: false padding: 0.
-	    
-
 	^ super buildWidget
-	    packStart: hbox expand: false fill: false padding: 0;
+	    packStart: self replaceBox expand: false fill: false padding: 0;
 	    yourself
 
     ]
 
-    grabFocus [
-        <category: 'focus'>
+    replacePressed [
+	<category: 'replace events'>
 
-        searchEntry grabFocus
+	| i iter |
+	self keyPressed.
+	textWidget hasSelection ifFalse: [ ^ self ].
+	i := textWidget iterOfSelectedText first getOffset.
+	textWidget cut.
+	iter := textWidget buffer getIterAtOffset: i.
+	textWidget buffer insertInteractive: iter text: replaceWidget getText len: replaceWidget getText size defaultEditable: true
     ]
 ]
 

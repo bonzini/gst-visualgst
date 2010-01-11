@@ -291,6 +291,11 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	^ self buffer propertiesAt: 'cursor-position'
     ]
 
+    cursorPosition: anInteger [
+        <category: 'accessing'>
+
+    ]
+
     selectRange: aStartInt bound: anEndInt [
 	<category: 'accessing'>
 
