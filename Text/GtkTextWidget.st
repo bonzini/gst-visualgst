@@ -52,8 +52,8 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
         ^ (GTK.GtkVBox new: false spacing: 3)
                     packStart: (GTK.GtkScrolledWindow withChild: textWidget) expand: true fill: true padding: 0;
-                    packEnd: ((findWidget := GtkFindWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
-                    packEnd: ((replaceWidget := GtkReplaceWidget new) initialize; mainWidget) expand: false fill: false padding: 0;
+                    packEnd: ((findWidget := GtkFindWidget on: self) mainWidget) expand: false fill: false padding: 0;
+                    packEnd: ((replaceWidget := GtkReplaceWidget on: self)  mainWidget) expand: false fill: false padding: 0;
                     yourself
     ]
 
@@ -285,5 +285,19 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	^ textWidget
     ]
 
+    cursorPosition [
+	<category: 'accessing'>
+
+	^ self buffer propertiesAt: 'cursor-position'
+    ]
+
+    selectRange: aStartInt bound: anEndInt [
+	<category: 'accessing'>
+
+	| start end |
+	start := self buffer getIterAtOffset: aStartInt.
+        end := self buffer getIterAtOffset: anEndInt.
+	self buffer selectRange: start bound: end
+    ]
 ]
 

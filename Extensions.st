@@ -370,6 +370,34 @@ Symbol extend [
     ]
 ]
 
+CharacterArray extend [
+
+    deindexOf: aCharacterArray matchCase: aBoolean startingAt: anIndex [
+	"Answer an Interval of indices in the receiver which match the aCharacterArray
+	 pattern. # in aCharacterArray means 'match any character', * in aCharacterArray means
+	 'match any sequence of characters'. The first item of the returned interval
+	 is >= anIndex. If aBoolean is false, the search is case-insensitive, 
+	 else it is case-sensitive. If no Interval matches the pattern, answer nil."
+
+	<category: '*VisualGST'>
+	| result |
+	aBoolean 
+	    ifFalse: 
+		[ ^ self asLowercase 
+		   deindexOf: aCharacterArray asLowercase
+		   matchCase: true
+		   startingAt: anIndex ].
+	1 to: anIndex do: 
+		[ :i | 
+		    result := aCharacterArray 
+				matchSubstring: 1
+				in: self
+				at: anIndex - i + 1.
+		    result notNil ifTrue: [ ^ anIndex - i + 1 to: result ] ].
+	^ nil
+    ]
+]
+
 STInST.RBParser class extend [
 
     selectedSymbol: aString [

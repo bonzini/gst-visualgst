@@ -1,4 +1,14 @@
 GtkConcreteWidget subclass: GtkTextPluginWidget [
+    | textWidget|
+
+    GtkTextPluginWidget class >> on: aTextWidget [
+	<category: 'instance creation'>
+
+	^ self new
+	    initialize;
+	    textWidget: aTextWidget;
+	    yourself
+    ]
 
     initialize [
 	<category: 'initialize'>
@@ -34,6 +44,12 @@ GtkConcreteWidget subclass: GtkTextPluginWidget [
 	<category: 'events'>
 
 	self mainWidget hide
+    ]
+
+    textWidget: aTextWidget [
+	<category: 'accessing'>
+
+	textWidget := aTextWidget
     ]
 ]
 

@@ -1,11 +1,11 @@
 GtkTextPluginWidget subclass: GtkFindWidget [
-    | entry matchCase next previous |
+    | entry matchCase next previous lastPosition |
 
     buildEntry [
 	<category: 'user interface'>
 
 	^ entry := GTK.GtkEntry new
-			connectSignal: 'activate' to: self selector: #keyPressed userData: nil;
+			connectSignal: 'activate' to: self selector: #keyPressed;
 			yourself
     ]
 
@@ -13,12 +13,16 @@ GtkTextPluginWidget subclass: GtkFindWidget [
 	<category: 'user interface'>
 
         ^ previous := GTK.GtkButton previousButton
+			connectSignal: 'clicked' to: self selector: #previousPressed;
+			yourself
     ]
 
     buildNextButton [
         <category: 'user interface'>
 
         ^ next := GTK.GtkButton nextButton
+			connectSignal: 'clicked' to: self selector: #keyPressed;
+			yourself
     ]
 
     buildMatchCaseButton [
@@ -45,9 +49,36 @@ GtkTextPluginWidget subclass: GtkFindWidget [
 	entry grabFocus
     ]
 
+    searchFrom: anInteger [
+	<category: 'text searching'>
+
+	^ textWidget text indexOf: entry getText matchCase: matchCase getActive startingAt: anInteger
+    ]
+
+    searchBackFrom: anInteger [
+	<category: 'text searching'>
+
+	^ textWidget text deindexOf: entry getText matchCase: matchCase getActive startingAt: anInteger
+    ]
+
     keyPressed [
 	<category: 'entry events'>
 
+	| int |
+	lastPosition := textWidget cursorPosition.
+	int := self searchFrom: lastPosition.
+	int ifNil: [ (int := self searchFrom: 1) ifNil: [ ^ self ] ].
+	textWidget selectRange: int first - 1 bound: int last
+    ]
+
+    previousPressed [
+	<category: 'previous events'>
+
+	| int |
+	lastPosition := textWidget cursorPosition.
+	int := self searchBackFrom: lastPosition.
+	int ifNil: [ (int := self searchBackFrom: textWidget text size) ifNil: [ ^ self ] ].
+	int ifNotNil: [ textWidget selectRange: int first - 1 bound: int last ]
     ]
 ]
 
