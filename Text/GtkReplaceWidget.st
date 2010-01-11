@@ -12,13 +12,17 @@ GtkFindWidget subclass: GtkReplaceWidget [
     replaceButton [
         <category: 'user interface'>
 
-	^ replaceButton := GTK.GtkButton newWithLabel: 'Replace'
+	^ replaceButton := (GTK.GtkButton newWithLabel: 'Replace')
+			    connectSignal: 'clicked' to: self selector: #replacePressed;
+			    yourself
     ]
 
     replaceAllButton [
         <category: 'user interface'>
 
-	^ replaceAllButton := GTK.GtkButton newWithLabel: 'Replace All'
+	^ replaceAllButton := (GTK.GtkButton newWithLabel: 'Replace All')
+			    connectSignal: 'clicked' to: self selector: #replaceAllPressed;
+			    yourself
     ]
 
     replaceBox [
@@ -52,6 +56,13 @@ GtkFindWidget subclass: GtkReplaceWidget [
 	textWidget cut.
 	iter := textWidget buffer getIterAtOffset: i.
 	textWidget buffer insertInteractive: iter text: replaceWidget getText len: replaceWidget getText size defaultEditable: true
+    ]
+
+    replaceAllPressed [
+        <category: 'replace events'>
+
+        "(textWidget text copyReplaceAll: entry getText with: replaceWidget getText) printNl "
+	textWidget replace: entry getText by: replaceWidget getText
     ]
 ]
 

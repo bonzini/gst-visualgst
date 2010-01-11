@@ -219,6 +219,14 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	replaceWidget grabFocus
     ]
 
+    replace: aSearchString by: aReplaceString [
+        <category: 'text editing'>
+
+	lastCommand := ReplaceTextCommand replace: aSearchString by: aReplaceString on: self buffer.
+        undoStack push: lastCommand.
+        lastCommand := nil
+    ]
+
     copy [
         <category: 'text editing'>
 

@@ -124,6 +124,7 @@
   <filein>SyntaxHighlighter.st</filein>
   <filein>Undo/Text/InsertTextCommand.st</filein>
   <filein>Undo/Text/DeleteTextCommand.st</filein>
+  <filein>Undo/Text/ReplaceTextCommand.st</filein>
   <filein>Clock/GtkClock.st</filein>
   <filein>Inspector/GtkInspectorSourceWidget.st</filein>
   <filein>Inspector/GtkInspectorBrowserWidget.st</filein>
@@ -277,6 +278,7 @@
   <file>SyntaxHighlighter.st</file>
   <file>Undo/Text/InsertTextCommand.st</file>
   <file>Undo/Text/DeleteTextCommand.st</file>
+  <file>Undo/Text/ReplaceTextCommand.st</file>
   <file>Clock/GtkClock.st</file>
   <file>Inspector/GtkInspectorSourceWidget.st</file>
   <file>Inspector/GtkInspectorBrowserWidget.st</file>

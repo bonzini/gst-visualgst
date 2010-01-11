@@ -116,6 +116,7 @@ Eval [
     filein: 'SyntaxHighlighter.st';
     filein: 'Undo/Text/InsertTextCommand.st';
     filein: 'Undo/Text/DeleteTextCommand.st';
+    filein: 'Undo/Text/ReplaceTextCommand.st';
     filein: 'Clock/GtkClock.st';
     filein: 'Inspector/GtkInspectorSourceWidget.st';
     filein: 'Inspector/GtkInspectorBrowserWidget.st';
