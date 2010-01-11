@@ -61,7 +61,7 @@ GtkFindWidget subclass: GtkReplaceWidget [
     replaceAllPressed [
         <category: 'replace events'>
 
-        "(textWidget text copyReplaceAll: entry getText with: replaceWidget getText) printNl "
+	"matching doesn't work now"
 	textWidget replace: entry getText by: replaceWidget getText
     ]
 ]

@@ -74,6 +74,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     postInitialize [
         <category: 'initialization'>
 
+	codeWidget postInitialize.
+	inspectorWidget postInitialize.
+	stackInspectorWidget postInitialize.
         window
             connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
     ]
