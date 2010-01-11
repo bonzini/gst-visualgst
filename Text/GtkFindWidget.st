@@ -1,6 +1,12 @@
 GtkTextPluginWidget subclass: GtkFindWidget [
     | entry matchCase next previous lastPosition |
 
+    initialize [
+	<category: 'initialization'>
+
+	super initialize.
+    ]
+
     buildEntry [
 	<category: 'user interface'>
 
@@ -65,20 +71,27 @@ GtkTextPluginWidget subclass: GtkFindWidget [
 	<category: 'entry events'>
 
 	| int |
-	lastPosition := textWidget cursorPosition.
+	lastPosition := textWidget hasSelection 
+					ifTrue: [ textWidget cursorPosition + 2 ]
+					ifFalse: [ textWidget cursorPosition + 1 ].
+	lastPosition > textWidget text size ifTrue: [ lastPosition := 1 ].
 	int := self searchFrom: lastPosition.
 	int ifNil: [ (int := self searchFrom: 1) ifNil: [ ^ self ] ].
-	textWidget selectRange: int first - 1 bound: int last
+	textWidget selectRange: int first - 1 bound: int last.
     ]
 
     previousPressed [
 	<category: 'previous events'>
 
 	| int |
-	lastPosition := textWidget cursorPosition.
+	lastPosition := textWidget hasSelection 
+					ifTrue: [ textWidget cursorPosition ]
+					ifFalse: [ textWidget cursorPosition + 1 ].
+	lastPosition = 0 ifTrue: [ lastPosition := textWidget text size ].
 	int := self searchBackFrom: lastPosition.
 	int ifNil: [ (int := self searchBackFrom: textWidget text size) ifNil: [ ^ self ] ].
-	int ifNotNil: [ textWidget selectRange: int first - 1 bound: int last ]
+	int ifNil: [ ^ self ].
+	textWidget selectRange: int first - 1 bound: int last.
     ]
 ]
 
