@@ -65,22 +65,9 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     ]
 
     clear [
-	methodTree getModel clear
-    ]
+        <category: 'accessing'>
 
-    appendMethod: aString [
-        <category: 'model builder'>
-
-        (self findIterInAMethod: aString) ifNotNil: [ ^ self ].
-        self gtkModel appendItem: {aString}
-    ]
-
-    removeMethod: aString [
-        <category: 'model builder'>
-
-        | iter |
-        (iter := self findIterInAMethod: aString) ifNil: [ ^ self ].
-        self gtkModel remove: iter
+	model clear
     ]
 
     includesCategory: aSymbol [
@@ -164,39 +151,20 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     selectedMethodSymbol [
 	<category: 'accessing'>
 
-        | iter string |
-        (iter := methodTree selectedIter) ifNil: [ ^nil ].
-        ^ (self gtkModel at: iter) first asSymbol
+        ^ self selectedMethod selector
     ]
 
     selectedMethod [
 	<category: 'accessing'>
 
-	| symbol |
-	(symbol := self selectedMethodSymbol) ifNil: [ ^nil ].
-	^ self classOrMetaSelected compiledMethodAt: symbol
+	self hasSelectedMethod ifFalse: [ ^ self error: 'nothing is selected' ].
+        ^ methodTree selection 
     ]
 
-    selectAMethod: aString [
+    selectAMethod: aSymbol [
         <category: 'item selection'>
 
-        | selection |
-        selection := methodTree getSelection.
-        selection unselectAll.
-        aString ifNil: [ ^ self ].
-        selection selectIter: (self findIterInAMethod: aString)
-    ]
-
-    findIterInAMethod: aString [
-        <category: 'item selection'>
-
-        | result |
-
-        self gtkModel do: [ :elem :iter |
-            elem first = aString ifTrue: [ 
-		    methodTree scrollToCell: (self gtkModel getPath: iter) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5. 
-		    ^ iter ] ].
-        ^ nil 
+	methodTree select: (self classOrMeta methodDictionary at: aSymbol)
     ]
 
     sourceCode [
@@ -246,14 +214,14 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         <category: 'event'>
 
         (anEvent item methodClass == self classOrMeta and: [ self includesCategory: anEvent item methodCategory ] ) ifFalse: [ ^ self ].
-        self appendMethod: anEvent item selector asString
+        model append: anEvent item
     ]
 
     removeEvent: anEvent [
         <category: 'event'>
 
         (anEvent item methodClass == self classOrMeta and: [ self includesCategory: anEvent item methodCategory ]) ifFalse: [ ^ self ].
-        self removeMethod: anEvent item selector asString
+        model remove: anEvent item
     ]
 ]
 

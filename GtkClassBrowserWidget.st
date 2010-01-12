@@ -718,7 +718,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             aMethodWidget
                 class: class withCategory: (class compiledMethodAt: aSelector) methodCategory ].
 
-	aMethodWidget selectAMethod: aSelector asString
+	aMethodWidget selectAMethod: aSelector
     ]
 
     selectAnInstanceMethod: aSelector [

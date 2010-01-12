@@ -418,31 +418,32 @@ STInST.RBParser class extend [
 
 GTK.GtkTreeView class extend [
 
-    createViewWith: anArray [
+    createModel: aGtkStoreClass with: anArray [
 	<category: '*VisualGST'>
 
-	| model |
+        | model |
         model := OrderedCollection new.
         anArray do: [ :each | model addAll: (each collect: [ :elem | elem kind ]) ].
-	model add: VisualGST.GtkColumnOOPType kind.
-        ^ self newWithModel: (GtkTreeStore new: model size varargs: model asArray)
+        model add: VisualGST.GtkColumnOOPType kind.
+        ^ self newWithModel: (aGtkStoreClass new: model size varargs: model asArray)
+    ]
+
+    createTreeViewWith: anArray [
+	<category: '*VisualGST'>
+
+        ^ self createModel: GtkTreeStore with: anArray
     ]
 
     createListViewWith: anArray [
         <category: '*VisualGST'>
 
-        | model |
-        model := OrderedCollection new.
-        anArray do: [ :each | model addAll: (each collect: [ :elem | elem kind ]) ].
-	model add: VisualGST.GtkColumnOOPType kind.
-        ^ self newWithModel: (GtkListStore new: model size varargs: model asArray)
+        ^ self createModel: GtkListStore with: anArray
     ]
 
-    createListWithModel: anArray [
+    createColumnsOn: aGtkTreeView with: anArray [
         <category: '*VisualGST'>
 
-        | colView i render view |
-        view := self createListViewWith: anArray.
+        | colView i render |
         anArray do: [ :each |
             colView := GtkTreeViewColumn new.
             i := 0.
@@ -453,75 +454,59 @@ GTK.GtkTreeView class extend [
                     addAttribute: render attribute: column kindName column: i.
                 column hasTitle ifTrue: [ colView setTitle: column title ].
                 i := i + 1 ] ].
-            view insertColumn: colView position: -1 ].
-        ^ view
+            aGtkTreeView insertColumn: colView position: -1 ]
+    ]
+
+    createListWithModel: anArray [
+        <category: '*VisualGST'>
+
+        | view |
+        view := self createListViewWith: anArray.
+        self createColumnsOn: view with: anArray.
+	^ view 
     ]
 
     createWithModel: anArray [
 	<category: '*VisualGST'>
 
-	| colView i render view |
-        view := self createViewWith: anArray.
-	anArray do: [ :each |
-	    colView := GtkTreeViewColumn new.
-	    i := 0.
-	    each do: [ :column |
-	    column isVisible ifTrue: [
-		colView
-		    packStart: (render := column cellRenderer new) expand: false;
-		    addAttribute: render attribute: column kindName column: i.
-		column hasTitle ifTrue: [ colView setTitle: column title ].
-		i := i + 1 ] ].
-		view insertColumn: colView position: -1 ].
+	| view |
+        view := self createTreeViewWith: anArray.
+        self createColumnsOn: view with: anArray.
 	^ view
     ]
 ]
 
-GTK.GtkTreeStore extend [
-    "| childrenBlock contentBlock root |
+GTK.GtkTreeView extend [
+    | model |
 
-    root: anObject [
+    model: aGtkModel [
 	<category: 'accessing'>
 
-	root := anObject
+	model := aGtkModel
     ]
 
-    root [
+    model [
 	<category: 'accessing'>
 
-	root
+	^ model
     ]
 
-    childrenBlock: aOneArgBlock [
+    selection [
 	<category: 'accessing'>
 
-	childrenBlock := aOneArgBlock
+        | iter string |
+        (iter := self selectedIter) ifNil: [ ^ self error: 'nothing is selected' ].
+	^ (self getModel at: iter) last
     ]
 
-    childrenBlock [
+    select: anObject [
 	<category: 'accessing'>
 
-	^ childrenBlock
+        self getSelection unselectAll.
+	self getModel do: [ :elem :iter |
+	    elem last = anObject ifTrue: [
+                    self scrollToCell: (self getModel getPath: iter) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
+                    ^ self getSelection selectIter: iter ] ].
     ]
-
-    contentBlock: aOneArgBlock [
-	<category: 'accessing'>
-
-	^ contentBlock := aOneArgBlock
-    ]
-
-    contentBlock [
-	<category: 'accessing'>
-
-	^ contentBlock
-    ]
-
-    refresh [
-	<category: '*VisualGST'>
-
-	self clear.
-	self root do: [ :each |
-	    self appendItem: { self contentBlock value: each. each } ]
-    ]"
 ]
 

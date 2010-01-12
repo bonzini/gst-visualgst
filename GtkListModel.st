@@ -85,7 +85,7 @@ Object subclass: GtkListModel [
 	<category: 'item selection'>
 
 	model do: [ :elem :iter |
-	    elem first = anObject ifTrue: [ ^ iter ] ].
+	    elem last = anObject ifTrue: [ ^ iter ] ].
 	aBlock value
     ]
 
