@@ -271,7 +271,8 @@ Behavior extend [
     debuggerClass [
 	<category: '*VisualGST'>
 
-	^ VisualGST.GtkDebugger
+	"^ VisualGST.GtkDebugger"
+	^ nil
     ]
 ]
 
@@ -413,5 +414,114 @@ STInST.RBParser class extend [
           node isMessage] whileFalse: [ node := node parent ].
         ^ node selector
     ]	
+]
+
+GTK.GtkTreeView class extend [
+
+    createViewWith: anArray [
+	<category: '*VisualGST'>
+
+	| model |
+        model := OrderedCollection new.
+        anArray do: [ :each | model addAll: (each collect: [ :elem | elem kind ]) ].
+	model add: VisualGST.GtkColumnOOPType kind.
+        ^ self newWithModel: (GtkTreeStore new: model size varargs: model asArray)
+    ]
+
+    createListViewWith: anArray [
+        <category: '*VisualGST'>
+
+        | model |
+        model := OrderedCollection new.
+        anArray do: [ :each | model addAll: (each collect: [ :elem | elem kind ]) ].
+	model add: VisualGST.GtkColumnOOPType kind.
+        ^ self newWithModel: (GtkListStore new: model size varargs: model asArray)
+    ]
+
+    createListWithModel: anArray [
+        <category: '*VisualGST'>
+
+        | colView i render view |
+        view := self createListViewWith: anArray.
+        anArray do: [ :each |
+            colView := GtkTreeViewColumn new.
+            i := 0.
+            each do: [ :column |
+            column isVisible ifTrue: [
+                colView
+                    packStart: (render := column cellRenderer new) expand: false;
+                    addAttribute: render attribute: column kindName column: i.
+                column hasTitle ifTrue: [ colView setTitle: column title ].
+                i := i + 1 ] ].
+            view insertColumn: colView position: -1 ].
+        ^ view
+    ]
+
+    createWithModel: anArray [
+	<category: '*VisualGST'>
+
+	| colView i render view |
+        view := self createViewWith: anArray.
+	anArray do: [ :each |
+	    colView := GtkTreeViewColumn new.
+	    i := 0.
+	    each do: [ :column |
+	    column isVisible ifTrue: [
+		colView
+		    packStart: (render := column cellRenderer new) expand: false;
+		    addAttribute: render attribute: column kindName column: i.
+		column hasTitle ifTrue: [ colView setTitle: column title ].
+		i := i + 1 ] ].
+		view insertColumn: colView position: -1 ].
+	^ view
+    ]
+]
+
+GTK.GtkTreeStore extend [
+    "| childrenBlock contentBlock root |
+
+    root: anObject [
+	<category: 'accessing'>
+
+	root := anObject
+    ]
+
+    root [
+	<category: 'accessing'>
+
+	root
+    ]
+
+    childrenBlock: aOneArgBlock [
+	<category: 'accessing'>
+
+	childrenBlock := aOneArgBlock
+    ]
+
+    childrenBlock [
+	<category: 'accessing'>
+
+	^ childrenBlock
+    ]
+
+    contentBlock: aOneArgBlock [
+	<category: 'accessing'>
+
+	^ contentBlock := aOneArgBlock
+    ]
+
+    contentBlock [
+	<category: 'accessing'>
+
+	^ contentBlock
+    ]
+
+    refresh [
+	<category: '*VisualGST'>
+
+	self clear.
+	self root do: [ :each |
+	    self appendItem: { self contentBlock value: each. each } ]
+    ]"
 ]
 

@@ -1,30 +1,25 @@
 Object subclass: GtkListModel [
 
-    GtkListModel class >> new [
+    GtkListModel class >> on: aGtkListStore [
 	<category: 'instance creation'>
 
 	^ super new
 	    initialize;
+	    gtkModel: aGtkListStore;
 	    yourself
     ]
 
-    | columns contentsBlock item model |
+    | contentsBlock item model |
 
     initialize [
 	<category: 'initialization'>
 
     ]
 
-    columns: anInteger [
+    gtkModel: aGtkListStore [
 	<category: 'accessing'>
 
-	columns := anInteger
-    ]
-
-    columns [
-	<category:' accessing'>
-
-	^ columns
+	model := aGtkListStore
     ]
 
     item: anObject [
@@ -51,17 +46,10 @@ Object subclass: GtkListModel [
 	^ contentsBlock
     ]
 
-    gtkModel [
-	<category: 'accessing'>
-
-	^ model ifNil: [
-	    model := GTK.GtkListStore new: self columns size varargs: self columns ]
-    ]
-
-    append: anArray [
+    append: anItem [
 	<category:' model'>
 
-	self gtkModel appendItem: anArray
+	model appendItem: ((self contentsBlock value: anItem) copyWith: anItem)
     ]
 
     remove: anObject [
@@ -69,13 +57,13 @@ Object subclass: GtkListModel [
 
 	| iter |
 	(iter := self findIter: anObject) ifNil: [ self error: 'item not found' ].
-	self gtkModel remove: iter
+	model remove: iter
     ]
 
     clear [
 	<category: 'model'>
 
-	self gtkModel clear
+	model clear
     ]
 
     refresh [
@@ -83,14 +71,20 @@ Object subclass: GtkListModel [
 
 	self clear.
 	self item ifNil: [ ^ self ].
-	(self contentsBlock value: self item) do: [ :each | self append: each ].
-	"self item do: [ :each | self append: (self contentsBlock value: each) ]"
+	self item do: [ :each | self append: each ]
+    ]
+
+    hasItem: anObject [
+        <category: 'item selection'>
+
+        self findIter: anObject ifAbsent: [ ^ false ].
+        ^ true
     ]
 
     findIter: anObject ifAbsent: aBlock [
 	<category: 'item selection'>
 
-	self gtkModel do: [ :elem :iter |
+	model do: [ :elem :iter |
 	    elem first = anObject ifTrue: [ ^ iter ] ].
 	aBlock value
     ]
@@ -99,13 +93,6 @@ Object subclass: GtkListModel [
 	<category: 'item selection'>
 
 	^ self findIter: anObject ifAbsent: [ self error: 'Item not found' ]
-    ]
-
-    hasItem: anObject [
-        <category: 'item selection'>
-
-        self findIter: anObject ifAbsent: [ ^ false ].
-	^ true 
     ]
 ]
 

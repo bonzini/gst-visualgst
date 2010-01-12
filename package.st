@@ -48,6 +48,10 @@ Eval [
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
     filein: 'GtkConcreteWidget.st';
+    filein: 'Model/GtkColumnType.st';
+    filein: 'Model/GtkColumnTextType.st';
+    filein: 'Model/GtkColumnPixbufType.st';
+    filein: 'Model/GtkColumnOOPType.st';
     filein: 'GtkListModel.st';
     filein: 'Text/GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
@@ -106,7 +110,6 @@ Eval [
     filein: 'GtkClassModel.st';
     filein: 'GtkCategorizedClassModel.st';
     filein: 'GtkCategoryModel.st';
-    filein: 'GtkMethodModel.st';
     filein: 'Undo/AddCategoryUndoCommand.st';
     filein: 'Undo/RenameCategoryUndoCommand.st';
     filein: 'Undo/DeleteCategoryUndoCommand.st';

@@ -64,48 +64,22 @@ Object subclass: GtkMethodModel [
 	self category: aString
     ]
 
-    gtkModel [
+    gtkModel: aModel [
 	<category: 'accessing'>
 
-	^ model ifNil: [
-	    model := GTK.GtkListStore new: 1 varargs: {GTK.GValue gTypeString} ]
-    ]
-
-    emptyModel [
-	<category: 'accessing'>
-
-	^ GTK.GtkListStore new: 1 varargs: {GTK.GValue gTypeString}
+	model := aModel
     ]
 
     refreshModel [
 	<category: 'events'>
     
-	self classOrMeta ifNil: [ ^ model := self emptyModel ].
+	self classOrMeta ifNil: [ ^ self ].
 
 	self gtkModel clear.
 
 	self classOrMeta selectors do: [ :each |
-	    (((self classOrMeta compiledMethodAt: each) methodCategory = self category) or: [ self category = '*'])
+	    (self category = '*' or: [ ((self classOrMeta compiledMethodAt: each) methodCategory = self category) ])
 		ifTrue: [ self appendMethod: each asString ] ]
-    ]
-
-    buildCategory [
-	<category: 'model builder'>
-
-	| category set |
-	set := Set new.
-	self classOrMeta selectors do: [ :each |
-	    category := (self classOrMeta compiledMethodAt: each) methodCategory.
-	    set add: category ].
-	^ set
-    ]
-
-    findIterInAMethod: aString [
-        <category: 'item selection'>
-
-	self gtkModel do: [ :elem :iter |
-	    elem first = aString ifTrue: [ ^ iter ] ].
-        ^nil
     ]
 
     appendMethod: aString [
