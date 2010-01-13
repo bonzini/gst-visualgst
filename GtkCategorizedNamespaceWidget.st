@@ -28,7 +28,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         namespacesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
         (model := GtkTreeModel on: namespacesTree getModel)
                                         item: FakeNamespace;
-                                        childrenBlock: [ :each | each subspaces ];
+                                        childrenBlock: [ :each | each subspaces asArray sort: [ :a :b | a name <= b name ] ];
                                         contentsBlock: [ :each | {namespaceIcon. each name asString} ];
 					refresh.
 	namespacesTree expandAll.

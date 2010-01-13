@@ -56,6 +56,7 @@
   <filein>Commands/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWebBrowserCommand.st</filein>
   <filein>FakeNamespace.st</filein>
+  <filein>Category.st</filein>
   <filein>GtkConcreteWidget.st</filein>
   <filein>Model/GtkColumnType.st</filein>
   <filein>Model/GtkColumnTextType.st</filein>
@@ -211,6 +212,7 @@
   <file>Commands/OpenSUnitCommand.st</file>
   <file>Commands/OpenWebBrowserCommand.st</file>
   <file>FakeNamespace.st</file>
+  <file>Category.st</file>
   <file>GtkConcreteWidget.st</file>
   <file>Model/GtkColumnType.st</file>
   <file>Model/GtkColumnTextType.st</file>
