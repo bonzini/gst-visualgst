@@ -15,16 +15,8 @@ Object subclass: GtkCategoryModel [
         <category: 'initialize-release'>
 
         sorted := false.
-	self registerNotifier
     ]
 
-    registerNotifier [
-	<category: 'initialize-release'>
-
-	(VisualGST uniqueInstance systemChangeNotifier)
-	    notify: self ofSystemChangesOfItem: #category change: #Added using: #'addEvent:';
-	    notify: self ofSystemChangesOfItem: #category change: #Removed using: #'removeEvent:'
-    ]
 
     isSorted [
         <category: 'testing'>

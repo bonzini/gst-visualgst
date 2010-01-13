@@ -466,7 +466,7 @@ GTK.GtkTreeView class extend [
 	^ view 
     ]
 
-    createWithModel: anArray [
+    createTreeWithModel: anArray [
 	<category: '*VisualGST'>
 
 	| view |

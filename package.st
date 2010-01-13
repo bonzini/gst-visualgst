@@ -53,6 +53,7 @@ Eval [
     filein: 'Model/GtkColumnPixbufType.st';
     filein: 'Model/GtkColumnOOPType.st';
     filein: 'GtkListModel.st';
+    filein: 'GtkTreeModel.st';
     filein: 'Text/GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'VisualGST.st';

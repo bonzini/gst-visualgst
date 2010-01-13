@@ -12,13 +12,30 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	<category: 'initialization'>
 
 	category := ''.
-	self mainWidget: self buildTreeView
+	self 
+	    mainWidget: self buildTreeView;
+	    registerNotifier
     ]
 
-    classModel [
-	<category: 'initialization'>
+    registerNotifier [
+        <category: 'initialize-release'>
 
-	^ GtkCategorizedClassModel
+        (VisualGST uniqueInstance systemChangeNotifier)
+            notify: self ofSystemChangesOfItem: #class change: #Added using: #'addEvent:';
+            notify: self ofSystemChangesOfItem: #class change: #Removed using: #'removeEvent:';
+            notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedEvent:'
+    ]
+
+    category: aString [
+        <category: 'accessing'>
+
+        category := aString.
+    ]
+
+    category [
+        <category: 'accessing'>
+
+        ^ category
     ]
 
     namespace [
@@ -31,42 +48,42 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	<category: 'accessing'>
 
 	namespace := aNamespace.
-	self refreshModel
     ]
 
-    model [
-	<category: 'accessing'>
+    namespace: aNamespace category: aString [
+        <category: 'accessing'>
 
-	^ model ifNil: [ model := self classModel on: self namespace category: self category ]
+	(aNamespace == self namespace and: [ aString = self category ]) ifTrue: [ ^ self ]. 
+        self
+            category: aString;
+            namespace: aNamespace.
+	model refresh.
+	classesTree expandAll
     ]
 
-    refreshModel [
-	<category: 'events'>
+    appendClass: aClass to: anArray [
+        <category: 'model builder'>
 
-	model := self classModel on: self namespace category: self category.
-
-	classesTree
-	    setModel: self model gtkModel;
-	    expandAll.
-	self model isSorted
-            ifFalse: [
-                column signalEmitByName: 'clicked' args: {}.
-                self model sorted: true ].
+        (aClass environment = self namespace and: [ self category isEmpty or: [ self category = aClass category or: [ (self namespace displayString, '-', self category) = aClass category ] ] ]) 
+		    ifTrue: [ anArray add: aClass ]
+		    ifFalse: [ aClass subclassesDo: [ :each | self appendClass: each to: anArray ] ]
     ]
 
     buildTreeView [
 	<category: 'user interface'>
-    
-	classesTree := (GTK.GtkTreeView newWithSortedTextColumn: self model gtkModel title: 'Classes')
-			    connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
-			    yourself.
-	column := classesTree getColumn: 0.
-	classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
-	self model isSorted 
-	    ifFalse: [
-		column signalEmitByName: 'clicked' args: {}.
-		self model sorted: true ].
-	^ GTK.GtkScrolledWindow withChild: classesTree
+   
+        classesTree := (GTK.GtkTreeView createTreeWithModel: {{GtkColumnTextType title: 'Classes'}})
+                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+                            yourself.
+        classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+        (model := GtkTreeModel on: classesTree getModel)
+					item: Class;
+					childrenBlock: [ :each | | col | 
+							    col := SortedCollection sortBlock: [ :a :b | a asClass name <= b asClass name ]. 
+							    each subclassesDo: [ :subclasses | self appendClass: subclasses to: col ]. 
+							    col ];
+                                        contentsBlock: [ :each | {each asClass name asString, ' '} ].
+        ^ GTK.GtkScrolledWindow withChild: classesTree 
     ]
 
     onPress: aGtkWidget event: aGdkEvent [
@@ -117,35 +134,14 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     selectedClass [
 	<category: 'accessing'>
 
-	| iter string |
-	(iter := self selectedIter) ifNil: [self error: 'Nothing is selected'].
-	string := ((self model gtkModel getOop: iter column: 0) subStrings: $ ) at: 1.
-	^ self namespace classAt: string asSymbol
+	self hasSelectedClass ifFalse: [ self error: 'nothing is selected' ].
+	^ classesTree selection asClass
     ]
 
     selectAClass: aClass [
 	<category: 'item selection'>
 
-	| selection |
-        selection := classesTree getSelection.
-        selection unselectAll.
-        selection selectIter: (self findIterInAClass: aClass)
-    ]
-
-    findIterInAClass: aClass [
-        <category: 'item selection'>
-
-	| result |
-
-	result := self model findIterInAClass: aClass.
-	classesTree scrollToCell: (self model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
-	^ result 
-    ]
-
-    selectedIter [
-	<category: 'accessing'>
-
-	^ classesTree selectedIter
+	classesTree select: aClass
     ]
 
     newClass [
@@ -178,25 +174,35 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	FileoutClassCommand on: self selectedClass
     ]
 
-    category: aString [
-	<category: 'accessing'>
+    addEvent: anEvent [
+        <category: 'model event'>
 
-	category := aString.
+        | parentIter parent |
+        anEvent item environment == self namespace ifFalse: [ ^ self ].
+        (anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
+        parentIter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
+        self appendClass: anEvent item to: parentIter
     ]
 
-    category [
-	<category: 'accessing'>
+    removeEvent: anEvent [
+        <category: 'model event'>
 
-	^ category
+        anEvent item environment == self namespace ifFalse: [ ^ self ].
+        (anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
+        (self hasClass: anEvent item) ifFalse: [ ^ self ].
+        self remove: anEvent item
     ]
 
-    namespace: aNamespace category: aString [
-	<category: 'accessing'>
+    recategorizedEvent: anEvent [
+        <category: 'model event'>
 
-	self
-	    category: aString;
-	    namespace: aNamespace
+       | iter |
+        anEvent item environment == self namespace ifFalse: [ ^ self ].
+        anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
+        (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ self remove: anEvent item ].
+        (anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [
+            iter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
+            self append: iter column: 0 value: (anEvent item name, ' ') ].
     ]
-
 ]
 

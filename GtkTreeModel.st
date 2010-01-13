@@ -1,31 +1,25 @@
 Object subclass: GtkTreeModel [
 
-    GtkTreeModel class >> new [
+    GtkTreeModel class >> on: aGtkTreeStore [
 	<category: 'instance creation'>
 
 	^ super new
 	    initialize;
+	    gtkModel: aGtkTreeStore;
 	    yourself
     ]
 
-    | columns childrenBlock contentsBlock findBlock item model sorted |
+    | childrenBlock contentsBlock item model |
 
     initialize [
 	<category: 'initialization'>
 
-	sorted := false
     ]
 
-    columns: anInteger [
+    gtkModel: aGtkTreeStore [
 	<category: 'accessing'>
 
-	columns := anInteger
-    ]
-
-    columns [
-	<category:' accessing'>
-
-	^ columns
+	model := aGtkTreeStore
     ]
 
     item: anObject [
@@ -64,35 +58,20 @@ Object subclass: GtkTreeModel [
 	^ contentsBlock
     ]
 
-    findBlock: aBlock [
-	<category: 'accessing'>
-
-	findBlock := aBlock
-    ]
-
-    findBlock [
-	<category: 'accessing'>
-
-	^ findBlock
-    ]
-
-    gtkModel [
-	<category: 'accessing'>
-
-	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: self columns size varargs: self columns ]
-    ]
-
-    append: anArray parent: aGtkIter [
+    append: anItem parent: anObject [
 	<category:' model'>
 
-	^ self gtkModel append: aGtkIter item: anArray
+	"| iter |
+	iter := model appendItem: ((self contentsBlock value: anItem) copyWith: anItem).
+	anItem do: [ :each | self append: each with: iter ]"
     ]
 
-    append: anArray [
-	<category:' model'>
+    append: anItem with: aParentIter [
+        <category:' model'>
 
-	^ self gtkModel appendItem: anArray
+        | iter |
+        iter := model append: aParentIter item: ((self contentsBlock value: anItem) copyWith: anItem).
+        (self childrenBlock value: anItem) do: [ :each | self append: each with: iter ]
     ]
 
     remove: anObject [
@@ -100,13 +79,13 @@ Object subclass: GtkTreeModel [
 
 	| iter |
 	(iter := self findIter: anObject) ifNil: [ self error: 'item not found' ].
-	self gtkModel remove: iter
+	model remove: iter
     ]
 
     clear [
 	<category: 'model'>
 
-	self gtkModel clear
+	model clear
     ]
 
     refresh [
@@ -114,23 +93,21 @@ Object subclass: GtkTreeModel [
 
 	self clear.
 	self item ifNil: [ ^ self ].
-	self refresh: (self childrenBlock value: self item) parent: nil 
+	(self childrenBlock value: self item) do: [ :each | self append: each with: nil ]
     ]
 
-    refresh: anObject parent: aGtkIter [
-	<category: 'model'>
+    hasItem: anObject [
+        <category: 'item selection'>
 
-	| iter |
-	anObject do: [ :each |
-	    iter := self append: each key parent: aGtkIter.
-	    self refresh: each value parent: iter ]
+        self findIter: anObject ifAbsent: [ ^ false ].
+        ^ true
     ]
 
     findIter: anObject ifAbsent: aBlock [
 	<category: 'item selection'>
 
-	self gtkModel do: [ :elem :iter |
-	    (self findBlock value: elem value: anObject) ifTrue: [ ^ iter ] ].
+	model do: [ :elem :iter |
+	    elem last = anObject ifTrue: [ ^ iter ] ].
 	aBlock value
     ]
 
@@ -138,25 +115,6 @@ Object subclass: GtkTreeModel [
 	<category: 'item selection'>
 
 	^ self findIter: anObject ifAbsent: [ self error: 'Item not found' ]
-    ]
-
-    hasItem: anObject [
-        <category: 'item selection'>
-
-        self findIter: anObject ifAbsent: [ ^ false ].
-	^ true 
-    ]
-
-    isSorted [
-        <category: 'testing'>
-
-        ^ sorted
-    ]
-
-    sorted: aBoolean [
-        <category: 'accessing'>
-
-        sorted := aBoolean
     ]
 ]
 
