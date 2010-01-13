@@ -1,4 +1,4 @@
-GtkClassWidget subclass: GtkClassSUnitWidget [
+GtkCategorizedClassWidget subclass: GtkClassSUnitWidget [
 
     classModel [
         <category: 'initialization'>

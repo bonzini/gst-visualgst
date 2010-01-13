@@ -47,6 +47,7 @@ Eval [
     filein: 'Commands/OpenAssistantCommand.st';
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
+    filein: 'FakeNamespace.st';
     filein: 'GtkConcreteWidget.st';
     filein: 'Model/GtkColumnType.st';
     filein: 'Model/GtkColumnTextType.st';
@@ -75,7 +76,6 @@ Eval [
     filein: 'GtkWorkspaceWidget.st';
     filein: 'GtkNamespaceWidget.st';
     filein: 'GtkCategorizedNamespaceWidget.st';
-    filein: 'GtkClassWidget.st';
     filein: 'GtkCategorizedClassWidget.st';
     filein: 'GtkCategoryWidget.st';
     filein: 'GtkMethodWidget.st';
@@ -108,9 +108,6 @@ Eval [
     filein: 'GtkAssistant.st';
     filein: 'GtkNamespaceModel.st';
     filein: 'GtkCategorizedNamespaceModel.st';
-    filein: 'GtkClassModel.st';
-    filein: 'GtkCategorizedClassModel.st';
-    filein: 'GtkCategoryModel.st';
     filein: 'Undo/AddCategoryUndoCommand.st';
     filein: 'Undo/RenameCategoryUndoCommand.st';
     filein: 'Undo/DeleteCategoryUndoCommand.st';

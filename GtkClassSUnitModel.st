@@ -1,4 +1,4 @@
-GtkClassModel subclass: GtkClassSUnitModel [
+Object subclass: GtkClassSUnitModel [
 
     addEvent: anEvent [
         <category: 'model event'>

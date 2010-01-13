@@ -55,6 +55,7 @@
   <filein>Commands/OpenAssistantCommand.st</filein>
   <filein>Commands/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWebBrowserCommand.st</filein>
+  <filein>FakeNamespace.st</filein>
   <filein>GtkConcreteWidget.st</filein>
   <filein>Model/GtkColumnType.st</filein>
   <filein>Model/GtkColumnTextType.st</filein>
@@ -83,7 +84,6 @@
   <filein>GtkWorkspaceWidget.st</filein>
   <filein>GtkNamespaceWidget.st</filein>
   <filein>GtkCategorizedNamespaceWidget.st</filein>
-  <filein>GtkClassWidget.st</filein>
   <filein>GtkCategorizedClassWidget.st</filein>
   <filein>GtkCategoryWidget.st</filein>
   <filein>GtkMethodWidget.st</filein>
@@ -116,9 +116,6 @@
   <filein>GtkAssistant.st</filein>
   <filein>GtkNamespaceModel.st</filein>
   <filein>GtkCategorizedNamespaceModel.st</filein>
-  <filein>GtkClassModel.st</filein>
-  <filein>GtkCategorizedClassModel.st</filein>
-  <filein>GtkCategoryModel.st</filein>
   <filein>Undo/AddCategoryUndoCommand.st</filein>
   <filein>Undo/RenameCategoryUndoCommand.st</filein>
   <filein>Undo/DeleteCategoryUndoCommand.st</filein>
@@ -213,6 +210,7 @@
   <file>Commands/OpenAssistantCommand.st</file>
   <file>Commands/OpenSUnitCommand.st</file>
   <file>Commands/OpenWebBrowserCommand.st</file>
+  <file>FakeNamespace.st</file>
   <file>GtkConcreteWidget.st</file>
   <file>Model/GtkColumnType.st</file>
   <file>Model/GtkColumnTextType.st</file>
@@ -241,7 +239,6 @@
   <file>GtkWorkspaceWidget.st</file>
   <file>GtkNamespaceWidget.st</file>
   <file>GtkCategorizedNamespaceWidget.st</file>
-  <file>GtkClassWidget.st</file>
   <file>GtkCategorizedClassWidget.st</file>
   <file>GtkCategoryWidget.st</file>
   <file>GtkMethodWidget.st</file>
@@ -274,9 +271,6 @@
   <file>GtkAssistant.st</file>
   <file>GtkNamespaceModel.st</file>
   <file>GtkCategorizedNamespaceModel.st</file>
-  <file>GtkClassModel.st</file>
-  <file>GtkCategorizedClassModel.st</file>
-  <file>GtkCategoryModel.st</file>
   <file>Undo/AddCategoryUndoCommand.st</file>
   <file>Undo/RenameCategoryUndoCommand.st</file>
   <file>Undo/DeleteCategoryUndoCommand.st</file>
