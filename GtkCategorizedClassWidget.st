@@ -197,10 +197,9 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
        | iter |
         anEvent item environment == self namespace ifFalse: [ ^ self ].
         anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
-        (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ self remove: anEvent item ].
+        (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ model remove: anEvent item ].
         (anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [
-            iter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
-            self append: iter column: 0 value: (anEvent item name, ' ') ].
+            model append:  anEvent item parent: anEvent item superclass ]
     ]
 ]
 

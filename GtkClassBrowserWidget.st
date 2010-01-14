@@ -685,23 +685,23 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         classWidget namespace: aNamespace.
 
         classHierarchyWidget emptyModel.
-        iCategoryWidget emptyModel.
-        cCategoryWidget emptyModel.
-        iMethodWidget emptyModel.
-        cMethodWidget emptyModel.
+        iCategoryWidget clear.
+        cCategoryWidget clear.
+        iMethodWidget clear.
+        cMethodWidget clear.
         codeWidget namespaceDefinition: (NamespaceSource on: aNamespace)
     ]
 
     selectAClass: aClass [
 	<category: 'selection'>
 
-        classWidget selectAClass: aClass.
-	classHierarchyWidget classOrMeta: aClass.
+        classWidget selectAClass: aClass class.
+	classHierarchyWidget classOrMeta: aClass class.
         iCategoryWidget classOrMeta: aClass.
         cCategoryWidget classOrMeta: aClass class.
 
-        iMethodWidget emptyModel.
-        cMethodWidget emptyModel
+        iMethodWidget clear.
+        cMethodWidget clear
     ]
 
     select: aSelector in: aMethodWidget withCategory: aCategoryWidget [

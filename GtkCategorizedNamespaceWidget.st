@@ -147,10 +147,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     recategorizedClassEvent: anEvent [
         <category: 'model event'>
 
-        | iter namespace |
-        namespace := anEvent item environment.
-        iter := self findIterInANamespace: namespace.
-        self appendCategory: anEvent item category for: namespace into: iter
+	"model append: anEvent item category parent: namespace"
     ]
 ]
 
