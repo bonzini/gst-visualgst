@@ -4,7 +4,16 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     initialize [
         <category: 'initialization'>
 
-        self mainWidget: self buildTreeView
+        self mainWidget: self buildTreeView.
+	self registerNotifier
+    ]
+
+    registerNotifier [
+        <category: 'initialize-release'>
+
+        (VisualGST uniqueInstance systemChangeNotifier)
+            notify: self ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
+            notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:'
     ]
 
     "model [
@@ -92,5 +101,29 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
 	    ((self model gtkModel at: iter) at: 3) subspaces isEmpty ifFalse: [
 		namespacesTree expandRow: path openAll: false ] ]
     ]"
+
+    addEvent: anEvent [
+        <category: 'model event'>
+
+        self
+            append: (self findIterInANamespace: anEvent item superspace)
+            column: 0
+            value: anEvent item displayString
+    ]
+
+    removeEvent: anEvent [
+        <category: 'model event'>
+
+        self remove: anEvent item
+    ]
+
+    recategorizedClassEvent: anEvent [
+        <category: 'model event'>
+
+        | iter namespace |
+        namespace := anEvent item environment.
+        iter := self findIterInANamespace: namespace.
+        self appendCategory: anEvent item category for: namespace into: iter
+    ]
 ]
 

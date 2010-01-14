@@ -76,7 +76,6 @@ Eval [
     filein: 'CategoryState.st';
     filein: 'MethodState.st';
     filein: 'GtkWorkspaceWidget.st';
-    filein: 'GtkNamespaceWidget.st';
     filein: 'GtkCategorizedNamespaceWidget.st';
     filein: 'GtkCategorizedClassWidget.st';
     filein: 'GtkCategoryWidget.st';
@@ -108,8 +107,6 @@ Eval [
     filein: 'GtkWebView.st';
     filein: 'Extensions.st';
     filein: 'GtkAssistant.st';
-    filein: 'GtkNamespaceModel.st';
-    filein: 'GtkCategorizedNamespaceModel.st';
     filein: 'Undo/AddCategoryUndoCommand.st';
     filein: 'Undo/RenameCategoryUndoCommand.st';
     filein: 'Undo/DeleteCategoryUndoCommand.st';

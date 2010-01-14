@@ -84,7 +84,6 @@
   <filein>CategoryState.st</filein>
   <filein>MethodState.st</filein>
   <filein>GtkWorkspaceWidget.st</filein>
-  <filein>GtkNamespaceWidget.st</filein>
   <filein>GtkCategorizedNamespaceWidget.st</filein>
   <filein>GtkCategorizedClassWidget.st</filein>
   <filein>GtkCategoryWidget.st</filein>
@@ -116,8 +115,6 @@
   <filein>GtkWebView.st</filein>
   <filein>Extensions.st</filein>
   <filein>GtkAssistant.st</filein>
-  <filein>GtkNamespaceModel.st</filein>
-  <filein>GtkCategorizedNamespaceModel.st</filein>
   <filein>Undo/AddCategoryUndoCommand.st</filein>
   <filein>Undo/RenameCategoryUndoCommand.st</filein>
   <filein>Undo/DeleteCategoryUndoCommand.st</filein>
@@ -241,7 +238,6 @@
   <file>CategoryState.st</file>
   <file>MethodState.st</file>
   <file>GtkWorkspaceWidget.st</file>
-  <file>GtkNamespaceWidget.st</file>
   <file>GtkCategorizedNamespaceWidget.st</file>
   <file>GtkCategorizedClassWidget.st</file>
   <file>GtkCategoryWidget.st</file>
@@ -273,8 +269,6 @@
   <file>GtkWebView.st</file>
   <file>Extensions.st</file>
   <file>GtkAssistant.st</file>
-  <file>GtkNamespaceModel.st</file>
-  <file>GtkCategorizedNamespaceModel.st</file>
   <file>Undo/AddCategoryUndoCommand.st</file>
   <file>Undo/RenameCategoryUndoCommand.st</file>
   <file>Undo/DeleteCategoryUndoCommand.st</file>
