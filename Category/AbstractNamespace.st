@@ -11,6 +11,18 @@ AbstractNamespace class extend [
 AbstractNamespace extend [
     | categories |
 
+    namespace [
+	<category: 'accessing'>
+
+	^ self
+    ]
+
+    category [
+	<category: 'accessing'>
+
+	^ VisualGST.ClassCategory basicNew
+    ]
+
     categories [
 	<category: 'accessing'>
 

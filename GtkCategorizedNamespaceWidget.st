@@ -4,7 +4,6 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     initialize [
         <category: 'initialization'>
 
-        | package |
         self mainWidget: self buildTreeView
     ]
 
@@ -75,44 +74,17 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         <category: 'accessing'>
 
 	self hasSelectedNamespace ifFalse: [ self error: 'nothing is selected' ].
-	^ namespacesTree selection
+	^ namespacesTree selection namespace
     ]
 
     selectedCategory [
         <category: 'accessing'>
 
-	^ ''
-    ]
-"    selectedNamespace [
-	<category: 'accessing'>
-
-	| iter path |
-	(self model isIterNamespace: self selectedIter) ifTrue: [ 
-	    ^ self model gtkModel getOop: self selectedIter column: 2 ].
-	path := self model gtkModel getPath: self selectedIter.
-	iter := GTK.GtkTreeIter new.
-	[ path up.
-	  (self model gtkModel getIter: iter path: path) ifFalse: [ self error: 'Selected category not found' ].
-	  (self model isIterNamespace: iter) ] whileFalse.
-	^ self model gtkModel getOop: iter column: 2
+        self hasSelectedNamespace ifFalse: [ self error: 'nothing is selected' ].
+        ^ namespacesTree selection category name
     ]
 
-    selectedCategory [
-	<category: 'accessing'>
-
-	| iter path cat |
-	(self model isIterNamespace: self selectedIter) ifTrue: [ ^ '' ].
-	path := self model gtkModel getPath: self selectedIter.
-        iter := GTK.GtkTreeIter new.
-	cat := self model gtkModel getOop: self selectedIter column: 1.
-        [ path up.
-          (self model gtkModel getIter: iter path: path) ifFalse: [ self error: 'Selected category not found' ].
-          (self model isIterNamespace: iter) ] whileFalse:
-	      [ cat := (self model gtkModel getOop: iter column: 1), '-', cat ].
-	^ cat
-    ]
-
-    childToggled: model path: path iter: iter [
+    "childToggled: model path: path iter: iter [
 	<category: 'signals'>
 
 	namespacesTree collapseRow: path.

@@ -1,5 +1,5 @@
 Object subclass: ClassCategory [
-    | categories classes name parent |
+    | categories classes name namespace parent |
 
     <category: 'Language-Implementation'>
 
@@ -14,9 +14,16 @@ Object subclass: ClassCategory [
     ClassCategory class >> named: aString [
 	<category: 'instance creation'>
 
-	^ self basicNew
-		    name: aString;
-		    yourself
+	^ self named: aString parent: nil 
+    ]
+
+    ClassCategory class >> named: aString parent: aClassCategory [
+        <category: 'instance creation'>
+
+        ^ self basicNew
+                    name: aString;
+		    parent: aClassCategory;
+                    yourself
     ]
 
     ClassCategory class >> for: aNamespace [
@@ -26,6 +33,7 @@ Object subclass: ClassCategory [
 	category := self basicNew.
         classes := aNamespace definedKeys.
         classes do: [ :each | (aNamespace at: each) isClass ifTrue: [ self extractCategory: (aNamespace at: each) for: category ] ].
+	category childrenNamespace: aNamespace.
 	^ category categories
     ]
 
@@ -56,9 +64,34 @@ Object subclass: ClassCategory [
         token := aClass category ifNil: [ #() ] ifNotNil: [ aClass category tokenize: '-' ].
         category := aParentCategory.
         token do: [ :each |
-            category categories at: each ifAbsent: [ category categories at: each put: (self named: each) ].
+            category categories at: each ifAbsent: [ category categories at: each put: (self named: each parent: category) ].
             category := category categories at: each ].
         category classes add: aClass asClass
+    ]
+
+    namespace [
+        <category: 'accessing'>
+
+        ^ namespace
+    ]
+
+    namespace: aNamespace [
+        <category: 'accessing'>
+
+        namespace := aNamespace
+    ]
+
+    childrenNamespace: aNamespace [
+        <category: 'accessing'>
+
+	self namespace: aNamespace.
+	self categories values do: [ :each | each childrenNamespace: aNamespace ]
+    ]
+
+    category [
+        <category: 'accessing'>
+
+        ^ self
     ]
 
     name: aString [
@@ -70,7 +103,7 @@ Object subclass: ClassCategory [
     name [
 	<category: 'accessing'>
 
-	^ name
+	^ name ifNil: [ name := String new ]
     ]
 
     parent: aCategory [
@@ -83,6 +116,12 @@ Object subclass: ClassCategory [
 	<category: 'accessing'>
 
 	^ parent
+    ]
+
+    category [
+	<category: 'accessing'>
+
+	^ self
     ]
 
     categories [

@@ -227,10 +227,10 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	classWidget namespace: namespace category: namespaceWidget selectedCategory.
 
 	classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
-	iCategoryWidget emptyModel.
-	cCategoryWidget emptyModel.
-	iMethodWidget emptyModel.
-	cMethodWidget emptyModel.
+	iCategoryWidget clear.
+	cCategoryWidget clear.
+	iMethodWidget clear.
+	cMethodWidget clear.
 	codeWidget namespaceDefinition: (NamespaceSource on: namespace).
 	state := NamespaceState on: self with: namespace
     ]
