@@ -325,8 +325,8 @@
   <file>Commands/OpenSenderCommand.st</file>
   <file>Commands/SaveImageCommand.st</file>
   <file>Commands/SaveImageAsCommand.st</file>
-  <file>Icons/category.png</file>
-  <file>Icons/namespace.png</file>
+  <file>Icons/category.gif</file>
+  <file>Icons/namespace.gif</file>
   <file>Icons/go-bottom.png</file>
   <file>Icons/go-down.png</file>
   <file>Icons/go-first.png</file>

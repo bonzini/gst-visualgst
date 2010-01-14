@@ -163,8 +163,8 @@ Eval [
     filein: 'Commands/OpenSenderCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
-    ressource: 'Icons/category.png';
-    ressource: 'Icons/namespace.png';
+    ressource: 'Icons/category.gif';
+    ressource: 'Icons/namespace.gif';
     ressource: 'Icons/go-bottom.png';
     ressource: 'Icons/go-down.png';
     ressource: 'Icons/go-first.png';
