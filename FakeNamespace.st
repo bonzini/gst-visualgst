@@ -5,4 +5,10 @@ Object subclass: FakeNamespace [
 
 	^ {Smalltalk}
     ]
+
+    FakeNamespace class >> categories [
+	<category: 'accessing'>
+
+	^ Dictionary new 
+    ]
 ]

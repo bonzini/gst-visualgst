@@ -48,7 +48,8 @@ Eval [
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
     filein: 'FakeNamespace.st';
-    filein: 'Category.st';
+    filein: 'Category/ClassCategory.st';
+    filein: 'Category/AbstractNamespace.st';
     filein: 'GtkConcreteWidget.st';
     filein: 'Model/GtkColumnType.st';
     filein: 'Model/GtkColumnTextType.st';

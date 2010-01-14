@@ -1,13 +1,10 @@
 GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
-    | categoryIcon namespaceIcon namespacesTree model |
+    | namespacesTree model |
 
     initialize [
         <category: 'initialization'>
 
         | package |
-        package := PackageLoader packageAt: 'VisualGST'.
-        categoryIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/category.png') file displayString error: nil.
-        namespaceIcon := GTK.GdkPixbuf newFromFile: (package / 'Icons/namespace.png') file displayString error: nil.
         self mainWidget: self buildTreeView
     ]
 
@@ -28,8 +25,8 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         namespacesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
         (model := GtkTreeModel on: namespacesTree getModel)
                                         item: FakeNamespace;
-                                        childrenBlock: [ :each | each subspaces asArray sort: [ :a :b | a name <= b name ] ];
-                                        contentsBlock: [ :each | {namespaceIcon. each name asString} ];
+                                        childrenBlock: [ :each | (each subspaces asArray sort: [ :a :b | a name <= b name ]), (each categories values sort: [ :a :b | a name <= b name ]) ];
+                                        contentsBlock: [ :each | {each icon. each name asString} ];
 					refresh.
 	namespacesTree expandAll.
         ^ GTK.GtkScrolledWindow withChild: namespacesTree
