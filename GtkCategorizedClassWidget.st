@@ -180,8 +180,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
         | parentIter parent |
         anEvent item environment == self namespace ifFalse: [ ^ self ].
         (anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
-        parentIter := self findIterInAClass: anEvent item superclass ifAbsent: [ nil ].
-        self appendClass: anEvent item to: parentIter
+	model append: anEvent item parent: anEvent item superclass class
     ]
 
     removeEvent: anEvent [
@@ -189,8 +188,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 
         anEvent item environment == self namespace ifFalse: [ ^ self ].
         (anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
-        (self hasClass: anEvent item) ifFalse: [ ^ self ].
-        self remove: anEvent item
+        model remove: anEvent item
     ]
 
     recategorizedEvent: anEvent [
