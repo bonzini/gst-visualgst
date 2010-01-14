@@ -58,12 +58,10 @@ Object subclass: GtkTreeModel [
 	^ contentsBlock
     ]
 
-    append: anItem parent: anObject [
+    append: anObject parent: aParentObject [
 	<category:' model'>
 
-	"| iter |
-	iter := model appendItem: ((self contentsBlock value: anItem) copyWith: anItem).
-	anItem do: [ :each | self append: each with: iter ]"
+	self append: anObject with: (self findIter: aParentObject)
     ]
 
     append: anItem with: aParentIter [

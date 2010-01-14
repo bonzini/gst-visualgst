@@ -102,19 +102,46 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
 		namespacesTree expandRow: path openAll: false ] ]
     ]"
 
+    newNamespace [
+        <category: 'popup events'>
+
+        AddNamespaceCommand on: self
+    ]
+
+    renameNamespace [
+        <category: 'namespace events'>
+
+        RenameNamespaceCommand on: self
+    ]
+
+    deleteNamespace [
+        <category: 'namespace events'>
+
+        DeleteNamespaceCommand on: self
+    ]
+
+    inspectNamespace [
+        <category: 'namespace events'>
+
+        InspectNamespaceCommand on: self
+    ]
+
+    fileoutNamespace [
+        <category: 'namespace events'>
+
+        FileoutNamespaceCommand on: self selectedNamespace
+    ]
+
     addEvent: anEvent [
         <category: 'model event'>
 
-        self
-            append: (self findIterInANamespace: anEvent item superspace)
-            column: 0
-            value: anEvent item displayString
+	model append: anEvent item parent: anEvent item superspace
     ]
 
     removeEvent: anEvent [
         <category: 'model event'>
 
-        self remove: anEvent item
+        model remove: anEvent item
     ]
 
     recategorizedClassEvent: anEvent [
