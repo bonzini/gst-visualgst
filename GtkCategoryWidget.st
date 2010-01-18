@@ -71,7 +71,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 			    yourself.
 	categoryTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
         (model := GtkListModel on: categoryTree getModel)
-                                        contentsBlock: [ :each | {each} ].
+                                        contentsBlock: [ :each | {each displayString} ].
 	^ GTK.GtkScrolledWindow withChild: categoryTree
     ]
 

@@ -19,35 +19,18 @@ GtkConcreteWidget subclass: GtkObjectInspectorView [
 	<category: 'accessing'>
 
 	object := anObject.
-	self refreshModel
     ]
 
-    model [
+    do: aBlock [ 
+	<category: 'iterating'>
+
+	self values do: [ :each | aBlock value: each ]
+    ]
+
+    values [
 	<category: 'accessing'>
 
-	^ model ifNil: [
-	    model := GTK.GtkListStore new: 1 varargs: {GTK.GValue gTypeString} ]
-    ]
-
-    clearModel [
-        <category: 'accessing'>
-
-        self model clear
-    ]
-
-    refreshModel [
-	<category: 'events'>
-   
-	self clearModel.
-	self appendVariable: 'self'.
-	self object class allInstVarNames do: [ :each |
-		self appendVariable: each displayString ]
-    ]
-
-    appendVariable: aString [
-        <category: 'model builder'>
-
-	self model appendItem: {aString}
+	^ #('self'), self object class allInstVarNames
     ]
 
     selectedValue: aString [
