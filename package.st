@@ -67,7 +67,6 @@ Eval [
     filein: 'Image/GtkImageModel.st';
     filein: 'Image/GtkImageWidget.st';
     filein: 'GtkTranscriptWidget.st';
-    filein: 'Debugger/GtkContextModel.st';
     filein: 'Debugger/GtkContextWidget.st';
     filein: 'Debugger/GtkDebugger.st';
     filein: 'BrowserState.st';

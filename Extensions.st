@@ -507,5 +507,23 @@ GTK.GtkTreeView extend [
                     self scrollToCell: (self getModel getPath: iter) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
                     ^ self getSelection selectIter: iter ] ].
     ]
+
+    selectFirstItem [
+	<category: 'accessing'>
+
+	| selection |
+	(selection := self getSelection) unselectAll.
+        selection unselectAll.
+        selection selectIter: self getModel getIterFirst
+    ]
+
+    selectLastItem [
+	<category: 'accessing'>
+
+	| selection |
+	(selection := self getSelection) unselectAll.	
+	selection unselectAll.
+        selection selectIter: self getModel getIterLast
+    ]
 ]
 

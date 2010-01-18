@@ -75,7 +75,6 @@
   <filein>Image/GtkImageModel.st</filein>
   <filein>Image/GtkImageWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
-  <filein>Debugger/GtkContextModel.st</filein>
   <filein>Debugger/GtkContextWidget.st</filein>
   <filein>Debugger/GtkDebugger.st</filein>
   <filein>BrowserState.st</filein>
@@ -229,7 +228,6 @@
   <file>Image/GtkImageModel.st</file>
   <file>Image/GtkImageWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
-  <file>Debugger/GtkContextModel.st</file>
   <file>Debugger/GtkContextWidget.st</file>
   <file>Debugger/GtkDebugger.st</file>
   <file>BrowserState.st</file>

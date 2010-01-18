@@ -427,8 +427,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	| iter |
 	self checkCodeWidget.
 	contextWidget hasSelectedContext ifFalse: [ ^ self ].
-	iter := contextWidget selectedIter.
-	selectedContext := debugger suspendedContext parentContextAt: ((contextWidget model getPath: iter) getIndices value) + 1.
+	selectedContext := debugger suspendedContext parentContextAt: contextWidget positionOfSelectedContext.
 	codeWidget sourceCode: selectedContext method methodSourceString.
 	codeWidget object: selectedContext receiver.
 	codeWidget applyTag: #debug forLine: selectedContext currentLine.
