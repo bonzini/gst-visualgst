@@ -36,6 +36,9 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
 
 	category := aString.
+	self classOrMeta methodDictionary ifNil: [ 
+		model clear. 
+		^ self].
 	model 
 	    item: ((self classOrMeta methodDictionary select: [ :each | self category = '*' or: [ each methodCategory = self category ] ]) 
 												    asArray sort: [ :a :b | a selector <= b selector ]);
