@@ -40,7 +40,7 @@ GtkConcreteWidget subclass: GtkObjectInspectorView [
         ^ aString = 'self'
             ifTrue: [ self object ]
             ifFalse: [ self object
-			instVarNamed: (aString copyFrom: 2 to: aString size) ]
+			instVarNamed: aString ]
     ]
 
     canDive [
