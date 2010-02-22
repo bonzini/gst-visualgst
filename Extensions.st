@@ -291,23 +291,6 @@ VariableBinding extend [
     ]
 ]
 
-GTK.GtkToolButton class extend [
-    newFromStock: icon label: aString [ 
-        ^(self newFromStock: icon)
-	    setLabel: aString;
-	    yourself
-    ]
-]
-
-GTK.GtkWidget extend [
-
-    setSensitive: aBoolean [
-	aBoolean
-	     ifTrue: [ self setFlags: Gtk gtkSensitive ]
-	     ifFalse: [ self unsetFlags: Gtk gtkSensitive ]
-    ]
-]
-
 GTK.GtkButton class extend [
 
     createButton: aStockId [
@@ -528,3 +511,39 @@ GTK.GtkTreeView extend [
     ]
 ]
 
+GTK.GtkDialog extend [
+    showModal [
+        <category: '*VisualGST'>
+
+        self
+            setModal: true;
+            showAll 
+    ]
+
+    showModalOnAnswer: aBlock [
+        <category: '*VisualGST'>
+
+        self
+            setModal: true;
+            connectSignal: 'response' to: aBlock selector: #cull:cull:;
+            showAll 
+    ]
+    
+    showModalDestroy [
+        <category: '*VisualGST'>
+
+        self
+            setModal: true;
+            connectSignal: 'response' to: self selector: #destroy;
+            showAll 
+    ]
+
+    showOnAnswer: aBlock [
+        <category: '*VisualGST'>
+
+        self
+            setModal: false;
+            connectSignal: 'response' to: aBlock selector: #cull:cull:;
+            showAll 
+    ]
+]

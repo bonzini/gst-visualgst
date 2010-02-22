@@ -12,6 +12,13 @@ GtkMainWindow subclass: GtkDebugger [
     GtkDebugger class >> open: aString [
 	<category: 'user interface'>
 
+        Processor activeProcess class == CallinProcess ifTrue: [
+            "The current process might be processing an event.  Gtk will
+             block inside g_main_loop_dispatch and won't deliver any
+             other events until this one is processed.  So, fork into a
+             new process and return nil without executing #ensure: blocks."
+            Processor activeProcess detach ].
+
 	[ :debugger |
 	    Processor activeProcess name: 'Notifier/Debugger'.
 	    (self openSized: 1024@600)
@@ -56,7 +63,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
 	    "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'. nil};"
 	    setProgramName: 'VisualGST Debugger';
-	    runBlockingAndDestroy
+	    showModalDestroy
     ]
 
     initialize [
@@ -560,7 +567,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         dialog
             addButton: 'Cancel' responseId: 0;
             addButton: 'Save' responseId: 1;
-            runBlockingAndDo: [ :dlg :res |
+            showModalOnAnswer: [ :dlg :res |
                 res = 1 ifTrue: saveEvent.
                 dlg destroy ].
     ]
@@ -581,7 +588,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             addButton: 'Close without saving' responseId: 0;
             addButton: 'Cancel' responseId: 2;
             addButton: 'Save' responseId: 1;
-            runBlockingAndDo: [ :dlg :res |
+            showModalOnAnswer: [ :dlg :res |
                 res = 0 ifTrue: closeEvent.
                 res = 1 ifTrue: saveEvent.
                 dlg destroy ].
