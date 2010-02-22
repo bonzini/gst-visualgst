@@ -368,7 +368,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	| iter |
 	selector := aSymbol.
 	self resultModel clear. 
-	resultArray := imageWidget model matchSelector: aSymbol.
+	resultArray := imageWidget matchSelector: aSymbol.
 	resultArray keysDo: [ :each |
 	    iter := GTK.GtkTreeIter new.
 	    self resultModel append: iter parent: nil.
