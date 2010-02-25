@@ -2,17 +2,30 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
     | classesTree model classOrMeta |
 
     GtkClassHierarchyWidget >> on: aClass [
+	<category: 'instance creation'>
+
 	^ (self new)
 	    initialize;
-	    class: aClass;
+	    classOrMeta: aClass;
 	    yourself
     ]
 
     initialize [
 	<category: 'initialization'>
 
-	self mainWidget: self buildTreeView
+	self 
+	    mainWidget: self buildTreeView;
+	    registerNotifier
     ]
+
+    registerNotifier [
+        <category: 'initialize-release'>
+
+       " (VisualGST uniqueInstance systemChangeNotifier)
+            notify: self ofSystemChangesOfItem: #class change: #Added using: #'addEvent:';
+            notify: self ofSystemChangesOfItem: #class change: #Removed using: #'removeEvent:';
+            notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'recategorizedEvent:'
+   " ]
 
     classOrMeta [
 	<category: 'accessing'>
@@ -24,77 +37,42 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
 	<category: 'accessing'>
 
 	classOrMeta := aClass.
-	self refreshModel
-    ]
-
-    model [
-	<category: 'accessing'>
-
-	^ model ifNil: [
-	    model := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString} ]
+	model 
+	    item: aClass;
+	    refresh
     ]
 
     emptyModel [
-	<category: 'accessing'>
-
-	self model clear
     ]
 
-    refreshModel [
-	<category: 'events'>
+    appendClass: aClass to: anArray [
+        <category: 'model builder'>
 
-	| iter |
-	
-	self model clear.
-	iter := self buildSuperClassHierarchy.
-	self classOrMeta class subclassesDo: [ :each |
-		self appendClass: each to: iter].
-
-	classesTree expandAll
-    ]
-
-    buildSuperClassHierarchy [
-	<category: 'model builder'>
-
-	| iter res parent parentGtkIter |
-	parent := self classOrMeta.
-	res := OrderedCollection new.
-	[parent isNil] whileFalse: [
-	    res addFirst: parent displayString.
-	    parent := parent superclass ].
-
-	res do: [ :each |
-	    iter := GTK.GtkTreeIter new.
-	    self model append: iter parent: parentGtkIter.
-	    self model setOop: iter column: 0 value: each.
-	    parentGtkIter := iter ].
-
-	^ iter
-    ]
-
-    appendClass: aClass to: parentGtkIter [
-	<category: 'model builder'>
-    
-	| iter |
-	iter := GTK.GtkTreeIter new.
-	self model append: iter parent: parentGtkIter.
-	self model setOop: iter column: 0 value: (aClass instanceClass displayString).
-
-	aClass subclassesDo: [ :each |
-	    self appendClass: each to: iter ]
+        anArray add: aClass 
     ]
 
     buildTreeView [
 	<category: 'user interface'>
-    
-	^ GTK.GtkScrolledWindow withChild: (classesTree := GTK.GtkTreeView newWithTextColumn: self model title: 'Class')
+   
+        classesTree := (GTK.GtkTreeView createTreeWithModel: {{GtkColumnTextType title: 'Classes'}})
+                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+                            yourself.
+        classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+        (model := GtkTreeModel on: classesTree getModel)
+                                        item: Class;
+                                        childrenBlock: [ :each | | col |
+                                                            col := SortedCollection sortBlock: [ :a :b | a asClass name <= b asClass name ].
+                                                            each subclassesDo: [ :subclasses | self appendClass: subclasses to: col ].
+                                                            col  ];
+                                        contentsBlock: [ :each | {each asClass name asString, ' '} ].
+        ^ GTK.GtkScrolledWindow withChild: classesTree 
     ]
 
     whenSelectionChangedSend: aSelector to: anObject [
 	<category: 'events'>
 
-	classesTree getSelection
-	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
+	"classesTree getSelection
+	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil"
     ]
 
     hasSelectedClass [
