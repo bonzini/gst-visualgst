@@ -271,8 +271,7 @@ Behavior extend [
     debuggerClass [
 	<category: '*VisualGST'>
 
-	"^ VisualGST.GtkDebugger"
-	^ nil
+	^ VisualGST.GtkDebugger
     ]
 ]
 
@@ -512,6 +511,7 @@ GTK.GtkTreeView extend [
 ]
 
 GTK.GtkDialog extend [
+
     showModal [
         <category: '*VisualGST'>
 

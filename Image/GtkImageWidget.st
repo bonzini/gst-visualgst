@@ -70,11 +70,10 @@ GtkConcreteWidget subclass: GtkImageWidget [
     searchValidate [
 	<category: 'search entry events'>
 
-        "searchEntry getText isEmpty ifTrue: [ ^ imageTree setModel: (model := GtkImageModel current) gtkModel ].
-        imageTree setModel: (model := (GtkImageModel current matchRegex: searchEntry getText)) gtkModel"
 	searchEntry getText isEmpty 
 		    ifTrue: [ model item: GtkImage current ]
 		    ifFalse: [ model item: (GtkImage current matchRegex: searchEntry getText) ].
+	model refresh
     ]
 
     hasSelection [

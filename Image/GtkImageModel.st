@@ -92,8 +92,15 @@ Object subclass: GtkImage [
 	finderDic keysAndValuesDo: [ :key :value |
 	    (key matchRegex: aString) ifTrue: [ result at: key put: value ] ].
 	^ (self class new)
-	    finderTreeAsModel: result;
+	    image: result;
+	    registerNotifier;
 	    yourself
+    ]
+
+    image: aDictionary [
+	<category:'accessing'>
+
+	finderDic := aDictionary
     ]
 
     do: aBlock [
