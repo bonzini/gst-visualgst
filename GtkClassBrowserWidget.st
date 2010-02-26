@@ -265,7 +265,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	classHierarchyUpdate := true.
         aClass := classHierarchyWidget selectedClass.
 	namespaceWidget selectANamespace: aClass environment.
-	classWidget selectAClass: aClass.
+	classWidget selectAClass: aClass class.
 	classHierarchyUpdate := false
     ]
 
