@@ -150,9 +150,7 @@ Eval [
     filein: 'SUnit/TestBacktraceLog.st';
     filein: 'SUnit/GtkSUnitResultWidget.st';
     filein: 'GtkClassSUnitWidget.st';
-    filein: 'GtkClassSUnitModel.st';
     filein: 'GtkMethodSUnitWidget.st';
-    filein: 'GtkMethodSUnitModel.st';
     filein: 'SUnit/GtkSUnit.st';
     filein: 'Commands/OpenBrowserCommand.st';
     filein: 'Commands/OpenWindowedBrowserCommand.st';

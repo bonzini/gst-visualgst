@@ -106,10 +106,6 @@ GtkMainWindow subclass: GtkSUnit [
         | package |
         package := PackageLoader packageAt: 'VisualGST'.
 	self
-	    "appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
-				connectSignal: 'clicked' to: OpenWorkspaceCommand selector: #execute userData: nil;
-				setTooltipText: 'Create a new workspace';
-				yourself);"
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
 				connectSignal: 'clicked' to: SaveImageCommand selector: #execute userData: nil;
 				setTooltipText: 'Save the image';
@@ -341,7 +337,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             namespaceWidget selectANamespace: aNamespace ].
         namespace := aNamespace.
 	aNamespace isNil ifTrue: [ ^self ].
-        classWidget namespace: aNamespace.
+        classWidget namespace: aNamespace category: ''.
 	state := NamespaceState on: self with: aNamespace
     ]
 
@@ -391,7 +387,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
     selectedCategory [
 	<category: 'browser methods'>
 
-	^methodWidget selectedMethod
+	^ methodWidget selectedMethod
 	    ifNil: [ 'unit tests' ]
 	    ifNotNil: [ :method | method methodCategory ]
     ]

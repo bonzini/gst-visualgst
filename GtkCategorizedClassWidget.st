@@ -2,6 +2,8 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     | classesTree column model namespace category |
 
     GtkCategorizedClassWidget >> on: aNamespace [
+	<category: 'instance creation'>
+
 	^ (self new)
 	    initialize;
 	    namespace: aNamespace;
@@ -69,15 +71,27 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 		    ifFalse: [ aClass subclassesDo: [ :each | self appendClass: each to: anArray ] ]
     ]
 
+    root [
+	<category: 'accessing'>
+
+	^ Class
+    ]
+
+    selectionMode [
+	<category: 'accessing'>
+
+	^ GTK.Gtk gtkSelectionBrowse
+    ]
+
     buildTreeView [
 	<category: 'user interface'>
    
         classesTree := (GTK.GtkTreeView createTreeWithModel: {{GtkColumnTextType title: 'Classes'}})
                             connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
                             yourself.
-        classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+        classesTree getSelection setMode: self selectionMode.
         (model := GtkTreeModel on: classesTree getModel)
-					item: Class;
+					item: self root;
 					childrenBlock: [ :each | | col | 
 							    col := SortedCollection sortBlock: [ :a :b | a asClass name <= b asClass name ]. 
 							    each subclassesDo: [ :subclasses | self appendClass: subclasses to: col ]. 

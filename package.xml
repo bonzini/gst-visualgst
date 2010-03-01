@@ -158,9 +158,7 @@
   <filein>SUnit/TestBacktraceLog.st</filein>
   <filein>SUnit/GtkSUnitResultWidget.st</filein>
   <filein>GtkClassSUnitWidget.st</filein>
-  <filein>GtkClassSUnitModel.st</filein>
   <filein>GtkMethodSUnitWidget.st</filein>
-  <filein>GtkMethodSUnitModel.st</filein>
   <filein>SUnit/GtkSUnit.st</filein>
   <filein>Commands/OpenBrowserCommand.st</filein>
   <filein>Commands/OpenWindowedBrowserCommand.st</filein>
@@ -311,9 +309,7 @@
   <file>SUnit/TestBacktraceLog.st</file>
   <file>SUnit/GtkSUnitResultWidget.st</file>
   <file>GtkClassSUnitWidget.st</file>
-  <file>GtkClassSUnitModel.st</file>
   <file>GtkMethodSUnitWidget.st</file>
-  <file>GtkMethodSUnitModel.st</file>
   <file>SUnit/GtkSUnit.st</file>
   <file>Commands/OpenBrowserCommand.st</file>
   <file>Commands/OpenWindowedBrowserCommand.st</file>

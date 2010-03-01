@@ -271,8 +271,7 @@ Behavior extend [
     debuggerClass [
 	<category: '*VisualGST'>
 
-	^ nil
-	"^ VisualGST.GtkDebugger"
+	^ VisualGST.GtkDebugger
     ]
 ]
 
@@ -480,6 +479,19 @@ GTK.GtkTreeView extend [
         | iter string |
         (iter := self selectedIter) ifNil: [ ^ self error: 'nothing is selected' ].
 	^ (self getModel at: iter) last
+    ]
+
+    selections [
+	<category: 'accessing'>
+
+	| glist result |
+	result := OrderedCollection new.
+	(glist := self getSelection getSelectedRows: nil) ifNil: [ ^ result ].
+	glist do: [ :each | | iter path |
+	    path := each castTo: GTK.GtkTreePath type.
+	    iter := self getModel getIter: path.
+	    result add: ((self getModel at: iter) last) ].
+	^ result
     ]
 
     select: anObject [
