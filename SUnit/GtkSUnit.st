@@ -357,8 +357,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
         class := aClass.
 	aClass isNil ifTrue: [ ^self ].
 	methodWidget class: class withCategory: '*'.
-	state := CategoryState on: self with: class -> '*'.
-	self selectAnInstanceMethod: nil.
+	state := CategoryState on: self with: class -> '*'
     ]
 
     onMethodChanged [
