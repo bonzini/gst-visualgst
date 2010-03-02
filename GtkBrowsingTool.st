@@ -1,0 +1,240 @@
+GtkMainWindow subclass: GtkBrowsingTool [
+    | state |
+
+    initialize [
+        <category: 'initialization'>
+
+        super initialize.
+        self
+            title: 'SUnit';
+            createMenus;
+            createToolbar;
+            createStatusBar;
+            centralWidget: self buildCentralWidget.
+    ]
+
+    createFileMenus [
+        <category: 'user interface'>
+
+        self accelGroup append:
+            {{'<Control>O'. '<GtkSUnit>/File/Open'}.
+            {'<Control>S'. '<GtkSUnit>/File/Save'}.
+            {'<Control><Shift>S'. '<GtkSUnit>/File/SaveAs'}.
+            {'<Control>Q'. '<GtkSUnit>/File/Quit'}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkSUnit>/File/Open' connectTo: self selector: #open.
+            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkSUnit>/File/Save' connectTo: self selector: #saveImage.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkSUnit>/File/SaveAs' connectTo: self selector: #saveImageAs.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
+            GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkSUnit>/File/Quit' connectTo: self selector: #close}
+    ]
+
+    createEditMenus [
+        <category: 'user interface'>
+
+        self accelGroup append: {{'<Control><shift>Z'. '<GtkSUnit>/Edit/Cancel'}.
+            {'<Control>Z'. '<GtkSUnit>/Edit/Undo'}.
+            {'<Control>R'. '<GtkSUnit>/Edit/Redo'}.
+            {'<Control>X'. '<GtkSUnit>/Edit/Cut'}.
+            {'<Control>C'. '<GtkSUnit>/Edit/Copy'}.
+            {'<Control>V'. '<GtkSUnit>/Edit/Paste'}.
+            {'<Control>A'. '<GtkSUnit>/Edit/SelectAll'}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkSUnit>/Edit/Cancel' connectTo: self selector: #cancel.
+            GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkSUnit>/Edit/Undo' connectTo: self selector: #undo.
+            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkSUnit>/Edit/Redo' connectTo: self selector: #redo.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkSUnit>/Edit/Cut' connectTo: self selector: #cut.
+            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkSUnit>/Edit/Copy' connectTo: self selector: #copy.
+            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkSUnit>/Edit/Paste' connectTo: self selector: #paste.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkSUnit>/Edit/SelectAll' connectTo: self selector: #selectAll}
+    ]
+
+    createToolsMenus [
+        <category: 'user interface'>
+
+        | menu |
+        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/TabbedClassBrowser'}.
+            {'<Control><shift>B'. '<GtkLauncher>/Tools/ClassBrowser'}.
+            {'<Control>M'. '<GtkLauncher>/Tools/Implementors'}.
+            {'<Control>N'. '<GtkLauncher>/Tools/Senders'}}.
+
+        menu := {GTK.GtkMenuItem menuItem: 'Browser' accelPath: '<GtkLauncher>/Tools/TabbedClassBrowser' connectTo: OpenBrowserCommand selector: #execute.
+            GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkLauncher>/Tools/ClassBrowser' connectTo: OpenWindowedBrowserCommand selector: #execute.
+            GTK.GtkMenuItem menuItem: 'Workspace' connectTo: OpenWorkspaceCommand selector: #execute.
+            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Tools/Implementors' connectTo: OpenImplementorCommand selector: #execute.
+            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Tools/Senders' connectTo: OpenSenderCommand selector: #execute.
+            GTK.GtkMenuItem menuItem: 'SUnit' connectTo: OpenSUnitCommand selector: #execute} asOrderedCollection.
+
+        GtkWebView hasWebkit ifTrue: [ menu addAll: {GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Assistant' connectTo: OpenAssistantCommand selector: #execute.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: OpenWebBrowserCommand selector: #execute} ].
+
+        ^ self createNewMenuEntry: menu
+    ]
+
+    createHelpMenus [
+        <category: 'user interface'>
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About SUnit' connectTo: self selector: #aboutSUnit.
+            GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
+    ]
+
+    createMenus [
+        <category: 'user interface'>
+
+        self addMenuItem: 'File' withSubmenu: self createFileMenus.
+        self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
+        self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
+        self addMenuItem: 'Help' withSubmenu: self createHelpMenus
+    ]
+
+    createStatusBar [
+        <category: 'user interface'>
+
+        self statusMessage: 'SUnit'
+    ]
+
+    createToolbar [
+        <category: 'user interface'>
+
+        self
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
+                                connectSignal: 'clicked' to: SaveImageCommand selector: #execute;
+                                setTooltipText: 'Save the image';
+                                yourself);
+            appendSeparator;
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-cut')
+                                connectSignal: 'clicked' to: self selector: #cut;
+                                setTooltipText: 'Cut';
+                               yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-copy')
+                                connectSignal: 'clicked' to: self selector: #copy;
+                                setTooltipText: 'Copy';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-paste')
+                                connectSignal: 'clicked' to: self selector: #paste;
+                                setTooltipText: 'Paste';
+                                yourself);
+            appendSeparator;
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-undo')
+                                connectSignal: 'clicked' to: self selector: #undo;
+                                setTooltipText: 'Undo';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-redo')
+                                connectSignal: 'clicked' to: self selector: #redo;
+                                setTooltipText: 'Redo';
+                                yourself);
+            appendSeparator;
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-execute' label: 'Do It')
+                                connectSignal: 'clicked' to: self selector: #doIt;
+                                setTooltipText: 'Do It';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-print' label: 'Print It')
+                                connectSignal: 'clicked' to: self selector: #printIt;
+                                setTooltipText: 'Print It';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-convert' label: 'Inspect It')
+                                connectSignal: 'clicked' to: self selector: #inspectIt;
+                                setTooltipText: 'Inspect It';
+                                yourself);
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-sort-descending' label: 'Debug It')
+                                connectSignal: 'clicked' to: self selector: #debugIt;
+                                setTooltipText: 'Debug It';
+                                yourself);
+            appendSeparator;
+            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-apply' label: 'Accept')
+                                connectSignal: 'clicked' to: self selector: #acceptIt;
+                                setTooltipText: 'Accept';
+                                yourself)
+    ]
+
+    postInitialize [
+        <category: 'initialization'>
+
+        window
+            connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
+    ]
+
+    delete: aGtkWidget event: aGdkEvent [
+        <category: 'window events'>
+
+        self hasChanged ifFalse: [ ^ window hideAll ].
+        self saveCodeOnClose: [ window hideAll ] onSave: [ state saveSource. window hideAll ].
+        ^ true
+    ]
+
+    saveCodeOnClose: closeEvent onSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state}.
+
+        dialog
+            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Cancel' responseId: 2;
+            addButton: 'Save' responseId: 1;
+            showModalOnAnswer: [ :dlg :res |
+                res = 0 ifTrue: closeEvent.
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
+    ]
+
+    checkCodeWidget [
+        <category: 'text editing'>
+
+        self hasChanged ifFalse: [ self clearUndo. ^ self ].
+        self saveCodeOnSave: [ state saveSource ].
+        self clearUndo
+    ]
+
+    saveCodeOnSave: saveEvent [
+        <category: 'saving'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: window
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save changes to this method?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {state}.
+
+        dialog
+            addButton: 'Cancel' responseId: 0;
+            addButton: 'Save' responseId: 1;
+            showModalOnAnswer: [ :dlg :res |
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
+    ]
+
+    hasChanged [
+        <category: 'testing'>
+
+        self subclassResponcibility
+    ]
+
+    clearUndo [
+	<category: 'undo'>
+
+	
+        self subclassResponcibility
+    ]
+
+]
+

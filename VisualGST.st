@@ -57,7 +57,7 @@ GtkMainWindow subclass: VisualGST [
     VisualGST class >> version [
 	<category: 'accessing'>
 
-	^ '0.7.0'
+	^ '0.7.5'
     ]
 
     VisualGST class >> website [
@@ -168,8 +168,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
             addButton: 'Save image' responseId: 1;
             showModalOnAnswer: [ :dlg :res |
                 res = 0 ifTrue: [ self class exit ].
-                res = 1 ifTrue: [ self saveImage.
-				  self class exit ].
+                res = 1 ifTrue: [ self saveImageAndQuit ].
                 dlg destroy ].
     ]
 
@@ -206,6 +205,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	<category: 'file events'>
     ]
 
+    saveImageAndQuit [
+        <category: 'file events'>
+
+        "ObjectMemory>>#snapshot breaks hard links due to
+         http://bugzilla.kernel.org/show_bug.cgi?id=9138, so we have to
+         check the permission of the directory rather than the file."
+        imageName asFile parent isWriteable ifFalse: [ self saveImageAsAndQuit ].
+        self saveImage: [ ObjectMemory snapshot: imageName. self class exit ]
+    ]
+
     saveImage [
         <category: 'file events'>
 
@@ -224,6 +233,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 		imageName := dlg getFilename.
 		dlg destroy.
 		res = GTK.Gtk gtkResponseAccept ifTrue: [ self saveImage: [ ObjectMemory snapshot: imageName ] ] ]
+    ]
+
+    saveImageAsAndQuit [
+        <category: 'file events'>
+
+        (GTK.GtkFileChooserDialog save: 'Save image as...' parent: window)
+            showModalOnAnswer: [ :dlg :res |
+                imageName := dlg getFilename.
+                dlg destroy.
+                res = GTK.Gtk gtkResponseAccept ifTrue: [ self saveImage: [ ObjectMemory snapshot: imageName ]. self class exit ] ]
     ]
 
     saveImage: aBlock [
@@ -380,11 +399,11 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo' connectTo: self selector: #undo.
             GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkLauncher>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut' connectTo: self selector: #cut.
-            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkLauncher>/Edit/Copy' connectTo: self selector: #copy.
-            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste' connectTo: self selector: #paste.
+            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut' "connectTo: self selector: #cut".
+            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkLauncher>/Edit/Copy' "connectTo: self selector: #copy".
+            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste' "connectTo: self selector: #paste".
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll' connectTo: self selector: #selectAll.
+            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll' "connectTo: self selector: #selectAll".
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Find' accelPath: '<GtkLauncher>/Edit/Find' connectTo: self selector: #find.
             GTK.GtkMenuItem menuItem: 'Replace' accelPath: '<GtkLauncher>/Edit/Replace' connectTo: self selector: #replace.
@@ -539,60 +558,60 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 
 	self
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
-				connectSignal: 'clicked' to: OpenWorkspaceCommand selector: #execute userData: nil;
+				connectSignal: 'clicked' to: OpenWorkspaceCommand selector: #execute;
 				setTooltipText: 'Create a new workspace';
 				yourself);
 	    appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
-				connectSignal: 'clicked' to: SaveImageCommand selector: #execute userData: nil;
+				connectSignal: 'clicked' to: SaveImageCommand selector: #execute;
 				setTooltipText: 'Save the image';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save-as')
-				connectSignal: 'clicked' to: SaveImageAsCommand selector: #execute userData: nil;
+				connectSignal: 'clicked' to: SaveImageAsCommand selector: #execute;
 				setTooltipText: 'Save the image as';
 				yourself);
 	    appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-cut')
-				connectSignal: 'clicked' to: self selector: #cut userData: nil;
+				connectSignal: 'clicked' to: self selector: #cut;
 				setTooltipText: 'Cut';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-copy')
-				connectSignal: 'clicked' to: self selector: #copy userData: nil;
+				connectSignal: 'clicked' to: self selector: #copy;
 				setTooltipText: 'Copy';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-paste')
-				connectSignal: 'clicked' to: self selector: #paste userData: nil;
+				connectSignal: 'clicked' to: self selector: #paste;
 				setTooltipText: 'Paste';
 				yourself);
 	    appendSeparator;
             appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-undo')
-				connectSignal: 'clicked' to: self selector: #undo userData: nil;
+				connectSignal: 'clicked' to: self selector: #undo;
 				setTooltipText: 'Undo';
 				yourself);
             appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-redo')
-				connectSignal: 'clicked' to: self selector: #redo userData: nil;
+				connectSignal: 'clicked' to: self selector: #redo;
 				setTooltipText: 'Redo';
 				yourself);
             appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-execute' label: 'Do It')
-				connectSignal: 'clicked' to: self selector: #doIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #doIt;
 				setTooltipText: 'Do It';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-print' label: 'Print It')
-				connectSignal: 'clicked' to: self selector: #printIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #printIt;
 				setTooltipText: 'Print It';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-convert' label: 'Inspect It')
-				connectSignal: 'clicked' to: self selector: #inspectIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #inspectIt;
 				setTooltipText: 'Inspect It';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-sort-descending' label: 'Debug It')
-				connectSignal: 'clicked' to: self selector: #debugIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #debugIt;
 				setTooltipText: 'Debug It';
 				yourself);
 	    appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-apply' label: 'Accept')
-				connectSignal: 'clicked' to: self selector: #acceptIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #acceptIt;
 				setTooltipText: 'Accept';
 				yourself)
     ]

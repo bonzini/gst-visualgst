@@ -67,6 +67,8 @@
   <filein>GtkTreeModel.st</filein>
   <filein>Text/GtkTextWidget.st</filein>
   <filein>GtkMainWindow.st</filein>
+  <filein>GtkBrowsingTool.st</filein>
+  <filein>GtkBrowserWrapper.st</filein>
   <filein>VisualGST.st</filein>
   <filein>Text/GtkTextPluginWidget.st</filein>
   <filein>Text/GtkFindWidget.st</filein>
@@ -218,6 +220,8 @@
   <file>GtkTreeModel.st</file>
   <file>Text/GtkTextWidget.st</file>
   <file>GtkMainWindow.st</file>
+  <file>GtkBrowsingTool.st</file>
+  <file>GtkBrowserWrapper.st</file>
   <file>VisualGST.st</file>
   <file>Text/GtkTextPluginWidget.st</file>
   <file>Text/GtkFindWidget.st</file>

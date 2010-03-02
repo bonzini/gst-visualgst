@@ -533,6 +533,12 @@ GTK.GtkDialog extend [
             showAll 
     ]
 
+    destroy: aGtkDialog [
+        <category: '*VisualGST'>
+
+	self destroy
+    ]
+
     showModalOnAnswer: aBlock [
         <category: '*VisualGST'>
 
@@ -547,7 +553,7 @@ GTK.GtkDialog extend [
 
         self
             setModal: true;
-            connectSignal: 'response' to: self selector: #destroy;
+            connectSignal: 'response' to: self selector: #destroy:;
             showAll 
     ]
 

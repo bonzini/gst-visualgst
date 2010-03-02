@@ -59,6 +59,8 @@ Eval [
     filein: 'GtkTreeModel.st';
     filein: 'Text/GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
+    filein: 'GtkBrowsingTool.st';
+    filein: 'GtkBrowserWrapper.st';
     filein: 'VisualGST.st';
     filein: 'Text/GtkTextPluginWidget.st';
     filein: 'Text/GtkFindWidget.st';
