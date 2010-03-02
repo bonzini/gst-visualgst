@@ -58,6 +58,27 @@ GtkMainWindow subclass: GtkBrowsingTool [
             GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkSUnit>/Edit/SelectAll' connectTo: self selector: #selectAll}
     ]
 
+    createSmalltalkMenus [
+        <category: 'user interface'>
+
+        self accelGroup append: {{'<Control>D'. '<GtkLauncher>/Smalltalk/DoIt'. self. #doIt}.
+            {'<Control>P'. '<GtkLauncher>/Smalltalk/PrintIt'. self. #printIt}.
+            {'<Control>I'. '<GtkLauncher>/Smalltalk/InspectIt'. self. #inspectIt}.
+            {'<Control>M'. '<GtkLauncher>/Smalltalk/Implementors'. self. #implementors}.
+            {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'. self. #senders}.
+            {'<Control>S'. '<GtkLauncher>/Smalltalk/AcceptIt'. self. #acceptIt}}.
+
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
+            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
+            GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors' connectTo: self selector: #implementors.
+            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders' connectTo: self selector: #senders.
+            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Accept' accelPath: '<GtkLauncher>/Smalltalk/AcceptIt' connectTo: self selector: #acceptIt}
+    ]
+
     createToolsMenus [
         <category: 'user interface'>
 
