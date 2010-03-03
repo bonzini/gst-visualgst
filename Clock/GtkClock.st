@@ -1,5 +1,5 @@
 Smalltalk.Object subclass: GtkClock [
-    | hour minute radius second window x y |
+    | canvas hour minute radius second window x y |
 
     GtkClock class >> open [
 	<category: 'user interface'>
@@ -36,17 +36,17 @@ Smalltalk.Object subclass: GtkClock [
         second := now second.
     ]
 
-    clearArea: aGtkAllocation on: aCairoContext [
+    clearArea: aGtkAllocation [
 	<category: 'drawing'>
 
 	| res |
         res := aGtkAllocation castTo: (CIntType arrayType: 4).
 
-        Cairo.Cairo 
-	    rectangle: aCairoContext x: (res at: 0) y: (res at: 1) width: (res at: 2) height: (res at: 3);
-	    setOperator: aCairoContext operator: Cairo.Cairo operatorClear;
-	    fill: aCairoContext;
-	    setOperator: aCairoContext operator: Cairo.Cairo operatorOver
+        canvas saveWhile: [
+            canvas
+                rectangle: ((0@0) extent: ((res at: 2) @ (res at: 3)));
+                operator: #clear;
+                fill ]
     ]
 
     drawClockCircle: context [
@@ -114,18 +114,17 @@ Smalltalk.Object subclass: GtkClock [
     ]
 
     expose: aGtkWidget event: aGdkEventExpose [
-	| context cr |
 
-	cr := (GTK.Gdk cairoCreate: aGtkWidget getWindow).
-	context := Cairo.CairoContext context: cr.
+	aGtkWidget getWindow withContextDo: [ :cr |
+	    canvas := cr.
 
-	x := 128.
-	y := 128.
+	    x := 128.
+	    y := 128.
 
-	self 
-	    clearArea: aGtkWidget getAllocation on: cr;
-	    time;
-	    drawClock: context.
+	    self 
+		clearArea: aGtkWidget getAllocation;
+		time;
+		drawClock: cr ].
 
 	^ true
     ]
@@ -136,8 +135,8 @@ Smalltalk.Object subclass: GtkClock [
 	window := (GTK.GtkWindow new: GTK.Gtk gtkWindowToplevel).
 	window 
 	    setColormap: window getScreen getRgbaColormap;
-	    connectSignal: 'expose_event' to: self selector: #'expose:event:' userData: nil.";
-	    setDecorated: false"
+	    connectSignal: 'expose_event' to: self selector: #'expose:event:' userData: nil;
+	    setDecorated: false.
 	radius := 100
     ]
 
@@ -148,8 +147,12 @@ Smalltalk.Object subclass: GtkClock [
     ]
 
     showAll [
+	| delay |
+
+	delay := Delay forSeconds: 1.
+
 	window showAll.
 
-	[ [ true ] whileTrue: [ window queueDraw. Processor yield ] ] forkAt: Processor timingPriority
+	[ [ true ] whileTrue: [ window queueDraw. delay wait ] ] fork
     ]
 ]

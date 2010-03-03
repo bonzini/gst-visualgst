@@ -102,7 +102,7 @@ GtkMainWindow subclass: Tetris [
 	
 	^ canvasWidget := GTK.GtkDrawingArea new
 	    setSizeRequest: 400 height: 700;
-	    connectSignal: 'expose_event' to: self selector: #'expose:event:' userData: nil;
+	    connectSignal: 'expose_event' to: self selector: #'expose:event:';
 	    yourself
     ]
 
@@ -170,14 +170,15 @@ GtkMainWindow subclass: Tetris [
 
     expose: aGtkWidget event: aGdkEventExpose [
 	<category: 'drawing event'>
-        aGtkWidget getWindow withContextDo: [ :cr |
+
+	aGtkWidget getWindow withContextDo: [ :cr |
             canvas := cr.
             self
                 clearArea: aGtkWidget getAllocation;
-	        drawArea;
-	        drawGrid;
-	        drawScore.
-	].
+		drawArea;
+		drawGrid;
+		drawScore ].
+
         ^ true
     ]
 
@@ -242,8 +243,7 @@ GtkMainWindow subclass: Tetris [
 
 	[ self
 	    initializeGame;
-	    cycle ] fork"At: Processor lowestPriority".
-	Processor activeProcess suspend
+	    cycle ] fork.
     ]
 
     gameOver [
