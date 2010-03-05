@@ -359,7 +359,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	codeWidget codeSaved.
         Namespace current: aNamespace.
-        ^ (ReadStream on: codeWidget sourceCode) fileIn
+        (ReadStream on: codeWidget sourceCode) fileIn.
+	(STInST.GSTFileInParser parseSmalltalkStream: (ReadStream on: codeWidget sourceCode) with: (STInST.STClassLoader new)) do: [ :each |
+	    each isClass ifTrue: [
+		self 
+		    selectANamespace: each environment;
+		    selectAClass: each ] ]
     ]
 
     acceptClassDefinition [
