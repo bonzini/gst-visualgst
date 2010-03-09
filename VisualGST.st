@@ -179,9 +179,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	outputs currentWidget  == transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
 	(GTK.GtkFileChooserDialog load: 'Load Smalltalk source' parent: window)
 	    showModalOnAnswer: [ :dlg :res |
-		res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
-		file := FileStream open: dlg getFilename mode: FileStream read.
-		outputs currentWidget text: file upToEnd.
+		res = GTK.Gtk gtkResponseAccept 
+				ifTrue: [ file := FileStream open: dlg getFilename mode: FileStream read.
+					  outputs currentWidget text: file upToEnd ].
 		dlg destroy ]
     ]
 
@@ -195,10 +195,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	| file |
         (GTK.GtkFileChooserDialog save: 'Save Smalltalk source as...' parent: window)
             showModalOnAnswer: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept ifFalse: [ ^ dlg destroy ].
-		file := FileStream open: dlg getFilename mode: FileStream write.
-		file nextPutAll: outputs currentWidget text. 
-                dlg destroy ]
+                res = GTK.Gtk gtkResponseAccept 
+				ifTrue: [ file := FileStream open: dlg getFilename mode: FileStream write.
+					  file nextPutAll: outputs currentWidget text ].
+		dlg destroy ]
     ]
 
     print [
@@ -399,11 +399,11 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
 	    GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo' connectTo: self selector: #undo.
             GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkLauncher>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut' "connectTo: self selector: #cut".
-            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkLauncher>/Edit/Copy' "connectTo: self selector: #copy".
-            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste' "connectTo: self selector: #paste".
+            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkLauncher>/Edit/Cut' connectTo: self selector: #cut.
+            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkLauncher>/Edit/Copy' connectTo: self selector: #copy.
+            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkLauncher>/Edit/Paste' connectTo: self selector: #paste.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll' "connectTo: self selector: #selectAll".
+            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkLauncher>/Edit/SelectAll' connectTo: self selector: #selectAll.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Find' accelPath: '<GtkLauncher>/Edit/Find' connectTo: self selector: #find.
             GTK.GtkMenuItem menuItem: 'Replace' accelPath: '<GtkLauncher>/Edit/Replace' connectTo: self selector: #replace.

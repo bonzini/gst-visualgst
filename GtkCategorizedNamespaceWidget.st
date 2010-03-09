@@ -16,14 +16,6 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
             notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:'
     ]
 
-    "model [
-	<category: 'accessing'>
-
-	    model gtkModel
-		connectSignal: 'row-has-child-toggled' to: self
-		selector: #childToggled:path:iter:.
-    ]"
-
     buildTreeView [
         <category: 'user interface'>
 
@@ -35,8 +27,8 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
                                         item: FakeNamespace;
                                         childrenBlock: [ :each | (each subspaces asArray sort: [ :a :b | a name <= b name ]), (each categories values sort: [ :a :b | a name <= b name ]) ];
                                         contentsBlock: [ :each | {each icon. each name asString} ];
+					connectSignal: 'row-has-child-toggled' to: self selector: #'childToggled:path:iter:';
 					refresh.
-	namespacesTree expandAll.
         ^ GTK.GtkScrolledWindow withChild: namespacesTree
     ]
 
@@ -93,14 +85,14 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         ^ namespacesTree selection category name
     ]
 
-    "childToggled: model path: path iter: iter [
+    childToggled: model path: path iter: iter [
 	<category: 'signals'>
 
 	namespacesTree collapseRow: path.
-	(self model isIterNamespace: iter) ifTrue: [
-	    ((self model gtkModel at: iter) at: 3) subspaces isEmpty ifFalse: [
+	((model at: iter) at: 3) isNamespace ifTrue: [
+	    ((model at: iter) at: 3) subspaces isEmpty ifFalse: [
 		namespacesTree expandRow: path openAll: false ] ]
-    ]"
+    ]
 
     newNamespace [
         <category: 'popup events'>

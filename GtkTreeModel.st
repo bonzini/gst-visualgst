@@ -22,6 +22,12 @@ Object subclass: GtkTreeModel [
 	model := aGtkTreeStore
     ]
 
+    connectSignal: aString to: anObject selector: aSymbol [
+	<category: 'events'>
+
+	^ model connectSignal: aString to: anObject selector: aSymbol
+    ]
+
     item: anObject [
 	<category: 'accessing'>
 
@@ -56,6 +62,12 @@ Object subclass: GtkTreeModel [
 	<category: 'accessing'>
 
 	^ contentsBlock
+    ]
+
+    append: anObject [
+        <category:' model'>
+
+        self append: anObject with: nil
     ]
 
     append: anObject parent: aParentObject [

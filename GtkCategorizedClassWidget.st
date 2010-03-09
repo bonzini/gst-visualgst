@@ -188,13 +188,19 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	FileoutClassCommand on: self selectedClass
     ]
 
+    addToModel: aClass [
+
+	(aClass superclass environment == self namespace and: [ aClass superclass category = self category or: [ self category isEmpty ] ]) 
+				    ifFalse: [ model append: aClass class ] 
+				    ifTrue: [ model append: aClass class parent: aClass superclass class ]
+    ]
+
     addEvent: anEvent [
         <category: 'model event'>
 
-        | parentIter parent |
         anEvent item environment == self namespace ifFalse: [ ^ self ].
         (anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
-	model append: anEvent item parent: anEvent item superclass class
+	self addToModel: anEvent item
     ]
 
     removeEvent: anEvent [
@@ -202,18 +208,16 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 
         anEvent item environment == self namespace ifFalse: [ ^ self ].
         (anEvent item category = self category or: [ self category isEmpty ]) ifFalse: [ ^ self ].
-        model remove: anEvent item
+        model remove: anEvent item class
     ]
 
     recategorizedEvent: anEvent [
         <category: 'model event'>
 
-       | iter |
         anEvent item environment == self namespace ifFalse: [ ^ self ].
         anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
-        (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ ^ model remove: anEvent item ].
-        (anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [
-            model append:  anEvent item parent: anEvent item superclass ]
+        (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ model remove: anEvent item class ].
+        (anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [ self addToModel: anEvent item ]
     ]
 ]
 
