@@ -47,6 +47,6 @@ GtkTextWidget subclass: GtkTranscriptWidget [
     update: aString [
 	<category: 'updating'>
 
-	self buffer insertAtEnd: aString
+	self buffer insertAtEnd: aString displayString
     ]
 ]
