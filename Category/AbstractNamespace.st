@@ -34,5 +34,11 @@ AbstractNamespace extend [
 
         ^ self class icon
     ]
+
+    isCategory [
+	<category: 'testing'>
+
+	^ false
+    ]
 ]
 

@@ -13,7 +13,9 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
 
         (VisualGST uniqueInstance systemChangeNotifier)
             notify: self ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
-            notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:'
+            notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:';
+            notify: self ofSystemChangesOfItem: #category change: #Added using: #'addCategoryEvent:';
+            notify: self ofSystemChangesOfItem: #category change: #Removed using: #'removeCategoryEvent:'
     ]
 
     buildTreeView [
@@ -82,7 +84,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         <category: 'accessing'>
 
         self hasSelectedNamespace ifFalse: [ self error: 'nothing is selected' ].
-        ^ namespacesTree selection category name
+        ^ namespacesTree selection category fullname
     ]
 
     childToggled: model path: path iter: iter [
@@ -136,10 +138,26 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         model remove: anEvent item
     ]
 
+    removeCategoryEvent: anEvent [
+        <category: 'model event'>
+
+        model remove: anEvent item
+    ]
+
+    addCategoryEvent: anEvent [
+        <category: 'model event'>
+
+	anEvent item isRoot ifTrue: [ ^ self ].
+	model append: anEvent item parent: (anEvent item parent isRoot ifTrue: [ anEvent item namespace ] ifFalse: [ anEvent item parent ])
+    ]
+
     recategorizedClassEvent: anEvent [
         <category: 'model event'>
 
-	"model append: anEvent item category parent: namespace"
+	"anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
+	 self 
+	    removeEmptyCategory: anEvent item oldCategory;
+	    addCategory: anEvent item category"
     ]
 ]
 

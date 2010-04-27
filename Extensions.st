@@ -103,6 +103,17 @@ Class extend [
 	    environment: aNamespace
 	    subclassOf: self
     ]
+
+    classCategory [
+	<category: '*VisualGST'>
+
+	| category token |
+	token := self category ifNil: [ ^ nil ] ifNotNil: [ self category tokenize: '-' ].
+        category := self environment categories.
+        token do: [ :each | 
+	    category := category at: each ifAbsent: [ ^ nil ] ].
+	^ (category classes includes: self) ifTrue: [ category ] ifFalse: [ ^ nil ]
+    ]
 ]
 
 CompiledCode extend [

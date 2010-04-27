@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gst-sunit -p GtkLauncher
+gst-sunit -p VisualGST

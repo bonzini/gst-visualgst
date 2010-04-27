@@ -1,5 +1,5 @@
 Smalltalk.Object subclass: GtkClock [
-    | canvas hour minute radius second window x y |
+    | canvas hour minute process radius second window x y |
 
     GtkClock class >> open [
 	<category: 'user interface'>
@@ -20,9 +20,10 @@ Smalltalk.Object subclass: GtkClock [
 	    yourself
     ]
 
-    close [
+    quit [
 	<category: 'events'>
 
+	process terminate.
 	window hide
     ]
 
@@ -135,9 +136,17 @@ Smalltalk.Object subclass: GtkClock [
 	window := (GTK.GtkWindow new: GTK.Gtk gtkWindowToplevel).
 	window 
 	    setColormap: window getScreen getRgbaColormap;
-	    connectSignal: 'expose_event' to: self selector: #'expose:event:' userData: nil;
+	    connectSignal: 'expose_event' to: self selector: #'expose:event:';
+	    connectSignal: 'delete-event' to: self selector: #'delete:event:';
 	    setDecorated: false.
 	radius := 100
+    ]
+
+    delete: aGtkWidget event: aGdkEvent [
+        <category: 'windows event'>
+
+        self quit.
+        ^ true
     ]
 
     resize: aPoint [
@@ -150,9 +159,7 @@ Smalltalk.Object subclass: GtkClock [
 	| delay |
 
 	delay := Delay forSeconds: 1.
-
 	window showAll.
-
-	[ [ true ] whileTrue: [ window queueDraw. delay wait ] ] fork
+	process := [ [ true ] whileTrue: [ window queueDraw. delay wait ] ] fork
     ]
 ]

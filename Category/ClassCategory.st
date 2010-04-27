@@ -11,6 +11,14 @@ Object subclass: ClassCategory [
 	^ icon ifNil: [ icon := GTK.GdkPixbuf newFromFile: ((PackageLoader packageAt: 'VisualGST') / 'Icons/category.gif') file displayString error: nil ]
     ]
 
+    ClassCategory class >> namespace: aNamespace [
+        <category: 'instance creation'>
+
+        ^ self basicNew
+		    namespace: aNamespace;
+		    yourself
+    ]
+
     ClassCategory class >> named: aString [
 	<category: 'instance creation'>
 
@@ -20,9 +28,16 @@ Object subclass: ClassCategory [
     ClassCategory class >> named: aString parent: aClassCategory [
         <category: 'instance creation'>
 
+	^ self named: aString parent: aClassCategory namespace: nil 
+    ]
+
+    ClassCategory class >> named: aString parent: aClassCategory namespace: aNamespace [
+        <category: 'instance creation'>
+
         ^ self basicNew
                     name: aString;
-		    parent: aClassCategory;
+                    parent: aClassCategory;
+		    namespace: aNamespace;
                     yourself
     ]
 
@@ -30,11 +45,10 @@ Object subclass: ClassCategory [
 	<category: 'instance creation'>
 
 	| category classes |
-	category := self basicNew.
+	category := self namespace: aNamespace.
         classes := aNamespace definedKeys.
-        classes do: [ :each | (aNamespace at: each) isClass ifTrue: [ self extractCategory: (aNamespace at: each) for: category ] ].
-	category childrenNamespace: aNamespace.
-	^ category categories
+        classes do: [ :each | (aNamespace at: each) isClass ifTrue: [ self extractCategory: (aNamespace at: each) for: category into: aNamespace ] ].
+	^ category 
     ]
 
     ClassCategory class >> uniqueInstance [
@@ -60,13 +74,50 @@ Object subclass: ClassCategory [
     ClassCategory class >> extractCategory: aClass for: aParentCategory [
         <category: 'extraction'>
 
+	self extractCategory: aClass for: aParentCategory into: nil
+    ]
+
+    ClassCategory class >> extractCategory: aClass for: aParentCategory into: aNamespace [
+        <category: 'extraction'>
+
         | category subcat token |
         token := aClass category ifNil: [ #() ] ifNotNil: [ aClass category tokenize: '-' ].
         category := aParentCategory.
         token do: [ :each |
-            category categories at: each ifAbsent: [ category categories at: each put: (self named: each parent: category) ].
-            category := category categories at: each ].
+            category at: each ifAbsentPut: [ self named: each parent: category namespace: aNamespace ].
+            category := category at: each ].
         category classes add: aClass asClass
+    ]
+
+    at: aString ifAbsentPut: aBlock [
+    
+	^ self at: aString ifAbsent: [ self at: aString put: aBlock value ]
+    ]
+
+    at: aString put: aCategory [
+        <category: 'accessing'>
+
+	self categories at: aString put: aCategory.
+	VisualGST.SystemChangeNotifier root classCategoryAdded: aCategory.
+        ^ aCategory
+    ]
+
+    at: aString [
+	<category: 'accessing'>
+
+	^ self at: aString ifAbsent: [ SystemExceptions.NotFound signalOn: aString what: 'Category ', aString, ' not found' ]
+    ]
+
+    at: aString ifAbsent: aBlock [
+	<category: 'accessing'>
+
+	^ self categories at: aString ifAbsent: aBlock
+    ]
+
+    values [
+	<category: 'accessing'>
+
+	^ self categories values
     ]
 
     namespace [
@@ -85,7 +136,7 @@ Object subclass: ClassCategory [
         <category: 'accessing'>
 
 	self namespace: aNamespace.
-	self categories values do: [ :each | each childrenNamespace: aNamespace ]
+	self values do: [ :each | each childrenNamespace: aNamespace ]
     ]
 
     category [
@@ -106,26 +157,47 @@ Object subclass: ClassCategory [
 	^ name ifNil: [ name := String new ]
     ]
 
-    parent: aCategory [
+    fullname [
 	<category: 'accessing'>
+
+	| r p |
+	p := self parent.
+	r := self name.
+	[ p isNil or: [ p name isEmpty ] ] whileFalse: [ r := p name, '-', r.
+	    p := p parent ].
+	^ r 
+    ]
+
+    parent: aCategory [
+	<category: 'category accessing'>
 
 	parent := aCategory
     ]
 
     parent [
-	<category: 'accessing'>
+	<category: 'category accessing'>
 
 	^ parent
     ]
 
     category [
-	<category: 'accessing'>
+	<category: 'category accessing'>
 
 	^ self
     ]
 
+    removeCategory: aCategory [
+	<category: 'category accessing'>
+
+	self at: aCategory name ifAbsent: [ ^ self ].
+	aCategory parent: nil.
+	self categories removeKey: aCategory name.
+	VisualGST.SystemChangeNotifier root classCategoryRemoved: aCategory.
+	(self classes isEmpty and: [ self parent isNil not ]) ifTrue: [ self parent removeCategory: self ]
+    ]
+
     categories [
-	<category: 'accessing'>
+	<category: 'category accessing'>
 
 	^ categories ifNil: [ categories := Dictionary new ]
     ]
@@ -137,9 +209,17 @@ Object subclass: ClassCategory [
     ]
 
     classes [
-	<category: 'accessing'>
+	<category: 'class accessing'>
 
 	^ classes ifNil: [ classes := IdentitySet new ]
+    ]
+
+    removeClass: aClass [
+	<category: 'class accessing'>
+
+	(self classes includes: aClass) ifFalse: [ ^ self ].
+	self classes remove: aClass.
+	(self classes isEmpty and: [ self parent isNil not ]) ifTrue: [ self parent removeCategory: self ]
     ]
 
     isCategory [
@@ -152,6 +232,12 @@ Object subclass: ClassCategory [
 	<category: 'testing'>
 
 	^ false
+    ]
+
+    isRoot [
+	<category: 'testing'>
+
+	^ self parent isNil and: [ self name isEmpty]
     ]
 
     icon [
