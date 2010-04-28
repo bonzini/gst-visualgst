@@ -101,7 +101,7 @@ GtkBrowsingTool subclass: GtkSUnit [
             setWebsite: VisualGST website;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             setProgramName: 'GNU Smalltalk SUnit';
-            run
+            showModalDestroy
     ]
 
     buildNamespaceWidget [

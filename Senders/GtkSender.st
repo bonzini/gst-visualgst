@@ -35,7 +35,7 @@ GtkBrowserWrapper subclass: GtkSender [
             setWebsite: VisualGST website;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             setProgramName: 'GNU Smalltalk Sender';
-            run
+            showModalDestroy
     ]
 
     findInMethod: anObject [

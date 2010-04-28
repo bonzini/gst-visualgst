@@ -9,7 +9,7 @@ GtkBrowserWrapper subclass: GtkImplementor [
             setWebsite: VisualGST website;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
             setProgramName: 'GNU Smalltalk Implementor';
-            run
+            showModalDestroy
     ]
 
     resultSelected [
