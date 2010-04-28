@@ -6,7 +6,7 @@ GtkMainWindow subclass: GtkBrowsingTool [
 
         super initialize.
         self
-            title: 'SUnit';
+            title: 'Browser Window';
             createMenus;
             createToolbar;
             createStatusBar;
@@ -17,45 +17,45 @@ GtkMainWindow subclass: GtkBrowsingTool [
         <category: 'user interface'>
 
         self accelGroup append:
-            {{'<Control>O'. '<GtkSUnit>/File/Open'}.
-            {'<Control>S'. '<GtkSUnit>/File/Save'}.
-            {'<Control><Shift>S'. '<GtkSUnit>/File/SaveAs'}.
-            {'<Control>Q'. '<GtkSUnit>/File/Quit'}}.
+            {{'<Control>O'. '<GtkBrowsingTool>/File/Open'}.
+            {'<Control>S'. '<GtkBrowsingTool>/File/Save'}.
+            {'<Control><Shift>S'. '<GtkBrowsingTool>/File/SaveAs'}.
+            {'<Control>Q'. '<GtkBrowsingTool>/File/Quit'}}.
 
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkSUnit>/File/Open' connectTo: self selector: #open.
-            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkSUnit>/File/Save' connectTo: self selector: #saveImage.
-            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkSUnit>/File/SaveAs' connectTo: self selector: #saveImageAs.
+            GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkBrowsingTool>/File/Open' connectTo: self selector: #open.
+            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkBrowsingTool>/File/Save' connectTo: self selector: #saveImage.
+            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkBrowsingTool>/File/SaveAs' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkSUnit>/File/Quit' connectTo: self selector: #close}
+            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkBrowsingTool>/File/Quit' connectTo: self selector: #close}
     ]
 
     createEditMenus [
         <category: 'user interface'>
 
-        self accelGroup append: {{'<Control><shift>Z'. '<GtkSUnit>/Edit/Cancel'}.
-            {'<Control>Z'. '<GtkSUnit>/Edit/Undo'}.
-            {'<Control>R'. '<GtkSUnit>/Edit/Redo'}.
-            {'<Control>X'. '<GtkSUnit>/Edit/Cut'}.
-            {'<Control>C'. '<GtkSUnit>/Edit/Copy'}.
-            {'<Control>V'. '<GtkSUnit>/Edit/Paste'}.
-            {'<Control>A'. '<GtkSUnit>/Edit/SelectAll'}}.
+        self accelGroup append: {{'<Control><shift>Z'. '<GtkBrowsingTool>/Edit/Cancel'}.
+            {'<Control>Z'. '<GtkBrowsingTool>/Edit/Undo'}.
+            {'<Control>R'. '<GtkBrowsingTool>/Edit/Redo'}.
+            {'<Control>X'. '<GtkBrowsingTool>/Edit/Cut'}.
+            {'<Control>C'. '<GtkBrowsingTool>/Edit/Copy'}.
+            {'<Control>V'. '<GtkBrowsingTool>/Edit/Paste'}.
+            {'<Control>A'. '<GtkBrowsingTool>/Edit/SelectAll'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkSUnit>/Edit/Cancel' connectTo: self selector: #cancel.
-            GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkSUnit>/Edit/Undo' connectTo: self selector: #undo.
-            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkSUnit>/Edit/Redo' connectTo: self selector: #redo.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkBrowsingTool>/Edit/Cancel' connectTo: self selector: #cancel.
+            GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkBrowsingTool>/Edit/Undo' connectTo: self selector: #undo.
+            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkBrowsingTool>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkSUnit>/Edit/Cut' connectTo: self selector: #cut.
-            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkSUnit>/Edit/Copy' connectTo: self selector: #copy.
-            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkSUnit>/Edit/Paste' connectTo: self selector: #paste.
+            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkBrowsingTool>/Edit/Cut' connectTo: self selector: #cut.
+            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkBrowsingTool>/Edit/Copy' connectTo: self selector: #copy.
+            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkBrowsingTool>/Edit/Paste' connectTo: self selector: #paste.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkSUnit>/Edit/SelectAll' connectTo: self selector: #selectAll}
+            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkBrowsingTool>/Edit/SelectAll' connectTo: self selector: #selectAll}
     ]
 
     createSmalltalkMenus [
