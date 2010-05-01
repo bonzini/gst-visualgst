@@ -114,7 +114,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self emptyStack.
 	self codeText: aString. 
-	self buffer setText: aString
+	self buffer setText: (self codeText)
     ]
 
     classDefinition: aString [
@@ -122,7 +122,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self emptyStack.
 	self codeText: aString. 
-	self buffer setText: aString
+	self buffer setText: (self codeText)
     ]
 
     sourceCode: aString [
@@ -130,7 +130,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self emptyStack.
 	self codeText: aString. 
-	self buffer setText: aString.
+	self buffer setText: (self codeText).
 	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ]
     ]
 
