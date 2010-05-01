@@ -318,6 +318,10 @@ GtkBrowsingTool subclass: GtkSUnit [
         self saveCodeOnClose: [ super close ] onSave: [ state saveSource. super close ]
     ]
 
+    clearUndo [
+	^ sourceCodeWidget clearUndo
+    ]
+
     hasChanged [
         <category: 'testing'>
 
