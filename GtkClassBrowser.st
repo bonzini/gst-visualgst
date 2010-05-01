@@ -1,16 +1,12 @@
 GtkBrowsingTool subclass: GtkClassBrowser [
     | browserWidget |
 
-    aboutBrowser [
-	<category: 'events'>
+    aboutTitle [
+	^ 'About Class Browser'
+    ]
 
-	(GTK.GtkAboutDialog new)
-	    setVersion: VisualGST version;
-	    setLicense: VisualGST license;
-	    setWebsite: VisualGST website;
-	    setComments: 'This is a system browser for GNU Smalltalk.';
-	    setProgramName: 'GNU Smalltalk Browser';
-	    showModalDestroy
+    windowTitle [
+	^ 'Class Browser'
     ]
 
     browser [
@@ -293,13 +289,6 @@ GtkBrowsingTool subclass: GtkClassBrowser [
 	    GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'File out a method' connectTo: self selector: #fileoutMethod}
-    ]
-
-    createHelpMenus [
-	<category: 'user interface'>
-
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About Class Browser' connectTo: self selector: #aboutBrowser.
-	    GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 
     createMenus [

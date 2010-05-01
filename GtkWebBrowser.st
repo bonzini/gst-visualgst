@@ -14,16 +14,12 @@ GtkBrowsingTool subclass: GtkWebBrowser [
 	^ self openSized: 450@375
     ]
 
-    aboutBrowser [
-	<category: 'help events'>
+    windowTitle [
+        ^ 'Smallzilla'
+    ]
 
-	(GTK.GtkAboutDialog new)
-	    setVersion: VisualGST version;
-	    setLicense: VisualGST license;
-	    setWebsite: VisualGST website;
-	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-	    setProgramName: 'GNU Smalltalk Launcher';
-	    showModalDestroy
+    aboutTitle [
+	^ 'About Smallzilla'
     ]
 
     buildCentralWidget [

@@ -25,16 +25,12 @@ GtkBrowsingTool subclass: GtkDebugger [
 	^ 1
     ]
 
-    aboutDebugger [
-	<category: 'help events'>
+    windowTitle [
+	^ 'Debugger'
+    ]
 
-	(GTK.GtkAboutDialog new)
-	    setVersion: self class version;
-	    setLicense: VisualGST license;
-	    setWebsite: self class website;
-	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-	    setProgramName: 'VisualGST Debugger';
-	    showModalDestroy
+    aboutTitle [
+	^ 'About Debugger'
     ]
 
     postInitialize [

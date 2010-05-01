@@ -6,16 +6,12 @@ GtkBrowsingTool subclass: GtkAssistant [
 	^ self openSized: 450@375
     ]
 
-    aboutBrowser [
-	<category: 'help events'>
+    windowTitle [
+	^ 'Assistant'
+    ]
 
-	(GTK.GtkAboutDialog new)
-	    setVersion: VisualGST version;
-	    setLicense: VisualGST license;
-	    setWebsite: VisualGST gstWebsite;
-	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-	    setProgramName: 'GNU Smalltalk Launcher';
-	    showModalDestroy
+    aboutTitle [
+	^ 'About Assistant'
     ]
 
     buildCentralWidget [

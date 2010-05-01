@@ -26,16 +26,12 @@ GtkBrowserWrapper subclass: GtkSender [
 	self findInMethod: (imageWidget matchSelector: aSymbol) values first element.
     ]
 
-    aboutSender [
-        <category: 'events'>
+    windowTitle [
+	^ 'Senders'
+    ]
 
-        (GTK.GtkAboutDialog new)
-            setVersion: VisualGST version;
-            setLicense: VisualGST license;
-            setWebsite: VisualGST website;
-            setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-            setProgramName: 'GNU Smalltalk Sender';
-            showModalDestroy
+    aboutTitle [
+	^ 'About Sender'
     ]
 
     findInMethod: anObject [

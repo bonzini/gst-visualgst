@@ -1,4 +1,6 @@
 GtkMainWindow subclass: GtkBrowsingTool [
+    <comment: 'I am the base for various tools of VisualGST.'>
+
     | state |
 
     initialize [
@@ -6,12 +8,40 @@ GtkMainWindow subclass: GtkBrowsingTool [
 
         super initialize.
         self
-            title: 'Browser Window';
+            title: self windowTitle;
             createMenus;
             createToolbar;
             createStatusBar;
             centralWidget: self buildCentralWidget.
     ]
+
+    windowTitle [
+        <category: 'widget-skeleton'>
+        <comment: 'I return the visible name of the window.'>
+        self subclassResponcibility
+    ]
+
+    aboutTitle [
+        <category: 'widget-skeleton'>
+        <comment: 'I return the visible name for the Help->About entry'>
+        self subclassResponcibility
+    ]
+
+    showAboutDialog [
+	| gst |
+
+	gst := VisualGST.
+	(gst isKindOf: Namespace)
+	    ifTrue: [gst := gst classAt: 'VisualGST'].
+
+        (GTK.GtkAboutDialog new)
+            setVersion: gst version;
+            setLicense: gst license;
+            setWebsite: gst website;
+            setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
+            setProgramName: 'VisualGST ', self windowTitle; 
+            showModalDestroy
+    ] 
 
     createFileMenus [
         <category: 'user interface'>
@@ -106,7 +136,7 @@ GtkMainWindow subclass: GtkBrowsingTool [
     createHelpMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About SUnit' connectTo: self selector: #aboutSUnit.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: self aboutTitle connectTo: self selector: #showAboutDialog.
             GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 

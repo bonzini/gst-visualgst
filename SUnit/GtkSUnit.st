@@ -92,16 +92,12 @@ GtkBrowsingTool subclass: GtkSUnit [
 	sourceCodeWidget postInitialize
     ]
 
-    aboutSUnit [
-        <category: 'events'>
+    windowTitle [
+	^ 'SUnit'
+    ]
 
-        (GTK.GtkAboutDialog new)
-            setVersion: VisualGST version;
-            setLicense: VisualGST license;
-            setWebsite: VisualGST website;
-            setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-            setProgramName: 'GNU Smalltalk SUnit';
-            showModalDestroy
+    aboutTitle [
+	^ 'About SUnit'
     ]
 
     buildNamespaceWidget [

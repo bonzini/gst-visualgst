@@ -1,15 +1,11 @@
 GtkBrowserWrapper subclass: GtkImplementor [
 
-    aboutImplementor [
-        <category: 'events'>
+    windowTitle [
+        ^ 'Implementors'
+    ]
 
-        (GTK.GtkAboutDialog new)
-            setVersion: VisualGST version;
-            setLicense: VisualGST license;
-            setWebsite: VisualGST website;
-            setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-            setProgramName: 'GNU Smalltalk Implementor';
-            showModalDestroy
+    aboutTitle [
+        ^ 'About Implementors'
     ]
 
     resultSelected [
