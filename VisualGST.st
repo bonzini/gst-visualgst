@@ -84,12 +84,11 @@ GtkMainWindow subclass: VisualGST [
 	compileError := aWorkspace
     ]
 
-    aboutLauncher [
-	<category: 'help events'>
+    VisualGST class >> license [
+	<category: 'accessing'>
 
-	(GTK.GtkAboutDialog new)
-	    setVersion: self class version;
-	    setLicense: 'Permission is hereby granted, free of charge, to any person obtaining
+	^
+'Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation
 the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
@@ -104,7 +103,15 @@ INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
 PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.';
+THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
+    ]
+
+    aboutLauncher [
+	<category: 'help events'>
+
+	(GTK.GtkAboutDialog new)
+	    setVersion: self class version;
+	    setLicense: self class license;
 	    setWebsite: self class website;
 	    setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
 	    "setAuthors: {'Gwenael Casaccio'. 'Nicolas Petton'. nil};"

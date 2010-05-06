@@ -6,7 +6,7 @@ Command subclass: OpenImplementorCommand [
 
         (VisualGST uniqueInstance notebookHasFocus and:
 	    [ VisualGST uniqueInstance onFocusPerform: #hasSelection ])
-                ifTrue: [ GtkImplementor openOn: ( STInST.RBParser selectedSymbol: (VisualGST uniqueInstance onFocusPerform: #selectedText)) ]
+                ifTrue: [ self openImplementorOn: ( STInST.RBParser selectedSymbol: (VisualGST uniqueInstance onFocusPerform: #selectedText)) ]
                 ifFalse: [ GtkImplementor open ]
     ]
 
@@ -18,11 +18,11 @@ Command subclass: OpenImplementorCommand [
                         (VisualGST uniqueInstance currentWidgetOfBrowser sourceCodeWidgetHasFocus 
 			    and: [ VisualGST uniqueInstance currentWidgetOfBrowser hasSelection ])
                                                             ifTrue: [
-								    GtkImplementor openOn: ( STInST.RBParser selectedSymbol: 
+								    self openImplementorOn: ( STInST.RBParser selectedSymbol: 
 													    VisualGST uniqueInstance currentWidgetOfBrowser selectedText) ]
                                                             ifFalse: [ 
 								    VisualGST uniqueInstance currentWidgetOfBrowser hasSelectedMethod ifTrue: [
-									GtkImplementor openOn: VisualGST uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ]
+									self openImplementorOn: VisualGST uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ]
 																      ifFalse: [ GtkImplementor open ] ] ]
                     ifFalse: [ self openWithSelection ]
     ]
@@ -31,8 +31,16 @@ Command subclass: OpenImplementorCommand [
         <category: 'command'>
 
         target
-            ifNotNil: [ GtkImplementor openOn: target selectedMethodSymbol ]
+            ifNotNil: [ self openImplementorOn: target selectedMethodSymbol ]
             ifNil: [ self focusChecking ]
+    ]
+
+    openImplementorOn: aSymbol [
+        <comment: 'I check the symbol for nil'>
+        aSymbol
+            ifNotNil: [ GtkImplementor openOn: aSymbol ]
+            ifNil: [ GtkImplementor open ]
+    
     ]
 ]
 
