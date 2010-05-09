@@ -4,7 +4,9 @@ GtkBrowsingTool subclass: GtkSUnit [
     createRunMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Run test' connectTo: self selector: #runTest}
+        ^ self createNewMenuEntry: {
+		GTK.GtkMenuItem menuItem: 'Load tests' connectTo: self selector: #loadTests.
+		GTK.GtkMenuItem menuItem: 'Run test' connectTo: self selector: #runTest}
     ]
 
     createMenus [
@@ -234,6 +236,30 @@ GtkBrowsingTool subclass: GtkSUnit [
 	^ methodWidget selectedMethod
 	    ifNil: [ 'unit tests' ]
 	    ifNotNil: [ :method | method methodCategory ]
+    ]
+
+    loadTest: aPackage [
+	<category: 'private'>
+	<comment: 'I load the unit tests for one package'>
+
+	| test files |
+
+	aPackage ifNil: [^self].
+
+	test := aPackage test.
+	test ifNil: [^self].
+
+	test fileIn.
+    ]
+
+    loadTests [
+        <category: 'run events'>
+	<comment: 'I load the unit tests for the loaded packages'>
+
+	Smalltalk Features do: [:each | |package|
+		package := PackageLoader packageAt: each ifAbsent: [nil].
+		self loadTest: package.
+	]
     ]
 
     runTest [
