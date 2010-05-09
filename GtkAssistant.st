@@ -31,6 +31,8 @@ GtkBrowsingTool subclass: GtkAssistant [
 
     hasChanged [
 	<comment: 'I have to implement that. But I have nothing to do.'>
+
+	^ false
     ]
 ]
 
