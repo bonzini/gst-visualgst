@@ -4,6 +4,10 @@ GtkBrowsingTool subclass: GtkDebugger [
     GtkDebugger class >> open: aString [
 	<category: 'user interface'>
 
+        "The current process might be processing an event.  Gtk will
+         block inside g_main_loop_dispatch and won't deliver any
+         other events until this one is processed.  So, fork into a
+         new process and return nil without executing #ensure: blocks."
         Processor activeProcess detach.
 
 	[ :debugger |
