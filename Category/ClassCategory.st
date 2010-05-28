@@ -11,6 +11,12 @@ Object subclass: ClassCategory [
 	^ icon ifNil: [ icon := GTK.GdkPixbuf newFromFile: ((PackageLoader packageAt: 'VisualGST') / 'Icons/category.gif') file displayString error: nil ]
     ]
 
+    ClassCategory class >> icon: aGdkPixbuf [
+        <category: '*VisualGST'>
+
+        icon := aGdkPixbuf
+    ]
+
     ClassCategory class >> namespace: aNamespace [
         <category: 'instance creation'>
 

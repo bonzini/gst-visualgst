@@ -1,10 +1,16 @@
 AbstractNamespace class extend [
-    | icon |
+    Icon := nil.
 
     icon [
         <category: '*VisualGST'>
 
-        ^ icon ifNil: [ icon := GTK.GdkPixbuf newFromFile: ((PackageLoader packageAt: 'VisualGST') / 'Icons/namespace.gif') file displayString error: nil ]
+        ^ Icon ifNil: [ Icon := GTK.GdkPixbuf newFromFile: ((PackageLoader packageAt: 'VisualGST') / 'Icons/namespace.gif') file displayString error: nil ]
+    ]
+
+    icon: aGdkPixbuf [
+        <category: '*VisualGST'>
+
+        Icon := aGdkPixbuf
     ]
 ]
 

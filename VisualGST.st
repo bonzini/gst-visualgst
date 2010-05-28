@@ -253,9 +253,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     ]
 
     saveImage: aBlock [
-	| oldMessage oldNotifier |
+	| oldMessage oldNotifier oldCatIcon oldNameIcon |
 	oldNotifier := self systemChangeNotifier.
 	oldMessage := Transcript message.
+
+	oldCatIcon := ClassCategory icon.
+	ClassCategory icon: nil.
+	oldNameIcon := AbstractNamespace icon.
+	AbstractNamespace icon: nil.
 
 	Transcript message: stdout->#nextPutAllFlush:.
 	SystemChangeNotifier root remove: oldNotifier.
@@ -264,6 +269,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
 	(saved := aBlock value not) ifTrue: [
             self class uniqueInstance: self.
+	    ClassCategory icon: oldCatIcon.
+	    AbstractNamespace icon: oldNameIcon.
 	    systemChangeNotifier := oldNotifier.
 	    SystemChangeNotifier root add: oldNotifier.
 	    Transcript message: oldMessage ]
