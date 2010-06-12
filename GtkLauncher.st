@@ -112,6 +112,27 @@ AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     ]
 
+    GtkLauncher class >> displayError: title message: error [
+        <category: 'error'>
+
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: nil
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Error'
+                                tip: error.
+
+        dialog
+            addButton: 'Ok' responseId: 1;
+            showModalOnAnswer: [ :dlg :res | dlg destroy ].
+    ]
+
+    GtkLauncher class >> displayError: error [
+        ^self displayError: 'Error' message: error
+    ]
+
     aboutLauncher [
 	<category: 'help events'>
 
@@ -179,6 +200,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
             addButton: 'Exit without saving' responseId: 0;
             addButton: 'Cancel' responseId: 2;
             addButton: 'Save image' responseId: 1;
+            setDefaultResponse: 2;
             showModalOnAnswer: [ :dlg :res |
                 res = 0 ifTrue: [ self class exit ].
                 res = 1 ifTrue: [ self saveImageAndQuit ].

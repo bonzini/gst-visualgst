@@ -41,18 +41,7 @@ Object subclass: UndoCommand [
     displayError [
         <Category: 'error'>
 
-        | dialog |
-        dialog := GTK.GtkMessageDialog
-                                new: nil
-                                flags: GTK.Gtk gtkDialogDestroyWithParent
-                                type: GTK.Gtk gtkMessageWarning
-                                buttons: GTK.Gtk gtkButtonsNone
-                                message: self description
-                                tip: self error.
-
-        dialog
-            addButton: 'Ok' responseId: 1;
-            showModalOnAnswer: [ :dlg :res | dlg destroy ].
+        GtkLauncher displayError: self description message: self error
     ]
 ]
 

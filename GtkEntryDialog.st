@@ -31,7 +31,6 @@ Object subclass: GtkEntryDialog [
     hasPressedOk: aBlock [
 	<category: 'testing'>
 
-        defaultButton := GTK.Gtk perform: buttons first second.
         dialog showModalOnAnswer: [ :dlg :res |
                 res = defaultButton ifTrue: [ aBlock value ].
                 dlg destroy ]
@@ -51,9 +50,12 @@ Object subclass: GtkEntryDialog [
         buttons do: [ :each |
 	    aGtkDialog addButton: each first responseId: (GTK.Gtk perform: each second) ].
 
+        defaultButton := GTK.Gtk perform: buttons first second.
+        aGtkDialog setDefaultResponse: defaultButton.
 	hbox := GTK.GtkHBox new: true spacing: 0.
 	labelWidget := GTK.GtkLabel new: aString.
 	entryWidget := GTK.GtkEntry new.
+        entryWidget setActivatesDefault: true.
 	hbox
 	    add: labelWidget;
 	    add: entryWidget;
