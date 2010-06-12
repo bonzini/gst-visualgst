@@ -420,6 +420,12 @@ GtkBrowsingTool subclass: GtkDebugger [
         self focusedWidget printIt: object
     ]
 
+    clearUndo [
+        <category: 'smalltalk event'>
+
+        codeWidget clearUndo
+    ]
+
     doIt [
         <category: 'smalltalk event'>
 
@@ -448,6 +454,60 @@ GtkBrowsingTool subclass: GtkDebugger [
 	<category: 'testing'>
 
 	^ codeWidget hasChanged
+    ]
+
+    cancel [
+        <category: 'edit events'>
+
+        self onFocusPerform: #cancel
+    ]
+
+    undo [
+        <category: 'edit events'>
+
+        self onFocusPerform: #undo
+    ]
+
+    redo [
+        <category: 'edit events'>
+
+        self onFocusPerform: #redo
+    ]
+
+    cut [
+        <category: 'edit events'>
+
+        self onFocusPerform: #cut
+    ]
+
+    copy [
+        <category: 'edit events'>
+
+        self onFocusPerform: #copy
+    ]
+
+    paste [
+        <category: 'edit events'>
+
+        self onFocusPerform: #paste
+    ]
+
+    selectAll [
+        <category: 'edit events'>
+
+        self onFocusPerform: #selectAll
+    ]
+
+    find [
+        <category: 'edit events'>
+
+        self onFocusPerform: #showFind
+    ]
+
+    replace [
+        <category: 'edit events'>
+
+        self onFocusPerform: #showReplace
     ]
 
 ]
