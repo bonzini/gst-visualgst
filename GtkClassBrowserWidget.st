@@ -426,7 +426,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     fileoutClass [
 	<category: 'class events'>
     
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
 	FileoutClassCommand on: classWidget
     ]
 
@@ -475,8 +474,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     inspectClass [
 	<category: 'class events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	GtkInspector openOn: classWidget selectedClass
+	InspectClassCommand on: self
     ]
 
     classOrMetaSelected [
@@ -527,7 +525,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newCategory [
         <category: 'category events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	AddCategoryCommand on: self
     ]
 
@@ -574,28 +571,24 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newMethod [
 	<category: 'method events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	AddMethodCommand on: self.
     ]
 
     deleteMethod [
 	<category: 'method events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	DeleteMethodCommand on: self
     ]
 
     inspectMethod [
 	<category: 'method events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	InspectMethodCommand on: self
     ]
 
     fileoutMethod [
 	<category: 'method events'>
 
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
 	FileoutMethodCommand on: self
     ]
 

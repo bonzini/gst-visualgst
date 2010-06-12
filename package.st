@@ -24,6 +24,7 @@ Eval [
     filein: 'Notification/ReorganizedEvent.st';
     filein: 'Notification/SystemChangeNotifier.st';
     filein: 'Commands/Command.st';
+    filein: 'Commands/ClassCommand.st';
     filein: 'Commands/MethodCommand.st';
     filein: 'Commands/InspectNamespaceCommand.st';
     filein: 'Commands/FileoutNamespaceCommand.st';

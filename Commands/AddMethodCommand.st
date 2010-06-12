@@ -1,4 +1,4 @@
-Command subclass: AddMethodCommand [
+ClassCommand subclass: AddMethodCommand [
 
     execute [
 	<category: 'command'>

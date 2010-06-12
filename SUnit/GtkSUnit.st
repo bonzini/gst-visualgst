@@ -289,7 +289,6 @@ GtkBrowsingTool subclass: GtkSUnit [
     acceptIt [
 	<category: 'method events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	AddMethodCommand on: self.
     ]
 
