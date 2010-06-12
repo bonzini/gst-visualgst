@@ -3,11 +3,6 @@ Command subclass: FileoutClassCommand [
     execute [
 	<category: 'command'>
 
-	self chooseFile
-    ]
-
-    chooseFile [
-
         | file |
         (GTK.GtkFileChooserDialog save: 'Save Smalltalk class as...' parent: nil)
             showModalOnAnswer: [ :dlg :res |
@@ -19,7 +14,7 @@ Command subclass: FileoutClassCommand [
 
         | stream |
         stream := FileStream open: aString mode: FileStream write.
-        (ClassSource write: target on: stream)
+        (ClassSource write: target selectedClass on: stream)
             source
     ]
 ]

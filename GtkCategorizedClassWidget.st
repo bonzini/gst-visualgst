@@ -185,7 +185,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     fileoutClass [
         <category: 'class events'>
 
-	FileoutClassCommand on: self selectedClass
+	FileoutClassCommand on: self
     ]
 
     addToModel: aClass [

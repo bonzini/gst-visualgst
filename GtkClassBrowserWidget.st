@@ -458,18 +458,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'class events'>
     
         classWidget hasSelectedClass ifFalse: [ ^ self ].
-	FileoutClassCommand on: classWidget selectedClass
-    ]
-
-    fileoutClass: aFile [
-        <category: 'class events'>
-
-        | class stream |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-        class := classWidget selectedClass.
-        stream := FileStream open: aFile mode: FileStream write.
-        (ClassSource write: class on: stream)
-	    source
+	FileoutClassCommand on: classWidget
     ]
 
     extractNamespaceFrom: aNamespace [
