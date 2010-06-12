@@ -20,7 +20,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     registerNotifier [
         <category: 'initialize-release'>
 
-        (VisualGST uniqueInstance systemChangeNotifier)
+        (GtkLauncher uniqueInstance systemChangeNotifier)
             notify: self ofSystemChangesOfItem: #category change: #Added using: #'addEvent:';
             notify: self ofSystemChangesOfItem: #category change: #Removed using: #'removeEvent:'
     ]

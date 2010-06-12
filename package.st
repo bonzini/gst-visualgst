@@ -61,7 +61,7 @@ Eval [
     filein: 'GtkMainWindow.st';
     filein: 'GtkBrowsingTool.st';
     filein: 'GtkBrowserWrapper.st';
-    filein: 'VisualGST.st';
+    filein: 'GtkLauncher.st';
     filein: 'Text/GtkTextPluginWidget.st';
     filein: 'Text/GtkFindWidget.st';
     filein: 'Text/GtkReplaceWidget.st';
@@ -182,7 +182,7 @@ Eval [
     ressource: 'Icons/NUnit.Running.png';
     ressource: 'Icons/NUnit.SuccessAndFailed.png';
     ressource: 'Icons/NUnit.Success.png';
-    start: 'VisualGST.VisualGST open.
+    start: 'VisualGST.GtkLauncher open.
     GTK.Gtk main';
     buildXml
 ]

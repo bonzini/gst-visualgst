@@ -11,7 +11,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     registerNotifier [
         <category: 'initialize-release'>
 
-        (VisualGST uniqueInstance systemChangeNotifier)
+        (GtkLauncher uniqueInstance systemChangeNotifier)
             notify: self ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
             notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:';
             notify: self ofSystemChangesOfItem: #category change: #Added using: #'addCategoryEvent:';

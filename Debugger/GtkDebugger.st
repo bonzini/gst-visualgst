@@ -185,15 +185,15 @@ GtkBrowsingTool subclass: GtkDebugger [
 				setTooltipText: 'Accept It';
 				yourself);
 	    appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (VisualGST / 'Icons/go-run.png') file displayString) label: 'Continue')
+	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-run.png') file displayString) label: 'Continue')
 				connectSignal: 'clicked' to: self selector: #run userData: nil;
 				setTooltipText: 'Continue';
 				yourself);
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (VisualGST / 'Icons/go-next.png') file displayString) label: 'Step into')
+	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-next.png') file displayString) label: 'Step into')
 				connectSignal: 'clicked' to: self selector: #stepInto userData: nil;
 				setTooltipText: 'Step into';
 				yourself);
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (VisualGST / 'Icons/go-jump.png') file displayString) label: 'Step to here')
+	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-jump.png') file displayString) label: 'Step to here')
 				connectSignal: 'clicked' to: self selector: #step userData: nil;
 				setTooltipText: 'Step to here';
 				yourself)

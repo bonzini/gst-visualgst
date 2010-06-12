@@ -1,22 +1,22 @@
-GtkMainWindow subclass: VisualGST [
-    VisualGST class [ | compileError uniqueInstance | ]
+GtkMainWindow subclass: GtkLauncher [
+    GtkLauncher class [ | compileError uniqueInstance | ]
 
     | compilerError browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
-    VisualGST class >> uniqueInstance [
+    GtkLauncher class >> uniqueInstance [
 	<category: 'public'>
 
 	uniqueInstance ifNil: [ self createInstance ].
         ^ uniqueInstance
     ]
 
-    VisualGST class >> / path [
+    GtkLauncher class >> / path [
         <category: 'files'>
 
         ^(PackageLoader packageAt: 'VisualGST') / path
     ]
 
-    VisualGST class >> uniqueInstance: anObject [
+    GtkLauncher class >> uniqueInstance: anObject [
         <category: 'private'>
 
 	(uniqueInstance notNil and: [ anObject notNil ])
@@ -24,7 +24,7 @@ GtkMainWindow subclass: VisualGST [
         uniqueInstance := anObject
     ]
 
-    VisualGST class >> createInstance [
+    GtkLauncher class >> createInstance [
         <category: 'private'>
 
         ^(uniqueInstance :=  self basicNew)
@@ -35,62 +35,62 @@ GtkMainWindow subclass: VisualGST [
             yourself
     ]
 
-    VisualGST class >> instanceCreationErrorString [
+    GtkLauncher class >> instanceCreationErrorString [
         <category: 'private'>
 
         ^ 'This is a singleton implementation, so you are not allowed to create instances yourself. Use #uniqueInstance to access the instance.'
     ]
 
-    VisualGST class >> new [
+    GtkLauncher class >> new [
         <category: 'instance creation'>
 
         ^ self error: self instanceCreationErrorString
     ]
 
-    VisualGST class >> exit [
+    GtkLauncher class >> exit [
 	<category: 'exit'>
 
 	GTK.Gtk mainQuit.
 	ObjectMemory quit	
     ]
  
-    VisualGST class >> open [
+    GtkLauncher class >> open [
 	<category: 'user interface'>
 
         self uniqueInstance
     ]
 
-    VisualGST class >> version [
+    GtkLauncher class >> version [
 	<category: 'accessing'>
 
 	^ '0.7.5'
     ]
 
-    VisualGST class >> website [
+    GtkLauncher class >> website [
 	<category: 'accessing'>
 
 	^ 'http://visualgst.bioskop.fr/'
     ]
     
-    VisualGST class >> gstWebsite [
+    GtkLauncher class >> gstWebsite [
 	<category: 'accessing'>
 
 	^ 'http://smalltalk.gnu.org/'
     ]
 
-    VisualGST class >> compileError: aString [
+    GtkLauncher class >> compileError: aString [
 	<category: 'accessing'>
 
 	compileError text: aString
     ]
 
-    VisualGST class >> setCompilerError: aWorkspace [
+    GtkLauncher class >> setCompilerError: aWorkspace [
 	<category: 'accessing'>
 
 	compileError := aWorkspace
     ]
 
-    VisualGST class >> license [
+    GtkLauncher class >> license [
 	<category: 'accessing'>
 
 	^

@@ -21,7 +21,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     registerNotifier [
         <category: 'initialize-release'>
 
-        (VisualGST uniqueInstance systemChangeNotifier)
+        (GtkLauncher uniqueInstance systemChangeNotifier)
             notify: self ofSystemChangesOfItem: #method change: #Added using: #'addEvent:';
             notify: self ofSystemChangesOfItem: #method change: #Removed using: #'removeEvent:'
     ]

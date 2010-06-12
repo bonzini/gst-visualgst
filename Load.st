@@ -1,6 +1,6 @@
 Eval [
     PackageLoader fileInPackage: 'VisualGST'.
-    VisualGST.VisualGST uniqueInstance.
+    VisualGST.GtkLauncher uniqueInstance.
     GTK.Gtk main
 ]
 

@@ -26,7 +26,7 @@ GtkBrowsingTool subclass: GtkSUnit [
 	super createToolbar.
 	self
 	    appendSeparator;
-            appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (VisualGST / 'Icons/go-run.png') file displayString) label: 'Run test')
+            appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-run.png') file displayString) label: 'Run test')
                                 connectSignal: 'clicked' to: self selector: #runTest userData: nil;
                                 setTooltipText: 'Run test';
                                 yourself)

@@ -8,7 +8,7 @@ Object subclass: ClassCategory [
     ClassCategory class >> icon [
 	<category: '*VisualGST'>
 	
-	^ icon ifNil: [ icon := GTK.GdkPixbuf newFromFile: (VisualGST / 'Icons/category.gif') file displayString error: nil ]
+	^ icon ifNil: [ icon := GTK.GdkPixbuf newFromFile: (GtkLauncher / 'Icons/category.gif') file displayString error: nil ]
     ]
 
     ClassCategory class >> icon: aGdkPixbuf [
@@ -104,7 +104,7 @@ Object subclass: ClassCategory [
         <category: 'accessing'>
 
 	self categories at: aString put: aCategory.
-	VisualGST.SystemChangeNotifier root classCategoryAdded: aCategory.
+	SystemChangeNotifier root classCategoryAdded: aCategory.
         ^ aCategory
     ]
 
@@ -198,7 +198,7 @@ Object subclass: ClassCategory [
 	self at: aCategory name ifAbsent: [ ^ self ].
 	aCategory parent: nil.
 	self categories removeKey: aCategory name.
-	VisualGST.SystemChangeNotifier root classCategoryRemoved: aCategory.
+	SystemChangeNotifier root classCategoryRemoved: aCategory.
 	(self classes isEmpty and: [ self parent isNil not ]) ifTrue: [ self parent removeCategory: self ]
     ]
 

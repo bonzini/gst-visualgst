@@ -72,7 +72,7 @@
   <filein>GtkMainWindow.st</filein>
   <filein>GtkBrowsingTool.st</filein>
   <filein>GtkBrowserWrapper.st</filein>
-  <filein>VisualGST.st</filein>
+  <filein>GtkLauncher.st</filein>
   <filein>Text/GtkTextPluginWidget.st</filein>
   <filein>Text/GtkFindWidget.st</filein>
   <filein>Text/GtkReplaceWidget.st</filein>
@@ -225,7 +225,7 @@
   <file>GtkMainWindow.st</file>
   <file>GtkBrowsingTool.st</file>
   <file>GtkBrowserWrapper.st</file>
-  <file>VisualGST.st</file>
+  <file>GtkLauncher.st</file>
   <file>Text/GtkTextPluginWidget.st</file>
   <file>Text/GtkFindWidget.st</file>
   <file>Text/GtkReplaceWidget.st</file>
@@ -346,6 +346,6 @@
   <file>Icons/NUnit.Running.png</file>
   <file>Icons/NUnit.SuccessAndFailed.png</file>
   <file>Icons/NUnit.Success.png</file>
-  <start>VisualGST.VisualGST open.
+  <start>VisualGST.GtkLauncher open.
     GTK.Gtk main</start>
 </package>
