@@ -1,4 +1,4 @@
-Command subclass: AddClassCommand [
+NamespaceCommand subclass: AddClassCommand [
 
     execute [
 	<category: 'command'>

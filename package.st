@@ -27,6 +27,7 @@ Eval [
     filein: 'Commands/CategoryCommand.st';
     filein: 'Commands/ClassCommand.st';
     filein: 'Commands/MethodCommand.st';
+    filein: 'Commands/NamespaceCommand.st';
     filein: 'Commands/InspectNamespaceCommand.st';
     filein: 'Commands/FileoutNamespaceCommand.st';
     filein: 'Commands/AddNamespaceCommand.st';

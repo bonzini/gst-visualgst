@@ -35,6 +35,7 @@
   <filein>Commands/CategoryCommand.st</filein>
   <filein>Commands/ClassCommand.st</filein>
   <filein>Commands/MethodCommand.st</filein>
+  <filein>Commands/NamespaceCommand.st</filein>
   <filein>Commands/InspectNamespaceCommand.st</filein>
   <filein>Commands/FileoutNamespaceCommand.st</filein>
   <filein>Commands/AddNamespaceCommand.st</filein>
@@ -187,6 +188,7 @@
   <file>Commands/CategoryCommand.st</file>
   <file>Commands/ClassCommand.st</file>
   <file>Commands/MethodCommand.st</file>
+  <file>Commands/NamespaceCommand.st</file>
   <file>Commands/InspectNamespaceCommand.st</file>
   <file>Commands/FileoutNamespaceCommand.st</file>
   <file>Commands/AddNamespaceCommand.st</file>

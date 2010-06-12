@@ -382,7 +382,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     fileoutNamespace [
 	<category: 'namespace events'>
 
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	FileoutNamespaceCommand on: self
     ]
 
@@ -419,8 +418,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     inspectNamespace [
 	<category: 'namespace events'>
 
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	GtkInspector openOn: namespaceWidget selectedNamespace
+	InspectNamespaceCommand on: self
     ]
 
     fileoutClass [

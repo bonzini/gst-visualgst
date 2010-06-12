@@ -1,4 +1,4 @@
-Command subclass: FileoutNamespaceCommand [
+NamespaceCommand subclass: FileoutNamespaceCommand [
 
     execute [
 	<category: 'command'>
