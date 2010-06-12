@@ -645,56 +645,58 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	classAndInstanceSide setCurrentPage: 1
     ]
 
+    targetObject [
+        <category: 'target'>
+
+        ^self hasSelectedClass ifTrue: [self selectedClass] ifFalse: [nil]
+    ]
+
+    doIt: object [
+	<category: 'smalltalk event'>
+
+	codeWidget doIt: object
+    ]
+
+    debugIt: object [
+	<category: 'smalltalk event'>
+
+        codeWidget debugIt: object
+    ]
+
+    inspectIt: object [
+	<category: 'smalltalk event'>
+
+        codeWidget inspectIt: object
+    ]
+
+    printIt: object [
+	<category: 'smalltalk event'>
+
+        codeWidget printIt: object
+    ]
+
     doIt [
 	<category: 'smalltalk event'>
 
-	| class |
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
-
-	class := classWidget selectedClass.
-
-	codeWidget 
-	    object: class;
-	    doIt
+	DoItCommand on: self
     ]
 
     debugIt [
 	<category: 'smalltalk event'>
 
-        | class |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-
-        class := classWidget selectedClass.
-
-        codeWidget
-            object: class;
-            debugIt
+	DebugItCommand on: self
     ]
 
     inspectIt [
 	<category: 'smalltalk event'>
 
-        | class |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-
-        class := classWidget selectedClass.
-
-        codeWidget
-            object: class;
-	    inspectIt
+	InspectItCommand on: self
     ]
 
     printIt [
 	<category: 'smalltalk event'>
 
-        | class |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-
-        class := classWidget selectedClass.
-
-        codeWidget
-            object: class;
-            printIt
+	PrintItCommand on: self
     ]
 
     forward [

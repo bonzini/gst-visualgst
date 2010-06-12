@@ -41,7 +41,13 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 	object := variableTracker objectClass new.
     ]
 
-    doIt [
+    targetObject [
+	<category: 'evaluation'>
+
+        ^object
+    ]
+
+    doIt: object [
 	<category: 'events'>
 
 	| text nodes |
@@ -54,7 +60,7 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 	    ifError: [ :fname :lineNo :errorString | self error: errorString ]
     ]
 
-    debugIt [
+    debugIt: object [
 	<category: 'events'>
 
 	| nodes |
@@ -68,22 +74,46 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 	    doItProcess: [ object perform: #Doit ] newProcess
     ]
 
-    printIt [
+    printIt: object [
 	<category: 'events'>
 
 	| iter start end result |
 	iter := self iterOfSelectedText second.
-	result := ' ', (self doIt displayString), ' '.
+	result := ' ', ((self doIt: object) displayString), ' '.
 	self buffer insertInteractive: iter text: result len: result size defaultEditable: true.
 	start := self buffer getIterAtOffset: (iter getOffset - result size).
 	end := self buffer getIterAtOffset: (iter getOffset).
 	self buffer selectRange: start bound: end
     ]
 
-    inspectIt [
+    inspectIt: object [
 	<category: 'events'>
 
-	GtkInspector openOn: self doIt
+	GtkInspector openOn: (self doIt: object)
+    ]
+
+    doIt [
+	<category: 'smalltalk event'>
+
+	DoItCommand on: self
+    ]
+
+    debugIt [
+	<category: 'smalltalk event'>
+
+	DebugItCommand on: self
+    ]
+
+    inspectIt [
+	<category: 'smalltalk event'>
+
+	InspectItCommand on: self
+    ]
+
+    printIt [
+	<category: 'smalltalk event'>
+
+	PrintItCommand on: self
     ]
 
     cancel [

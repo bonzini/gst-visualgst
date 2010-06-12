@@ -32,6 +32,10 @@
   <filein>Notification/ReorganizedEvent.st</filein>
   <filein>Notification/SystemChangeNotifier.st</filein>
   <filein>Commands/Command.st</filein>
+  <filein>Commands/DoItCommand.st</filein>
+  <filein>Commands/DebugItCommand.st</filein>
+  <filein>Commands/PrintItCommand.st</filein>
+  <filein>Commands/InspectItCommand.st</filein>
   <filein>Commands/CategoryCommand.st</filein>
   <filein>Commands/ClassCommand.st</filein>
   <filein>Commands/MethodCommand.st</filein>
@@ -185,6 +189,10 @@
   <file>Notification/ReorganizedEvent.st</file>
   <file>Notification/SystemChangeNotifier.st</file>
   <file>Commands/Command.st</file>
+  <file>Commands/DoItCommand.st</file>
+  <file>Commands/DebugItCommand.st</file>
+  <file>Commands/PrintItCommand.st</file>
+  <file>Commands/InspectItCommand.st</file>
   <file>Commands/CategoryCommand.st</file>
   <file>Commands/ClassCommand.st</file>
   <file>Commands/MethodCommand.st</file>
