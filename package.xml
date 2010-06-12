@@ -45,7 +45,6 @@
   <filein>Commands/RenameClassCommand.st</filein>
   <filein>Commands/FileoutCategoryCommand.st</filein>
   <filein>Commands/AddCategoryCommand.st</filein>
-  <filein>Commands/DeleteCategoryCommand.st</filein>
   <filein>Commands/RenameCategoryCommand.st</filein>
   <filein>Commands/FileoutMethodCommand.st</filein>
   <filein>Commands/InspectMethodCommand.st</filein>
@@ -116,9 +115,7 @@
   <filein>GtkWebView.st</filein>
   <filein>Extensions.st</filein>
   <filein>GtkAssistant.st</filein>
-  <filein>Undo/AddCategoryUndoCommand.st</filein>
   <filein>Undo/RenameCategoryUndoCommand.st</filein>
-  <filein>Undo/DeleteCategoryUndoCommand.st</filein>
   <filein>Undo/AddMethodUndoCommand.st</filein>
   <filein>Undo/DeleteMethodUndoCommand.st</filein>
   <filein>WorkspaceVariableTracker.st</filein>
@@ -198,7 +195,6 @@
   <file>Commands/RenameClassCommand.st</file>
   <file>Commands/FileoutCategoryCommand.st</file>
   <file>Commands/AddCategoryCommand.st</file>
-  <file>Commands/DeleteCategoryCommand.st</file>
   <file>Commands/RenameCategoryCommand.st</file>
   <file>Commands/FileoutMethodCommand.st</file>
   <file>Commands/InspectMethodCommand.st</file>
@@ -269,9 +265,7 @@
   <file>GtkWebView.st</file>
   <file>Extensions.st</file>
   <file>GtkAssistant.st</file>
-  <file>Undo/AddCategoryUndoCommand.st</file>
   <file>Undo/RenameCategoryUndoCommand.st</file>
-  <file>Undo/DeleteCategoryUndoCommand.st</file>
   <file>Undo/AddMethodUndoCommand.st</file>
   <file>Undo/DeleteMethodUndoCommand.st</file>
   <file>WorkspaceVariableTracker.st</file>

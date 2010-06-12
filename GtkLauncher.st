@@ -481,9 +481,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
             GTK.GtkMenuItem menuItem: 'Rename a category' connectTo: self selector: #renameCategory.
-            GTK.GtkMenuItem menuItem: 'Delete a category' connectTo: self selector: #deleteCategory.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a category' connectTo: self selector: #inspectCategory.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'File out a category' connectTo: self selector: #fileoutCategory}
     ]
@@ -910,18 +907,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         <category: 'category events'>
 
         browsers currentWidget renameCategory
-    ]
-
-    deleteCategory [
-        <category: 'category events'>
-
-        browsers currentWidget deleteCategory
-    ]
-
-    inspectCategory [
-        <category: 'category events'>
-
-        browsers currentWidget inspectCategory
     ]
 
     fileoutCategory [

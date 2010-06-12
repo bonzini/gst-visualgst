@@ -594,18 +594,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	RenameCategoryCommand on: self
     ]
 
-    deleteCategory [
-        <category: 'category events'>
-
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	DeleteCategoryCommand on: self
-    ]
-
-    inspectCategory [
-        <category: 'category events'>
-
-    ]
-
     viewedMethodWidget [
          <category: 'category events'>
 

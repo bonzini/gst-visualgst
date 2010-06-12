@@ -37,7 +37,6 @@ Eval [
     filein: 'Commands/RenameClassCommand.st';
     filein: 'Commands/FileoutCategoryCommand.st';
     filein: 'Commands/AddCategoryCommand.st';
-    filein: 'Commands/DeleteCategoryCommand.st';
     filein: 'Commands/RenameCategoryCommand.st';
     filein: 'Commands/FileoutMethodCommand.st';
     filein: 'Commands/InspectMethodCommand.st';
@@ -108,9 +107,7 @@ Eval [
     filein: 'GtkWebView.st';
     filein: 'Extensions.st';
     filein: 'GtkAssistant.st';
-    filein: 'Undo/AddCategoryUndoCommand.st';
     filein: 'Undo/RenameCategoryUndoCommand.st';
-    filein: 'Undo/DeleteCategoryUndoCommand.st';
     filein: 'Undo/AddMethodUndoCommand.st';
     filein: 'Undo/DeleteMethodUndoCommand.st';
     filein: 'WorkspaceVariableTracker.st';

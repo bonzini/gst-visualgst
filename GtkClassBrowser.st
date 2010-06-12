@@ -157,18 +157,6 @@ GtkBrowsingTool subclass: GtkClassBrowser [
 	browserWidget renameCategory
     ]
 
-    deleteCategory [
-	<category: 'category events'>
-
-	browserWidget deleteCategory
-    ]
-
-    inspectCategory [
-	<category: 'category events'>
-
-	browserWidget inspectCategory
-    ]
-
     fileoutCategory [
         <category: 'method events'>
 
@@ -272,9 +260,6 @@ GtkBrowsingTool subclass: GtkClassBrowser [
 
 	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
             GTK.GtkMenuItem menuItem: 'Rename a category' connectTo: self selector: #renameCategory.
-            GTK.GtkMenuItem menuItem: 'Delete a category' connectTo: self selector: #deleteCategory.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a category' connectTo: self selector: #inspectCategory.
 	    GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'File out a category' connectTo: self selector: #fileoutCategory}
     ]

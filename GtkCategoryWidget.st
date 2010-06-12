@@ -90,7 +90,6 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         menu := GTK.GtkMenu new.
         menu appendMenuItems: {{'Add a category'. self. #newCategory}.
             {'Rename a category'. self. #renameCategory}.
-            {'Delete a category'. self. #deleteCategory}.
             {}.
             {'File out a category'. self. #fileoutCategory}}.
         menu attachToWidget: categoryTree detacher: nil.
@@ -157,12 +156,6 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         <category: 'category events'>
 
         RenameCategoryCommand on: self
-    ]
-
-    deleteCategory [
-        <category: 'category events'>
-
-        DeleteCategoryCommand on: self
     ]
 
     fileoutCategory [
