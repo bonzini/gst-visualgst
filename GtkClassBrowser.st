@@ -150,17 +150,7 @@ GtkBrowsingTool subclass: GtkClassBrowser [
     fileoutCategory [
         <category: 'method events'>
 
-        | file |
-        (GTK.GtkFileChooserDialog save: 'Save Smalltalk category as...' parent: window)
-            showModalOnAnswer: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept ifTrue: [ self fileoutCategory: dlg getFilename ].
-                dlg destroy ]
-    ]
-
-    fileoutCategory: aString [
-        <category: 'method events'>
-
-        browserWidget fileoutCategory: aString
+	browserWidget fileoutCategory
     ]
 
     newMethod [

@@ -161,7 +161,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     fileoutCategory [
         <category: 'category events'>
 
-        FileoutCategoryCommand on: self classOrMeta categorized: self selectedCategory
+        FileoutCategoryCommand on: self
     ]
 
     addEvent: anEvent [

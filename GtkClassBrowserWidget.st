@@ -347,10 +347,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     acceptIt [
 	<category: 'smalltalk events'>
 
-        | categoryWidget |
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelectedCategory ifFalse: [ ^ self acceptClassDefinition ].
+        self hasSelectedCategory ifFalse: [ ^ self acceptClassDefinition ].
 	self newMethod
     ]
     
@@ -538,29 +535,15 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     fileoutCategory [
         <category: 'category events'>
 
-        | categoryWidget |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-        categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	FileoutCategoryCommand on: self classOrMetaSelected categorized: categoryWidget selectedCategory
-    ]
-
-    fileoutCategory: aFile [
-        <category: 'category events'>
-
-        | categoryWidget stream |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-        categoryWidget := self viewedCategoryWidget.
-        categoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	stream := FileStream open: aFile mode: FileStream write.
-	(CategorySource write: categoryWidget selectedCategory of: self classOrMetaSelected on: stream)
-	    source
+        self hasSelectedCategory ifFalse: [ ^ self ].
+	self viewedCategoryWidget fileoutCategory
     ]
 
     hasSelectedCategory [
 	<category: 'testing'>
 	
-	^ self viewedCategoryWidget hasSelectedCategory
+	^classWidget hasSelectedClass and: [
+            self viewedCategoryWidget hasSelectedCategory ]
     ]
 
     selectedCategory [
