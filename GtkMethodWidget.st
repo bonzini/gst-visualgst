@@ -113,7 +113,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         menu appendMenuItems: {{'Browse senders'. self. #browseSenders}.
 	    {'Browse implementors'. self. #browseImplementors}.
 	    {}.
-	    {'Rename method'. self. #renameMethod}.
             {'Delete method'. self. #deleteMethod}.
             {}.
             {'Inspect method'. self. #inspectMethod}.

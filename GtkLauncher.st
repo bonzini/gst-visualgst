@@ -489,7 +489,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         <category: 'user interface'>
 
         ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a method' connectTo: self selector: #newMethod.
-            GTK.GtkMenuItem menuItem: 'Rename a method' connectTo: self selector: #renameMethod.
             GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
