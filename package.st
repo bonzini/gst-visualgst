@@ -29,6 +29,7 @@ Eval [
     filein: 'Commands/PrintItCommand.st';
     filein: 'Commands/InspectItCommand.st';
     filein: 'Commands/ClassCommand.st';
+    filein: 'Commands/CategoryCommand.st';
     filein: 'Commands/MethodCommand.st';
     filein: 'Commands/NamespaceCommand.st';
     filein: 'Commands/InspectNamespaceCommand.st';
