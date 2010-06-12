@@ -47,49 +47,13 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
         ^object
     ]
 
-    doIt: object [
-	<category: 'events'>
+    beforeEvaluation [
+        <category: 'smalltalk event'>
 
 	| text nodes |
 	text := self selectedText.
 	nodes := STInST.RBParser parseExpression: text onError: [ :s :p | self error: s ].
 	variableTracker visitNode: nodes.
-        ^ Behavior
-	    evaluate: text
-	    to: object
-	    ifError: [ :fname :lineNo :errorString | self error: errorString ]
-    ]
-
-    debugIt: object [
-	<category: 'events'>
-
-	| nodes |
-        nodes := STInST.RBParser parseExpression: self selectedText onError: [ :s :p | self error: s ].
-        variableTracker visitNode: nodes.
-	object class 
-	    compile: ('Doit [ ^ [ ', self selectedText , ' ] value ]')
-	    ifError:  [ :fname :lineNo :errorString | 
-		self error: errorString ].
-	(GtkDebugger open)
-	    doItProcess: [ object perform: #Doit ] newProcess
-    ]
-
-    printIt: object [
-	<category: 'events'>
-
-	| iter start end result |
-	iter := self iterOfSelectedText second.
-	result := ' ', ((self doIt: object) displayString), ' '.
-	self buffer insertInteractive: iter text: result len: result size defaultEditable: true.
-	start := self buffer getIterAtOffset: (iter getOffset - result size).
-	end := self buffer getIterAtOffset: (iter getOffset).
-	self buffer selectRange: start bound: end
-    ]
-
-    inspectIt: object [
-	<category: 'events'>
-
-	GtkInspector openOn: (self doIt: object)
     ]
 
     doIt [
@@ -114,11 +78,5 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 	<category: 'smalltalk event'>
 
 	PrintItCommand on: self
-    ]
-
-    cancel [
-        <category: 'edit events'>
-
-        self undo
     ]
 ]

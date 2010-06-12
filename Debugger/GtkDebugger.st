@@ -51,6 +51,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 	<category: 'user interface'>
 
 	^ (contextWidget := GtkContextWidget new)
+            parentWindow: window;
 	    initialize;
 	    whenSelectionChangedSend: #contextChanged to: self;
 	    mainWidget
@@ -60,6 +61,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 	<category: 'user interface'>
 
 	^ (inspectorWidget := GtkInspectorWidget new)
+            parentWindow: window;
 	    initialize;
 	    mainWidget
     ]
@@ -80,6 +82,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 	<category: 'user interface'>
 
 	^ (stackInspectorWidget := GtkStackInspector new)
+            parentWindow: window;
 	    initialize;
 	    mainWidget
     ]
@@ -306,7 +309,6 @@ GtkBrowsingTool subclass: GtkDebugger [
 	self checkCodeWidget.
 	self hasSelectedContext ifFalse: [ ^ self ].
 	codeWidget sourceCode: self selectedContext method methodSourceString.
-	codeWidget object: self selectedContext receiver.
 	codeWidget applyTag: #debug forLine: self selectedContext currentLine.
 	self updateInspectorWidget: self selectedContext
     ]
@@ -374,30 +376,72 @@ GtkBrowsingTool subclass: GtkDebugger [
 	AddMethodCommand on: self.
     ]
 
+    targetObject [
+        <category: 'smalltalk event'>
+
+	^self hasSelectedContext ifTrue: [self selectedContext receiver] ifFalse: [nil]
+    ]
+
+    focusedWidget [
+        <category: 'widget'>
+
+        inspectorWidget hasFocus ifTrue: [^inspectorWidget].
+        stackInspectorWidget hasFocus ifTrue: [^stackInspectorWidget].
+        ^codeWidget
+    ]
+
+    onFocusPerform: aSymbol [
+        <category: 'widget'>
+
+        ^self focusedWidget perform: aSymbol
+    ]
+
+    doIt: object [
+        <category: 'smalltalk event'>
+
+        self focusedWidget doIt: object
+    ]
+
+    debugIt: object [
+        <category: 'smalltalk event'>
+
+        self focusedWidget debugIt: object
+    ]
+
+    inspectIt: object [
+        <category: 'smalltalk event'>
+
+        self focusedWidget inspectIt: object
+    ]
+
+    printIt: object [
+        <category: 'smalltalk event'>
+
+        self focusedWidget printIt: object
+    ]
+
     doIt [
         <category: 'smalltalk event'>
 
-        codeWidget doIt
+        DoItCommand on: self
     ]
 
     debugIt [
         <category: 'smalltalk event'>
 
-        codeWidget debugIt
+        DebugItCommand on: self
     ]
-
 
     inspectIt [
         <category: 'smalltalk event'>
 
-        codeWidget inspectIt
+        InspectItCommand on: self
     ]
-
 
     printIt [
         <category: 'smalltalk event'>
 
-        codeWidget printIt
+        PrintItCommand on: self
     ]
 
     hasChanged [
@@ -406,7 +450,5 @@ GtkBrowsingTool subclass: GtkDebugger [
 	^ codeWidget hasChanged
     ]
 
-    clearUndo [
-    ]
 ]
 
