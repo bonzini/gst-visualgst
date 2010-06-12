@@ -10,6 +10,12 @@ GtkMainWindow subclass: VisualGST [
         ^ uniqueInstance
     ]
 
+    VisualGST class >> / path [
+        <category: 'files'>
+
+        ^(PackageLoader packageAt: 'VisualGST') / path
+    ]
+
     VisualGST class >> uniqueInstance: anObject [
         <category: 'private'>
 

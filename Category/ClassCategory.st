@@ -8,7 +8,7 @@ Object subclass: ClassCategory [
     ClassCategory class >> icon [
 	<category: '*VisualGST'>
 	
-	^ icon ifNil: [ icon := GTK.GdkPixbuf newFromFile: ((PackageLoader packageAt: 'VisualGST') / 'Icons/category.gif') file displayString error: nil ]
+	^ icon ifNil: [ icon := GTK.GdkPixbuf newFromFile: (VisualGST / 'Icons/category.gif') file displayString error: nil ]
     ]
 
     ClassCategory class >> icon: aGdkPixbuf [
