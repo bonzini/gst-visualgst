@@ -1,5 +1,5 @@
 GtkBrowsingTool subclass: GtkDebugger [
-    | codeWidget contextWidget debugger inspectorWidget stackInspectorWidget selectedContext |
+    | codeWidget contextWidget debugger inspectorWidget stackInspectorWidget |
 
     GtkDebugger class >> open: aString [
 	<category: 'user interface'>
@@ -278,13 +278,25 @@ GtkBrowsingTool subclass: GtkDebugger [
     hasSelectedMethod [
 	<category: 'method events'>
 
-	^selectedContext notNil
+	^self hasSelectedContext
     ]
 
     selectedMethod [
 	<category: 'method events'>
 
-	^selectedContext ifNotNil: [ selectedContext method ].
+	^self selectedContext method
+    ]
+
+    hasSelectedContext [
+        <category: 'method events'>
+
+        ^contextWidget hasSelectedContext
+    ]
+
+    selectedContext [
+        <category: 'method events'>
+
+        ^contextWidget selectedContext
     ]
 
     contextChanged [
@@ -292,12 +304,11 @@ GtkBrowsingTool subclass: GtkDebugger [
 
 	| iter |
 	self checkCodeWidget.
-	contextWidget hasSelectedContext ifFalse: [ ^ self ].
-	selectedContext := debugger suspendedContext parentContextAt: contextWidget positionOfSelectedContext.
-	codeWidget sourceCode: selectedContext method methodSourceString.
-	codeWidget object: selectedContext receiver.
-	codeWidget applyTag: #debug forLine: selectedContext currentLine.
-	self updateInspectorWidget: selectedContext
+	self hasSelectedContext ifFalse: [ ^ self ].
+	codeWidget sourceCode: self selectedContext method methodSourceString.
+	codeWidget object: self selectedContext receiver.
+	codeWidget applyTag: #debug forLine: self selectedContext currentLine.
+	self updateInspectorWidget: self selectedContext
     ]
 
     step [
@@ -308,7 +319,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 
 	contextWidget numberOfContext = ((contextWidget model getPath: iter) getIndices value + 1)
 	    ifTrue: [ debugger myStep ]
-	    ifFalse: [ debugger finish: selectedContext ].
+	    ifFalse: [ debugger finish: self selectedContext ].
 	self updateContextWidget
     ]
 
