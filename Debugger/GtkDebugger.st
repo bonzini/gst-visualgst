@@ -275,6 +275,12 @@ GtkBrowsingTool subclass: GtkDebugger [
 	InspectMethodCommand on: self
     ]
 
+    hasSelectedMethod [
+	<category: 'method events'>
+
+	^selectedContext notNil
+    ]
+
     selectedMethod [
 	<category: 'method events'>
 

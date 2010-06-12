@@ -594,7 +594,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     hasSelectedMethod [
 	<category: 'testing'>
 
-	^ self viewedMethodWidget hasSelectedMethod
+	^classWidget hasSelectedClass and: [
+            self viewedMethodWidget hasSelectedMethod ]
+    ]
+
+    selectedMethod [
+	<category: 'accessing'>
+
+	^ self viewedMethodWidget selectedMethod
     ]
 
     selectedMethodSymbol [
@@ -626,30 +633,15 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     inspectMethod [
 	<category: 'method events'>
 
-	| methodWidget |
 	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	methodWidget := self viewedMethodWidget.
-        GtkInspector openOn: methodWidget selectedMethod
+	InspectMethodCommand on: self
     ]
 
     fileoutMethod [
 	<category: 'method events'>
 
-        | methodWidget stream |
         classWidget hasSelectedClass ifFalse: [ ^ self ].
-        methodWidget := self viewedMethodWidget.
-	FileoutMethodCommand on: methodWidget selectedMethod
-    ]
-
-    fileoutMethod: aFile [
-	<category: 'method events'>
-
-        | methodWidget stream |
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-        methodWidget := self viewedMethodWidget.
-        stream := FileStream open: aFile mode: FileStream write.
-        (MethodSource write: methodWidget selectedMethod on: stream)
-            source
+	FileoutMethodCommand on: self
     ]
 
     selectANamespace: aNamespace [

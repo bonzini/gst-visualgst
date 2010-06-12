@@ -211,7 +211,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     fileoutMethod [
         <category: 'method events'>
 
-	FileoutMethodCommand on: self selectedMethod
+	FileoutMethodCommand on: self
     ]
 
     addEvent: anEvent [
