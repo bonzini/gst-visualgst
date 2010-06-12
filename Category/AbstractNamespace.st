@@ -1,5 +1,10 @@
 AbstractNamespace class extend [
     Icon := nil.
+    Categories := nil.
+
+    categories [
+        ^ Categories ifNil: [ Categories := WeakKeyIdentityDictionary new ]
+    ]
 
     icon [
         <category: '*VisualGST'>
@@ -15,7 +20,6 @@ AbstractNamespace class extend [
 ]
 
 AbstractNamespace extend [
-    | categories |
 
     namespace [
 	<category: 'accessing'>
@@ -32,7 +36,8 @@ AbstractNamespace extend [
     categories [
 	<category: 'accessing'>
 
-	^ categories ifNil: [ categories := VisualGST.ClassCategory for: self ]
+        ^ self class categories at: self
+            ifAbsentPut: [ VisualGST.ClassCategory for: self ]
     ]
 
     icon [
