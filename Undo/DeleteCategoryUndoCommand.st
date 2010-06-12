@@ -1,6 +1,6 @@
 UndoCommand subclass: DeleteCategoryUndoCommand [
 
-    | category class methods treeStore |
+    | category class methods categoryModel |
 
     DeleteCategoryUndoCommand class >> delete: aString in: aClass onModel: aGtkCategoryModel [
 	<category: 'instance creation'>
@@ -16,7 +16,7 @@ UndoCommand subclass: DeleteCategoryUndoCommand [
 
 	category := aString.
 	class := aClass.
-	treeStore := aGtkTreeStore
+	categoryModel := aGtkTreeStore
     ]
 
     description [
@@ -38,9 +38,7 @@ UndoCommand subclass: DeleteCategoryUndoCommand [
         methods do: [ :each |
             class methodDictionary insertMethod: each ].
 	methods := nil.
-	treeStore appendCategory: category.
-	(GtkMethodModel
-            currentOn: class withCategory: '*') refreshModel.
+	categoryModel appendCategory: category.
     ]
 
     redo [
@@ -52,9 +50,7 @@ UndoCommand subclass: DeleteCategoryUndoCommand [
 		ifTrue: [ methods add: each ] ].
 	methods do: [ :each |
 	    class methodDictionary removeMethod: each ].
-	treeStore removeCategory: category.
-	(GtkMethodModel 
-	    currentOn: class withCategory: '*') refreshModel.
+	categoryModel removeCategory: category.
     ]
 ]
 

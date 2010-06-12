@@ -614,14 +614,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             ifFalse: [ cMethodWidget ]
    ]
 
-    viewedMethodModel [
-        <category: 'category events'>
-
-        ^ classAndInstanceSide getCurrentPage = 0
-            ifTrue: [ GtkMethodModel currentOn: classWidget selectedClass withCategory: iCategoryWidget selectedCategory ]
-            ifFalse: [ GtkMethodModel currentOn: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory ]
-    ]
-
     hasSelectedMethod [
 	<category: 'testing'>
 
