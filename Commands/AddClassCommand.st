@@ -1,4 +1,4 @@
-UndoableCommand subclass: AddClassCommand [
+Command subclass: AddClassCommand [
 
     execute [
 	<category: 'command'>
@@ -9,7 +9,7 @@ UndoableCommand subclass: AddClassCommand [
             ifFalse: [ superclass := Object ].
         dlg := GtkEntryDialog title: 'Add a class' text: 'Name of the new class'.
         dlg hasPressedOk: [
-            self push: (AddClassUndoCommand add: dlg result asSymbol to: target selectedNamespace withSuperclass: superclass) ]
+            (AddClassUndoCommand add: dlg result asSymbol to: target selectedNamespace withSuperclass: superclass) push ]
     ]
 ]
 

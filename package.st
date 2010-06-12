@@ -24,7 +24,6 @@ Eval [
     filein: 'Notification/ReorganizedEvent.st';
     filein: 'Notification/SystemChangeNotifier.st';
     filein: 'Commands/Command.st';
-    filein: 'Commands/UndoableCommand.st';
     filein: 'Commands/InspectNamespaceCommand.st';
     filein: 'Commands/FileoutNamespaceCommand.st';
     filein: 'Commands/AddNamespaceCommand.st';

@@ -1,4 +1,4 @@
-UndoableCommand subclass: RenameCategoryCommand [
+Command subclass: RenameCategoryCommand [
 
     execute [
 	<category: 'command'>
@@ -7,7 +7,7 @@ UndoableCommand subclass: RenameCategoryCommand [
 	target hasSelectedCategory ifFalse: [ ^ self ].
         dlg := GtkEntryDialog title: 'Rename a category' text: 'Name of the category'.
         dlg hasPressedOk ifTrue: [
-            self push: (RenameCategoryUndoCommand rename: target selectedCategory in: target classOrMetaSelected as: dlg result onModel: target viewedCategoryModel) ]
+            (RenameCategoryUndoCommand rename: target selectedCategory in: target classOrMetaSelected as: dlg result onModel: target viewedCategoryModel) push ]
     ]
 ]
 

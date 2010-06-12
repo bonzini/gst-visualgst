@@ -32,7 +32,6 @@
   <filein>Notification/ReorganizedEvent.st</filein>
   <filein>Notification/SystemChangeNotifier.st</filein>
   <filein>Commands/Command.st</filein>
-  <filein>Commands/UndoableCommand.st</filein>
   <filein>Commands/InspectNamespaceCommand.st</filein>
   <filein>Commands/FileoutNamespaceCommand.st</filein>
   <filein>Commands/AddNamespaceCommand.st</filein>
@@ -182,7 +181,6 @@
   <file>Notification/ReorganizedEvent.st</file>
   <file>Notification/SystemChangeNotifier.st</file>
   <file>Commands/Command.st</file>
-  <file>Commands/UndoableCommand.st</file>
   <file>Commands/InspectNamespaceCommand.st</file>
   <file>Commands/FileoutNamespaceCommand.st</file>
   <file>Commands/AddNamespaceCommand.st</file>

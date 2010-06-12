@@ -1,6 +1,12 @@
 Object subclass: UndoCommand [
     | description preconditionError |
 
+    UndoCommand class >> undoStack [
+	<category: 'accessing'>
+
+	^ GtkClassBrowserWidget undoStack 
+    ]
+
     description [
 	<category: 'accessing'>
 
@@ -42,6 +48,13 @@ Object subclass: UndoCommand [
         <Category: 'error'>
 
         GtkLauncher displayError: self description message: self error
+    ]
+
+    push [
+	<category: 'accessing'>
+
+	self precondition ifFalse: [ ^ self displayError ].
+	self class undoStack push: self
     ]
 ]
 
