@@ -175,14 +175,14 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         <category: 'event'>
 
         (anEvent itemClass == self classOrMeta) ifFalse: [ ^ self ].
-        "self appendCategory: anEvent item"
+        model append: anEvent item
     ]
 
     removeEvent: anEvent [
         <category: 'event'>
 
         (anEvent itemClass == self classOrMeta) ifFalse: [ ^ self ].
-        "self removeCategory: anEvent item"
+        model remove: anEvent item
     ]
 ]
 
