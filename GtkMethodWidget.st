@@ -94,9 +94,10 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	^ GTK.GtkScrolledWindow withChild: methodTree
     ]
 
-    isTestMethod [
+    hasSelectedTestMethod [
 	<category: 'button event'>
 
+	self hasSelectedMethod ifFalse: [^false].
 	^ (self classOrMetaSelected inheritsFrom: TestCase)
 	    and: [ self selectedMethodSymbol startsWith: 'test' ]
     ]
@@ -108,7 +109,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
-	self isTestMethod ifTrue: [
+	self hasSelectedTestMethod ifTrue: [
             menu appendMenuItems: {{'Run test'. self. #runTest}} ].
         menu appendMenuItems: {{'Browse senders'. self. #browseSenders}.
 	    {'Browse implementors'. self. #browseImplementors}.
