@@ -505,7 +505,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     fileoutCategory [
         <category: 'category events'>
 
-        self hasSelectedCategory ifFalse: [ ^ self ].
 	self viewedCategoryWidget fileoutCategory
     ]
 
@@ -531,7 +530,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     renameCategory [
         <category: 'category events'>
 
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
 	RenameCategoryCommand on: self
     ]
 

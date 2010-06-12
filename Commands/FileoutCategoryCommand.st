@@ -1,4 +1,4 @@
-Command subclass: FileoutCategoryCommand [
+CategoryCommand subclass: FileoutCategoryCommand [
 
     execute [
 	<category: 'command'>
