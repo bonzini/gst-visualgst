@@ -677,30 +677,21 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	^ self createNewMenuEntry: menu 
     ]
 
-    isCurrentWidgetTranscript [
-	<category: 'testing'>
-
-	^ outputs currentWidget == transcriptWidget
-    ]
-
     cancel [
 	<category: 'edit events'>
 
-	self isCurrentWidgetTranscript ifTrue: [ outputs currentWidget hasFocus ifTrue: [ ^ self ] ].
 	self onFocusPerform: #cancel
     ]
 
     undo [
 	<category: 'edit events'>
 
-	self isCurrentWidgetTranscript ifTrue: [ outputs currentWidget hasFocus ifTrue: [ ^ self ] ].
 	self onFocusPerform: #undo
     ]
 
     redo [
 	<category: 'edit events'>
 
-	self isCurrentWidgetTranscript ifTrue: [ outputs currentWidget hasFocus ifTrue: [ ^ self ] ].
 	self onFocusPerform: #redo
     ]
 
