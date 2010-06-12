@@ -73,7 +73,6 @@ Eval [
     filein: 'GtkNotebookWidget.st';
     filein: 'Image/GtkImageModel.st';
     filein: 'Image/GtkImageWidget.st';
-    filein: 'GtkTranscriptWidget.st';
     filein: 'Debugger/GtkContextWidget.st';
     filein: 'Debugger/GtkDebugger.st';
     filein: 'BrowserState.st';
@@ -82,6 +81,7 @@ Eval [
     filein: 'CategoryState.st';
     filein: 'MethodState.st';
     filein: 'GtkWorkspaceWidget.st';
+    filein: 'GtkTranscriptWidget.st';
     filein: 'GtkCategorizedNamespaceWidget.st';
     filein: 'GtkCategorizedClassWidget.st';
     filein: 'GtkCategoryWidget.st';
