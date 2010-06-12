@@ -122,7 +122,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     fileoutNamespace [
         <category: 'namespace events'>
 
-        FileoutNamespaceCommand on: self selectedNamespace
+        FileoutNamespaceCommand on: self
     ]
 
     addEvent: anEvent [

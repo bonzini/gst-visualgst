@@ -68,17 +68,7 @@ GtkBrowsingTool subclass: GtkClassBrowser [
     fileoutNamespace [
 	<category: 'namespace events'>
 
-        | file |
-        (GTK.GtkFileChooserDialog selectFolder: 'Save namespace as...' parent: window)
-            showModalOnAnswer: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept ifTrue: [ self fileoutNamespace: dlg getCurrentFolder ].
-                dlg destroy ].
-    ]
-
-    fileoutNamespace: aString [
-	<category: 'namespace events'>
-
-	browserWidget fileoutNamespace: aString
+        browserWidget fileoutNamespace
     ]
 
     newNamespace [
