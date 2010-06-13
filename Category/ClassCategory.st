@@ -3,7 +3,7 @@ Object subclass: ClassCategory [
 
     <category: 'Language-Implementation'>
 
-    ClassCategory class [ | uniqueInstance icon | ]
+    ClassCategory class [ | icon | ]
 
     ClassCategory class >> icon [
 	<category: '*VisualGST'>
@@ -72,27 +72,7 @@ Object subclass: ClassCategory [
     ClassCategory class >> named: name into: aNamespace [
 	<category: 'instance creation'>
 
-        ^self named: name for: aNamespace categories into: aNamespace
-    ]
-
-    ClassCategory class >> uniqueInstance [
-	<category: 'accessing'>
-
-	^ uniqueInstance ifNil: [ uniqueInstance := self basicNew initialize ]
-    ]
-
-    ClassCategory class >> initialize [
-	<category: 'initialize'>
-
-	self extractCategory: Class
-    ]
-
-    ClassCategory class >> extractCategory: aClass [
-	<category: 'extraction'>
-
-	self extractCategory: aClass for: self uniqueInstance.
-	aClass subclassesDo: [ :each |
-	    self extractCategory: each ]
+        ^ self named: name for: aNamespace categories into: aNamespace
     ]
 
     ClassCategory class >> extractCategory: aClass for: aParentCategory [
@@ -192,19 +172,6 @@ Object subclass: ClassCategory [
         namespace := aNamespace
     ]
 
-    childrenNamespace: aNamespace [
-        <category: 'accessing'>
-
-	self namespace: aNamespace.
-	self values do: [ :each | each childrenNamespace: aNamespace ]
-    ]
-
-    category [
-        <category: 'accessing'>
-
-        ^ self
-    ]
-
     name: aString [
 	<category: 'accessing'>
 
@@ -292,12 +259,6 @@ Object subclass: ClassCategory [
 	<category: 'testing'>
 
 	^ false
-    ]
-
-    isRoot [
-	<category: 'testing'>
-
-	^ self parent isNil and: [ self name isEmpty]
     ]
 
     icon [

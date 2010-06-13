@@ -40,6 +40,7 @@
   <filein>Commands/PrintItCommand.st</filein>
   <filein>Commands/InspectItCommand.st</filein>
   <filein>Commands/ClassCommand.st</filein>
+  <filein>Commands/CategoryCommand.st</filein>
   <filein>Commands/MethodCommand.st</filein>
   <filein>Commands/NamespaceCommand.st</filein>
   <filein>Commands/InspectNamespaceCommand.st</filein>
@@ -196,6 +197,7 @@
   <file>Commands/PrintItCommand.st</file>
   <file>Commands/InspectItCommand.st</file>
   <file>Commands/ClassCommand.st</file>
+  <file>Commands/CategoryCommand.st</file>
   <file>Commands/MethodCommand.st</file>
   <file>Commands/NamespaceCommand.st</file>
   <file>Commands/InspectNamespaceCommand.st</file>

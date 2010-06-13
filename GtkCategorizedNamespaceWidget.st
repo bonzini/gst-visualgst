@@ -143,10 +143,8 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         | namespace newCat place |
         namespace := anEvent item environment.
         newCat := ClassCategory named: anEvent item category into: namespace.
-        (model hasItem: newCat) ifTrue: [^self].
-
-        [ model hasItem: (place := newCat parent) ] whileFalse: [
-            newCat := place ].
+        (model hasItem: newCat) ifTrue: [ ^ self ].
+        [ model hasItem: (place := newCat parent) ] whileFalse: [ newCat := place ].
         model append: newCat parent: place
     ]
 ]
