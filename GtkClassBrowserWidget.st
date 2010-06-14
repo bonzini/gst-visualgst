@@ -359,8 +359,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	(STInST.GSTFileInParser parseSmalltalkStream: (ReadStream on: codeWidget sourceCode) with: (STInST.STClassLoader new)) do: [ :each |
 	    each isClass ifTrue: [
 		self 
-		    selectANamespace: each environment;
-		    selectAClass: each ] ]
+		    selectAClass: (aNamespace at: each name) ] ]
     ]
 
     acceptClassDefinition [
