@@ -14,7 +14,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         (GtkLauncher uniqueInstance systemChangeNotifier)
             notify: self ofSystemChangesOfItem: #namespace change: #Added using: #'addEvent:';
             notify: self ofSystemChangesOfItem: #namespace change: #Removed using: #'removeEvent:';
-            notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'classRecategorizedEvent:'
+	    notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'classRecategorizedEvent:'
     ]
 
     buildTreeView [
@@ -140,14 +140,22 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     classRecategorizedEvent: anEvent [
         <category: 'model event'>
 
-        | namespace newCat place |
+        | namespace newCat place root ord |
         namespace := anEvent item environment.
         newCat := ClassCategory named: anEvent item category into: namespace.
-        (model hasItem: newCat) ifTrue: [^self].
-
-        [ model hasItem: (place := newCat parent) ] whileFalse: [
-            newCat := place ].
-        model append: newCat parent: place
+	(model hasItem: newCat) ifTrue: [ ^ self ].
+	anEvent item category printNl.
+	root := newCat.
+	ord := OrderedCollection new.
+	[ root parent isNil or: [ (model hasItem: root) ] ] whileFalse: [ 
+					ord addFirst: root.
+					root := root parent ].
+	newCat name printNl.
+	ord size printNl.
+	root parent ifNil: [ root := namespace ].
+	ord do: [ :each |
+	    model append: each parent: root.
+	    root := each ]
     ]
 ]
 
