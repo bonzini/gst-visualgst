@@ -205,16 +205,16 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     classInstanceSwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
 	<category: 'events'>
 
-	self checkCodeWidget.
-	aSmallInteger = 0 
-	    ifTrue: [
-		iMethodWidget hasSelectedMethod 
-		    ifTrue: [ codeWidget sourceCode: iMethodWidget sourceCode ]
-		    ifFalse: [ codeWidget clear ] ]
-	    ifFalse: [
-                cMethodWidget hasSelectedMethod
-                    ifTrue: [ codeWidget sourceCode: cMethodWidget sourceCode ]
-                    ifFalse: [ codeWidget clear ] ]
+	self checkCodeWidgetAndUpdate: [
+	    aSmallInteger = 0 
+		ifTrue: [
+		    iMethodWidget hasSelectedMethod 
+			ifTrue: [ codeWidget sourceCode: iMethodWidget sourceCode ]
+			ifFalse: [ codeWidget clear ] ]
+		ifFalse: [
+		    cMethodWidget hasSelectedMethod
+			ifTrue: [ codeWidget sourceCode: cMethodWidget sourceCode ]
+			ifFalse: [ codeWidget clear ] ] ]
     ]
 
     onNamespaceChanged [
