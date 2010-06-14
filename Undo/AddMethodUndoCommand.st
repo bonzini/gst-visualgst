@@ -84,6 +84,7 @@ UndoCommand subclass: AddMethodUndoCommand [
     redo [
 	<category: 'events'>
 
+	oldCompiledMethod ifNotNil: [ classOrMeta methodDictionary removeMethod: oldCompiledMethod ].
 	classOrMeta methodDictionary insertMethod: compiledMethod.
 
 	browserWidget ifNil: [ ^ self ].

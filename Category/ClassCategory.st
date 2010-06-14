@@ -134,19 +134,19 @@ Object subclass: ClassCategory [
     registerNotifier [
         <category: 'initialize-release'>
 
-        "TODO: do not go through GtkLauncher's notifier"
+        "TODO: do not go through GtkLauncher's notifier
         (GtkLauncher uniqueInstance systemChangeNotifier)
-            notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'classRecategorizedEvent:'
+            notify: self ofSystemChangesOfItem: #class change: #Recategorized using: #'classRecategorizedEvent:'"
     ]
 
-    classRecategorizedEvent: anEvent [
+    "classRecategorizedEvent: anEvent [
         <category: 'model event'>
 
         | namespace oldCat newCat |
         namespace := anEvent item environment.
         oldCat := ClassCategory named: anEvent oldCategory into: namespace.
         oldCat removeClass: anEvent item
-    ]
+    ]"
 
     initialize [
         <category: 'initialize-release'>
