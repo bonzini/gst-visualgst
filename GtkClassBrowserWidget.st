@@ -220,98 +220,97 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     onNamespaceChanged [
 	<category: 'events'>
 
-	| namespace |
-	self checkCodeWidget.
-	namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	namespace := namespaceWidget selectedNamespace.
-	classWidget namespace: namespace category: namespaceWidget selectedCategory.
+	self checkCodeWidgetAndUpdate: [
+	    | namespace |
+	    namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	    namespace := namespaceWidget selectedNamespace.
+	    classWidget namespace: namespace category: namespaceWidget selectedCategory.
 
-	classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
-	iCategoryWidget clear.
-	cCategoryWidget clear.
-	iMethodWidget clear.
-	cMethodWidget clear.
-	codeWidget namespaceDefinition: (NamespaceSource on: namespace).
-	state := NamespaceState on: self with: namespace
+	    classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
+	    iCategoryWidget clear.
+	    cCategoryWidget clear.
+	    iMethodWidget clear.
+	    cMethodWidget clear.
+	    codeWidget namespaceDefinition: (NamespaceSource on: namespace).
+	    state := NamespaceState on: self with: namespace ]
     ]
 
     onClassChanged [
 	<category: 'events'>
 
-        | aClass |
-	self checkCodeWidget.
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	aClass := classWidget selectedClass.
-	classHierarchyUpdate ifFalse: [ classHierarchyWidget classOrMeta: aClass ].
-	iCategoryWidget classOrMeta: aClass.
-	cCategoryWidget classOrMeta: aClass class.
-	iCategoryWidget unselectAll.
-        cCategoryWidget unselectAll.
+	self checkCodeWidgetAndUpdate: [
+	    | aClass |
+	    classWidget hasSelectedClass ifFalse: [ ^ self ].
+	    aClass := classWidget selectedClass.
+	    classHierarchyUpdate ifFalse: [ classHierarchyWidget classOrMeta: aClass ].
+	    iCategoryWidget classOrMeta: aClass.
+	    cCategoryWidget classOrMeta: aClass class.
+	    iCategoryWidget unselectAll.
+	    cCategoryWidget unselectAll.
 
-	historyUpdate ifTrue: [ history push: aClass ].
+	    historyUpdate ifTrue: [ history push: aClass ].
 
-	iMethodWidget emptyModel.
-        cMethodWidget emptyModel.
-	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
-	state := ClassState on: self with: aClass
+	    iMethodWidget emptyModel.
+	    cMethodWidget emptyModel.
+	    codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
+	    state := ClassState on: self with: aClass ]
     ]
 
     onClassHierarchyChanged [
 	<category: 'events'>
 
-	| aClass |
-	self checkCodeWidget.
-	classHierarchyWidget hasSelectedClass ifFalse: [ ^ self ].
-	classHierarchyUpdate := true.
-        aClass := classHierarchyWidget selectedClass.
-	namespaceWidget selectANamespace: aClass environment.
-	classWidget selectAClass: aClass class.
-	classHierarchyUpdate := false
+	self checkCodeWidgetAndUpdate: [
+	    | aClass |
+	    classHierarchyWidget hasSelectedClass ifFalse: [ ^ self ].
+	    classHierarchyUpdate := true.
+	    aClass := classHierarchyWidget selectedClass.
+	    namespaceWidget selectANamespace: aClass environment.
+	    classWidget selectAClass: aClass class.
+	    classHierarchyUpdate := false ]
     ]
 
     onInstanceSideCategoryChanged [
 	<category: 'events'>
 
-	| category |
-	self checkCodeWidget.
-	iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
+	self checkCodeWidgetAndUpdate: [
+	    iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
+	    iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
 
-	codeWidget clear.
-	state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selectedCategory
+	    codeWidget clear.
+	    state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selectedCategory ]
     ]
 
     onClassSideCategoryChanged [
 	<category: 'events'>
 
-	self checkCodeWidget.
-	cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
+	self checkCodeWidgetAndUpdate: [
+	    cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
+	    cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
 
-	codeWidget clear.
-	state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selectedCategory
+	    codeWidget clear.
+	    state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selectedCategory ]
     ]
 
     onInstanceSideMethodChanged [
 	<category: 'events'>
 
 	| method |
-	self checkCodeWidget.
-	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
-	method := iMethodWidget selectedMethod.
-	codeWidget sourceCode: iMethodWidget sourceCode.
-	state := MethodState on: self with: classWidget selectedClass -> method
+	self checkCodeWidgetAndUpdate: [
+	    iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
+	    method := iMethodWidget selectedMethod.
+	    codeWidget sourceCode: iMethodWidget sourceCode.
+	    state := MethodState on: self with: classWidget selectedClass -> method ]
     ]
 
     onClassSideMethodChanged [
 	<category: 'events'>
 
 	| method |
-	self checkCodeWidget.
-	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
-	method := cMethodWidget selectedMethod.
-	codeWidget sourceCode: cMethodWidget sourceCode.
-	state := MethodState on: self with: classWidget selectedClass class -> method
+	self checkCodeWidgetAndUpdate: [
+	    cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
+	    method := cMethodWidget selectedMethod.
+	    codeWidget sourceCode: cMethodWidget sourceCode.
+	    state := MethodState on: self with: classWidget selectedClass class -> method ]
     ]
 
     undoStack [
@@ -767,16 +766,16 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	checkCode := false
     ]
 
-    checkCodeWidget [
-	<category: 'text editing'>
+    checkCodeWidgetAndUpdate: aBlock [
+        <category: 'text editing'>
 
-	checkCode ifFalse: [ checkCode := true. ^ self ].
-	self hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
-	self saveCodeOnSave: [ self saveCode ].
-	codeWidget clearUndo
+        checkCode ifFalse: [ checkCode := true. aBlock value. ^ self ].
+        self hasChanged ifFalse: [ codeWidget clearUndo. aBlock value. ^ self ].
+        self saveCodeOnSave: [ self saveCode. aBlock value ] onCancel: [ aBlock value ].
+        codeWidget clearUndo.
     ]
 
-    saveCodeOnSave: saveEvent [
+    saveCodeOnSave: saveEvent onCancel: cancelEvent [
         <category: 'saving'>
 
         | dialog |
@@ -792,6 +791,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             addButton: 'Cancel' responseId: 0;
             addButton: 'Save' responseId: 1;
             showModalOnAnswer: [ :dlg :res |
+                res = 0 ifTrue: cancelEvent.
                 res = 1 ifTrue: saveEvent.
                 dlg destroy ].
     ]

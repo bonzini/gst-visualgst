@@ -75,12 +75,6 @@ Object subclass: ClassCategory [
         ^ self named: name for: aNamespace categories into: aNamespace
     ]
 
-    ClassCategory class >> extractCategory: aClass for: aParentCategory [
-        <category: 'extraction'>
-
-	self extractCategory: aClass for: aParentCategory into: nil
-    ]
-
     ClassCategory class >> extractCategory: aClass for: aParentCategory into: aNamespace [
         <category: 'extraction'>
 
