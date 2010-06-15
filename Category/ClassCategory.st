@@ -109,7 +109,7 @@ Object subclass: ClassCategory [
         <category: 'accessing'>
 
 	self categories at: aString put: aCategory.
-	SystemChangeNotifier root classCategoryAdded: aCategory.
+	"SystemChangeNotifier root classCategoryAdded: aCategory."
         ^ aCategory
     ]
 
@@ -213,7 +213,7 @@ Object subclass: ClassCategory [
 	self at: aCategory name ifAbsent: [ ^ self ].
 	aCategory parent: nil.
 	self categories removeKey: aCategory name.
-	SystemChangeNotifier root classCategoryRemoved: aCategory.
+	"SystemChangeNotifier root classCategoryRemoved: aCategory."
 	(self classes isEmpty and: [ self parent isNil not ]) ifTrue: [ self parent removeCategory: self ]
     ]
 
