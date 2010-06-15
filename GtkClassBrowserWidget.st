@@ -765,6 +765,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	checkCode := false
     ]
 
+    checkCodeWidget [
+        <category: 'text editing'>
+
+	self checkCodeWidgetAndUpdate: []
+    ]
+
     checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
