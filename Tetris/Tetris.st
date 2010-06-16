@@ -54,13 +54,14 @@ GtkMainWindow subclass: Tetris [
     initialize [
 	<category: 'initialization'>
 
-	super initialize.
 	movingBlocks := false.
-	self 
-	    title: 'Tetris';
-	    createMenus;
-	    createStatusBar;
-	    centralWidget: self buildCentralWidget
+	super initialize.
+    ]
+
+    windowTitle [
+	<category: 'initialization'>
+
+	^'Tetris'
     ]
 
     postInitialize [
@@ -97,12 +98,6 @@ GtkMainWindow subclass: Tetris [
 
         self createMainMenu: {#('Game' #createGameMenus).
             #('Help' #createHelpMenus)}
-    ]
-
-    createStatusBar [
-        <category: 'user interface'>
-
-        self statusMessage: 'GST-Tetris'
     ]
 
     buildCentralWidget [

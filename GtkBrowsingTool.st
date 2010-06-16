@@ -3,28 +3,10 @@ GtkMainWindow subclass: GtkBrowsingTool [
 
     | state |
 
-    initialize [
-        <category: 'initialization'>
-
-        super initialize.
-        self
-            title: self windowTitle;
-            createMenus;
-            createToolbar;
-            createStatusBar;
-            centralWidget: self buildCentralWidget.
-    ]
-
-    windowTitle [
-        <category: 'widget-skeleton'>
-        <comment: 'I return the visible name of the window.'>
-        self subclassResponcibility
-    ]
-
     aboutTitle [
         <category: 'widget-skeleton'>
         <comment: 'I return the visible name for the Help->About entry'>
-        self subclassResponcibility
+        ^'About VisualGST...'
     ]
 
     showAboutDialog [
@@ -33,7 +15,7 @@ GtkMainWindow subclass: GtkBrowsingTool [
             setLicense: VisualGST.GtkLauncher license;
             setWebsite: VisualGST.GtkLauncher website;
             setComments: 'This is a GTK+ wrapper for GNU Smalltalk.';
-            setProgramName: 'VisualGST ', self windowTitle; 
+            setProgramName: 'VisualGST'; 
             showModalDestroy
     ] 
 
@@ -41,20 +23,9 @@ GtkMainWindow subclass: GtkBrowsingTool [
         <category: 'user interface'>
 
         self accelGroup append:
-            {{'<Control>O'. '<GtkBrowsingTool>/File/Open'}.
-            {'<Control>S'. '<GtkBrowsingTool>/File/Save'}.
-            {'<Control><Shift>S'. '<GtkBrowsingTool>/File/SaveAs'}.
-            {'<Control>Q'. '<GtkBrowsingTool>/File/Quit'}}.
+            {{'<Control>Q'. '<GtkBrowsingTool>/File/Quit'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkBrowsingTool>/File/Open' connectTo: self selector: #open.
-            GTK.GtkMenuItem menuItem: 'Save' accelPath: '<GtkBrowsingTool>/File/Save' connectTo: self selector: #saveImage.
-            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkBrowsingTool>/File/SaveAs' connectTo: self selector: #saveImageAs.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #print.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
+        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkBrowsingTool>/File/Quit' connectTo: self selector: #close}
@@ -96,9 +67,9 @@ GtkMainWindow subclass: GtkBrowsingTool [
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
             GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
             GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors' connectTo: self selector: #implementors.
+            "GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkLauncher>/Smalltalk/Implementors' connectTo: self selector: #implementors.
             GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Smalltalk/Senders' connectTo: self selector: #senders.
-            GTK.GtkMenuItem new.
+            GTK.GtkMenuItem new."
             GTK.GtkMenuItem menuItem: 'Accept' accelPath: '<GtkLauncher>/Smalltalk/AcceptIt' connectTo: self selector: #acceptIt}
     ]
 
@@ -140,12 +111,6 @@ GtkMainWindow subclass: GtkBrowsingTool [
         self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
         self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
         self addMenuItem: 'Help' withSubmenu: self createHelpMenus
-    ]
-
-    createStatusBar [
-        <category: 'user interface'>
-
-        self statusMessage: 'SUnit'
     ]
 
     createToolbar [

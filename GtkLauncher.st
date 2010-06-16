@@ -325,19 +325,18 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     initialize [
 	<category: 'initialization'>
 
-	super initialize.
 	saved := false.
 	imageName := File image asString.
         systemChangeNotifier := SystemChangeNotifier new.
         SystemChangeNotifier root add: systemChangeNotifier.
+	self clearGlobalState.
+	super initialize.
 	window maximize.
-	self
-	    clearGlobalState;
-	    title: 'VisualGST';
-	    createMenus;
-	    createToolbar;
-	    createStatusBar;
-	    centralWidget: self buildCentralWidget
+    ]
+
+    windowTitle [
+        <category: 'widget'>
+        ^'VisualGST'
     ]
 
     browserPostInitialize [
@@ -582,12 +581,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	    #('Tools' #createToolsMenus).
 	    #('Tabs' #createTabsMenus).
 	    #('Help' #createHelpMenus)}
-    ]
-
-    createStatusBar [
-	<category: 'user interface'>
-
-	self statusMessage: 'Gtk Launcher'
     ]
 
     createToolbar [

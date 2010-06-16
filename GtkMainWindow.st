@@ -129,7 +129,37 @@ that are specific to this version of GNU Smalltalk.';
 	<category: 'intialization'>
 	
 	window := GTK.GtkWindow	new: GTK.Gtk gtkWindowToplevel.
-	window addAccelGroup: self accelGroup
+	window addAccelGroup: self accelGroup.
+        self
+            title: self windowTitle;
+            createMenus;
+            createToolbar;
+            createStatusBar;
+            centralWidget: self buildCentralWidget.
+    ]
+
+    buildCentralWidget [
+	<category: 'initialization'>
+        ^nil
+    ]
+
+    createStatusBar [
+        <category: 'user interface'>
+
+        self statusMessage: self windowTitle
+    ]
+
+    windowTitle [
+	<category: 'initialization'>
+        ^self class name
+    ]
+
+    createToolbar [
+	<category: 'initialization'>
+    ]
+
+    createMenus [
+	<category: 'initialization'>
     ]
 
     postInitialize [

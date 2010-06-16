@@ -35,16 +35,10 @@ GtkMainWindow subclass: GtkInspector [
 	    selectAClass: objectClass
     ]
 
-    initialize [
+    windowTitle [
 	<category: 'initialization'>
 	
-	super initialize.
-	self
-	    title: 'Inspector';
-	    createMenus;
-	    createToolbar;
-	    createStatusBar;
-	    centralWidget: self buildCentralWidget
+	^'Inspector'
     ]
 
     buildCentralWidget [
@@ -168,12 +162,6 @@ GtkMainWindow subclass: GtkInspector [
 	self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
 	self addMenuItem: 'Smalltalk' withSubmenu: self createSmalltalkMenus.
 	self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
-    ]
-
-    createStatusBar [
-	<category: 'user interface'>
-
-	self statusMessage: 'Gtk Inspector'
     ]
 
     createToolbar [
