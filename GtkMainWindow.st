@@ -165,10 +165,10 @@ that are specific to this version of GNU Smalltalk.';
     postInitialize [
 	<category: 'initialization'>
         window
-            connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
+            connectSignal: 'delete-event' to: self selector: #onDelete userData: nil
     ]
 
-    delete: aWindow event: aGdkEvent [
+    onDelete [
 	<category: 'events'>
         window hideAll.
         ^true

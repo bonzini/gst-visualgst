@@ -163,7 +163,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	outputs addWidget: widget labeled: 'Workspace'.
     ]
 
-    delete: aGtkWidget event: aGdkEvent [
+    onDelete [
 	<category: 'window events'>
 
 	self quit.

@@ -73,7 +73,7 @@ GtkMainWindow subclass: Tetris [
 	    connectSignal: 'key-press-event' to: self selector: #'keyPressedOn:keyEvent:'
     ]
 
-    delete: aGtkWidget event: aGdkEvent [
+    onDelete [
 	<category: 'windows event'>
 
 	self quit.

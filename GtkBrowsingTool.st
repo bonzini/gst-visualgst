@@ -3,7 +3,7 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
 
     | state |
 
-    delete: aGtkWidget event: aGdkEvent [
+    onDelete [
         <category: 'window events'>
 
         self hasChanged ifFalse: [ ^ window hideAll ].

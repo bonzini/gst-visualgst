@@ -163,7 +163,7 @@ GtkVisualGSTTool subclass: GtkInspector [
         self saveCodeOnClose: [ super close ] onSave: [ browserWidget saveCode. super close ]
     ]
 
-    delete: aGtkWidget event: aGdkEvent [
+    onDelete [
         <category: 'window events'>
 
         browserWidget hasChanged ifFalse: [ ^ window hideAll ].
