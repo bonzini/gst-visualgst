@@ -67,10 +67,10 @@ GtkMainWindow subclass: Tetris [
     postInitialize [
 	<category: 'initialization'>
 
-	canvasWidget grabFocus.
+	super postInitialize.
+        canvasWidget grabFocus.
 	window
-	    connectSignal: 'key-press-event' to: self selector: #'keyPressedOn:keyEvent:';
-	    connectSignal: 'delete-event' to: self selector: #'delete:event:' 
+	    connectSignal: 'key-press-event' to: self selector: #'keyPressedOn:keyEvent:'
     ]
 
     delete: aGtkWidget event: aGdkEvent [

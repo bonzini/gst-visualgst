@@ -351,11 +351,11 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     postInitialize [
 	<category: 'initialization'>
 
-	self browserPostInitialize.
+	super postInitialize.
+        self browserPostInitialize.
 	1 to: 3 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	window
-	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil;
-	    connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
+	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil
     ]
 
     buildNotebookWorkspaceWidget [

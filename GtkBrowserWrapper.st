@@ -13,10 +13,9 @@ GtkBrowsingTool subclass: GtkBrowserWrapper [
     postInitialize [
         <category: 'initialization'>
 
+        super postInitialize.
         classBrowserWidget postInitialize.
         imageWidget grabFocus.
-        window
-            connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
     ]
 
     resultModel [

@@ -40,11 +40,10 @@ GtkBrowsingTool subclass: GtkDebugger [
     postInitialize [
         <category: 'initialization'>
 
+        super postInitialize.
 	codeWidget postInitialize.
 	inspectorWidget postInitialize.
 	stackInspectorWidget postInitialize.
-        window
-            connectSignal: 'delete-event' to: self selector: #'delete:event:' userData: nil
     ]
  
     buildContextWidget [
