@@ -475,13 +475,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open' connectTo: self selector: #open.
             GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #save.
             GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs' connectTo: self selector: #saveAs.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Print' connectTo: self selector: #printIt.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
-            GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkLauncher>/File/Quit' connectTo: self selector: #quit}
+            GTK.GtkMenuItem new}, super createFileMenus
     ]
 
     createHistoryMenus [

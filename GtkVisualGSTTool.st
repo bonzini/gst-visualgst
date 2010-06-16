@@ -20,13 +20,31 @@ GtkMainWindow subclass: GtkVisualGSTTool [
     createFileMenus [
         <category: 'user interface'>
 
+        | menu |
         self accelGroup append:
-            {{'<Control>Q'. '<GtkVisualGSTTool>/File/Quit'}}.
+            {{'<Control>W'. '<GtkVisualGSTTool>/File/Close'}.
+             {'<Control>Q'. '<GtkVisualGSTTool>/File/Quit'}}.
 
-        ^{GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
+        menu := OrderedCollection withAll: {
+            GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkVisualGSTTool>/File/Quit' connectTo: self selector: #close}
+            GTK.GtkMenuItem new}.
+        self exitOnClose ifFalse: [
+            menu add: (GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkVisualGSTTool>/File/Close' connectTo: self selector: #close) ].
+        menu add: (GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkVisualGSTTool>/File/Quit' connectTo: self selector: #quit).
+        ^menu
+    ]
+
+    exitOnClose [
+        <category: 'file events'>
+
+        ^self == GtkLauncher uniqueInstance
+    ]
+
+    quit [
+        <category: 'file events'>
+
+        GtkLauncher uniqueInstance quit
     ]
 
     createEditMenus [
