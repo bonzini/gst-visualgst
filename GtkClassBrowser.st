@@ -322,5 +322,17 @@ GtkBrowsingTool subclass: GtkClassBrowser [
 
 	browserWidget selectAClass: aClass
     ]
+
+    find [
+	<category: 'user interface'>
+
+	browserWidget showFind
+    ]
+
+    replace [
+	<category: 'user interface'>
+
+	browserWidget showReplace
+    ]
 ]
 
