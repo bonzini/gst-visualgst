@@ -15,6 +15,7 @@ GtkBrowsingTool subclass: GtkSUnit [
         self addMenuItem: 'File' withSubmenu: self createFileMenus.
         self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
 	self addMenuItem: 'Run' withSubmenu: self createRunMenus.
+        self addMenuItem: 'Smalltalk' withSubmenu: self createSmalltalkMenus.
         self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
         self addMenuItem: 'Help' withSubmenu: self createHelpMenus
     ]
@@ -194,6 +195,18 @@ GtkBrowsingTool subclass: GtkSUnit [
 	self selectAClass: classWidget selectedClass
     ]
 
+    hasSelectedNamespace [
+	<category: 'browser methods'>
+
+        ^namespaceWidget hasSelectedNamespace
+    ]
+
+    hasSelectedClass [
+	<category: 'browser methods'>
+
+        ^classWidget hasSelectedClass
+    ]
+
     selectAClass: aClass [
 	<category: 'browser methods'>
 
@@ -361,6 +374,120 @@ GtkBrowsingTool subclass: GtkSUnit [
 	<category: 'code saved'>
 
 	sourceCodeWidget codeSaved
+    ]
+
+    targetObject [
+        <category: 'smalltalk event'>
+
+        ^self hasSelectedClass ifTrue: [self selectedClass] ifFalse: [nil]
+    ]
+
+    doIt: object [
+        <category: 'smalltalk event'>
+
+        sourceCodeWidget doIt: object
+    ]
+
+    debugIt: object [
+        <category: 'smalltalk event'>
+
+        sourceCodeWidget debugIt: object
+    ]
+
+    inspectIt: object [
+        <category: 'smalltalk event'>
+
+        sourceCodeWidget inspectIt: object
+    ]
+
+    printIt: object [
+        <category: 'smalltalk event'>
+
+        sourceCodeWidget printIt: object
+    ]
+
+    doIt [
+        <category: 'smalltalk event'>
+
+        DoItCommand on: self
+    ]
+
+    debugIt [
+        <category: 'smalltalk event'>
+
+        DebugItCommand on: self
+    ]
+
+    inspectIt [
+        <category: 'smalltalk event'>
+
+        InspectItCommand on: self
+    ]
+
+    printIt [
+        <category: 'smalltalk event'>
+
+        PrintItCommand on: self
+    ]
+
+    hasChanged [
+	<category: 'testing'>
+
+	^ sourceCodeWidget hasChanged
+    ]
+
+    cancel [
+        <category: 'edit events'>
+
+        self onFocusPerform: #cancel
+    ]
+
+    undo [
+        <category: 'edit events'>
+
+        self onFocusPerform: #undo
+    ]
+
+    redo [
+        <category: 'edit events'>
+
+        self onFocusPerform: #redo
+    ]
+
+    cut [
+        <category: 'edit events'>
+
+        self onFocusPerform: #cut
+    ]
+
+    copy [
+        <category: 'edit events'>
+
+        self onFocusPerform: #copy
+    ]
+
+    paste [
+        <category: 'edit events'>
+
+        self onFocusPerform: #paste
+    ]
+
+    selectAll [
+        <category: 'edit events'>
+
+        self onFocusPerform: #selectAll
+    ]
+
+    find [
+        <category: 'edit events'>
+
+        self onFocusPerform: #showFind
+    ]
+
+    replace [
+        <category: 'edit events'>
+
+        self onFocusPerform: #showReplace
     ]
 
 ]
