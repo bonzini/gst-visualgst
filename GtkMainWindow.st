@@ -180,12 +180,12 @@ that are specific to this version of GNU Smalltalk.';
 	self menuBar append: (GTK.GtkMenuItem newWithLabel: aString)
     ]
 
-    addMenuItem: aString withSubmenu: aGtkMenu [
+    addMenuItem: aString withSubmenu: aGtkMenuItemArray [
 	<category: 'menubar'>
 
 	self menuBar append:
 	    ((GTK.GtkMenuItem newWithLabel: aString)
-		setSubmenu: aGtkMenu)
+		setSubmenu: (self createNewMenuEntry: aGtkMenuItemArray))
     ]
 
     createMainMenu: anArray [
@@ -193,25 +193,6 @@ that are specific to this version of GNU Smalltalk.';
 
 	anArray do: [ :each |
 	    self addMenuItem: each first withSubmenu: (self perform: each second) ]
-    ]
-
-    createMenuEntry: anArray [
-	<category: 'menubar'>
-
-	| menu |
-	menu := (GTK.GtkMenu new)
-		    setAccelGroup: self accelGroup;
-		    yourself.
-	anArray do: [ :each |
-	    menu append: 
-		(each isEmpty
-		    ifTrue: [ GTK.GtkMenuItem new ]
-		    ifFalse: [ (GTK.GtkMenuItem newWithLabel: (each at: 1))
-			    connectSignal: 'activate' to: self selector: (each at: 2) userData: nil;
-			    setAccelPath: (each at: 3);
-			    yourself ]) ].
-
-	^ menu
     ]
 
     createNewMenuEntry: anArray [

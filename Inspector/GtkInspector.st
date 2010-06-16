@@ -105,7 +105,7 @@ GtkMainWindow subclass: GtkInspector [
             {'<Control>C'. '<GtkInspector>/Edit/Copy'}.
             {'<Control>V'. '<GtkInspector>/Edit/Paste'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkInspector>/Edit/Cancel' connectTo: self selector: #cancel.
+	^{GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkInspector>/Edit/Cancel' connectTo: self selector: #cancel.
             GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkInspector>/Edit/Undo' connectTo: self selector: #undo.
             GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkInspector>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
@@ -123,7 +123,7 @@ GtkMainWindow subclass: GtkInspector [
             {'<Control><Shift>S'. '<GtkInspector>/File/SaveAs'}.
             {'<Control>Q'. '<GtkInspector>/File/Close'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
+	^{GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkInspector>/File/Open' connectTo: self selector: #open.
 	    GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #saveImage.
@@ -146,7 +146,7 @@ GtkMainWindow subclass: GtkInspector [
             {'<Alt>D'. '<GtkInspector>/Smalltalk/DebugIt'}.
             {'<Control>S'. '<GtkInspector>/Smalltalk/AcceptIt'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkInspector>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+        ^{GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkInspector>/Smalltalk/DoIt' connectTo: self selector: #doIt.
             GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkInspector>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkInspector>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
             GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkInspector>/Smalltalk/DebugIt' connectTo: self selector: #debugIt.
@@ -233,7 +233,7 @@ GtkMainWindow subclass: GtkInspector [
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: OpenWebBrowserCommand selector: #execute} ].
 
-        ^ self createNewMenuEntry: menu
+        ^menu
     ]
 
     onFocusPerform: aSelector [

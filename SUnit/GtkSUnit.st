@@ -4,7 +4,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     createRunMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {
+        ^{
 		GTK.GtkMenuItem menuItem: 'Load tests' connectTo: self selector: #loadTests.
 		GTK.GtkMenuItem menuItem: 'Run test' connectTo: self selector: #runTest}
     ]

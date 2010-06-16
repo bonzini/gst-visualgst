@@ -435,7 +435,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	    {'<Control>F'. '<GtkLauncher>/Edit/Find'}.
 	    {'<Control>H'. '<GtkLauncher>/Edit/Replace'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkLauncher>/Edit/Cancel' connectTo: self selector: #cancel.
+	^{GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkLauncher>/Edit/Cancel' connectTo: self selector: #cancel.
 	    GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkLauncher>/Edit/Undo' connectTo: self selector: #undo.
             GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkLauncher>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
@@ -454,7 +454,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createNamespaceMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a namespace' connectTo: self selector: #newNamespace.
+        ^{GTK.GtkMenuItem menuItem: 'Add a namespace' connectTo: self selector: #newNamespace.
             GTK.GtkMenuItem menuItem: 'Rename a namespace' connectTo: self selector: #renameNamespace.
             GTK.GtkMenuItem menuItem: 'Delete a namespace' connectTo: self selector: #deleteNamespace.
             GTK.GtkMenuItem new.
@@ -466,7 +466,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createClassMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a class' connectTo: self selector: #newClass.
+        ^{GTK.GtkMenuItem menuItem: 'Add a class' connectTo: self selector: #newClass.
             GTK.GtkMenuItem menuItem: 'Rename a class' connectTo: self selector: #renameClass.
             GTK.GtkMenuItem menuItem: 'Delete a class' connectTo: self selector: #deleteClass.
             GTK.GtkMenuItem new.
@@ -478,7 +478,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createCategoryMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
+        ^{GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
             GTK.GtkMenuItem menuItem: 'Rename a category' connectTo: self selector: #renameCategory.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'File out a category' connectTo: self selector: #fileoutCategory}
@@ -487,7 +487,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createMethodMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Add a method' connectTo: self selector: #newMethod.
+        ^{GTK.GtkMenuItem menuItem: 'Add a method' connectTo: self selector: #newMethod.
             GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
@@ -503,7 +503,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'}.
 	    {'<Control>Q'. '<GtkLauncher>/File/Quit'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
+	^{GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
             GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open' connectTo: self selector: #open.
             GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #save.
@@ -524,7 +524,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
             {{'<Alt>Left'. '<GtkLauncher>/History/Back'}.
             {'<Alt>Right'. '<GtkLauncher>/History/Forward'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
+	^{GTK.GtkMenuItem menuItem: 'Back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
             GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward}
     ]
 
@@ -537,7 +537,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	    {'<Alt>D'. '<GtkLauncher>/Smalltalk/DebugIt'}.
 	    {'<Control>S'. '<GtkLauncher>/Smalltalk/AcceptIt'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+        ^{GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
             GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
             GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkLauncher>/Smalltalk/DebugIt' connectTo: self selector: #debugIt.
@@ -552,7 +552,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	    {'<Control>Tab'. '<GtkLauncher>/Tabs/NextTab'}.
 	    {'<Control>w'. '<GtkLauncher>/Tabs/CloseTab'}}.
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Previous Tab' accelPath: '<GtkLauncher>/Tabs/PreviousTab' connectTo: self selector: #previousTab.
+	^{GTK.GtkMenuItem menuItem: 'Previous Tab' accelPath: '<GtkLauncher>/Tabs/PreviousTab' connectTo: self selector: #previousTab.
 	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab.
 	GTK.GtkMenuItem new.
 	GTK.GtkMenuItem menuItem: 'Close Tab' accelPath: '<GtkLauncher>/Tabs/CloseTab' connectTo: self selector: #closeTab.}
@@ -561,7 +561,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createHelpMenus [
 	<category: 'user interface'>
 
-	^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Help Contents' connectTo: self selector: #helpcontents.
+	^{GTK.GtkMenuItem menuItem: 'Help Contents' connectTo: self selector: #helpcontents.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'About Launcher' connectTo: self selector: #aboutLauncher.
 	    GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
@@ -662,12 +662,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
             GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkLauncher>/Tools/Senders' connectTo: OpenSenderCommand selector: #execute.
             GTK.GtkMenuItem menuItem: 'SUnit' connectTo: OpenSUnitCommand selector: #execute} asOrderedCollection.
 
-	GtkWebView hasWebkit ifTrue: [ menu addAll: {GTK.GtkMenuItem new.
+	GtkWebView hasWebkit ifTrue: [ menu := menu, {GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Assistant' connectTo: OpenAssistantCommand selector: #execute.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: OpenWebBrowserCommand selector: #execute} ].
 
-	^ self createNewMenuEntry: menu 
+	^menu 
     ]
 
     cancel [

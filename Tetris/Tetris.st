@@ -80,24 +80,17 @@ GtkMainWindow subclass: Tetris [
 	^ true
     ]
 
-    createGameMenus [
-        <category: 'user interface'>
-
-        ^ self createNewMenuEntry: {}
-    ]
-
     createHelpMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'About Tetris' connectTo: self selector: #aboutLauncher.
+        ^{GTK.GtkMenuItem menuItem: 'About Tetris' connectTo: self selector: #aboutLauncher.
             GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 
     createMenus [
         <category: 'user interface'>
 
-        self createMainMenu: {#('Game' #createGameMenus).
-            #('Help' #createHelpMenus)}
+        self createMainMenu: #(#('Help' #createHelpMenus))
     ]
 
     buildCentralWidget [

@@ -116,7 +116,7 @@ GtkBrowsingTool subclass: GtkDebugger [
     createExecuteMenus [
 	<category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Step' connectTo: self selector: #step.
+        ^{GTK.GtkMenuItem menuItem: 'Step' connectTo: self selector: #step.
             GTK.GtkMenuItem menuItem: 'Step into' connectTo: self selector: #stepInto.
             GTK.GtkMenuItem menuItem: 'Step over' connectTo: self selector: #stepOver.
             GTK.GtkMenuItem new.

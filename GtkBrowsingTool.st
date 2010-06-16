@@ -25,7 +25,7 @@ GtkMainWindow subclass: GtkBrowsingTool [
         self accelGroup append:
             {{'<Control>Q'. '<GtkBrowsingTool>/File/Quit'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
+        ^{GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkBrowsingTool>/File/Quit' connectTo: self selector: #close}
@@ -41,7 +41,7 @@ GtkMainWindow subclass: GtkBrowsingTool [
             {'<Control>C'. '<GtkBrowsingTool>/Edit/Copy'}.
             {'<Control>V'. '<GtkBrowsingTool>/Edit/Paste'}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkBrowsingTool>/Edit/Cancel' connectTo: self selector: #cancel.
+        ^{GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkBrowsingTool>/Edit/Cancel' connectTo: self selector: #cancel.
             GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkBrowsingTool>/Edit/Undo' connectTo: self selector: #undo.
             GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkBrowsingTool>/Edit/Redo' connectTo: self selector: #redo.
             GTK.GtkMenuItem new.
@@ -62,7 +62,7 @@ GtkMainWindow subclass: GtkBrowsingTool [
             {'<Control>N'. '<GtkLauncher>/Smalltalk/Senders'. self. #senders}.
             {'<Control>S'. '<GtkLauncher>/Smalltalk/AcceptIt'. self. #acceptIt}}.
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
+        ^{GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkLauncher>/Smalltalk/DoIt' connectTo: self selector: #doIt.
             GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkLauncher>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkLauncher>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
             GTK.GtkMenuItem menuItem: 'Debug It' connectTo: self selector: #debugIt.
@@ -94,13 +94,13 @@ GtkMainWindow subclass: GtkBrowsingTool [
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: OpenWebBrowserCommand selector: #execute} ].
 
-        ^ self createNewMenuEntry: menu
+        ^menu
     ]
 
     createHelpMenus [
         <category: 'user interface'>
 
-        ^ self createNewMenuEntry: {GTK.GtkMenuItem menuItem: self aboutTitle connectTo: self selector: #showAboutDialog.
+        ^{GTK.GtkMenuItem menuItem: self aboutTitle connectTo: self selector: #showAboutDialog.
             GTK.GtkMenuItem menuItem: 'About GNU Smalltalk' connectTo: self selector: #aboutGst}
     ]
 
