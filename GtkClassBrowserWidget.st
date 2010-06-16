@@ -224,7 +224,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    | namespace |
 	    namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
 	    namespace := namespaceWidget selectedNamespace.
-	    classWidget namespace: namespace category: namespaceWidget selectedCategory.
+	    classWidget namespace: namespace category: namespaceWidget selectedCategory fullname.
 
 	    classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
 	    iCategoryWidget clear.
@@ -264,7 +264,10 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    classHierarchyWidget hasSelectedClass ifFalse: [ ^ self ].
 	    classHierarchyUpdate := true.
 	    aClass := classHierarchyWidget selectedClass.
-	    namespaceWidget selectANamespace: aClass environment.
+	    namespaceWidget selectedNamespace ~= classHierarchyWidget selectedClass environment
+						    ifTrue: [ namespaceWidget selectANamespace: aClass environment ]
+						    ifFalse: [ namespaceWidget selectedCategory ~= aClass classCategory 
+											ifTrue: [ namespaceWidget selectANamespace: aClass environment ] ].
 	    classWidget selectAClass: aClass class.
 	    classHierarchyUpdate := false ]
     ]
