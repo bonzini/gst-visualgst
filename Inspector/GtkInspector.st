@@ -77,6 +77,7 @@ GtkMainWindow subclass: GtkInspector [
 	^ inspectorWidget := (GtkInspectorWidget new)
 				parentWindow: window;
 				initialize;
+				inspector: self;
 				showAll;
 				yourself
     ]

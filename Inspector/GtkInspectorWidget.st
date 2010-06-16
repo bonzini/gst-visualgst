@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkInspectorWidget [
-    | model object inspectorTree workspaceWidget objectView stack |
+    | inspector model object inspectorTree workspaceWidget objectView stack |
 
     GtkInspectorWidget >> openOn: anObject [
 	<category: 'instance creation'>
@@ -22,6 +22,12 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 	<category: 'initialization'>
 
 	workspaceWidget postInitialize
+    ]
+
+    inspector: aGtkInspector [
+	<category: 'accessing'>
+
+	inspector := aGtkInspector	
     ]
 
     object [
@@ -135,14 +141,14 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 
 	(self selectedItem = 'self' or: [ objectView canDive not ]) ifTrue: [ ^ self ].
 	stack addFirst: self object.
-	self object: self selectedValue
+	inspector object: self selectedValue
     ]
 
     back [
 	<category: 'events'>
 
 	stack isEmpty ifTrue: [ ^ self ].
-	self object: stack removeFirst
+	inspector object: stack removeFirst
     ]
 
     doIt: object [
