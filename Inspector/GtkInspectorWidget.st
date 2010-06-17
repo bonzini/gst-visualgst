@@ -174,5 +174,41 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
         workspaceWidget printIt: object
     ]
 
+    copy [
+        <category: 'text editing'>
+
+	workspaceWidget copy
+    ]
+
+    cut [
+        <category: 'text editing'>
+
+	workspaceWidget cut
+    ]
+
+    paste [
+        <category: 'text editing'>
+
+	workspaceWidget paste
+    ]
+
+    selectAll [
+        <category: 'text editing'>
+
+	workspaceWidget selectAll
+    ]
+ 
+    hasSelection [
+	<category:'text testing'>
+
+	^ workspaceWidget hasSelection
+    ]
+ 
+    selectedText [
+	<category: 'text editing'>
+
+	^ workspaceWidget selectedText
+    ]
+
 ]
 
