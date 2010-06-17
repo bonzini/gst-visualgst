@@ -274,39 +274,15 @@ GtkBrowsingTool subclass: GtkDebugger [
 	InspectMethodCommand on: self
     ]
 
-    hasSelectedMethod [
-	<category: 'method events'>
-
-	^ self hasSelectedContext
-    ]
-
-    selectedMethod [
-	<category: 'method events'>
-
-	^ self selectedContext method
-    ]
-
-    hasSelectedContext [
-        <category: 'method events'>
-
-        ^ contextWidget hasSelectedContext
-    ]
-
-    selectedContext [
-        <category: 'method events'>
-
-        ^ contextWidget selectedContext
-    ]
-
     contextChanged [
 	<category: 'context events'>
 
 	| iter |
 	self checkCodeWidget.
-	self hasSelectedContext ifFalse: [ ^ self ].
-	codeWidget sourceCode: self selectedContext method methodSourceString.
-	codeWidget applyTag: #debug forLine: self selectedContext currentLine.
-	self updateInspectorWidget: self selectedContext
+	contextWidget hasSelectedContext ifFalse: [ ^ self ].
+	codeWidget sourceCode: contextWidget selectedContext method methodSourceString.
+	codeWidget applyTag: #debug forLine: contextWidget selectedContext currentLine.
+	self updateInspectorWidget: contextWidget selectedContext
     ]
 
     step [
@@ -314,7 +290,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 
 	contextWidget isLastContextSelected
 	    ifTrue: [ debugger myStep ]
-	    ifFalse: [ debugger finish: self selectedContext ].
+	    ifFalse: [ debugger finish: contextWidget selectedContext ].
 	self updateContextWidget
     ]
 
@@ -323,7 +299,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 
 	contextWidget isLastContextSelected
 	    ifTrue: [ debugger myStepInto ]
-	    ifFalse: [ debugger finish: self selectedContext ].
+	    ifFalse: [ debugger finish: contextWidget selectedContext ].
 	self updateContextWidget
     ]
 
@@ -375,7 +351,10 @@ GtkBrowsingTool subclass: GtkDebugger [
         <category: 'smalltalk event'>
 
         inspectorWidget hasFocus ifTrue: [^inspectorWidget object].
-	^self hasSelectedContext ifTrue: [self selectedContext receiver] ifFalse: [nil]
+
+        "TODO: make ContextState so that targetObject can be
+         moved to the BrowserState hierarchy."
+	^contextWidget hasSelectedContext ifTrue: [contextWidget selectedContext receiver] ifFalse: [nil]
     ]
 
     focusedWidget [

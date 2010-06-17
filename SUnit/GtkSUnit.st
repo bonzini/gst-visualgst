@@ -195,30 +195,6 @@ GtkBrowsingTool subclass: GtkSUnit [
 	self selectAClass: classWidget selectedClass
     ]
 
-    hasSelectedNamespace [
-	<category: 'browser methods'>
-
-        ^namespaceWidget hasSelectedNamespace
-    ]
-
-    hasSelectedCategory [
-	<category: 'browser methods'>
-
-        ^methodWidget hasSelectedMethod
-    ]
-
-    hasSelectedClass [
-	<category: 'browser methods'>
-
-        ^classWidget hasSelectedClass
-    ]
-
-    hasSelectedMethod [
-	<category: 'browser methods'>
-
-        ^methodWidget hasSelectedMethod
-    ]
-
     selectAClass: aClass [
 	<category: 'browser methods'>
 
@@ -257,14 +233,6 @@ GtkBrowsingTool subclass: GtkSUnit [
 	<category: 'browser methods'>
 
 	^class
-    ]
-
-    selectedCategory [
-	<category: 'browser methods'>
-
-	^ methodWidget selectedMethod
-	    ifNil: [ 'unit tests' ]
-	    ifNotNil: [ :method | method methodCategory ]
     ]
 
     loadTest: aPackage [
@@ -403,7 +371,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     targetObject [
         <category: 'smalltalk event'>
 
-        ^self hasSelectedClass ifTrue: [self selectedClass] ifFalse: [nil]
+        ^self state classOrMeta
     ]
 
     doIt: object [

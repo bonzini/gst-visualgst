@@ -128,18 +128,6 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
                     ifFalse: [ codeWidget sourceCode: '' ] ]
     ]
 
-    selectedClass [
-        <category: 'accessing'>
-
-	^classHierarchyWidget selectedClass
-    ]
-
-    hasSelectedClass [
-        <category: 'accessing'>
-
-	^classHierarchyWidget hasSelectedClass
-    ]
-
     onClassHierarchyChanged [
 	<category: 'events'>
 
@@ -215,7 +203,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     targetObject [
         <category: 'target'>
 
-        ^self hasSelectedClass ifTrue: [self selectedClass] ifFalse: [nil]
+        ^self state classOrMeta
     ]
 
     doIt: object [

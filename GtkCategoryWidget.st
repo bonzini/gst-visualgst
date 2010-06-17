@@ -40,12 +40,6 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	    refresh
     ]
 
-    hasSelectedClass [
-	<category: 'testing'>
-
-	^ true
-    ]
-
     buildCategory [
         <category: 'model builder'>
 

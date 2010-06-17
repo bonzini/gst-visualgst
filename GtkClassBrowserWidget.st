@@ -369,18 +369,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	FileoutNamespaceCommand on: self
     ]
 
-    hasSelectedNamespace [
-	<category: 'testing'>
-
-	^ namespaceWidget hasSelectedNamespace
-    ]
-
-    selectedNamespace [
-	<category: 'testing'>
-
-	^ namespaceWidget selectedNamespace
-    ]
- 
     newNamespace [
 	<category: 'namespace events'>
 
@@ -421,18 +409,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             list addFirst: namespace displayString.
             namespace := namespace superspace ].
 	^ list
-    ]
-
-    hasSelectedClass [
-	<category: 'accessing'>
-
-	^ classWidget hasSelectedClass
-    ]
-
-    selectedClass [
-	<category: 'accessing'>
-
-	^ classWidget selectedClass
     ]
 
     newClass [
@@ -479,19 +455,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	self viewedCategoryWidget fileoutCategory
     ]
 
-    hasSelectedCategory [
-	<category: 'testing'>
-	
-	^classWidget hasSelectedClass and: [
-            self viewedCategoryWidget hasSelectedCategory ]
-    ]
-
-    selectedCategory [
-	<category: 'accessing'>
-
-	^ self viewedCategoryWidget selectedCategory
-    ]
-
     newCategory [
         <category: 'category events'>
 
@@ -511,25 +474,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
             ifTrue: [ iMethodWidget ]
             ifFalse: [ cMethodWidget ]
    ]
-
-    hasSelectedMethod [
-	<category: 'testing'>
-
-	^classWidget hasSelectedClass and: [
-            self viewedMethodWidget hasSelectedMethod ]
-    ]
-
-    selectedMethod [
-	<category: 'accessing'>
-
-	^ self viewedMethodWidget selectedMethod
-    ]
-
-    selectedMethodSymbol [
-	<category: 'accessing'>
-
-	^ self viewedMethodWidget selectedMethodSymbol
-    ]
 
     sourceCode [
 	<category: 'accessing'>
@@ -621,7 +565,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     targetObject [
         <category: 'target'>
 
-        ^self hasSelectedClass ifTrue: [self selectedClass] ifFalse: [nil]
+        ^state classOrMeta
     ]
 
     doIt: object [
