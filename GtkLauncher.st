@@ -175,6 +175,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	widget := self buildWorkspaceWidget showAll.
 	widget postInitialize.
 	outputs addWidget: widget labeled: 'Workspace'.
+        ^widget
     ]
 
     onDelete [
@@ -212,12 +213,11 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	<category: 'file events'>
 
 	| file string |
-	outputs currentWidget  == transcriptWidget ifTrue: [ self error: 'Can not remove the transcript tab' ].
 	(GTK.GtkFileChooserDialog load: 'Load Smalltalk source' parent: window)
 	    showModalOnAnswer: [ :dlg :res |
 		res = GTK.Gtk gtkResponseAccept 
 				ifTrue: [ file := FileStream open: dlg getFilename mode: FileStream read.
-					  outputs currentWidget text: file upToEnd ].
+					  self newWorkspace text: file upToEnd ].
 		dlg destroy ]
     ]
 
