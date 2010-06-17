@@ -25,11 +25,12 @@ GtkVisualGSTTool subclass: GtkInspector [
 	<category: 'accessor'>
 
 	| objectClass |
-	object := anObject.
+	object == anObject ifFalse: [
+	    object := anObject.
+            inspectorWidget object: object.
+	    workspaceWidget object: object ].
 	objectClass := object isClass ifTrue: [ object ] ifFalse: [ object class ].
 	self title: 'Inspector on ', objectClass article, ' ', objectClass name.
-	inspectorWidget object: object.
-	workspaceWidget object: object.
 	browserWidget
 	    selectAClass: objectClass
     ]

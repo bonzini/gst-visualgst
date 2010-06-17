@@ -41,6 +41,7 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 
 	object := anObject.
 	objectView := object inspectorView openOn: self object.
+	inspector isNil ifFalse: [ inspector object: anObject ].
 	model 
 	    item: objectView;
 	    refresh
@@ -141,14 +142,14 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 
 	(self selectedItem = 'self' or: [ objectView canDive not ]) ifTrue: [ ^ self ].
 	stack addFirst: self object.
-	inspector object: self selectedValue
+        self object: self selectedValue
     ]
 
     back [
 	<category: 'events'>
 
 	stack isEmpty ifTrue: [ ^ self ].
-	inspector object: stack removeFirst
+	self object: stack removeFirst
     ]
 
     doIt: object [
