@@ -222,6 +222,7 @@ GtkBrowsingTool subclass: GtkSUnit [
 	<category: 'method events'>
 
 	self checkCodeWidget.
+	methodWidget hasSelectedMethod ifFalse: [^self].
 	self selectAnInstanceMethod: methodWidget selectedMethodSymbol.
     ]
 
@@ -230,7 +231,6 @@ GtkBrowsingTool subclass: GtkSUnit [
 
 	aSymbol = methodWidget selectedMethodSymbol ifFalse: [
             methodWidget selectAMethod: aSymbol asString ].
-	aSymbol isNil ifTrue: [ ^self ].
 	sourceCodeWidget sourceCode: methodWidget sourceCode.
 	state := MethodState on: self with: class -> methodWidget selectedMethod
     ]
@@ -291,6 +291,12 @@ GtkBrowsingTool subclass: GtkSUnit [
 	errorWidget results: results errors.
 
 	results failures do: [ :each | each "logPolicy logStatus inspect" printNl ].
+    ]
+
+    newMethod [
+        <category: 'method events'>
+
+        AddMethodCommand on: self.
     ]
 
     focusedWidget [
