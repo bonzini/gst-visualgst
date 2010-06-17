@@ -135,8 +135,8 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 
         | result |
 
-        result := self model findIterInACategory: aString.
-        categoryTree scrollToCell: (self model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
+        result := model findIterInACategory: aString.
+        categoryTree scrollToCell: (model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
         ^ result
     ]
 
@@ -149,7 +149,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     viewedCategoryModel [
 	<category: 'accessing'>
 
-	^ self model
+	^ model
     ]
 
     newCategory [
