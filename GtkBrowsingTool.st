@@ -1,13 +1,17 @@
 GtkVisualGSTTool subclass: GtkBrowsingTool [
     <comment: 'I am the base for various browsers of VisualGST.'>
 
-    | state |
+    state [
+        <category: 'command protocols'>
+
+        self subclassResponsibility
+    ]
 
     onDelete [
         <category: 'window events'>
 
         self hasChanged ifFalse: [ ^ window hideAll ].
-        self saveCodeOnClose: [ window hideAll ] onSave: [ state saveSource. window hideAll ].
+        self saveCodeOnClose: [ window hideAll ] onSave: [ self state saveSource. window hideAll ].
         ^ true
     ]
 
@@ -21,7 +25,7 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
                                 message: 'Save the code before exiting?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {state}.
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
 
         dialog
             addButton: 'Close without saving' responseId: 0;
@@ -37,7 +41,7 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
         <category: 'text editing'>
 
         self hasChanged ifFalse: [ self clearUndo. ^ self ].
-        self saveCodeOnSave: [ state saveSource ].
+        self saveCodeOnSave: [ self state saveSource ].
         self clearUndo
     ]
 
@@ -51,7 +55,7 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
                                 message: 'Save changes to this method?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {state}.
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
 
         dialog
             addButton: 'Cancel' responseId: 0;

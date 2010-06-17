@@ -24,16 +24,16 @@ GtkTextPluginWidget subclass: GtkSaveTextWidget [
 	    yourself
     ]
 
+    state [
+	<category: 'state'>
+
+	^state
+    ]
+
     state: aState [
 	<category: 'state'>
 
 	state := aState.
-    ]
-
-    stateString [
-	<category: 'state'>
-
-	^ state displayString 
     ]
 
     grabFocus [
@@ -45,7 +45,7 @@ GtkTextPluginWidget subclass: GtkSaveTextWidget [
     showAll [
 	<category: 'user interface'>
 
-	label setText: 'If you do not save, your changes to %1 will be lost...' % {self stateString}.
+	label setText: 'If you do not save, your changes to %1 will be lost...' % {self state}.
 	super showAll
     ]
 

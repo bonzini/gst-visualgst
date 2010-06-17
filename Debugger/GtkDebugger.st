@@ -1,5 +1,5 @@
 GtkBrowsingTool subclass: GtkDebugger [
-    | codeWidget contextWidget debugger inspectorWidget stackInspectorWidget |
+    | codeWidget contextWidget debugger inspectorWidget stackInspectorWidget state |
 
     GtkDebugger class >> open: aString [
 	<category: 'user interface'>

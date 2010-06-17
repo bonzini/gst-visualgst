@@ -181,7 +181,7 @@ GtkVisualGSTTool subclass: GtkInspector [
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
                                 message: 'Save the code before exiting?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {browserWidget stateString}.
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {browserWidget state}.
 
         dialog
             addButton: 'Close without saving' responseId: 0;

@@ -333,7 +333,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
                                 message: 'Save changes to this method?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {self stateString}.
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
 
         dialog
             addButton: 'Cancel' responseId: 0;
@@ -349,10 +349,10 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	^ codeWidget hasChanged
     ]
 
-    stateString [
+    state [
 	<category: 'text editing'>
 
-	^ state displayString
+	^ state
     ]
 
     saveCode [

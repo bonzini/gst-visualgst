@@ -1,5 +1,5 @@
 GtkBrowsingTool subclass: GtkSUnit [
-    | namespaceWidget classWidget methodWidget sourceCodeWidget successfullWidget failedWidget errorWidget namespace class |
+    | namespaceWidget classWidget methodWidget sourceCodeWidget successfullWidget failedWidget errorWidget namespace class state |
 
     createRunMenus [
         <category: 'user interface'>
@@ -233,6 +233,12 @@ GtkBrowsingTool subclass: GtkSUnit [
             methodWidget selectAMethod: aSymbol asString ].
 	sourceCodeWidget sourceCode: methodWidget sourceCode.
 	state := MethodState on: self with: class -> methodWidget selectedMethod
+    ]
+
+    state [
+	<category: 'browser methods'>
+
+        ^state
     ]
 
     classOrMetaSelected [

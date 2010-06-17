@@ -806,16 +806,16 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'saving'>
 
 	codeWidget 
-		state: state;
+		state: self state;
 		whenCancelPressed: #value to: cancelEvent;
 		whenSavePressed: #value to: saveEvent;
 		showSave
     ]
 
-    stateString [
+    state [
 	<category: 'accessing'>
 
-	^ state displayString
+	^ state
     ]
 
     saveCode [
