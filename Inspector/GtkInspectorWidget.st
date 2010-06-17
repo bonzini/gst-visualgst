@@ -122,9 +122,6 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
             {'Dive'. self. #dive}.
 	    {'Back'. self. #back}.
             {}.
-            {'Accept'. self. #accept}.
-	    {'Cancel'. self. #cancel}.
-            {}.
             {'File out object'. self. #fileoutObject}}.
         menu attachToWidget: inspectorTree detacher: nil.
         menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.

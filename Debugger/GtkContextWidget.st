@@ -56,10 +56,7 @@ GtkConcreteWidget subclass: GtkContextWidget [
         aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
-        menu appendMenuItems: {{'Add a method'. self. #newMethod}.
-            {'Delete a method'. self. #deleteMethod}.
-            {}.
-            {'Inspect a method'. self. #inspectMethod}.
+        menu appendMenuItems: {{'Inspect a method'. self. #inspectMethod}.
             {}.
             {'File out a method'. self. #fileoutMethod}}.
         menu attachToWidget: contextTree detacher: nil.
@@ -105,6 +102,12 @@ GtkConcreteWidget subclass: GtkContextWidget [
 
 	self hasSelectedContext ifFalse: [ self error: 'Nothing is selected' ].
         ^ contextTree selection
+    ]
+
+    inspectMethod [
+	<category: 'method events'>
+
+	InspectMethodCommand on: self
     ]
 
     positionOfSelectedContext [
