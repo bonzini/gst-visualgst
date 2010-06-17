@@ -164,7 +164,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := iMethodWidget selectedMethod.
 	codeWidget sourceCode: iMethodWidget sourceCode.
-	state := MethodState on: self with: classHierarchyWidget selectedClass -> method
+	state := MethodState on: self with: method
     ]
 
     onClassSideMethodChanged [
@@ -175,7 +175,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := cMethodWidget selectedMethod.
 	codeWidget sourceCode: cMethodWidget sourceCode.
-	state := MethodState on: self with: classHierarchyWidget selectedClass class -> method
+	state := MethodState on: self with: method
     ]
 
     selectAClass: aClass [

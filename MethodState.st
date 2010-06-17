@@ -3,25 +3,37 @@ BrowserState subclass: MethodState [
     printOn: aStream [
 	<category: 'printing'>
 
-	aStream print: state value
+	aStream print: state
     ]
 
     namespace [
         <category: 'accessing'>
 
-        ^ state key environment
+        ^ self classOrMeta environment
     ]
 
     classOrMeta [
         <category: 'accessing'>
 
-        ^ state key
+        ^ state methodClass
+    ]
+
+    selector [
+        <category: 'accessing'>
+
+        ^ state selector
+    ]
+
+    method [
+        <category: 'accessing'>
+
+        ^ state method
     ]
 
     category [
         <category: 'accessing'>
 
-        ^ state value methodCategory
+        ^ state methodCategory
     ]
 
     selectedCategory [

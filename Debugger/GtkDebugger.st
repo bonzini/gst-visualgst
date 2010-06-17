@@ -239,7 +239,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 
 	| method |
 	method := aContext method method.
-	state := MethodState on: self with: method methodClass -> method.
+	state := MethodState on: self with: method.
         inspectorWidget object: aContext receiver.
         stackInspectorWidget object: aContext
     ]

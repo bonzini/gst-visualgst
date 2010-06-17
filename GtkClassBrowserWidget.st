@@ -315,7 +315,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	    method := iMethodWidget selectedMethod.
 	    codeWidget sourceCode: iMethodWidget sourceCode.
-	    state := MethodState on: self with: classWidget selectedClass -> method ]
+	    state := MethodState on: self with: method ]
     ]
 
     onClassSideMethodChanged [
@@ -326,7 +326,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	    method := cMethodWidget selectedMethod.
 	    codeWidget sourceCode: cMethodWidget sourceCode.
-	    state := MethodState on: self with: classWidget selectedClass class -> method ]
+	    state := MethodState on: self with: method ]
     ]
 
     undoStack [
