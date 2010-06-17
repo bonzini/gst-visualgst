@@ -52,12 +52,6 @@ BrowserState subclass: CategoryState [
         ^ true
     ]
 
-    classOrMetaSelected [
-        <category: 'accessing'>
-
-        ^ self classOrMeta
-    ]
-
     displayString [
 	<category: 'printing'>
 

@@ -253,7 +253,7 @@ GtkBrowsingTool subclass: GtkSUnit [
         ^state
     ]
 
-    classOrMetaSelected [
+    classOrMeta [
 	<category: 'browser methods'>
 
 	^class

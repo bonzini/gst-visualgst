@@ -347,10 +347,10 @@ GtkBrowsingTool subclass: GtkDebugger [
 	codeWidget codeSaved
     ]
 
-    classOrMetaSelected [
+    selectedClass [
 	<category: 'method events'>
 
-	^ self state classOrMetaSelected
+	^ self state classOrMeta
     ]
 
     sourceCode [

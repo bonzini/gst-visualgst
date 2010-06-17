@@ -459,17 +459,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	InspectClassCommand on: self
     ]
 
-    classOrMetaSelected [
-	<category: 'class accessing'>
-
-	| class |
-	classWidget hasSelectedClass ifFalse: [ ^ self ].
-	class := classWidget selectedClass.
-	^ classAndInstanceSide getCurrentPage = 0
-            ifTrue: [ class ]
-            ifFalse: [ class class ]	
-    ]
-
     viewedCategoryWidget [
          <category: 'category events'>
 

@@ -98,7 +98,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'button event'>
 
 	self hasSelectedMethod ifFalse: [^false].
-	^ (self classOrMetaSelected inheritsFrom: TestCase)
+	^ (self classOrMeta inheritsFrom: TestCase)
 	    and: [ self selectedMethodSymbol startsWith: 'test' ]
     ]
 
@@ -132,7 +132,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
     ]
 
-    classOrMetaSelected [
+    classOrMeta [
 	<category: 'accessing'>
 
 	^ class
@@ -175,7 +175,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
 
 	self hasSelectedMethod ifFalse: [ self error: 'Nothing is selected' ].
-	^ (self classOrMetaSelected compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
+	^ (self classOrMeta compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
 
     state [

@@ -65,11 +65,5 @@ BrowserState subclass: MethodState [
 
         ^ true
     ]
-
-    classOrMetaSelected [
-        <category: 'accessing'>
-
-        ^ self classOrMeta
-    ]
 ]
 
