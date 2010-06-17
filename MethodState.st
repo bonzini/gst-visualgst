@@ -30,6 +30,24 @@ BrowserState subclass: MethodState [
         ^ self category
     ]
 
+    hasSelectedMethod [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
+    hasSelectedCategory [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
+    hasSelectedNamespace [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
     hasSelectedClass [
         <category: 'testing'>
 

@@ -7,6 +7,12 @@ BrowserState subclass: NamespaceState [
 	    print: self namespace
     ]
 
+    hasSelectedNamespace [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
     namespace [
 	<category: 'accessing'>
 

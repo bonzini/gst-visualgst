@@ -34,6 +34,18 @@ BrowserState subclass: CategoryState [
 	^ self category
     ]
 
+    hasSelectedCategory [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
+    hasSelectedNamespace [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
     hasSelectedClass [
         <category: 'testing'>
 

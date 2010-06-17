@@ -26,5 +26,29 @@ Object subclass: BrowserState [
 
         ^ state displayString
     ]
+
+    hasSelectedMethod [
+        <category: 'testing'>
+
+        ^ false
+    ]
+
+    hasSelectedCategory [
+        <category: 'testing'>
+
+        ^ false
+    ]
+
+    hasSelectedNamespace [
+        <category: 'testing'>
+
+        ^ false
+    ]
+
+    hasSelectedClass [
+        <category: 'testing'>
+
+        ^ false
+    ]
 ]
 
