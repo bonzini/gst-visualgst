@@ -22,7 +22,7 @@ Command subclass: OpenImplementorCommand [
 													    GtkLauncher uniqueInstance currentWidgetOfBrowser selectedText) ]
                                                             ifFalse: [ 
 								    GtkLauncher uniqueInstance currentWidgetOfBrowser hasSelectedMethod ifTrue: [
-									self openImplementorOn: GtkLauncher uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ]
+									self openImplementorOn: GtkLauncher uniqueInstance currentWidgetOfBrowser state selector ]
 																      ifFalse: [ GtkImplementor open ] ] ]
                     ifFalse: [ self openWithSelection ]
     ]
@@ -31,7 +31,7 @@ Command subclass: OpenImplementorCommand [
         <category: 'command'>
 
         target
-            ifNotNil: [ self openImplementorOn: target selectedMethodSymbol ]
+            ifNotNil: [ self openImplementorOn: target state selector ]
             ifNil: [ self focusChecking ]
     ]
 

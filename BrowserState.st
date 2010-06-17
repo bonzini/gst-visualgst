@@ -50,5 +50,36 @@ Object subclass: BrowserState [
 
         ^ false
     ]
+
+    category [
+        <category: 'accessing'>
+
+        ^ nil
+    ]
+
+    method [
+        <category: 'accessing'>
+
+        ^ nil
+    ]
+
+    namespace [
+        <category: 'accessing'>
+
+        ^ nil
+    ]
+
+    classOrMeta [
+        <category: 'accessing'>
+
+        ^ nil
+    ]
+
+    classCategory [
+        <category: 'accessing'>
+
+        ^ ClassCategory extractClassCategory: self classOrMeta
+    ]
+
 ]
 

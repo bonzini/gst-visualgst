@@ -170,10 +170,16 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ]
     ]
 
+    state [
+	<category: 'state'>
+
+        ^browser state
+    ]
+
     acceptIt [
 	<category: 'buffer events'>
 
-	browser hasSelectedCategory ifFalse: [ ^self acceptClassDefinition ].
+	browser state hasSelectedCategory ifFalse: [ ^self acceptClassDefinition ].
         self newMethod
     ]
 

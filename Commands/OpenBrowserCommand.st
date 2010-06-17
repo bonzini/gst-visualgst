@@ -38,9 +38,9 @@ Command subclass: OpenBrowserCommand [
 
 	| result |
 	GtkLauncher uniqueInstance currentWidgetOfBrowser hasSelectedClass
-                ifTrue: [ result := GtkLauncher uniqueInstance currentWidgetOfBrowser selectedNamespace -> GtkLauncher uniqueInstance currentWidgetOfBrowser selectedClass ]
+                ifTrue: [ result := GtkLauncher uniqueInstance currentWidgetOfBrowser state namespace -> GtkLauncher uniqueInstance currentWidgetOfBrowser selectedClass ]
                 ifFalse: [ GtkLauncher uniqueInstance currentWidgetOfBrowser hasSelectedNamespace 
-				    ifTrue: [ result := GtkLauncher uniqueInstance currentWidgetOfBrowser selectedNamespace -> nil ]
+				    ifTrue: [ result := GtkLauncher uniqueInstance currentWidgetOfBrowser state namespace -> nil ]
 				    ifFalse: [ result := Smalltalk -> Object ] ].
 	^ result 
     ]

@@ -1,5 +1,5 @@
 GtkBrowsingTool subclass: GtkDebugger [
-    | codeWidget contextWidget debugger inspectorWidget stackInspectorWidget state |
+    | codeWidget contextWidget debugger inspectorWidget stackInspectorWidget |
 
     GtkDebugger class >> open: aString [
 	<category: 'user interface'>
@@ -237,9 +237,6 @@ GtkBrowsingTool subclass: GtkDebugger [
     updateInspectorWidget: aContext [
 	<category: 'context'>
 
-	| method |
-	method := aContext method method.
-	state := MethodState on: self with: method.
         inspectorWidget object: aContext receiver.
         stackInspectorWidget object: aContext
     ]
@@ -353,7 +350,7 @@ GtkBrowsingTool subclass: GtkDebugger [
     classOrMetaSelected [
 	<category: 'method events'>
 
-	^ state classOrMetaSelected
+	^ self state classOrMetaSelected
     ]
 
     sourceCode [
@@ -365,7 +362,7 @@ GtkBrowsingTool subclass: GtkDebugger [
     selectedCategory [
 	<category: 'method events'>
 
-	^ state selectedCategory
+	^ self state selectedCategory
     ]
 
     acceptIt [
@@ -417,6 +414,12 @@ GtkBrowsingTool subclass: GtkDebugger [
         <category: 'smalltalk event'>
 
         self focusedWidget printIt: object
+    ]
+
+    state [
+        <category: 'actions'>
+
+        ^contextWidget state
     ]
 
     clearUndo [

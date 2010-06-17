@@ -21,7 +21,7 @@ Command subclass: OpenSenderCommand [
                                                                                                             GtkLauncher uniqueInstance currentWidgetOfBrowser selectedText) ]
                                                             ifFalse: [
                                                                     GtkLauncher uniqueInstance currentWidgetOfBrowser hasSelectedMethod ifTrue: [
-                                                                        GtkSender openOn: GtkLauncher uniqueInstance currentWidgetOfBrowser selectedMethodSymbol ]
+                                                                        GtkSender openOn: GtkLauncher uniqueInstance currentWidgetOfBrowser state selector ]
 																      ifFalse: [ GtkSender open ] ] ]
                     ifFalse: [ self openWithSelection ]
     ]
@@ -30,7 +30,7 @@ Command subclass: OpenSenderCommand [
         <category: 'command'>
 
         target
-	    ifNotNil: [ GtkSender openOn: target selectedMethodSymbol ]
+	    ifNotNil: [ GtkSender openOn: target state selector ]
             ifNil: [ self focusChecking ]
     ]
 ]

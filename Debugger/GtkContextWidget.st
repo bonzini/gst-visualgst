@@ -104,6 +104,15 @@ GtkConcreteWidget subclass: GtkContextWidget [
         ^ contextTree selection
     ]
 
+    state [
+        <category: 'actions'>
+
+        "TODO: add ContextState."
+        contextTree hasSelectedItem ifTrue: [
+            ^MethodState with: contextTree selection method method ].
+        ^BrowserState new
+    ]
+
     inspectMethod [
 	<category: 'method events'>
 

@@ -111,6 +111,13 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
     ]
 
+    state [
+        <category: 'testing'>
+        categoryTree hasSelectedItem ifTrue: [
+            ^CategoryState with: self classOrMeta->categoryTree selection ].
+        ^ClassState with: self classOrMeta
+    ]
+
     hasSelectedCategory [
 	<category: 'testing'>
 

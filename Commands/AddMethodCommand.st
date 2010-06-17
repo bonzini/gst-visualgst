@@ -5,8 +5,8 @@ ClassCommand subclass: AddMethodCommand [
 
         (AddMethodUndoCommand
 	    add: target sourceCode
-	    classified: target selectedCategory 
-	    in: target classOrMetaSelected
+	    classified: target state category 
+	    in: target state classOrMeta
 	    browser: target) push
     ]
 ]

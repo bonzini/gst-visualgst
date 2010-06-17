@@ -178,6 +178,13 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	^ (self classOrMetaSelected compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
 
+    state [
+        <category: 'testing'>
+        methodTree hasSelectedItem ifTrue: [
+            ^MethodState with: self selectedMethod ].
+        ^BrowserState new
+    ]
+
     deleteMethod [
         <category: 'method events'>
 
