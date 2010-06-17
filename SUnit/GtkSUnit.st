@@ -293,10 +293,10 @@ GtkBrowsingTool subclass: GtkSUnit [
 	results failures do: [ :each | each "logPolicy logStatus inspect" printNl ].
     ]
 
-    onFocusPerform: aSymbol [
+    focusedWidget [
 	<category: 'events'>
 
-	sourceCodeWidget hasFocus ifTrue: [ sourceCodeWidget perform: aSymbol ]
+	^sourceCodeWidget focusedWidget
     ]
 
     acceptIt [

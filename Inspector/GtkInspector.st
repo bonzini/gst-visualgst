@@ -105,13 +105,12 @@ GtkVisualGSTTool subclass: GtkInspector [
 	self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
     ]
 
-    onFocusPerform: aSelector [
+    focusedWidget [
         <category: 'focus'>
 
-        ^ notebookWidget getCurrentPage = 0 
-            ifTrue: [ workspaceWidget hasFocus
-                            ifTrue: [ workspaceWidget perform: aSelector ] ]
-            ifFalse: [ browserWidget perform: aSelector ]
+        ^notebookWidget getCurrentPage = 0
+            ifTrue: [ workspaceWidget focusedWidget ]
+            ifFalse: [ browserWidget focusedWidget ]
     ]
 
     cancel [

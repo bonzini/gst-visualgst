@@ -247,4 +247,19 @@ that are specific to this version of GNU Smalltalk.';
 	    add: self container;
 	    showAll
     ]
+
+    focusedWidget [
+        <category: 'focus'>
+
+        self subclassResponsibility
+    ]
+
+    onFocusPerform: aSymbol [
+        <category: 'widget'>
+
+        | widget |
+        widget := self focusedWidget.
+        widget isNil ifTrue: [^self].
+        ^widget perform: aSymbol
+    ]
 ]

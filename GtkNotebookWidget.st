@@ -90,6 +90,12 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 	^ currentWidget
     ]
 
+    focusedWidget [
+	<category: 'accessing'>
+
+	^ currentWidget focusedWidget
+    ]
+
     currentPage [
 	<category: 'pages'>
 

@@ -642,13 +642,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	transcriptWidget clear
     ]
 
-    onFocusPerform: aSelector [
+    focusedWidget [
 	<category: 'focus'>
 
-	^ self browserHasFocus 
-	    ifTrue: [ browsers currentWidget perform: aSelector ]
-	    ifFalse: [ outputs hasFocus 
-			    ifTrue: [ outputs currentWidget perform: aSelector ] ].
+	^browsers focusedWidget ifNil: [ outputs focusedWidget ]
     ]
 
     browserHasFocus [

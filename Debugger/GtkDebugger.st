@@ -392,7 +392,7 @@ GtkBrowsingTool subclass: GtkDebugger [
     onFocusPerform: aSymbol [
         <category: 'widget'>
 
-        ^ self focusedWidget perform: aSymbol
+        ^self focusedWidget perform: aSymbol
     ]
 
     doIt: object [

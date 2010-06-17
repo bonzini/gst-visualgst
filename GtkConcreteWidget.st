@@ -58,6 +58,19 @@ Smalltalk.Object subclass: GtkConcreteWidget [
 
     ]
 
+    focusedWidget [
+	<category: 'focus'>
+
+        self hasFocus ifTrue: [^self].
+        ^nil
+    ]
+
+    onFocusPerform: aSymbol [
+        <category: 'widget'>
+
+        ^self focusedWidget perform: aSymbol
+    ]
+
     grabFocus [
 	<category: 'user interface'>
 
