@@ -319,7 +319,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
         checkCode ifFalse: [ checkCode := true. ^ self ].
         self hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
-        self saveCodeOnSave: [ self saveCode ].
+        self saveCodeOnSave: [ codeWidget acceptIt ].
         codeWidget clearUndo
     ]
 
@@ -353,12 +353,6 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'text editing'>
 
 	^ state
-    ]
-
-    saveCode [
-        <category: 'text saving'>
-
-        state saveSource
     ]
 
     sourceCode [

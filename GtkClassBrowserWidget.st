@@ -360,35 +360,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     acceptIt [
 	<category: 'smalltalk events'>
 
-        self hasSelectedCategory ifFalse: [ ^ self acceptClassDefinition ].
-	self newMethod
-    ]
-    
-    acceptClassDefinitionOn: aNamespace [
-	<category: 'class event'>
-
-	codeWidget codeSaved.
-        Namespace current: aNamespace.
-        (ReadStream on: codeWidget sourceCode) fileIn.
-	[ (STInST.GSTFileInParser parseSmalltalkStream: (ReadStream on: codeWidget sourceCode) with: (STInST.STClassLoader new) onError: [ :string : pos | ^ self ]) do: [ :each |
-	    each isClass ifTrue: [
-		self 
-		    selectAClass: (aNamespace at: each name) ] ] ] on: Exception do: [ :ex | stderr print: ex messageText; nl; print: ex signalingContext; nl; nl. ^ self ]
-    ]
-
-    acceptClassDefinition [
-	<category: 'class event'>
-
-	^ self 
-	    acceptClassDefinitionOn: (namespaceWidget hasSelectedNamespace
-					ifTrue: [ namespaceWidget selectedNamespace ]
-					ifFalse: [ Smalltalk ]).
-    ]
-
-    acceptClassDefinitionForState: aState [
-        <category: 'class event'>
-
-        ^ self acceptClassDefinitionOn: aState namespace 
+        codeWidget acceptIt
     ]
 
     fileoutNamespace [
@@ -790,16 +762,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
         checkCode ifFalse: [ checkCode := true. aBlock value. ^ self ].
         self hasChanged ifFalse: [ codeWidget clearUndo. aBlock value. ^ self ].
-        self 
-	    saveCodeOnSave: [ self saveCode.
-			    aBlock value.
-			    codeWidget 
-				    hideSave;
-				    clearUndo ] 
-	    onCancel: [ aBlock value. 
-		    codeWidget 
-			    hideSave;
-			    clearUndo ]
+        self saveCodeOnSave: [ self acceptIt. aBlock value ] onCancel: [ aBlock value ].
     ]
 
     saveCodeOnSave: saveEvent onCancel: cancelEvent [
@@ -816,12 +779,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'accessing'>
 
 	^ state
-    ]
-
-    saveCode [
-	<category: 'text saving'>
-
-	state saveSource
     ]
 
     codeSaved [

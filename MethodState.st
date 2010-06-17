@@ -59,22 +59,5 @@ BrowserState subclass: MethodState [
 
         ^ self classOrMeta
     ]
-
-    sourceCode [
-        <category: 'accessing'>
-
-        ^ browser sourceCode
-    ]
-
-    saveSource [
-	<category: 'events'>
-
-	AddMethodCommand on: self.
-    ]
-
-    codeSaved [
-
-	browser codeSaved
-    ]
 ]
 

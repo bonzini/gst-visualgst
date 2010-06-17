@@ -61,7 +61,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         menuitem := GTK.GtkMenuItem newWithLabel: 'Accept'.
         menuitem
             show;
-            connectSignal: 'activate' to: self selector: #accept userData: nil.
+            connectSignal: 'activate' to: self selector: #acceptIt userData: nil.
         aGtkMenu append: menuitem.
         menuitem := GTK.GtkMenuItem newWithLabel: 'Cancel'.
         menuitem
@@ -170,10 +170,34 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ]
     ]
 
-    accept [
+    acceptIt [
 	<category: 'buffer events'>
 
-	browser acceptIt
+	browser hasSelectedCategory ifFalse: [ ^self acceptClassDefinition ].
+        self newMethod
+    ]
+
+    acceptClassDefinitionOn: aNamespace [
+	<category: 'class event'>
+
+	self codeSaved.
+        Namespace current: aNamespace.
+        (ReadStream on: self sourceCode) fileIn.
+	STInST.STEvaluationDriver new
+            parseSmalltalkStream: (ReadStream on: self sourceCode)
+            with: STInST.GSTFileInParser
+    ]
+
+    newMethod [
+	<category: 'class event'>
+
+	browser newMethod
+    ]
+
+    acceptClassDefinition [
+	<category: 'class event'>
+
+	^ self acceptClassDefinitionOn: browser state namespace
     ]
 
     cancel [

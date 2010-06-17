@@ -201,10 +201,22 @@ GtkBrowsingTool subclass: GtkSUnit [
         ^namespaceWidget hasSelectedNamespace
     ]
 
+    hasSelectedCategory [
+	<category: 'browser methods'>
+
+        ^methodWidget hasSelectedMethod
+    ]
+
     hasSelectedClass [
 	<category: 'browser methods'>
 
         ^classWidget hasSelectedClass
+    ]
+
+    hasSelectedMethod [
+	<category: 'browser methods'>
+
+        ^methodWidget hasSelectedMethod
     ]
 
     selectAClass: aClass [
@@ -312,11 +324,11 @@ GtkBrowsingTool subclass: GtkSUnit [
     ]
 
     acceptIt [
-	<category: 'method events'>
+        <category: 'smalltalk events'>
 
-	AddMethodCommand on: self.
+        sourceCodeWidget acceptIt
     ]
-
+    
     cancel [
         <category: 'edit events'>
 
@@ -363,7 +375,7 @@ GtkBrowsingTool subclass: GtkSUnit [
         <category: 'file events'>
 
         sourceCodeWidget hasChanged ifFalse: [ ^ super close ].
-        self saveCodeOnClose: [ super close ] onSave: [ state saveSource. super close ]
+        self saveCodeOnClose: [ super close ] onSave: [ self acceptIt. super close ]
     ]
 
     clearUndo [

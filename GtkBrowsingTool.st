@@ -7,11 +7,17 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
         self subclassResponsibility
     ]
 
+    acceptIt [
+        <category: 'command protocols'>
+
+        self subclassResponsibility
+    ]
+
     onDelete [
         <category: 'window events'>
 
         self hasChanged ifFalse: [ ^ window hideAll ].
-        self saveCodeOnClose: [ window hideAll ] onSave: [ self state saveSource. window hideAll ].
+        self saveCodeOnClose: [ window hideAll ] onSave: [ self acceptIt. window hideAll ].
         ^ true
     ]
 
@@ -41,7 +47,7 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
         <category: 'text editing'>
 
         self hasChanged ifFalse: [ self clearUndo. ^ self ].
-        self saveCodeOnSave: [ self state saveSource ].
+        self saveCodeOnSave: [ self acceptIt ].
         self clearUndo
     ]
 

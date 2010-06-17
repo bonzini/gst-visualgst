@@ -1,24 +1,24 @@
 Object subclass: BrowserState [
-    | browser state |
+    | state |
 
-    BrowserState class >> on: aGtkClassBrowserWidget with: aState [
+    BrowserState class >> on: aBrowser with: aState [
 	<category: 'instance creation'>
 
 	^ self new
-	    on: aGtkClassBrowserWidget with: aState
+	    state: aState
     ]
 
-    on: aGtkClassBrowserWidget with: aState [
+    BrowserState class >> with: aState [
+	<category: 'instance creation'>
+
+	^ self new
+	    state: aState
+    ]
+
+    state: aState [
 	<category: 'initialize-release'>
 
-	browser := aGtkClassBrowserWidget.
 	state := aState
-    ]
-
-    saveSource [
-	<category: 'events'>
-
-	self subclassResponsibility
     ]
 
     displayString [

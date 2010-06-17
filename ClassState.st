@@ -36,11 +36,5 @@ BrowserState subclass: ClassState [
 
 	^ state
     ]
-
-    saveSource [
-	<category: 'events'>
-
-	browser acceptClassDefinitionForState: self
-    ]
 ]
 

@@ -58,27 +58,10 @@ BrowserState subclass: CategoryState [
         ^ self classOrMeta
     ]
 
-    sourceCode [
-	<category: 'accessing'>
-
-	^ browser sourceCode
-    ]
-
-    saveSource [
-	<category: 'events'>
-
-	AddMethodCommand on: self
-    ]
-
     displayString [
 	<category: 'printing'>
 
 	^ self classOrMeta displayString
-    ]
-
-    codeSaved [
-
-        browser codeSaved
     ]
 ]
 
