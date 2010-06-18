@@ -131,6 +131,7 @@ Eval [
     filein: 'Inspector/GtkObjectInspectorView.st';
     filein: 'Inspector/GtkSequenceableCollectionInspectorView.st';
     filein: 'Inspector/GtkSetInspectorView.st';
+    filein: 'Inspector/GtkDictionaryInspectorView.st';
     filein: 'Inspector/GtkCharacterInspectorView.st';
     filein: 'Inspector/GtkIntegerInspectorView.st';
     filein: 'Inspector/GtkFloatInspectorView.st';

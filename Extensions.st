@@ -36,6 +36,14 @@ Set extend [
     ]
 ]
 
+Dictionary extend [
+    inspectorView [
+        <category: '*VisualGST'>
+
+        ^ VisualGST.GtkDictionaryInspectorView
+    ]
+]
+
 Character extend [
     inspectorView [
         <category: '*VisualGST'>
