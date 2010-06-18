@@ -158,6 +158,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
 	| widget |
 	browsers addWidget: (widget := self buildClassBrowserWidget) labeled: 'Browser'.
+        browsers showLastPage.
 	widget postInitialize.
 	^ widget
     ]
@@ -171,10 +172,17 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     newWorkspace [
 	<category: 'tools events'>
 
+        ^self newWorkspaceLabeled: 'Workspace'
+    ]
+
+    newWorkspaceLabeled: aString [
+	<category: 'tools events'>
+
 	| widget |
 	widget := self buildWorkspaceWidget showAll.
 	widget postInitialize.
-	outputs addWidget: widget labeled: 'Workspace'.
+	outputs addWidget: widget labeled: aString.
+        outputs showLastPage.
         ^widget
     ]
 
@@ -216,8 +224,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	(GTK.GtkFileChooserDialog load: 'Load Smalltalk source' parent: window)
 	    showModalOnAnswer: [ :dlg :res |
 		res = GTK.Gtk gtkResponseAccept 
-				ifTrue: [ file := FileStream open: dlg getFilename mode: FileStream read.
-					  self newWorkspace text: file upToEnd ].
+				ifTrue: [ file := File name: dlg getFilename.
+                                          FileStream open: dlg getFilename mode: FileStream read.
+					  (self newWorkspaceLabeled: file stripPath) text: file contents ].
 		dlg destroy ]
     ]
 

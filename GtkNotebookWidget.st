@@ -108,6 +108,12 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 	notebook setCurrentPage: aSmallInteger
     ]
 
+    showLastPage [
+	<category: 'pages'>
+
+	self currentPage: self numberOfPages - 1
+    ]
+
     numberOfPages [
 	<category: 'pages'>
 
