@@ -182,5 +182,36 @@ GtkBrowsingTool subclass: GtkBrowserWrapper [
 
         ^ classBrowserWidget hasChanged
     ]
+
+    browserHasFocus [
+        <category: 'testing'>
+
+        ^ classBrowserWidget hasFocus
+    ]
+
+    sourceCodeWidgetHasFocus [
+        <category: 'focus'>
+
+        ^ classBrowserWidget sourceCodeWidgetHasFocus
+    ]
+
+    state [
+        <category: 'focus'>
+
+        ^classBrowserWidget state
+    ]
+
+    selectedText [
+        <category: 'smalltalk events'>
+
+        ^classBrowserWidget selectedText
+    ]
+
+    hasSelection [
+        <category: 'smalltalk events'>
+
+        ^classBrowserWidget hasSelection
+    ]
+
 ]
 

@@ -59,10 +59,41 @@ GtkBrowsingTool subclass: GtkClassBrowser [
 
         browserWidget selectAll
     ]
+
     gtkInspector [
 	<category: 'events'>
 	
 	GtkInspector openOn: self
+    ]
+
+    state [
+        <category: 'command protocols'>
+
+        ^browserWidget state
+    ]
+
+    selectedText [
+        <category: 'command protocols'>
+
+        ^browserWidget selectedText
+    ]
+
+    hasSelection [
+        <category: 'command protocols'>
+
+        ^browserWidget hasSelection
+    ]
+
+    sourceCodeWidgetHasFocus [
+        <category: 'command protocols'>
+
+        ^browserWidget sourceCodeWidgetHasFocus
+    ]
+
+    browserHasFocus [
+        <category: 'command protocols'>
+
+        ^true
     ]
 
     fileoutNamespace [

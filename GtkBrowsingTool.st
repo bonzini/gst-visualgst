@@ -7,10 +7,34 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
         self subclassResponsibility
     ]
 
+    selectedText [
+        <category: 'command protocols'>
+
+        self subclassResponsibility
+    ]
+
+    hasSelection [
+        <category: 'command protocols'>
+
+        self subclassResponsibility
+    ]
+
+    sourceCodeWidgetHasFocus [
+        <category: 'command protocols'>
+
+        self subclassResponsibility
+    ]
+
     acceptIt [
         <category: 'command protocols'>
 
         self subclassResponsibility
+    ]
+
+    browserHasFocus [
+        <category: 'command protocols'>
+
+        ^true
     ]
 
     onDelete [

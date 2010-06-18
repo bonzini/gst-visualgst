@@ -354,5 +354,17 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
 	codeWidget codeSaved
     ]
+
+    selectedText [
+        <category: 'smalltalk events'>
+
+        ^codeWidget selectedText
+    ]
+
+    hasSelection [
+        <category: 'smalltalk events'>
+
+        ^codeWidget hasSelection
+    ]
 ]
 

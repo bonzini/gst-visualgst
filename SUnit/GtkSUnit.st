@@ -482,5 +482,23 @@ GtkBrowsingTool subclass: GtkSUnit [
         self onFocusPerform: #showReplace
     ]
 
+    sourceCodeWidgetHasFocus [
+        <category: 'focus'>
+
+        ^ sourceCodeWidget hasFocus
+    ]
+
+    selectedText [
+        <category: 'smalltalk events'>
+
+        ^sourceCodeWidget selectedText
+    ]
+
+    hasSelection [
+        <category: 'smalltalk events'>
+
+        ^sourceCodeWidget hasSelection
+    ]
+
 ]
 

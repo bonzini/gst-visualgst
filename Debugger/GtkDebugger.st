@@ -268,6 +268,30 @@ GtkBrowsingTool subclass: GtkDebugger [
 	    updateContextWidget
     ]
 
+    browserHasFocus [
+        <category: 'command protocols'>
+
+        ^self focusedWidget == codeWidget
+    ]
+
+    sourceCodeWidgetHasFocus [ 
+        <category: 'focus'>
+        
+        ^ codeWidget hasFocus
+    ]   
+    
+    selectedText [
+        <category: 'smalltalk events'>
+        
+        ^codeWidget selectedText
+    ]
+    
+    hasSelection [ 
+        <category: 'smalltalk events'>
+        
+        ^codeWidget hasSelection
+    ]
+
     inspectMethod [
 	<category: 'method events'>
 

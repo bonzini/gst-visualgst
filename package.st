@@ -51,7 +51,6 @@ Eval [
     filein: 'Commands/DeleteMethodCommand.st';
     filein: 'Commands/RunTestCommand.st';
     filein: 'Commands/OpenAssistantCommand.st';
-    filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
     filein: 'FakeNamespace.st';
     filein: 'Category/ClassCategory.st';
@@ -170,6 +169,7 @@ Eval [
     filein: 'Commands/OpenBrowserCommand.st';
     filein: 'Commands/OpenWindowedBrowserCommand.st';
     filein: 'Commands/OpenTabbedBrowserCommand.st';
+    filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWorkspaceCommand.st';
     filein: 'Commands/OpenImplementorCommand.st';
     filein: 'Commands/OpenSenderCommand.st';

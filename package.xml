@@ -62,7 +62,6 @@
   <filein>Commands/DeleteMethodCommand.st</filein>
   <filein>Commands/RunTestCommand.st</filein>
   <filein>Commands/OpenAssistantCommand.st</filein>
-  <filein>Commands/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWebBrowserCommand.st</filein>
   <filein>FakeNamespace.st</filein>
   <filein>Category/ClassCategory.st</filein>
@@ -181,6 +180,7 @@
   <filein>Commands/OpenBrowserCommand.st</filein>
   <filein>Commands/OpenWindowedBrowserCommand.st</filein>
   <filein>Commands/OpenTabbedBrowserCommand.st</filein>
+  <filein>Commands/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWorkspaceCommand.st</filein>
   <filein>Commands/OpenImplementorCommand.st</filein>
   <filein>Commands/OpenSenderCommand.st</filein>
@@ -228,7 +228,6 @@
   <file>Commands/DeleteMethodCommand.st</file>
   <file>Commands/RunTestCommand.st</file>
   <file>Commands/OpenAssistantCommand.st</file>
-  <file>Commands/OpenSUnitCommand.st</file>
   <file>Commands/OpenWebBrowserCommand.st</file>
   <file>FakeNamespace.st</file>
   <file>Category/ClassCategory.st</file>
@@ -347,6 +346,7 @@
   <file>Commands/OpenBrowserCommand.st</file>
   <file>Commands/OpenWindowedBrowserCommand.st</file>
   <file>Commands/OpenTabbedBrowserCommand.st</file>
+  <file>Commands/OpenSUnitCommand.st</file>
   <file>Commands/OpenWorkspaceCommand.st</file>
   <file>Commands/OpenImplementorCommand.st</file>
   <file>Commands/OpenSenderCommand.st</file>

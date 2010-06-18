@@ -103,11 +103,10 @@ GtkMainWindow subclass: GtkVisualGSTTool [
             {'<Control>M'. '<GtkVisualGSTTool>/Tools/Implementors'}.
             {'<Control>N'. '<GtkVisualGSTTool>/Tools/Senders'}}.
 
-        menu := {GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkVisualGSTTool>/Tools/ClassBrowser' connectTo: OpenWindowedBrowserCommand selector: #execute.
-            GTK.GtkMenuItem menuItem: 'Workspace' connectTo: OpenWorkspaceCommand selector: #execute.
-            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: OpenImplementorCommand selector: #execute.
-            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Tools/Senders' connectTo: OpenSenderCommand selector: #execute.
-            GTK.GtkMenuItem menuItem: 'SUnit' connectTo: OpenSUnitCommand selector: #execute} asOrderedCollection.
+        menu := {GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkVisualGSTTool>/Tools/ClassBrowser' connectTo: self selector: #newClassBrowser.
+            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: self selector: #newImplementorBrowser.
+            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Tools/Senders' connectTo: self selector: #newSenderBrowser.
+            GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #newSUnitBrowser} asOrderedCollection.
 
         GtkWebView hasWebkit ifTrue: [ menu := menu, {GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Assistant' connectTo: OpenAssistantCommand selector: #execute.
@@ -115,6 +114,42 @@ GtkMainWindow subclass: GtkVisualGSTTool [
             GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: OpenWebBrowserCommand selector: #execute} ].
 
         ^menu
+    ]
+
+    browserWidget [
+	<category: 'tools events'>
+
+	^nil
+    ]
+
+    browserHasFocus [
+	<category: 'tools events'>
+
+	^false
+    ]
+
+    newSUnitBrowser [
+	<category: 'tools events'>
+
+	OpenSUnitCommand on: self
+    ]
+
+    newClassBrowser [
+	<category: 'tools events'>
+
+	OpenWindowedBrowserCommand on: self
+    ]
+
+    newSenderBrowser [
+	<category: 'tools events'>
+
+	OpenSenderCommand on: self
+    ]
+
+    newImplementorBrowser [
+	<category: 'tools events'>
+
+	OpenImplementorCommand on: self
     ]
 
     helpContents [

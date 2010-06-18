@@ -234,5 +234,32 @@ GtkVisualGSTTool subclass: GtkInspector [
 
 	self onFocusPerform: #showReplace
     ]
+
+    browserHasFocus [
+        <category: 'command protocols'>
+
+        ^notebookWidget getCurrentPage = 1
+    ]
+
+    sourceCodeWidgetHasFocus [
+        <category: 'focus'>
+
+        ^ browserWidget sourceCodeWidgetHasFocus
+    ]
+
+    selectedText [
+        <category: 'smalltalk events'>
+
+        ^self onFocusPerform: #selectedText
+    ]
+
+    hasSelection [
+        <category: 'smalltalk events'>
+
+        | widget |
+        widget := self focusedWidget.
+        widget isNil ifTrue: [^false].
+        ^widget hasSelection
+    ]
 ]
 

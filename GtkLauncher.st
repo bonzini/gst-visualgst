@@ -308,12 +308,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	    Transcript message: oldMessage ]
     ]
 
-    workspace [
-	<category: 'tools events'>
-	
-	self newWorkspace
-    ]
-
     systemChangeNotifier [
 	<category: 'notifications'>
 
@@ -554,7 +548,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
 	self
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
-				connectSignal: 'clicked' to: OpenWorkspaceCommand selector: #execute;
+				connectSignal: 'clicked' to: self selector: #newWorkspace;
 				setTooltipText: 'Create a new workspace';
 				yourself).
         super createToolbar
@@ -581,8 +575,14 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
         self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/TabbedClassBrowser'}}.
 
-	^{GTK.GtkMenuItem menuItem: 'Browser' accelPath: '<GtkLauncher>/Tools/TabbedClassBrowser' connectTo: OpenTabbedBrowserCommand selector: #execute},
+	^{GTK.GtkMenuItem menuItem: 'Browser' accelPath: '<GtkLauncher>/Tools/TabbedClassBrowser' connectTo: self selector: #newTabbedBrowser},
             super createToolsMenus.
+    ]
+
+    newTabbedBrowser [
+	<category: 'tools events'>
+
+	OpenTabbedBrowserCommand on: self
     ]
 
     cancel [
@@ -657,10 +657,31 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	^ browsers hasFocus
     ]
 
-    currentWidgetOfBrowser [
+    sourceCodeWidgetHasFocus [
 	<category: 'focus'>
 
-	^ browsers currentWidget
+	^ browsers currentWidget sourceCodeWidgetHasFocus
+    ]
+
+    state [
+	<category: 'focus'>
+
+	self browserWidget isNil ifTrue: [^BrowserState new].
+	^self browserWidget state
+    ]
+
+    selectedText [
+	<category: 'smalltalk events'>
+
+	^self onFocusPerform: #selectedText
+    ]
+
+    hasSelection [
+	<category: 'smalltalk events'>
+
+        | widget |
+	widget := self focusedWidget.
+	^widget notNil and: [widget hasSelection]
     ]
 
     doIt [
