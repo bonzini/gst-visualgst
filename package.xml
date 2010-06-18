@@ -140,6 +140,7 @@
   <filein>Inspector/GtkInspectorBrowserWidget.st</filein>
   <filein>Inspector/GtkInspectorWidget.st</filein>
   <filein>Inspector/GtkObjectInspectorView.st</filein>
+  <filein>Inspector/GtkCompiledMethodInspectorView.st</filein>
   <filein>Inspector/GtkSequenceableCollectionInspectorView.st</filein>
   <filein>Inspector/GtkSetInspectorView.st</filein>
   <filein>Inspector/GtkDictionaryInspectorView.st</filein>
@@ -301,6 +302,7 @@
   <file>Inspector/GtkInspectorBrowserWidget.st</file>
   <file>Inspector/GtkInspectorWidget.st</file>
   <file>Inspector/GtkObjectInspectorView.st</file>
+  <file>Inspector/GtkCompiledMethodInspectorView.st</file>
   <file>Inspector/GtkSequenceableCollectionInspectorView.st</file>
   <file>Inspector/GtkSetInspectorView.st</file>
   <file>Inspector/GtkDictionaryInspectorView.st</file>

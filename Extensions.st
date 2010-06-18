@@ -20,6 +20,14 @@ Object extend [
     ]
 ]
 
+CompiledMethod extend [
+    inspectorView [
+        <category: '*VisualGST'>
+
+        ^ VisualGST.GtkCompiledMethodInspectorView
+    ]
+]
+
 SequenceableCollection extend [
     inspectorView [
         <category: '*VisualGST'>

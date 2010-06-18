@@ -129,6 +129,7 @@ Eval [
     filein: 'Inspector/GtkInspectorBrowserWidget.st';
     filein: 'Inspector/GtkInspectorWidget.st';
     filein: 'Inspector/GtkObjectInspectorView.st';
+    filein: 'Inspector/GtkCompiledMethodInspectorView.st';
     filein: 'Inspector/GtkSequenceableCollectionInspectorView.st';
     filein: 'Inspector/GtkSetInspectorView.st';
     filein: 'Inspector/GtkDictionaryInspectorView.st';
