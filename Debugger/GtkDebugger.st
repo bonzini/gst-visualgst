@@ -280,25 +280,25 @@ GtkBrowsingTool subclass: GtkDebugger [
     hasSelectedMethod [
 	<category: 'method events'>
 
-	^self hasSelectedContext
+	^ self hasSelectedContext
     ]
 
     selectedMethod [
 	<category: 'method events'>
 
-	^self selectedContext method
+	^ self selectedContext method
     ]
 
     hasSelectedContext [
         <category: 'method events'>
 
-        ^contextWidget hasSelectedContext
+        ^ contextWidget hasSelectedContext
     ]
 
     selectedContext [
         <category: 'method events'>
 
-        ^contextWidget selectedContext
+        ^ contextWidget selectedContext
     ]
 
     contextChanged [
@@ -315,10 +315,7 @@ GtkBrowsingTool subclass: GtkDebugger [
     step [
 	<category: 'execute events'>
 
-	| iter |
-	iter := contextWidget selectedIter.
-
-	contextWidget numberOfContext = ((contextWidget model getPath: iter) getIndices value + 1)
+	contextWidget isLastContextSelected
 	    ifTrue: [ debugger myStep ]
 	    ifFalse: [ debugger finish: self selectedContext ].
 	self updateContextWidget

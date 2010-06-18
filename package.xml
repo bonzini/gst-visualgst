@@ -141,6 +141,7 @@
   <filein>Inspector/GtkInspectorWidget.st</filein>
   <filein>Inspector/GtkObjectInspectorView.st</filein>
   <filein>Inspector/GtkSequenceableCollectionInspectorView.st</filein>
+  <filein>Inspector/GtkSetInspectorView.st</filein>
   <filein>Inspector/GtkCharacterInspectorView.st</filein>
   <filein>Inspector/GtkIntegerInspectorView.st</filein>
   <filein>Inspector/GtkFloatInspectorView.st</filein>
@@ -300,6 +301,7 @@
   <file>Inspector/GtkInspectorWidget.st</file>
   <file>Inspector/GtkObjectInspectorView.st</file>
   <file>Inspector/GtkSequenceableCollectionInspectorView.st</file>
+  <file>Inspector/GtkSetInspectorView.st</file>
   <file>Inspector/GtkCharacterInspectorView.st</file>
   <file>Inspector/GtkIntegerInspectorView.st</file>
   <file>Inspector/GtkFloatInspectorView.st</file>

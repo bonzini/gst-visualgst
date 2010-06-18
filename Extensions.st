@@ -28,6 +28,14 @@ SequenceableCollection extend [
     ]
 ]
 
+Set extend [
+    inspectorView [
+        <category: '*VisualGST'>
+
+        ^ VisualGST.GtkSetInspectorView
+    ]
+]
+
 Character extend [
     inspectorView [
         <category: '*VisualGST'>

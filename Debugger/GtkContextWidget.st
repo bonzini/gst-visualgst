@@ -75,6 +75,12 @@ GtkConcreteWidget subclass: GtkContextWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
     ]
 
+    isLastContextSelected [
+        <category: 'item selection'>
+
+	^ self selectedContext == context
+    ]
+
     selectLastContext [
         <category: 'item selection'>
 
