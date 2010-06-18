@@ -147,12 +147,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         ^self displayError: 'Error' message: error
     ]
 
-    browser [
-	<category: 'events'>
-
-	windowsMenu append: (GTK.GtkMenuItem label: 'Browser') showAll
-    ]
-
     classBrowser [
 	<category: 'tools events'>
 
