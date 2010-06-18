@@ -70,13 +70,22 @@ GtkObjectInspectorView subclass: GtkCompiledMethodInspectorView [
     literals [
 	<category: 'event'>
 
-	^ 1 to: self numLiterals do: [ :i | self object bytecodeIndex: i with: stream. aStream tab. aStream print: (self object literalAt: i) ]
+	| stream |
+	stream := WriteStream on: String new.
+	1 to: self numLiterals do: [ :i | 
+		self object bytecodeIndex: i with: stream. 
+		stream tab. 
+		stream print: (self object literalAt: i) ].
+	^ stream contents
     ]
 
     byte [
 	<category: 'event'>
 
-	^ self object numBytecodes > 0 ifTrue: [ self object printByteCodesOn: aStream ].
+	| stream |
+	stream := WriteStream on: String new.
+	self object numBytecodes > 0 ifTrue: [ self object printByteCodesOn: stream ].
+	^ stream contents
     ]
 
     source [
