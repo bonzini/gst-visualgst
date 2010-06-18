@@ -84,7 +84,7 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
             connectSignal: 'changed' to: anObject selector: aSelector userData: nil
     ]
 
-    hasSelection [
+    hasSelectedValue [
         <category: 'testing'>
 
         ^ inspectorTree hasSelectedItem 
@@ -93,14 +93,14 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
     onVariableChanged [
 	<category: 'events'>
 
-	self hasSelection ifFalse: [ workspaceWidget text: ''. ^ self ].
+	self hasSelectedValue ifFalse: [ workspaceWidget text: ''. ^ self ].
 	workspaceWidget text: self selectedValue displayString
     ]
 
     selectedItem [
 	<category: 'item selection'>
 
-        self hasSelection ifFalse: [self error: 'Nothing is selected'].
+        self hasSelectedValue ifFalse: [self error: 'Nothing is selected'].
         ^ inspectorTree selection
     ]
 
