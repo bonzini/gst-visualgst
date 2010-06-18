@@ -9,7 +9,11 @@ NamespaceCommand subclass: AddClassCommand [
             ifFalse: [ Object ].
         dlg := GtkEntryDialog title: 'Add a class' text: 'Name of the new class'.
         dlg hasPressedOk: [
-            (AddClassUndoCommand add: dlg result asSymbol to: target state namespace withSuperclass: superclass) push ]
+            (AddClassUndoCommand
+                add: dlg result asSymbol
+                to: target state namespace
+                category: target state classCategory
+                withSuperclass: superclass) push ]
     ]
 ]
 
