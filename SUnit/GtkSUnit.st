@@ -179,7 +179,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     selectANamespace: aNamespace [
 	<category: 'browser methods'>
 
-	aNamespace = namespaceWidget selectedNamespace ifFalse: [
+	(namespaceWidget hasSelectedNamespace and: [aNamespace = namespaceWidget selectedNamespace]) ifFalse: [
             namespaceWidget selectANamespace: aNamespace ].
         namespace := aNamespace.
 	aNamespace isNil ifTrue: [ ^self ].
@@ -210,7 +210,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     selectAClass: aClass [
 	<category: 'browser methods'>
 
-	aClass = classWidget selectedClass ifFalse: [
+	(classWidget hasSelectedClass and: [aClass = classWidget selectedClass]) ifFalse: [
             classWidget selectAClass: aClass ].
         class := aClass.
 	aClass isNil ifTrue: [ ^self ].
@@ -229,7 +229,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     selectAnInstanceMethod: aSymbol [
 	<category: 'browser methods'>
 
-	aSymbol = methodWidget selectedMethodSymbol ifFalse: [
+	(methodWidget hasSelectedMethod and: [aSymbol = methodWidget selectedMethodSymbol]) ifFalse: [
             methodWidget selectAMethod: aSymbol asString ].
 	sourceCodeWidget sourceCode: methodWidget sourceCode.
 	state := MethodState on: self with: class -> methodWidget selectedMethod
