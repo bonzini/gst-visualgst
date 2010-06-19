@@ -1,25 +1,7 @@
 GtkVisualGSTTool subclass: GtkBrowsingTool [
     <comment: 'I am the base for various browsers of VisualGST.'>
 
-    state [
-        <category: 'command protocols'>
-
-        self subclassResponsibility
-    ]
-
     selectedText [
-        <category: 'command protocols'>
-
-        self subclassResponsibility
-    ]
-
-    hasSelection [
-        <category: 'command protocols'>
-
-        self subclassResponsibility
-    ]
-
-    sourceCodeWidgetHasFocus [
         <category: 'command protocols'>
 
         self subclassResponsibility

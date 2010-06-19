@@ -666,8 +666,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     state [
 	<category: 'focus'>
 
-	self browserWidget isNil ifTrue: [^BrowserState new].
-	^self browserWidget state
+	browsers currentWidget isNil ifTrue: [^BrowserState new].
+	^browsers currentWidget state
     ]
 
     selectedText [

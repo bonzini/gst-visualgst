@@ -116,10 +116,29 @@ GtkMainWindow subclass: GtkVisualGSTTool [
         ^menu
     ]
 
-    browserWidget [
+    state [
 	<category: 'tools events'>
 
-	^nil
+	^BrowserState new
+    ]
+
+    selectedText [
+        <category: 'tools events'>
+
+        "Since #hasSelection returns false, this will never be called."
+        self shouldNotImplement
+    ]
+
+    hasSelection [
+	<category: 'tools events'>
+
+	^false
+    ]
+
+    sourceCodeWidgetHasFocus [
+	<category: 'tools events'>
+
+	^false
     ]
 
     browserHasFocus [
