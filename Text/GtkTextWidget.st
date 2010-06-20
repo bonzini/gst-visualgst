@@ -317,14 +317,21 @@ GtkConcreteWidget subclass: GtkTextWidget [
         <category: 'smalltalk event'>
     ]
 
+    afterEvaluation [
+        <category: 'smalltalk event'>
+    ]
+
     doIt: object [
         <category: 'smalltalk event'>
 
+	| result |
         self beforeEvaluation.
-        ^ Behavior
-            evaluate: self buffer selectedText
-            to: object
-            ifError: [ :fname :lineNo :errorString | self error: errorString ]
+        result := Behavior
+		    evaluate: self buffer selectedText
+		    to: object
+		    ifError: [ :fname :lineNo :errorString | self error: errorString ].
+	self afterEvaluation.
+	^ result
     ]
 
     debugIt: object [

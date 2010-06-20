@@ -131,6 +131,7 @@
   <filein>Undo/AddMethodUndoCommand.st</filein>
   <filein>Undo/DeleteMethodUndoCommand.st</filein>
   <filein>WorkspaceVariableTracker.st</filein>
+  <filein>GtkVariableTrackerWidget.st</filein>
   <filein>SyntaxHighlighter.st</filein>
   <filein>Undo/Text/InsertTextCommand.st</filein>
   <filein>Undo/Text/DeleteTextCommand.st</filein>
@@ -294,6 +295,7 @@
   <file>Undo/AddMethodUndoCommand.st</file>
   <file>Undo/DeleteMethodUndoCommand.st</file>
   <file>WorkspaceVariableTracker.st</file>
+  <file>GtkVariableTrackerWidget.st</file>
   <file>SyntaxHighlighter.st</file>
   <file>Undo/Text/InsertTextCommand.st</file>
   <file>Undo/Text/DeleteTextCommand.st</file>

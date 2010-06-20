@@ -120,6 +120,7 @@ Eval [
     filein: 'Undo/AddMethodUndoCommand.st';
     filein: 'Undo/DeleteMethodUndoCommand.st';
     filein: 'WorkspaceVariableTracker.st';
+    filein: 'GtkVariableTrackerWidget.st';
     filein: 'SyntaxHighlighter.st';
     filein: 'Undo/Text/InsertTextCommand.st';
     filein: 'Undo/Text/DeleteTextCommand.st';

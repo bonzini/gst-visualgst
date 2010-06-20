@@ -41,6 +41,12 @@ Smalltalk.Object subclass: GtkConcreteWidget [
 	child showAll
     ]
 
+    hideAll [
+	<category: 'user interface'>
+
+	child hideAll
+    ]
+
     hasFocus [
 	<category: 'testing'>
 
