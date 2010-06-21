@@ -95,7 +95,7 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
 	<category: 'event'>
 
 	widget hasSelectedItem ifFalse: [ ^ self ].
-	self updateBrowser: browser
+	self updateBrowser: browser currentWidgetOfBrowser
     ]
 
     browseTabbedClass [
