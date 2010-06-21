@@ -210,6 +210,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     postInitialize [
 	<category: 'initialize'>
 
+	historyWidget hideAll.
 	codeWidget postInitialize
     ]
 
@@ -744,6 +745,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'history events'>
 
 	history previous
+    ]
+
+    showHideHistory [
+	<category: 'history events'>
+
+	historyWidget mainWidget getVisible 
+	    ifTrue: [ historyWidget hideAll ]
+	    ifFalse: [ historyWidget showAll ]
     ]
 
     updateClass: aClass [

@@ -497,10 +497,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
 	self accelGroup append:
             {{'<Alt>Left'. '<GtkLauncher>/History/Back'}.
-            {'<Alt>Right'. '<GtkLauncher>/History/Forward'}}.
+            {'<Alt>Right'. '<GtkLauncher>/History/Forward'}.
+            {'<Control>H'. '<GtkLauncher>/History/showHide'}}.
 
 	^{GTK.GtkMenuItem menuItem: 'Back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
-            GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward}
+            GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward.
+	    GTK.GtkMenuItem new.
+            GTK.GtkMenuItem menuItem: 'Show/Hide history pane' accelPath: '<GtkLauncher>/History/showHide' connectTo: self selector: #showHideHistory }
     ]
 
     createTabsMenus [
@@ -673,6 +676,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	<category: 'history events'>
 
 	browsers currentWidget forward
+    ]
+
+    showHideHistory [
+	<category: 'history events'>
+
+	browsers currentWidget showHideHistory
     ]
 
     previousTab [
