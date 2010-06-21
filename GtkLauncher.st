@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | compileError history uniqueInstance | ]
 
-    | compilerError browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | compilerError historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -355,6 +355,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	super postInitialize.
         self browserPostInitialize.
 	1 to: 3 do: [ :i | (outputs widgetAt: i) postInitialize ].
+	historyWidget hideAll.
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil
     ]
@@ -378,10 +379,40 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     buildCentralWidget [
 	<category: 'intialize-release'>
 
-	^ GTK.GtkVPaned new
+	^ self buildHistoryPaned
+	"^ GTK.GtkVPaned new
 	    pack1: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
 	    pack2: self buildNotebookWorkspaceWidget mainWidget resize: true shrink: false;
-	    yourself
+	    yourself"
+    ]
+
+    buildHistoryPaned [
+       <category: 'user interface'>
+
+        ^ GTK.GtkHPaned new
+            pack1: self buildHistoryView resize: true shrink: false;
+            pack2: self buildBrowserAndWorkspaceWidget resize: true shrink: true ;
+            showAll;
+            yourself
+    ]
+
+    buildBrowserAndWorkspaceWidget [
+        <category: 'intialize-release'>
+
+        ^ GTK.GtkVPaned new
+            pack1: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
+            pack2: self buildNotebookWorkspaceWidget mainWidget resize: true shrink: false;
+            yourself
+    ]
+
+    buildHistoryView [
+       <category: 'user interface'>
+
+        historyWidget := GtkHistoryWidget new
+                                    browser: self;
+                                    yourself.
+        self class history addDependent: historyWidget.
+        ^ historyWidget mainWidget
     ]
 
     buildClassBrowserTabbedWidget [
@@ -681,7 +712,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     showHideHistory [
 	<category: 'history events'>
 
-	browsers currentWidget showHideHistory
+        historyWidget mainWidget getVisible
+            ifTrue: [ historyWidget hideAll ]
+            ifFalse: [ historyWidget showAll ]
     ]
 
     previousTab [
