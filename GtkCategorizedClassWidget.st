@@ -139,6 +139,12 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	^ namespace
     ]
 
+    hasSelectedNamespace [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
     hasSelectedClass [
 	<category: 'testing'>
 

@@ -186,25 +186,25 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     doIt [
         <category: 'smalltalk event'>
 
-        ^browser doIt
+        ^ browser doIt
     ]
 
     debugIt [
         <category: 'smalltalk event'>
 
-        ^browser debugIt
+        ^ browser debugIt
     ]
 
     inspectIt [
         <category: 'smalltalk event'>
 
-        ^browser inspectIt
+        ^ browser inspectIt
     ]
 
     printIt [
         <category: 'smalltalk event'>
 
-        ^browser printIt
+        ^ browser printIt
     ]
 
     codeSaved [

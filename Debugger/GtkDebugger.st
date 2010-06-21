@@ -139,64 +139,64 @@ GtkBrowsingTool subclass: GtkDebugger [
 
 	self
             appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
-				connectSignal: 'clicked' to: SaveImageCommand selector: #execute userData: nil;
+				connectSignal: 'clicked' to: SaveImageCommand selector: #execute;
 				setTooltipText: 'Save the image';
 				yourself);
             appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-cut')
-				connectSignal: 'clicked' to: self selector: #cut userData: nil;
+				connectSignal: 'clicked' to: self selector: #cut;
 				setTooltipText: 'Cut';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-copy')
-				connectSignal: 'clicked' to: self selector: #copy userData: nil;
+				connectSignal: 'clicked' to: self selector: #copy;
 				setTooltipText: 'Copy';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-paste')
-				connectSignal: 'clicked' to: self selector: #paste userData: nil;
+				connectSignal: 'clicked' to: self selector: #paste;
 				setTooltipText: 'Paste';
 				yourself);
 	    appendSeparator;
             appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-undo')
-				connectSignal: 'clicked' to: self selector: #undo userData: nil;
+				connectSignal: 'clicked' to: self selector: #undo;
 				setTooltipText: 'Undo';
 				yourself);
             appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-redo')
-				connectSignal: 'clicked' to: self selector: #redo userData: nil;
+				connectSignal: 'clicked' to: self selector: #redo;
 				setTooltipText: 'Redo';
 				yourself);
             appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-execute' label: 'Do It')
-				connectSignal: 'clicked' to: self selector: #doIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #doIt;
 				setTooltipText: 'Do It';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-print' label: 'Print It')
-				connectSignal: 'clicked' to: self selector: #printIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #printIt;
 				setTooltipText: 'Print It';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-convert' label: 'Inspect It')
-				connectSignal: 'clicked' to: self selector: #inspectIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #inspectIt;
 				setTooltipText: 'Inspect It';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-sort-descending' label: 'Debug It')
-				connectSignal: 'clicked' to: self selector: #debugIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #debugIt;
 				setTooltipText: 'Debug It';
 				yourself);
 	    appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-apply' label: 'Accept It')
-				connectSignal: 'clicked' to: self selector: #acceptIt userData: nil;
+				connectSignal: 'clicked' to: self selector: #acceptIt;
 				setTooltipText: 'Accept It';
 				yourself);
 	    appendSeparator;
 	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-run.png') file displayString) label: 'Continue')
-				connectSignal: 'clicked' to: self selector: #run userData: nil;
+				connectSignal: 'clicked' to: self selector: #run;
 				setTooltipText: 'Continue';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-next.png') file displayString) label: 'Step into')
-				connectSignal: 'clicked' to: self selector: #stepInto userData: nil;
+				connectSignal: 'clicked' to: self selector: #stepInto;
 				setTooltipText: 'Step into';
 				yourself);
 	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-jump.png') file displayString) label: 'Step to here')
-				connectSignal: 'clicked' to: self selector: #step userData: nil;
+				connectSignal: 'clicked' to: self selector: #step;
 				setTooltipText: 'Step to here';
 				yourself)
     ]
@@ -324,7 +324,9 @@ GtkBrowsingTool subclass: GtkDebugger [
     stepInto [
 	<category: 'execute events'>
 
-	debugger myStepInto.
+	contextWidget isLastContextSelected
+	    ifTrue: [ debugger myStepInto ]
+	    ifFalse: [ debugger finish: self selectedContext ].
 	self updateContextWidget
     ]
 
@@ -351,19 +353,19 @@ GtkBrowsingTool subclass: GtkDebugger [
     classOrMetaSelected [
 	<category: 'method events'>
 
-	^state classOrMetaSelected
+	^ state classOrMetaSelected
     ]
 
     sourceCode [
 	<category: 'method events'>
 
-	^codeWidget sourceCode
+	^ codeWidget sourceCode
     ]
 
     selectedCategory [
 	<category: 'method events'>
 
-	^state selectedCategory
+	^ state selectedCategory
     ]
 
     acceptIt [
@@ -375,21 +377,21 @@ GtkBrowsingTool subclass: GtkDebugger [
     targetObject [
         <category: 'smalltalk event'>
 
-	^self hasSelectedContext ifTrue: [self selectedContext receiver] ifFalse: [nil]
+	^ self hasSelectedContext ifTrue: [ self selectedContext receiver ] ifFalse: [ nil ]
     ]
 
     focusedWidget [
         <category: 'widget'>
 
-        inspectorWidget hasFocus ifTrue: [^inspectorWidget].
-        stackInspectorWidget hasFocus ifTrue: [^stackInspectorWidget].
-        ^codeWidget
+        inspectorWidget hasFocus ifTrue: [ ^ inspectorWidget ].
+        stackInspectorWidget hasFocus ifTrue: [ ^ stackInspectorWidget ].
+        ^ codeWidget
     ]
 
     onFocusPerform: aSymbol [
         <category: 'widget'>
 
-        ^self focusedWidget perform: aSymbol
+        ^ self focusedWidget perform: aSymbol
     ]
 
     doIt: object [
