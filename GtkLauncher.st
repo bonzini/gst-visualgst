@@ -627,13 +627,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     find [
 	<category: 'edit events'>
 
-	browsers currentWidget showFind
+	self onFocusPerform: #showFind
     ]
 
     replace [
 	<category: 'edit events'>
 
-	browsers currentWidget showReplace
+	self onFocusPerform: #showReplace
     ]
 
     clearTranscriptWidget [

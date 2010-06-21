@@ -84,6 +84,7 @@
   <filein>Text/GtkTextPluginWidget.st</filein>
   <filein>Text/GtkFindWidget.st</filein>
   <filein>Text/GtkReplaceWidget.st</filein>
+  <filein>Text/GtkSaveTextWidget.st</filein>
   <filein>GtkNotebookWidget.st</filein>
   <filein>Image/GtkImageModel.st</filein>
   <filein>Image/GtkImageWidget.st</filein>
@@ -249,6 +250,7 @@
   <file>Text/GtkTextPluginWidget.st</file>
   <file>Text/GtkFindWidget.st</file>
   <file>Text/GtkReplaceWidget.st</file>
+  <file>Text/GtkSaveTextWidget.st</file>
   <file>GtkNotebookWidget.st</file>
   <file>Image/GtkImageModel.st</file>
   <file>Image/GtkImageWidget.st</file>

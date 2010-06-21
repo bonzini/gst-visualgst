@@ -73,6 +73,7 @@ Eval [
     filein: 'Text/GtkTextPluginWidget.st';
     filein: 'Text/GtkFindWidget.st';
     filein: 'Text/GtkReplaceWidget.st';
+    filein: 'Text/GtkSaveTextWidget.st';
     filein: 'GtkNotebookWidget.st';
     filein: 'Image/GtkImageModel.st';
     filein: 'Image/GtkImageWidget.st';

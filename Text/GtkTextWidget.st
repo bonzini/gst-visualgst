@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkTextWidget [
-    | findWidget replaceWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand |
+    | findWidget replaceWidget saveWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand |
 
     GtkTextWidget class >> newWithBuffer: aGtkTextBuffer [
         <category: 'instance creation'>
@@ -44,7 +44,8 @@ GtkConcreteWidget subclass: GtkTextWidget [
         <category: 'initialize'>
 
         findWidget mainWidget hide.
-        replaceWidget mainWidget hide
+        replaceWidget mainWidget hide.
+        saveWidget mainWidget hide
     ]
 
     buildWidget [
@@ -54,6 +55,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
                     packStart: (GTK.GtkScrolledWindow withChild: textWidget) expand: true fill: true padding: 0;
                     packEnd: ((findWidget := GtkFindWidget on: self) mainWidget) expand: false fill: false padding: 0;
                     packEnd: ((replaceWidget := GtkReplaceWidget on: self)  mainWidget) expand: false fill: false padding: 0;
+                    packEnd: ((saveWidget := GtkSaveTextWidget on: self)  mainWidget) expand: false fill: false padding: 0;
                     yourself
     ]
 
@@ -201,22 +203,56 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	textWidget setBuffer: aGtkTextBuffer
     ]
 
+    state: aState [
+        <category: 'accessing'>
+
+	saveWidget state: aState
+    ]
+
+    whenCancelPressed: aSymbol to: anObject [
+        <category: 'user interface'>
+
+	saveWidget whenCancelPressed: aSymbol to: anObject
+    ]
+
+    whenSavePressed: aSymbol to: anObject [
+        <category: 'user interface'>
+            
+	saveWidget whenSavePressed: aSymbol to: anObject
+    ]
+
+    showPlugin: aGtkPlugin [
+        <category: 'user interface'>
+
+        aGtkPlugin mainWidget getVisible ifTrue: [ ^ aGtkPlugin hideAll ].
+        {findWidget. replaceWidget. saveWidget} do: [ :each | each ~~ aGtkPlugin ifTrue: [ each hideAll ] ].
+        aGtkPlugin 
+		showAll;
+		grabFocus
+    ]
+
+    showSave [
+        <category: 'user interface'>
+
+	self showPlugin: saveWidget
+    ]
+
+    hideSave [
+        <category: 'user interface'>
+
+        self showPlugin: saveWidget
+    ]
+
     showFind [
         <category: 'user interface'>
 
-        findWidget mainWidget getVisible ifTrue: [ ^ findWidget mainWidget hide ].
-        replaceWidget mainWidget hide.
-        findWidget mainWidget show.
-	findWidget grabFocus
+	self showPlugin: findWidget
     ]
 
     showReplace [
         <category: 'user interface'>
 
-        replaceWidget mainWidget getVisible ifTrue: [ ^ replaceWidget mainWidget hide ].
-        findWidget mainWidget hide.
-        replaceWidget mainWidget show.
-	replaceWidget grabFocus
+	self showPlugin: replaceWidget
     ]
 
     replace: aSearchString by: aReplaceString [
