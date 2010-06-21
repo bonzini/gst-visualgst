@@ -95,12 +95,16 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
 	<category: 'event'>
 
 	widget hasSelectedItem ifFalse: [ ^ self ].
+
+        "TODO: add a #state: method to remove dependency on #currentWidgetOfBrowser"
 	self updateBrowser: browser currentWidgetOfBrowser
     ]
 
     browseTabbedClass [
 	<category: 'event'>
 
+        "TODO: should reuse OpenTabbedBrowserCommand by giving a state to
+         GtkHistoryWidget."
 	widget hasSelectedItem ifFalse: [ ^ self ].
         self updateBrowser: GtkLauncher uniqueInstance classBrowser
     ]
@@ -108,6 +112,8 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
     browseClass [
 	<category: 'event'>
 
+        "TODO: should reuse OpenWindowedBrowserCommand by giving a state to
+         GtkHistoryWidget."
 	widget hasSelectedItem ifFalse: [ ^ self ].
         self updateBrowser: GtkClassBrowser open
     ]
