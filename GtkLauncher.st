@@ -379,11 +379,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     buildCentralWidget [
 	<category: 'intialize-release'>
 
-	^ self buildHistoryPaned
-	"^ GTK.GtkVPaned new
-	    pack1: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
-	    pack2: self buildNotebookWorkspaceWidget mainWidget resize: true shrink: false;
-	    yourself"
+	^ self buildBrowserAndWorkspaceWidget
     ]
 
     buildHistoryPaned [
@@ -391,7 +387,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
         ^ GTK.GtkHPaned new
             pack1: self buildHistoryView resize: true shrink: false;
-            pack2: self buildBrowserAndWorkspaceWidget resize: true shrink: true ;
+            pack2: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true ;
             showAll;
             yourself
     ]
@@ -400,7 +396,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         <category: 'intialize-release'>
 
         ^ GTK.GtkVPaned new
-            pack1: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
+            pack1: self buildHistoryPaned resize: true shrink: true;
             pack2: self buildNotebookWorkspaceWidget mainWidget resize: true shrink: false;
             yourself
     ]
