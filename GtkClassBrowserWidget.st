@@ -372,10 +372,10 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	codeWidget codeSaved.
         Namespace current: aNamespace.
         (ReadStream on: codeWidget sourceCode) fileIn.
-	(STInST.GSTFileInParser parseSmalltalkStream: (ReadStream on: codeWidget sourceCode) with: (STInST.STClassLoader new)) do: [ :each |
+	[ (STInST.GSTFileInParser parseSmalltalkStream: (ReadStream on: codeWidget sourceCode) with: (STInST.STClassLoader new) onError: [ :string : pos | ^ self ]) do: [ :each |
 	    each isClass ifTrue: [
 		self 
-		    selectAClass: (aNamespace at: each name) ] ]
+		    selectAClass: (aNamespace at: each name) ] ] ] on: Exception do: [ :ex | stderr print: ex messageText; nl; print: ex signalingContext; nl; nl. ^ self ]
     ]
 
     acceptClassDefinition [
@@ -792,8 +792,16 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
         checkCode ifFalse: [ checkCode := true. aBlock value. ^ self ].
         self hasChanged ifFalse: [ codeWidget clearUndo. aBlock value. ^ self ].
-        self saveCodeOnSave: [ self saveCode. aBlock value. codeWidget hideSave ] onCancel: [ aBlock value. codeWidget hideSave ].
-        codeWidget clearUndo.
+        self 
+	    saveCodeOnSave: [ self saveCode.
+			    aBlock value.
+			    codeWidget 
+				    hideSave;
+				    clearUndo ] 
+	    onCancel: [ aBlock value. 
+		    codeWidget 
+			    hideSave;
+			    clearUndo ]
     ]
 
     saveCodeOnSave: saveEvent onCancel: cancelEvent [
