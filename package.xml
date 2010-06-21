@@ -102,6 +102,7 @@
   <filein>GtkMethodWidget.st</filein>
   <filein>GtkSourceCodeWidget.st</filein>
   <filein>GtkClassHierarchyWidget.st</filein>
+  <filein>GtkHistoryWidget.st</filein>
   <filein>Inspector/GtkInspector.st</filein>
   <filein>GtkClassBrowserWidget.st</filein>
   <filein>GtkClassBrowser.st</filein>
@@ -266,6 +267,7 @@
   <file>GtkMethodWidget.st</file>
   <file>GtkSourceCodeWidget.st</file>
   <file>GtkClassHierarchyWidget.st</file>
+  <file>GtkHistoryWidget.st</file>
   <file>Inspector/GtkInspector.st</file>
   <file>GtkClassBrowserWidget.st</file>
   <file>GtkClassBrowser.st</file>

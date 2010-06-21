@@ -1,7 +1,21 @@
 GtkVisualGSTTool subclass: GtkLauncher [
-    GtkLauncher class [ | compileError uniqueInstance | ]
+    GtkLauncher class [ | compileError history uniqueInstance | ]
 
     | compilerError browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+
+    GtkLauncher class >> addHistory: aClass [
+	<category: 'public'>
+
+	self history 
+		add: aClass;
+		changed
+    ]
+
+    GtkLauncher class >> history [
+        <category: 'public'>
+
+        ^ history ifNil: [ history := IdentitySet new ] 
+    ]
 
     GtkLauncher class >> uniqueInstance [
 	<category: 'public'>
@@ -13,7 +27,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class >> / path [
         <category: 'files'>
 
-        ^(PackageLoader packageAt: 'VisualGST') / path
+        ^ (PackageLoader packageAt: 'VisualGST') / path
     ]
 
     GtkLauncher class >> uniqueInstance: anObject [
@@ -27,7 +41,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class >> createInstance [
         <category: 'private'>
 
-        ^(uniqueInstance :=  self basicNew)
+        ^ (uniqueInstance :=  self basicNew)
             initialize;
             showAll;
             postInitialize;

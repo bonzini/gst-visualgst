@@ -1,7 +1,7 @@
 GtkConcreteWidget subclass: GtkClassBrowserWidget [
     GtkClassBrowserWidget class [ | Undo | ]
 
-    | checkCode namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget history historyUpdate state |
+    | checkCode historyWidget namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget history historyUpdate state |
 
     GtkClassBrowserWidget class >> title [
 	<category: 'accessing'>
@@ -156,6 +156,36 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         ^ iMethodWidget mainWidget
     ]
 
+    buildHistoryView [
+       <category: 'user interface'>
+
+	historyWidget := GtkHistoryWidget new
+				    browser: self;
+				    yourself.
+	GtkLauncher history addDependent: historyWidget.
+	^ historyWidget mainWidget
+    ]
+
+    buildBrowserPaned [
+        <category: 'user interface'>
+
+	^ GTK.GtkVPaned new
+	    pack1: self buildBrowser resize: true shrink: false;
+	    pack2: self buildCodeView resize: true shrink: true ;
+	    showAll;
+	    yourself
+    ]
+
+    buildHistoryPaned [
+       <category: 'user interface'>
+
+        ^ GTK.GtkHPaned new
+            pack1: self buildHistoryView resize: true shrink: false;
+            pack2: self buildBrowserPaned resize: true shrink: true ;
+            showAll;
+            yourself
+    ]
+
     initializeHistory [
 	<category: 'initialize-release'>
 
@@ -168,25 +198,29 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     initialize [
 	<category: 'initialize-release'>
 
-	| vpaned |
 	state := NamespaceState on: self with: Smalltalk.
 	classHierarchyUpdate := false.
 	checkCode := true.
-	vpaned := GTK.GtkVPaned new.
 
-	self mainWidget: vpaned.
-	self initializeHistory.
- 
-	vpaned
-	    pack1: self buildBrowser resize: true shrink: false;
-	    pack2: self buildCodeView resize: true shrink: true ;
-	    showAll
+	self 
+	    initializeHistory;
+	    mainWidget: self buildHistoryPaned
     ]
 
     postInitialize [
 	<category: 'initialize'>
 
 	codeWidget postInitialize
+    ]
+
+    updateHistory: aClass [
+	<category: 'history'>
+
+        historyUpdate ifTrue: [
+                        GtkLauncher addHistory: aClass.
+			historyWidget refresh.
+                        history push: aClass ]
+
     ]
 
     grabFocus [
@@ -248,7 +282,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    iCategoryWidget unselectAll.
 	    cCategoryWidget unselectAll.
 
-	    historyUpdate ifTrue: [ history push: aClass ].
+	    self updateHistory: aClass.
 
 	    iMethodWidget emptyModel.
 	    cMethodWidget emptyModel.

@@ -91,6 +91,7 @@ Eval [
     filein: 'GtkMethodWidget.st';
     filein: 'GtkSourceCodeWidget.st';
     filein: 'GtkClassHierarchyWidget.st';
+    filein: 'GtkHistoryWidget.st';
     filein: 'Inspector/GtkInspector.st';
     filein: 'GtkClassBrowserWidget.st';
     filein: 'GtkClassBrowser.st';
