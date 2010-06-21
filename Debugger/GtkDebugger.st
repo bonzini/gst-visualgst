@@ -377,7 +377,8 @@ GtkBrowsingTool subclass: GtkDebugger [
     targetObject [
         <category: 'smalltalk event'>
 
-	^ self hasSelectedContext ifTrue: [ self selectedContext receiver ] ifFalse: [ nil ]
+        inspectorWidget hasFocus ifTrue: [^inspectorWidget object].
+	^self hasSelectedContext ifTrue: [self selectedContext receiver] ifFalse: [nil]
     ]
 
     focusedWidget [

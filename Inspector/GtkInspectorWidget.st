@@ -40,7 +40,8 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 	<category: 'accessing'>
 
 	object := anObject.
-	objectView := object inspectorView openOn: self object.
+	objectView := object inspectorView openOn: anObject.
+	workspaceWidget object: anObject.
 	inspector isNil ifFalse: [ inspector object: anObject ].
 	model 
 	    item: objectView;

@@ -65,6 +65,13 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
                     yourself
     ]
 
+    object: anObject [
+	<category: 'evaluation'>
+
+        variableTracker := nil.
+        object := anObject printNl.
+    ]
+
     targetObject [
 	<category: 'evaluation'>
 
@@ -75,6 +82,7 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
         <category: 'smalltalk event'>
 
 	| text nodes |
+        variableTracker isNil ifTrue: [^self].
 	text := self selectedText.
 	nodes := STInST.RBParser parseExpression: text onError: [ :s :p | self error: s ].
 	variableTracker visitNode: nodes

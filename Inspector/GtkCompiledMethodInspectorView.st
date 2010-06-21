@@ -16,10 +16,11 @@ GtkObjectInspectorView subclass: GtkCompiledMethodInspectorView [
 					    'Source Code'->#source} ]
     ]
 
-    values [
+    do: aBlock [
 	<category: 'accessing'>
 
-	^ super values, self class fields keys asArray
+	super do: aBlock.
+        self class fields keys do: aBlock
     ]
 
     selectedValue: anObject [

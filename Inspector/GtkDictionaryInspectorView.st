@@ -1,7 +1,10 @@
 GtkObjectInspectorView subclass: GtkDictionaryInspectorView [
 
-    values [
-	^ super values, self object keys asOrderedCollection
+    do: aBlock [
+	<category: 'accessing'>
+
+	super do: aBlock.
+        self object keys do: aBlock
     ]
 
     selectedValue: anObject [
