@@ -129,6 +129,12 @@ GtkMainWindow subclass: GtkVisualGSTTool [
         self shouldNotImplement
     ]
 
+    selectedMethodSymbol [
+        <category: 'tools events'>
+
+        ^STInST.RBParser selectedSymbol: self selectedText
+    ]
+
     hasSelection [
 	<category: 'tools events'>
 

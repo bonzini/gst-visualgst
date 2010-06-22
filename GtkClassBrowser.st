@@ -78,6 +78,12 @@ GtkBrowsingTool subclass: GtkClassBrowser [
         ^browserWidget selectedText
     ]
 
+    selectedMethodSymbol [
+        <category: 'tools events'>
+
+        ^browserWidget selectedMethodSymbol
+    ]
+
     hasSelection [
         <category: 'command protocols'>
 

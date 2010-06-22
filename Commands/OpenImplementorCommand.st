@@ -5,9 +5,9 @@ Command subclass: OpenImplementorCommand [
 
         target isNil ifTrue: [^nil].
 
-        ((target browserHasFocus not or: [ target sourceCodeWidgetHasFocus ])
-            and: [target hasSelection])
-                ifTrue: [^STInST.RBParser selectedSymbol: target selectedText].
+        ((target browserHasFocus not and: [target hasSelection])
+            or: [ target sourceCodeWidgetHasFocus ])
+                ifTrue: [^target selectedMethodSymbol].
 
         ^target state hasSelectedMethod
                 ifTrue: [ target state selector ]

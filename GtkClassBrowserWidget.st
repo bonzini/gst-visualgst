@@ -672,6 +672,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	^ codeWidget hasSelection
     ]
  
+    selectedMethodSymbol [
+        <category: 'text editing'>
+
+        ^codeWidget selectedMethodSymbol
+    ]
+
     selectedText [
 	<category: 'text editing'>
 

@@ -262,9 +262,32 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     ]
 
     selectedMethodSymbol [
-	<category: 'accessing'>
+        | iters stream parser node |
+	stream := self sourceCode readStream.
+        iters := self buffer getSelectionBounds.
+        parser := STInST.RBBracketedMethodParser new.
+        parser errorBlock: [:message :position | ^nil].
+        parser 
+            scanner: (parser scannerClass on: stream errorBlock: parser errorBlock).
+        node := parser parseMethod body.
+        node := node bestNodeFor:
+	    (iters first getOffset + 1 to: iters second getOffset + 1).
+        [node isNil ifTrue: [^nil].
+	node isMessage] whileFalse: 
+                [node := node parent].
+        ^node selector
+    ]
 
-        ^ STInST.RBParser selectedSymbol: self selectedText
+    sourceCodeWidgetHasFocus [
+	<category: 'browse'>
+
+	^true
+    ]
+
+    browserHasFocus [
+	<category: 'browse'>
+
+	^false
     ]
 
     browseSenders [

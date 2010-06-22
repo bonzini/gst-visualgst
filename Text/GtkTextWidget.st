@@ -299,6 +299,12 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	^ self buffer getHasSelection
     ]
 
+    selectedMethodSymbol [
+	<category: 'accessing'>
+
+        ^ STInST.RBParser selectedSymbol: self selectedText
+    ]
+
     selectedText [
         <category: 'text accessing'>
 

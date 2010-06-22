@@ -132,6 +132,18 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
     ]
 
+    browserHasFocus [
+	<category: 'accessing'>
+
+	^ true
+    ]
+
+    sourceCodeWidgetHasFocus [
+	<category: 'accessing'>
+
+	^ false
+    ]
+
     classOrMeta [
 	<category: 'accessing'>
 
