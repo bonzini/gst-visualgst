@@ -51,11 +51,11 @@ Eval [
     filein: 'Commands/DeleteMethodCommand.st';
     filein: 'Commands/RunTestCommand.st';
     filein: 'Commands/OpenAssistantCommand.st';
-    filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
     filein: 'FakeNamespace.st';
     filein: 'Category/ClassCategory.st';
     filein: 'Category/AbstractNamespace.st';
+    filein: 'Category/Class.st';
     filein: 'GtkConcreteWidget.st';
     filein: 'Model/GtkColumnType.st';
     filein: 'Model/GtkColumnTextType.st';
@@ -65,12 +65,14 @@ Eval [
     filein: 'GtkTreeModel.st';
     filein: 'Text/GtkTextWidget.st';
     filein: 'GtkMainWindow.st';
+    filein: 'GtkVisualGSTTool.st';
     filein: 'GtkBrowsingTool.st';
     filein: 'GtkBrowserWrapper.st';
     filein: 'GtkLauncher.st';
     filein: 'Text/GtkTextPluginWidget.st';
     filein: 'Text/GtkFindWidget.st';
     filein: 'Text/GtkReplaceWidget.st';
+    filein: 'Text/GtkSaveTextWidget.st';
     filein: 'GtkNotebookWidget.st';
     filein: 'Image/GtkImageModel.st';
     filein: 'Image/GtkImageWidget.st';
@@ -89,6 +91,7 @@ Eval [
     filein: 'GtkMethodWidget.st';
     filein: 'GtkSourceCodeWidget.st';
     filein: 'GtkClassHierarchyWidget.st';
+    filein: 'GtkHistoryWidget.st';
     filein: 'Inspector/GtkInspector.st';
     filein: 'GtkClassBrowserWidget.st';
     filein: 'GtkClassBrowser.st';
@@ -118,6 +121,7 @@ Eval [
     filein: 'Undo/AddMethodUndoCommand.st';
     filein: 'Undo/DeleteMethodUndoCommand.st';
     filein: 'WorkspaceVariableTracker.st';
+    filein: 'GtkVariableTrackerWidget.st';
     filein: 'SyntaxHighlighter.st';
     filein: 'Undo/Text/InsertTextCommand.st';
     filein: 'Undo/Text/DeleteTextCommand.st';
@@ -127,7 +131,11 @@ Eval [
     filein: 'Inspector/GtkInspectorBrowserWidget.st';
     filein: 'Inspector/GtkInspectorWidget.st';
     filein: 'Inspector/GtkObjectInspectorView.st';
+    filein: 'Inspector/GtkCompiledMethodInspectorView.st';
+    filein: 'Inspector/GtkCompiledBlockInspectorView.st';
     filein: 'Inspector/GtkSequenceableCollectionInspectorView.st';
+    filein: 'Inspector/GtkSetInspectorView.st';
+    filein: 'Inspector/GtkDictionaryInspectorView.st';
     filein: 'Inspector/GtkCharacterInspectorView.st';
     filein: 'Inspector/GtkIntegerInspectorView.st';
     filein: 'Inspector/GtkFloatInspectorView.st';
@@ -161,6 +169,7 @@ Eval [
     filein: 'Commands/OpenBrowserCommand.st';
     filein: 'Commands/OpenWindowedBrowserCommand.st';
     filein: 'Commands/OpenTabbedBrowserCommand.st';
+    filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWorkspaceCommand.st';
     filein: 'Commands/OpenImplementorCommand.st';
     filein: 'Commands/OpenSenderCommand.st';

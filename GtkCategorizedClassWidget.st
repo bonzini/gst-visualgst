@@ -139,10 +139,25 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	^ namespace
     ]
 
+    hasSelectedNamespace [
+        <category: 'testing'>
+
+        ^ true
+    ]
+
     hasSelectedClass [
 	<category: 'testing'>
 
 	^ classesTree hasSelectedItem
+    ]
+
+    state [
+        <category: 'testing'>
+        classesTree hasSelectedItem
+            ifTrue: [ ^ClassState with: classesTree selection asClass ].
+        namespace isNil
+            ifFalse: [ ^NamespaceState with: namespace ].
+        ^BrowserState new
     ]
 
     selectedClass [

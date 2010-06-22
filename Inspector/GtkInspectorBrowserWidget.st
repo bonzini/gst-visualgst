@@ -128,18 +128,6 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
                     ifFalse: [ codeWidget sourceCode: '' ] ]
     ]
 
-    selectedClass [
-        <category: 'accessing'>
-
-	^classHierarchyWidget selectedClass
-    ]
-
-    hasSelectedClass [
-        <category: 'accessing'>
-
-	^classHierarchyWidget hasSelectedClass
-    ]
-
     onClassHierarchyChanged [
 	<category: 'events'>
 
@@ -164,7 +152,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := iMethodWidget selectedMethod.
 	codeWidget sourceCode: iMethodWidget sourceCode.
-	state := MethodState on: self with: classHierarchyWidget selectedClass -> method
+	state := MethodState on: self with: method
     ]
 
     onClassSideMethodChanged [
@@ -175,7 +163,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	method := cMethodWidget selectedMethod.
 	codeWidget sourceCode: cMethodWidget sourceCode.
-	state := MethodState on: self with: classHierarchyWidget selectedClass class -> method
+	state := MethodState on: self with: method
     ]
 
     selectAClass: aClass [
@@ -215,7 +203,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     targetObject [
         <category: 'target'>
 
-        ^self hasSelectedClass ifTrue: [self selectedClass] ifFalse: [nil]
+        ^self state classOrMeta
     ]
 
     doIt: object [
@@ -319,7 +307,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
         checkCode ifFalse: [ checkCode := true. ^ self ].
         self hasChanged ifFalse: [ codeWidget clearUndo. ^ self ].
-        self saveCodeOnSave: [ self saveCode ].
+        self saveCodeOnSave: [ codeWidget acceptIt ].
         codeWidget clearUndo
     ]
 
@@ -333,7 +321,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
                                 message: 'Save changes to this method?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {self stateString}.
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
 
         dialog
             addButton: 'Cancel' responseId: 0;
@@ -349,16 +337,10 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	^ codeWidget hasChanged
     ]
 
-    stateString [
+    state [
 	<category: 'text editing'>
 
-	^ state displayString
-    ]
-
-    saveCode [
-        <category: 'text saving'>
-
-        state saveSource
+	^ state
     ]
 
     sourceCode [
@@ -371,6 +353,18 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'code saved'>
 
 	codeWidget codeSaved
+    ]
+
+    selectedText [
+        <category: 'smalltalk events'>
+
+        ^codeWidget selectedText
+    ]
+
+    hasSelection [
+        <category: 'smalltalk events'>
+
+        ^codeWidget hasSelection
     ]
 ]
 

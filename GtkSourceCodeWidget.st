@@ -61,7 +61,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         menuitem := GTK.GtkMenuItem newWithLabel: 'Accept'.
         menuitem
             show;
-            connectSignal: 'activate' to: self selector: #accept userData: nil.
+            connectSignal: 'activate' to: self selector: #acceptIt userData: nil.
         aGtkMenu append: menuitem.
         menuitem := GTK.GtkMenuItem newWithLabel: 'Cancel'.
         menuitem
@@ -170,10 +170,40 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	self parseSource: text ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ]
     ]
 
-    accept [
+    state [
+	<category: 'state'>
+
+        ^browser state
+    ]
+
+    acceptIt [
 	<category: 'buffer events'>
 
-	browser acceptIt
+	browser state hasSelectedCategory ifFalse: [ ^self acceptClassDefinition ].
+        self newMethod
+    ]
+
+    acceptClassDefinitionOn: aNamespace [
+	<category: 'class event'>
+
+	self codeSaved.
+        Namespace current: aNamespace.
+        (ReadStream on: self sourceCode) fileIn.
+	STInST.STEvaluationDriver new
+            parseSmalltalkStream: (ReadStream on: self sourceCode)
+            with: STInST.GSTFileInParser
+    ]
+
+    newMethod [
+	<category: 'class event'>
+
+	browser newMethod
+    ]
+
+    acceptClassDefinition [
+	<category: 'class event'>
+
+	^ self acceptClassDefinitionOn: browser state namespace
     ]
 
     cancel [
@@ -186,25 +216,25 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     doIt [
         <category: 'smalltalk event'>
 
-        ^browser doIt
+        ^ browser doIt
     ]
 
     debugIt [
         <category: 'smalltalk event'>
 
-        ^browser debugIt
+        ^ browser debugIt
     ]
 
     inspectIt [
         <category: 'smalltalk event'>
 
-        ^browser inspectIt
+        ^ browser inspectIt
     ]
 
     printIt [
         <category: 'smalltalk event'>
 
-        ^browser printIt
+        ^ browser printIt
     ]
 
     codeSaved [
@@ -232,9 +262,32 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     ]
 
     selectedMethodSymbol [
-	<category: 'accessing'>
+        | iters stream parser node |
+	stream := self sourceCode readStream.
+        iters := self buffer getSelectionBounds.
+        parser := STInST.RBBracketedMethodParser new.
+        parser errorBlock: [:message :position | ^nil].
+        parser 
+            scanner: (parser scannerClass on: stream errorBlock: parser errorBlock).
+        node := parser parseMethod body.
+        node := node bestNodeFor:
+	    (iters first getOffset + 1 to: iters second getOffset + 1).
+        [node isNil ifTrue: [^nil].
+	node isMessage] whileFalse: 
+                [node := node parent].
+        ^node selector
+    ]
 
-        ^ STInST.RBParser selectedSymbol: self selectedText
+    sourceCodeWidgetHasFocus [
+	<category: 'browse'>
+
+	^true
+    ]
+
+    browserHasFocus [
+	<category: 'browse'>
+
+	^false
     ]
 
     browseSenders [

@@ -51,19 +51,21 @@ UndoCommand subclass: AddMethodUndoCommand [
     precondition [
         <category: 'checking'>
 
-	| parser |
+	| failed parser |
+	failed := true.
         parser := STInST.RBBracketedMethodParser new
-                    errorBlock: [ :string :pos | ^ self compileError: string ];
+                    errorBlock: [ :string :pos | failed := self compileError: string ];
                     initializeParserWith: method type: #'on:errorBlock:';
                     yourself.
+	failed ifFalse: [ ^ false ].
 	selector := parser parseMethod selector.
 	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
 	compiledMethod := classOrMeta
 				compile: method
 				classified: category
 				ifError: [ :fname :lineNo :errorString |
-				    ^ self compileError: 'Compile error ', errorString ].
-	^ true
+				    failed := self compileError: 'Compile error ', errorString ].
+	^ failed
     ]
 
     undo [

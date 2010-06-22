@@ -83,7 +83,15 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         <category: 'accessing'>
 
         self hasSelectedNamespace ifFalse: [ self error: 'nothing is selected' ].
-        ^ namespacesTree selection category fullname
+        ^ namespacesTree selection category
+    ]
+
+    state [
+        <category: 'testing'>
+        namespacesTree hasSelectedItem ifFalse: [^BrowserState new].
+        ^(NamespaceState with: namespacesTree selection namespace)
+            classCategory: namespacesTree selection category;
+            yourself
     ]
 
     childToggled: model path: path iter: iter [
@@ -140,22 +148,15 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     classRecategorizedEvent: anEvent [
         <category: 'model event'>
 
-        | namespace newCat place root ord |
+        | namespace root toAdd |
         namespace := anEvent item environment.
-        newCat := ClassCategory named: anEvent item category into: namespace.
-	(model hasItem: newCat) ifTrue: [ ^ self ].
-	anEvent item category printNl.
-	root := newCat.
-	ord := OrderedCollection new.
+        root := ClassCategory named: anEvent item category into: namespace.
+	(model hasItem: root) ifTrue: [ ^ self ].
 	[ root parent isNil or: [ (model hasItem: root) ] ] whileFalse: [ 
-					ord addFirst: root.
+					toAdd := root.
 					root := root parent ].
-	newCat name printNl.
-	ord size printNl.
 	root parent ifNil: [ root := namespace ].
-	ord do: [ :each |
-	    model append: each parent: root.
-	    root := each ]
+	model append: toAdd parent: root
     ]
 ]
 
