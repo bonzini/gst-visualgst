@@ -707,11 +707,22 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     saveCodeOnSave: saveEvent onCancel: cancelEvent [
         <category: 'saving'>
 
-	codeWidget 
-		state: self state;
-		whenCancelPressed: #value to: cancelEvent;
-		whenSavePressed: #value to: saveEvent;
-		showSave
+        | dialog |
+        dialog := GTK.GtkMessageDialog
+                                new: self parentWindow
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Save the code before exiting?'
+                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
+
+        dialog
+            addButton: 'Cancel' responseId: 0;
+            addButton: 'Save' responseId: 1;
+            showModalOnAnswer: [ :dlg :res |
+                res = 0 ifTrue: cancelEvent.
+                res = 1 ifTrue: saveEvent.
+                dlg destroy ].
     ]
 
     state [
