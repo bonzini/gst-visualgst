@@ -171,9 +171,9 @@ GtkBrowsingTool subclass: GtkSUnit [
     onNamespaceChanged [
 	<category: 'namespace events'>
 
-	self checkCodeWidget.
-        namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	self selectANamespace: namespaceWidget selectedNamespace
+	self checkCodeWidgetAndUpdate: [
+            namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
+	    self selectANamespace: namespaceWidget selectedNamespace ]
     ]
 
     selectANamespace: aNamespace [
@@ -190,9 +190,9 @@ GtkBrowsingTool subclass: GtkSUnit [
     onClassChanged [
 	<category: 'class events'>
 
-	self checkCodeWidget.
-        classWidget hasSelectedClass ifFalse: [ ^ self ].
-	self selectAClass: classWidget selectedClass
+	self checkCodeWidgetAndUpdate: [
+            classWidget hasSelectedClass ifFalse: [ ^ self ].
+	    self selectAClass: classWidget selectedClass ]
     ]
 
     selectAClass: aClass [
@@ -209,9 +209,9 @@ GtkBrowsingTool subclass: GtkSUnit [
     onMethodChanged [
 	<category: 'method events'>
 
-	self checkCodeWidget.
-	methodWidget hasSelectedMethod ifFalse: [^self].
-	self selectAnInstanceMethod: methodWidget selectedMethodSymbol.
+	self checkCodeWidgetAndUpdate: [
+	    methodWidget hasSelectedMethod ifFalse: [^self].
+	    self selectAnInstanceMethod: methodWidget selectedMethodSymbol ]
     ]
 
     selectAnInstanceMethod: aSymbol [

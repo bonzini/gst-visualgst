@@ -302,11 +302,11 @@ GtkBrowsingTool subclass: GtkDebugger [
 	<category: 'context events'>
 
 	| iter |
-	self checkCodeWidget.
-	contextWidget hasSelectedContext ifFalse: [ ^ self ].
-	codeWidget sourceCode: contextWidget selectedContext method methodSourceString.
-	codeWidget applyTag: #debug forLine: contextWidget selectedContext currentLine.
-	self updateInspectorWidget: contextWidget selectedContext
+	self checkCodeWidgetAndUpdate: [
+	    contextWidget hasSelectedContext ifFalse: [ ^ self ].
+	    codeWidget sourceCode: contextWidget selectedContext method methodSourceString.
+	    codeWidget applyTag: #debug forLine: contextWidget selectedContext currentLine.
+	    self updateInspectorWidget: contextWidget selectedContext ]
     ]
 
     step [

@@ -690,12 +690,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	checkCode := false
     ]
 
-    checkCodeWidget [
-        <category: 'text editing'>
-
-	self checkCodeWidgetAndUpdate: []
-    ]
-
     checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
@@ -717,10 +711,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
                                 tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
 
         dialog
-            addButton: 'Cancel' responseId: 0;
+            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Cancel' responseId: 2;
             addButton: 'Save' responseId: 1;
             showModalOnAnswer: [ :dlg :res |
-                res = 0 ifTrue: cancelEvent.
+                res = 0 ifTrue: closeEvent.
                 res = 1 ifTrue: saveEvent.
                 dlg destroy ].
     ]
@@ -740,7 +735,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     close [
 	<category: 'user interface'>
 
-	self checkCodeWidget
+	self checkCodeWidgetAndUpdate: []
     ]
 
     hasChanged [

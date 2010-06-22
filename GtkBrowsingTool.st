@@ -49,11 +49,11 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
                 dlg destroy ].
     ]
 
-    checkCodeWidget [
+    checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
         self hasChanged ifFalse: [ self clearUndo. ^ self ].
-        self saveCodeOnSave: [ self acceptIt ].
+        self saveCodeOnSave: [ self acceptIt. aBlock value ] onCancel: [ aBlock value ].
         self clearUndo
     ]
 
