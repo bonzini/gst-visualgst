@@ -93,6 +93,16 @@ GtkBrowsingTool subclass: GtkBrowserWrapper [
             self resultModel setOop: iter column: 0 value: each ]
     ]
 
+    createMenus [
+        <category: 'user interface'>
+
+        self addMenuItem: 'File' withSubmenu: self createFileMenus.
+        self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
+        self addMenuItem: 'Smalltalk' withSubmenu: self createSmalltalkMenus.
+        self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
+        self addMenuItem: 'Help' withSubmenu: self createHelpMenus
+    ]
+
     doIt [
         <category: 'smalltalk events'>
 
