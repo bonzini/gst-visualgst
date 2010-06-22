@@ -7,12 +7,6 @@ BrowserState subclass: ClassState [
 	    print: self classOrMeta
     ]
 
-    hasSelectedCategory [
-        <category: 'testing'>
-
-        ^ false
-    ]
-
     hasSelectedNamespace [
         <category: 'testing'>
 
