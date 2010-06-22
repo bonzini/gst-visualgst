@@ -52,10 +52,10 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	<category: 'user interface'>
 
         ^ (GTK.GtkVBox new: false spacing: 3)
+                    packStart: ((saveWidget := GtkSaveTextWidget on: self)  mainWidget) expand: false fill: false padding: 0;
                     packStart: (GTK.GtkScrolledWindow withChild: textWidget) expand: true fill: true padding: 0;
                     packEnd: ((findWidget := GtkFindWidget on: self) mainWidget) expand: false fill: false padding: 0;
                     packEnd: ((replaceWidget := GtkReplaceWidget on: self)  mainWidget) expand: false fill: false padding: 0;
-                    packEnd: ((saveWidget := GtkSaveTextWidget on: self)  mainWidget) expand: false fill: false padding: 0;
                     yourself
     ]
 
