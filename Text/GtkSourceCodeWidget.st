@@ -215,6 +215,13 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
             with: STInST.GSTFileInParser
     ]
 
+    compileError: aString line: line [
+	<category: 'class event'>
+
+        textSaved := false.
+        self showSave: aString
+    ]
+
     newMethod [
 	<category: 'class event'>
 

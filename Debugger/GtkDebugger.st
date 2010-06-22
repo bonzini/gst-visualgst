@@ -365,6 +365,12 @@ GtkBrowsingTool subclass: GtkDebugger [
 	^ self state selectedCategory
     ]
 
+    compileError: aString line: line [
+        <category: 'method events'>
+
+        codeWidget compileError: aString line: line
+    ]
+
     acceptIt [
 	<category: 'method events'>
 

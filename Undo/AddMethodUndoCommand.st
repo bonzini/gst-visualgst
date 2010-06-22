@@ -18,11 +18,17 @@ UndoCommand subclass: AddMethodUndoCommand [
             yourself
     ]
 
-    compileError: aString [
+    compileError: aString line: anInteger [
 	<category: 'error printing'>
 
-	GtkLauncher compileError: aString.
+	browserWidget isNil ifFalse: [browserWidget compileError: aString line: anInteger].
 	^ self preconditionFailed: aString
+    ]
+
+    compileError: aString pos: pos [
+	<category: 'error printing'>
+
+	^self compileError: aString line: nil
     ]
 
     add: aString classified: aCategory in: aClass browser: aGtkBrowserWidget [
@@ -51,21 +57,21 @@ UndoCommand subclass: AddMethodUndoCommand [
     precondition [
         <category: 'checking'>
 
-	| failed parser |
-	failed := true.
+	| parser |
         parser := STInST.RBBracketedMethodParser new
-                    errorBlock: [ :string :pos | failed := self compileError: string ];
+                    errorBlock: [ :string :pos | self compileError: string pos: pos. ^false ];
                     initializeParserWith: method type: #'on:errorBlock:';
                     yourself.
-	failed ifFalse: [ ^ false ].
+
 	selector := parser parseMethod selector.
 	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
 	compiledMethod := classOrMeta
 				compile: method
 				classified: category
 				ifError: [ :fname :lineNo :errorString |
-				    failed := self compileError: 'Compile error ', errorString ].
-	^ failed
+				    self compileError: errorString line: lineNo.
+                                    ^false ].
+	^true
     ]
 
     undo [

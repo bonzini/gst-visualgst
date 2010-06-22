@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
-    GtkLauncher class [ | compileError history uniqueInstance | ]
+    GtkLauncher class [ | history uniqueInstance | ]
 
-    | compilerError historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -90,18 +90,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	<category: 'accessing'>
 
 	^ 'http://smalltalk.gnu.org/'
-    ]
-
-    GtkLauncher class >> compileError: aString [
-	<category: 'accessing'>
-
-	compileError text: aString
-    ]
-
-    GtkLauncher class >> setCompilerError: aWorkspace [
-	<category: 'accessing'>
-
-	compileError := aWorkspace
     ]
 
     GtkLauncher class >> license [
@@ -351,7 +339,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
 	super postInitialize.
         self browserPostInitialize.
-	1 to: 3 do: [ :i | (outputs widgetAt: i) postInitialize ].
+	1 to: 2 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	historyWidget hideAll.
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil
@@ -365,10 +353,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 				parentWindow: window;
 				showAll;
 				yourself.
-	self class setCompilerError: (compilerError := self buildWorkspaceWidget).
 	^ outputs
 	    addPermanentWidget: (transcriptWidget := self buildTranscriptWidget) labeled: 'Transcript';
-	    addPermanentWidget: compilerError labeled: 'Compiler error(s)';
 	    addWidget: self buildWorkspaceWidget labeled: 'Workspace';
 	    yourself
     ]

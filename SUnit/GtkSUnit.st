@@ -279,6 +279,12 @@ GtkBrowsingTool subclass: GtkSUnit [
 	results failures do: [ :each | each "logPolicy logStatus inspect" printNl ].
     ]
 
+    compileError: aString line: line [
+        <category: 'method events'>
+
+        sourceCodeWidget compileError: aString line: line
+    ]
+
     newMethod [
         <category: 'method events'>
 

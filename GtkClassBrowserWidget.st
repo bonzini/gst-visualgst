@@ -481,6 +481,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	^ codeWidget sourceCode
     ]
 
+    compileError: aString line: line [
+        <category: 'method events'>
+
+        codeWidget compileError: aString line: line
+    ]
+
     newMethod [
 	<category: 'method events'>
 
