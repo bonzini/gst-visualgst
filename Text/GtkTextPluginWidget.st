@@ -28,7 +28,7 @@ GtkConcreteWidget subclass: GtkTextPluginWidget [
         <category: 'user interface'>
 
         ^ (GTK.GtkHBox new: false spacing: 3)
-            packStart: self buildCloseButton expand: false fill: false padding: 0;
+            packEnd: self buildCloseButton expand: false fill: false padding: 0;
             yourself
     ]
 

@@ -23,8 +23,8 @@ GtkTextPluginWidget subclass: GtkSaveTextWidget [
 	^ super hBox
 	    packStart: (GTK.GtkLabel new: 'Save the code before exiting?') expand: false fill: false padding: 2;
 	    packStart: (label := GTK.GtkLabel new: '') expand: false fill: false padding: 2;
-	    packStart: self buildSaveButton expand: false fill: false padding: 0; 
-	    packStart: self buildCancelButton expand: false fill: false padding: 0;
+	    packEnd: self buildSaveButton expand: false fill: false padding: 0; 
+	    packEnd: self buildCancelButton expand: false fill: false padding: 0;
 	    yourself
     ]
 
