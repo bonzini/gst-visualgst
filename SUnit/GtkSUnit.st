@@ -342,8 +342,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     close [
         <category: 'file events'>
 
-        sourceCodeWidget hasChanged ifFalse: [ ^ super close ].
-        self saveCodeOnClose: [ super close ] onSave: [ self acceptIt. super close ]
+        self saveCodeOr: [ super close ]
     ]
 
     clearUndo [

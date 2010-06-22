@@ -158,23 +158,22 @@ GtkVisualGSTTool subclass: GtkInspector [
     close [
         <category: 'file events'>
 
-        browserWidget hasChanged ifFalse: [ ^ super close ].
         browserWidget doNotCheckCode.
-        self saveCodeOnClose: [ super close ] onSave: [ browserWidget saveCode. super close ]
+        self saveCodeOr: [ super close ]
     ]
 
     onDelete [
         <category: 'window events'>
 
-        browserWidget hasChanged ifFalse: [ ^ window hideAll ].
-        self saveCodeOnClose: [ window hideAll ] onSave: [ browserWidget saveCode. window hideAll ].
+        self saveCodeOr: [ window hideAll ].
         ^ true
     ]
 
-    saveCodeOnClose: closeEvent onSave: saveEvent [
+    saveCodeOr: dropBlock [
         <category: 'saving'>
 
         | dialog |
+        self hasChanged ifFalse: [ dropBlock value. ^self ].
         dialog := GTK.GtkMessageDialog
                                 new: window
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
@@ -184,12 +183,12 @@ GtkVisualGSTTool subclass: GtkInspector [
                                 tip: 'If you do not save, your changes to %1 will be lost...' % {browserWidget state}.
 
         dialog
-            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Drop' responseId: 0;
             addButton: 'Cancel' responseId: 2;
-            addButton: 'Save' responseId: 1;
+            addButton: 'Accept' responseId: 1;
             showModalOnAnswer: [ :dlg :res |
-                res = 0 ifTrue: closeEvent.
-                res = 1 ifTrue: saveEvent.
+                res = 0 ifTrue: [ self acceptIt ].
+                res <= 1 ifTrue: dropBlock.
                 dlg destroy ].
     ]
 
@@ -220,7 +219,7 @@ GtkVisualGSTTool subclass: GtkInspector [
     acceptIt [
         <category: 'smalltalk events'>
 
-        browserWidget saveCode
+        browserWidget acceptIt
     ]
 
     find [

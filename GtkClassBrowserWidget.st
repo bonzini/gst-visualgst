@@ -693,30 +693,30 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
-        checkCode ifFalse: [ checkCode := true. aBlock value. ^ self ].
-        self hasChanged ifFalse: [ codeWidget clearUndo. aBlock value. ^ self ].
-        self saveCodeOnSave: [ self acceptIt. aBlock value ] onCancel: [ aBlock value ].
+        self saveCodeOr: [ aBlock value. codeWidget clearUndo ]
     ]
 
-    saveCodeOnSave: saveEvent onCancel: cancelEvent [
+    saveCodeOr: dropBlock [
         <category: 'saving'>
 
         | dialog |
+        checkCode ifFalse: [ checkCode := true. dropBlock value. ^ self ].
+        self hasChanged ifFalse: [ dropBlock value. ^ self ].
         dialog := GTK.GtkMessageDialog
                                 new: self parentWindow
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the code before exiting?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
+                                message: 'Accept changes before exiting?'
+                                tip: 'If you do not accept them, your changes to %1 will be lost...' % {self state}.
 
         dialog
-            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Drop' responseId: 0;
             addButton: 'Cancel' responseId: 2;
-            addButton: 'Save' responseId: 1;
+            addButton: 'Accept' responseId: 1;
             showModalOnAnswer: [ :dlg :res |
-                res = 0 ifTrue: closeEvent.
-                res = 1 ifTrue: saveEvent.
+                res = 1 ifTrue: [ self acceptIt ].
+                res <= 1 ifTrue: dropBlock.
                 dlg destroy ].
     ]
 

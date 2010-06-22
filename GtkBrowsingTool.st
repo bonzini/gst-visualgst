@@ -22,59 +22,37 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
     onDelete [
         <category: 'window events'>
 
-        self hasChanged ifFalse: [ ^ window hideAll ].
-        self saveCodeOnClose: [ window hideAll ] onSave: [ self acceptIt. window hideAll ].
+        self saveCodeOr: [ window hideAll ].
         ^ true
     ]
 
-    saveCodeOnClose: closeEvent onSave: saveEvent [
+    saveCodeOr: dropBlock [
         <category: 'saving'>
 
         | dialog |
+        self hasChanged ifFalse: [ dropBlock value. ^self ].
         dialog := GTK.GtkMessageDialog
                                 new: window
                                 flags: GTK.Gtk gtkDialogDestroyWithParent
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save the code before exiting?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
+                                message: 'Accept changes before exiting?'
+                                tip: 'If you choose "drop", your changes to %1 will be lost...' % {self state}.
 
         dialog
-            addButton: 'Close without saving' responseId: 0;
+            addButton: 'Drop' responseId: 0;
             addButton: 'Cancel' responseId: 2;
-            addButton: 'Save' responseId: 1;
+            addButton: 'Accept' responseId: 1;
             showModalOnAnswer: [ :dlg :res |
-                res = 0 ifTrue: closeEvent.
-                res = 1 ifTrue: saveEvent.
+                res = 1 ifTrue: [ self acceptIt ].
+                res <= 1 ifTrue: dropBlock.
                 dlg destroy ].
     ]
 
     checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
-        self hasChanged ifFalse: [ self clearUndo. ^ self ].
-        self saveCodeOnSave: [ self acceptIt. aBlock value ] onCancel: [ aBlock value ].
-        self clearUndo
-    ]
-
-    saveCodeOnSave: saveEvent [
-        <category: 'saving'>
-
-        | dialog |
-        dialog := GTK.GtkMessageDialog
-                                new: window
-                                flags: GTK.Gtk gtkDialogDestroyWithParent
-                                type: GTK.Gtk gtkMessageWarning
-                                buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Save changes to this method?'
-                                tip: 'If you do not save, your changes to %1 will be lost...' % {self state}.
-
-        dialog
-            addButton: 'Cancel' responseId: 0;
-            addButton: 'Save' responseId: 1;
-            showModalOnAnswer: [ :dlg :res |
-                res = 1 ifTrue: saveEvent.
-                dlg destroy ].
+        self saveCodeOr: [ aBlock value. self clearUndo ].
     ]
 
     hasChanged [
