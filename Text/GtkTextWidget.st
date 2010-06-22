@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkTextWidget [
-    | findWidget replaceWidget saveWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand |
+    | findWidget replaceWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand |
 
     GtkTextWidget class >> newWithBuffer: aGtkTextBuffer [
         <category: 'instance creation'>
@@ -45,18 +45,24 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
         findWidget mainWidget hide.
         replaceWidget mainWidget hide.
-        saveWidget mainWidget hide
     ]
 
     buildWidget [
 	<category: 'user interface'>
 
-        ^ (GTK.GtkVBox new: false spacing: 3)
-                    packStart: ((saveWidget := GtkSaveTextWidget on: self)  mainWidget) expand: false fill: false padding: 0;
-                    packStart: (GTK.GtkScrolledWindow withChild: textWidget) expand: true fill: true padding: 0;
-                    packEnd: ((findWidget := GtkFindWidget on: self) mainWidget) expand: false fill: false padding: 0;
-                    packEnd: ((replaceWidget := GtkReplaceWidget on: self)  mainWidget) expand: false fill: false padding: 0;
-                    yourself
+        | vbox |
+        vbox := GTK.GtkVBox new: false spacing: 3.
+        self packPluginsInto: vbox.
+        vbox packStart: (GTK.GtkScrolledWindow withChild: textWidget) expand: true fill: true padding: 0.
+        ^vbox
+    ]
+
+    packPluginsInto: vbox [
+	<category: 'user interface'>
+        vbox
+            packEnd: ((findWidget := GtkFindWidget on: self) mainWidget) expand: false fill: false padding: 0;
+            packEnd: ((replaceWidget := GtkReplaceWidget on: self)  mainWidget) expand: false fill: false padding: 0;
+            yourself
     ]
 
     popupMenuOn: aGtkWidget menu: aGtkMenu [
@@ -203,56 +209,18 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	textWidget setBuffer: aGtkTextBuffer
     ]
 
-    state: aState [
-        <category: 'accessing'>
-
-	saveWidget state: aState
-    ]
-
-    whenCancelPressed: aSymbol to: anObject [
-        <category: 'user interface'>
-
-	saveWidget whenCancelPressed: aSymbol to: anObject
-    ]
-
-    whenSavePressed: aSymbol to: anObject [
-        <category: 'user interface'>
-            
-	saveWidget whenSavePressed: aSymbol to: anObject
-    ]
-
-    showPlugin: aGtkPlugin [
-        <category: 'user interface'>
-
-        aGtkPlugin mainWidget getVisible ifTrue: [ ^ aGtkPlugin hideAll ].
-        {findWidget. replaceWidget. saveWidget} do: [ :each | each ~~ aGtkPlugin ifTrue: [ each hideAll ] ].
-        aGtkPlugin 
-		showAll;
-		grabFocus
-    ]
-
-    showSave [
-        <category: 'user interface'>
-
-	self showPlugin: saveWidget
-    ]
-
-    hideSave [
-        <category: 'user interface'>
-
-        self showPlugin: saveWidget
-    ]
-
     showFind [
         <category: 'user interface'>
 
-	self showPlugin: findWidget
+        replaceWidget hideAll.
+	findWidget showAll; grabFocus
     ]
 
     showReplace [
         <category: 'user interface'>
 
-	self showPlugin: replaceWidget
+        findWidget hideAll.
+	replaceWidget showAll; grabFocus
     ]
 
     replace: aSearchString by: aReplaceString [
@@ -407,4 +375,3 @@ GtkConcreteWidget subclass: GtkTextWidget [
     ]
 
 ]
-

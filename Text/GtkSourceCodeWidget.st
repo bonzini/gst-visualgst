@@ -1,5 +1,5 @@
 GtkTextWidget subclass: GtkSourceCodeWidget [
-    | browser codeText |
+    | browser codeText saveWidget |
 
     initialize [
 	<category: 'initialization'>
@@ -174,6 +174,27 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'state'>
 
         ^browser state
+    ]
+
+    packPluginsInto: vbox [
+	<category: 'user interface'>
+        vbox
+            packStart: ((saveWidget := GtkSaveTextWidget on: self)  mainWidget) expand: false fill: false padding: 0.
+        super packPluginsInto: vbox
+    ]
+
+    showSave: aString [
+        <category: 'user interface'>
+
+        saveWidget label: aString.
+	saveWidget showAll
+    ]
+
+    postInitialize [
+        <category: 'initialize'>
+
+        super postInitialize.
+        saveWidget mainWidget hide
     ]
 
     acceptIt [

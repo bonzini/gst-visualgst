@@ -1,19 +1,19 @@
 GtkTextPluginWidget subclass: GtkSaveTextWidget [ 
-    | cancel cancelMessage label save saveMessage state |
+    | label |
 
-    buildCancelButton [
+    buildDropButton [
 	<category: 'user interface'>
 
-        ^(cancel := GTK.GtkButton newWithLabel: 'Cancel')
-	    connectSignal: 'pressed' to: self selector: #onCancel;
+        ^(GTK.GtkButton newWithLabel: 'Drop')
+	    connectSignal: 'pressed' to: self selector: #cancel;
             yourself
     ]
 
-    buildSaveButton [
+    buildAcceptButton [
         <category: 'user interface'>
 
-        ^(save := GTK.GtkButton newWithLabel: 'Save')
-	    connectSignal: 'pressed' to: self selector: #onSave;
+        ^(GTK.GtkButton newWithLabel: 'Accept')
+	    connectSignal: 'pressed' to: self selector: #acceptIt;
             yourself
     ]
 
@@ -21,62 +21,34 @@ GtkTextPluginWidget subclass: GtkSaveTextWidget [
 	<category: 'user interface'>
 
 	^ super hBox
-	    packStart: (GTK.GtkLabel new: 'Save the code before exiting?') expand: false fill: false padding: 2;
 	    packStart: (label := GTK.GtkLabel new: '') expand: false fill: false padding: 2;
-	    packEnd: self buildSaveButton expand: false fill: false padding: 0; 
-	    packEnd: self buildCancelButton expand: false fill: false padding: 0;
+	    packEnd: self buildAcceptButton expand: false fill: false padding: 0; 
+	    packEnd: self buildDropButton expand: false fill: false padding: 0;
 	    yourself
     ]
 
-    state [
+    label: aString [
 	<category: 'state'>
 
-	^state
-    ]
-
-    state: aState [
-	<category: 'state'>
-
-	state := aState.
+	label setText: aString
     ]
 
     grabFocus [
 	<category: 'focus'>
 
-	cancel grabFocus
+	closeButton grabFocus
     ]
 
-    showAll [
-	<category: 'user interface'>
+    acceptIt [
+	<category: 'events'>
 
-	label setText: 'If you do not save, your changes to %1 will be lost...' % {self state}.
-	super showAll
+	textWidget acceptIt
     ]
 
-    onSave [
-	<category: 'button events'>
+    cancel [
+	<category: 'events'>
 
-        saveMessage isNil ifFalse: [ saveMessage send ].
-        textWidget hideSave; clearUndo.
-    ]
-
-    onCancel [
-	<category: 'button events'>
-
-        cancelMessage isNil ifFalse: [ cancelMessage send ].
-        textWidget hideSave; clearUndo.
-    ]
-
-    whenCancelPressed: aSymbol to: anObject [
-	<category: 'user interface'>
-
-        cancelMessage := DirectedMessage receiver: anObject selector: aSymbol arguments: #().
-    ]
-
-    whenSavePressed: aSymbol to: anObject [
-	<category: 'user interface'>
-
-        saveMessage := DirectedMessage receiver: anObject selector: aSymbol arguments: #().
+	textWidget cancel
     ]
 ]
 
