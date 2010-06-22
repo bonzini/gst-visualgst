@@ -200,6 +200,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     acceptIt [
 	<category: 'buffer events'>
 
+        saveWidget hideAll.
 	browser state hasSelectedCategory ifFalse: [ ^self acceptClassDefinition ].
         self newMethod
     ]
@@ -238,6 +239,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer events'>
 
 	self clearUndo.
+        saveWidget hideAll.
 	self buffer setText: self codeText
     ]
 
