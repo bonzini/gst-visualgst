@@ -310,7 +310,7 @@ GtkBrowsingTool subclass: GtkClassBrowser [
 	self saveCodeOr: [ super close ]
     ]
 
-    onDelete [
+    onDelete: aGtkWidget event: aGdkEvent [
 	<category: 'window events'>
 
 	self saveCodeOr: [ window hideAll ].

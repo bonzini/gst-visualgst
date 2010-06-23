@@ -168,11 +168,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         ^widget
     ]
 
-    onDelete [
+    onDelete: aGtkWidget event: aGdkEvent [
 	<category: 'window events'>
 
 	self quit.
-
 	^ true 
     ]
 

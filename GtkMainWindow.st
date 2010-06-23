@@ -164,14 +164,16 @@ that are specific to this version of GNU Smalltalk.';
 
     postInitialize [
 	<category: 'initialization'>
+
         window
-            connectSignal: 'delete-event' to: self selector: #onDelete userData: nil
+            connectSignal: 'delete-event' to: self selector: #'onDelete:event:'
     ]
 
-    onDelete [
+    onDelete: aGtkWidget event: aGdkEvent [
 	<category: 'events'>
+
         window hideAll.
-        ^true
+        ^ true
     ]
 
     addMenuItem: aString [
