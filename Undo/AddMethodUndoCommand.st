@@ -57,7 +57,7 @@ UndoCommand subclass: AddMethodUndoCommand [
     precondition [
         <category: 'checking'>
 
-	| parser |
+	| parser node |
         parser := STInST.RBBracketedMethodParser new
                     errorBlock: [ :string :pos | self compileError: string pos: pos. ^false ];
                     initializeParserWith: method type: #'on:errorBlock:';
@@ -65,13 +65,13 @@ UndoCommand subclass: AddMethodUndoCommand [
 
 	selector := parser parseMethod selector.
 	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
+	" TODO: use compile:classified:ifError: if there is no category "
 	compiledMethod := classOrMeta
 				compile: method
-				"classified: category"
 				ifError: [ :fname :lineNo :errorString |
 				    self compileError: errorString line: lineNo.
                                     ^ false ].
-	^true
+	^ true
     ]
 
     undo [
@@ -94,7 +94,11 @@ UndoCommand subclass: AddMethodUndoCommand [
 	browserWidget ifNotNil: [ browserWidget codeSaved ].
 
 	oldCompiledMethod ifNotNil: [ classOrMeta methodDictionary removeMethod: oldCompiledMethod ].
-	classOrMeta methodDictionary insertMethod: compiledMethod
+	classOrMeta methodDictionary insertMethod: compiledMethod.
+
+	browserWidget ifNotNil: [ classOrMeta isClass 
+						    ifTrue: [ browserWidget selectAnInstanceMethod: compiledMethod selector ]
+						    ifFalse: [ browserWidget selectAClassMethod: compiledMethod selector ] ].
     ]
 
     displayError [
