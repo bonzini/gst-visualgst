@@ -1,5 +1,5 @@
 GtkTextWidget subclass: GtkSourceCodeWidget [
-    | browser codeText |
+    | browser codeText saveWidget |
 
     initialize [
 	<category: 'initialization'>
@@ -176,9 +176,31 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
         ^browser state
     ]
 
+    packPluginsInto: vbox [
+	<category: 'user interface'>
+        vbox
+            packStart: ((saveWidget := GtkSaveTextWidget on: self)  mainWidget) expand: false fill: false padding: 0.
+        super packPluginsInto: vbox
+    ]
+
+    showSave: aString [
+        <category: 'user interface'>
+
+        saveWidget label: aString.
+	saveWidget showAll
+    ]
+
+    postInitialize [
+        <category: 'initialize'>
+
+        super postInitialize.
+        saveWidget mainWidget hide
+    ]
+
     acceptIt [
 	<category: 'buffer events'>
 
+        saveWidget hideAll.
 	browser state hasSelectedCategory ifFalse: [ ^self acceptClassDefinition ].
         self newMethod
     ]
@@ -192,6 +214,13 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	STInST.STEvaluationDriver new
             parseSmalltalkStream: (ReadStream on: self sourceCode)
             with: STInST.GSTFileInParser
+    ]
+
+    compileError: aString line: line [
+	<category: 'class event'>
+
+        textSaved := false.
+        self showSave: aString
     ]
 
     newMethod [
@@ -210,6 +239,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'buffer events'>
 
 	self clearUndo.
+        saveWidget hideAll.
 	self buffer setText: self codeText
     ]
 

@@ -481,6 +481,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	^ codeWidget sourceCode
     ]
 
+    compileError: aString line: line [
+        <category: 'method events'>
+
+        codeWidget compileError: aString line: line
+    ]
+
     newMethod [
 	<category: 'method events'>
 
@@ -690,28 +696,34 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	checkCode := false
     ]
 
-    checkCodeWidget [
-        <category: 'text editing'>
-
-	self checkCodeWidgetAndUpdate: []
-    ]
-
     checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
-        checkCode ifFalse: [ checkCode := true. aBlock value. ^ self ].
-        self hasChanged ifFalse: [ codeWidget clearUndo. aBlock value. ^ self ].
-        self saveCodeOnSave: [ self acceptIt. aBlock value ] onCancel: [ aBlock value ].
+        self saveCodeOr: [ aBlock value. codeWidget clearUndo ]
     ]
 
-    saveCodeOnSave: saveEvent onCancel: cancelEvent [
+    saveCodeOr: dropBlock [
         <category: 'saving'>
 
-	codeWidget 
-		state: self state;
-		whenCancelPressed: #value to: cancelEvent;
-		whenSavePressed: #value to: saveEvent;
-		showSave
+        | dialog |
+        checkCode ifFalse: [ checkCode := true. dropBlock value. ^ self ].
+        self hasChanged ifFalse: [ dropBlock value. ^ self ].
+        dialog := GTK.GtkMessageDialog
+                                new: self parentWindow
+                                flags: GTK.Gtk gtkDialogDestroyWithParent
+                                type: GTK.Gtk gtkMessageWarning
+                                buttons: GTK.Gtk gtkButtonsNone
+                                message: 'Accept changes before exiting?'
+                                tip: 'If you do not accept them, your changes to %1 will be lost...' % {self state}.
+
+        dialog
+            addButton: 'Drop' responseId: 0;
+            addButton: 'Cancel' responseId: 2;
+            addButton: 'Accept' responseId: 1;
+            showModalOnAnswer: [ :dlg :res |
+                res = 1 ifTrue: [ self acceptIt ].
+                res <= 1 ifTrue: dropBlock.
+                dlg destroy ].
     ]
 
     state [
@@ -729,7 +741,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     close [
 	<category: 'user interface'>
 
-	self checkCodeWidget
+	self checkCodeWidgetAndUpdate: []
     ]
 
     hasChanged [

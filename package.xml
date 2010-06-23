@@ -100,7 +100,7 @@
   <filein>GtkCategorizedClassWidget.st</filein>
   <filein>GtkCategoryWidget.st</filein>
   <filein>GtkMethodWidget.st</filein>
-  <filein>GtkSourceCodeWidget.st</filein>
+  <filein>Text/GtkSourceCodeWidget.st</filein>
   <filein>GtkClassHierarchyWidget.st</filein>
   <filein>GtkHistoryWidget.st</filein>
   <filein>Inspector/GtkInspector.st</filein>
@@ -266,7 +266,7 @@
   <file>GtkCategorizedClassWidget.st</file>
   <file>GtkCategoryWidget.st</file>
   <file>GtkMethodWidget.st</file>
-  <file>GtkSourceCodeWidget.st</file>
+  <file>Text/GtkSourceCodeWidget.st</file>
   <file>GtkClassHierarchyWidget.st</file>
   <file>GtkHistoryWidget.st</file>
   <file>Inspector/GtkInspector.st</file>

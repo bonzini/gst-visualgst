@@ -1,9 +1,9 @@
 OpenBrowserCommand subclass: OpenSUnitCommand [
 
-    defaltDestination [
+    defaultDestination [
         <category: 'selection'>
 
-	^Smalltalk->TestCase
+	^Smalltalk->nil
     ]
 
     selection [
@@ -13,7 +13,6 @@ OpenBrowserCommand subclass: OpenSUnitCommand [
 	selection := super selection printNl.
         selection value isNil ifTrue: [^selection].
         (selection value inheritsFrom: TestCase) ifTrue: [^selection].
-        selection key == Smalltalk ifTrue: [^Smalltalk->TestCase].
         ^selection key->nil
     ]
 

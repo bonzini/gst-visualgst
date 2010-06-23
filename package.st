@@ -89,7 +89,7 @@ Eval [
     filein: 'GtkCategorizedClassWidget.st';
     filein: 'GtkCategoryWidget.st';
     filein: 'GtkMethodWidget.st';
-    filein: 'GtkSourceCodeWidget.st';
+    filein: 'Text/GtkSourceCodeWidget.st';
     filein: 'GtkClassHierarchyWidget.st';
     filein: 'GtkHistoryWidget.st';
     filein: 'Inspector/GtkInspector.st';
