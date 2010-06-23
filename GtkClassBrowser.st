@@ -180,12 +180,6 @@ GtkBrowsingTool subclass: GtkClassBrowser [
 	browserWidget fileoutCategory
     ]
 
-    newMethod [
-	<category: 'method events'>
-
-	browserWidget newMethod
-    ]
-
     deleteMethod [
 	<category: 'method events'>
 
@@ -264,8 +258,7 @@ GtkBrowsingTool subclass: GtkClassBrowser [
     createMethodMenus [
 	<category: 'user interface'>
 
-	^{GTK.GtkMenuItem menuItem: 'Add a method' connectTo: self selector: #newMethod.
-	    GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
+	^{GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
 	    GTK.GtkMenuItem new.
 	    GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
 	    GTK.GtkMenuItem new.

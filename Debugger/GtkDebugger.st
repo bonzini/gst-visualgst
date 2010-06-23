@@ -374,7 +374,7 @@ GtkBrowsingTool subclass: GtkDebugger [
     acceptIt [
 	<category: 'method events'>
 
-	AddMethodCommand on: self.
+	AcceptItCommand on: self.
     ]
 
     targetObject [

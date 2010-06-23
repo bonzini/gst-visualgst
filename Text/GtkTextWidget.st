@@ -142,11 +142,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
     hasChanged [
         <category: 'testing'>
 
-        ^ textSaved
-            ifTrue: [ (self lastUndoCommand == lastSavedCommand) not ]
-            ifFalse: [ self hasUndo
-                            ifFalse: [ false ]
-                            ifTrue: [ true ] ]
+        ^ textSaved not and: [ undoStack hasUndo ]
     ]
 
     hasUndo [
@@ -166,6 +162,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
     undo [
         <category: 'buffer events'>
 
+        textSaved := self lastUndoCommand == lastSavedCommand.
         undoStack undo.
         lastCommand := nil.
     ]
@@ -175,6 +172,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
         undoStack redo.
         lastCommand := nil.
+        textSaved := self lastUndoCommand == lastSavedCommand.
     ]
 
     emptyStack [
@@ -186,7 +184,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
     lastUndoCommand [
 	<category: 'buffer events'>
 
-	^ undoStack lasUndoCommand
+	^ undoStack lastUndoCommand
     ]
 
     textSaved [
@@ -194,7 +192,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
         textSaved := true.
         lastCommand := nil.
-        lastSavedCommand := self lastUndoCommand
+        lastSavedCommand := undoStack lastUndoCommand
     ]
 
     buffer [

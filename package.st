@@ -47,7 +47,7 @@ Eval [
     filein: 'Commands/RenameCategoryCommand.st';
     filein: 'Commands/FileoutMethodCommand.st';
     filein: 'Commands/InspectMethodCommand.st';
-    filein: 'Commands/AddMethodCommand.st';
+    filein: 'Commands/AcceptItCommand.st';
     filein: 'Commands/DeleteMethodCommand.st';
     filein: 'Commands/RunTestCommand.st';
     filein: 'Commands/OpenAssistantCommand.st';

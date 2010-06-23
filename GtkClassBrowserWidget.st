@@ -360,7 +360,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     acceptIt [
 	<category: 'smalltalk events'>
 
-        codeWidget acceptIt
+        AcceptItCommand on: self
     ]
 
     fileoutNamespace [
@@ -490,7 +490,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     newMethod [
 	<category: 'method events'>
 
-	AddMethodCommand on: self.
+	AcceptItCommand on: self.
     ]
 
     deleteMethod [
@@ -699,7 +699,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
-        self saveCodeOr: [ aBlock value. codeWidget clearUndo ]
+        self saveCodeOr: [ aBlock value. self clearUndo ]
     ]
 
     saveCodeOr: dropBlock [
@@ -730,6 +730,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'accessing'>
 
 	^ state
+    ]
+
+    clearUndo [
+	<category: 'code saved'>
+
+	codeWidget clearUndo
     ]
 
     codeSaved [

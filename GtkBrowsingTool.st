@@ -8,9 +8,9 @@ GtkVisualGSTTool subclass: GtkBrowsingTool [
     ]
 
     acceptIt [
-        <category: 'command protocols'>
+	<category: 'method events'>
 
-        self subclassResponsibility
+	self subclassResponsibility
     ]
 
     browserHasFocus [

@@ -300,7 +300,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     acceptIt [
         <category: 'smalltalk events'>
 
-        sourceCodeWidget acceptIt
+        AcceptItCommand on: self
     ]
     
     cancel [
@@ -352,7 +352,9 @@ GtkBrowsingTool subclass: GtkSUnit [
     ]
 
     clearUndo [
-	^ sourceCodeWidget clearUndo
+        <category: 'source code'>
+
+	sourceCodeWidget clearUndo
     ]
 
     hasChanged [

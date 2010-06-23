@@ -478,8 +478,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createMethodMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Add a method' connectTo: self selector: #newMethod.
-            GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
+        ^{GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
             GTK.GtkMenuItem new.
@@ -824,12 +823,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         <category: 'method events'>
 
 	browsers currentWidget fileoutCategory
-    ]
-
-    newMethod [
-        <category: 'method events'>
-
-        browsers currentWidget newMethod
     ]
 
     deleteMethod [
