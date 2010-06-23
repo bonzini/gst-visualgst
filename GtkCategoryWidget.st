@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkCategoryWidget [
-    | categoryTree column model class |
+    | categoryTree categories model class |
 
     GtkCategoryWidget >> on: aClass [
 	<category: 'instance creation'>
@@ -13,6 +13,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     initialize [
 	<category: 'initialization'>
 
+	categories := Set new.
 	self mainWidget: self buildTreeView.
 	self registerNotifier
     ]
@@ -21,8 +22,8 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         <category: 'initialize-release'>
 
         (GtkLauncher uniqueInstance systemChangeNotifier)
-            notify: self ofSystemChangesOfItem: #category change: #Added using: #'addEvent:';
-            notify: self ofSystemChangesOfItem: #category change: #Removed using: #'removeEvent:'
+            notify: self ofSystemChangesOfItem: #method change: #Added using: #'addEvent:';
+            notify: self ofSystemChangesOfItem: #method change: #Removed using: #'removeEvent:'
     ]
 
     classOrMeta [
@@ -36,19 +37,17 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 
 	class := aClass.
 	model
-	    item: self buildCategory;
+	    item: (self buildCategory: categories);
 	    refresh
     ]
 
-    buildCategory [
+    buildCategory: aSet [
         <category: 'model builder'>
 
-        | set |
-        set := Set new.
-        set add: '*'.
-	self classOrMeta methodDictionary ifNil: [ ^ set ].
-        self classOrMeta methodDictionary do: [ :each | set add: each methodCategory ].
-        ^ set asSortedCollection
+        aSet add: '*'.
+	self classOrMeta methodDictionary ifNil: [ ^ aSet ].
+        self classOrMeta methodDictionary do: [ :each | aSet add: each methodCategory ].
+        ^ aSet asSortedCollection
     ]
 
     emptyModel [
@@ -135,7 +134,6 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         <category: 'item selection'>
 
         | result |
-
         result := model findIterInACategory: aString.
         categoryTree scrollToCell: (model gtkModel getPath: result) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
         ^ result
@@ -171,18 +169,31 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         FileoutCategoryCommand on: self
     ]
 
+    removeEmptyCategory [
+	<category: 'update'>
+
+	| set |
+	set := Set new.
+	self buildCategory: set.
+	(categories - set) do: [ :each | 
+			model remove: each.
+			categories remove: each ]
+    ]
+
     addEvent: anEvent [
         <category: 'event'>
 
-        (anEvent itemClass == self classOrMeta) ifFalse: [ ^ self ].
-        model append: anEvent item
+        (anEvent item methodClass == self classOrMeta and: [ (model hasItem: anEvent item methodCategory) not ]) ifFalse: [ ^ self ].
+        categories add: anEvent item methodCategory.
+	model append: anEvent item methodCategory.
+	self removeEmptyCategory
     ]
 
     removeEvent: anEvent [
         <category: 'event'>
 
-        (anEvent itemClass == self classOrMeta) ifFalse: [ ^ self ].
-        model remove: anEvent item
+        (anEvent item methodClass == self classOrMeta and: [ (model hasItem: anEvent item methodCategory) not ]) ifFalse: [ ^ self ].
+	self removeEmptyCategory
     ]
 ]
 

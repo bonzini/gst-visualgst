@@ -292,6 +292,8 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     ]
 
     selectedMethodSymbol [
+	<category: 'method'>
+
         | iters stream parser node |
 	stream := self sourceCode readStream.
         iters := self buffer getSelectionBounds.
@@ -311,13 +313,13 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     sourceCodeWidgetHasFocus [
 	<category: 'browse'>
 
-	^true
+	^ true
     ]
 
     browserHasFocus [
 	<category: 'browse'>
 
-	^false
+	^ false
     ]
 
     browseSenders [

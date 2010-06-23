@@ -14,15 +14,15 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	<category: 'initialization'>
 
 	textWidget
-	    connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:' userData: nil;
-	    connectSignal: 'paste-clipboard' to: self selector: #pasteFromClipboard userData: nil;
-            connectSignal: 'cut-clipboard' to: self selector: #cutFromClipboard userData: nil.
+	    connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:';
+	    connectSignal: 'paste-clipboard' to: self selector: #pasteFromClipboard;
+            connectSignal: 'cut-clipboard' to: self selector: #cutFromClipboard.
 
 	(self buffer)
-            connectSignal: 'begin-user-action' to: self selector: #'beginUserAction' userData: nil;
-            connectSignal: 'end-user-action' to: self selector: #'endUserAction' userData: nil;
-            connectSignal: 'insert-text' to: self selector: #'insert:at:text:size:' userData: nil;
-            connectSignal: 'delete-range' to: self selector: #'delete:from:to:' userData: nil
+            connectSignal: 'begin-user-action' to: self selector: #'beginUserAction';
+            connectSignal: 'end-user-action' to: self selector: #'endUserAction';
+            connectSignal: 'insert-text' to: self selector: #'insert:at:text:size:';
+            connectSignal: 'delete-range' to: self selector: #'delete:from:to:'
     ]
 
     initialize [

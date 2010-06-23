@@ -21,14 +21,14 @@ UndoCommand subclass: AddMethodUndoCommand [
     compileError: aString line: anInteger [
 	<category: 'error printing'>
 
-	browserWidget isNil ifFalse: [browserWidget compileError: aString line: anInteger].
+	browserWidget isNil ifFalse: [ browserWidget compileError: aString line: anInteger ].
 	^ self preconditionFailed: aString
     ]
 
     compileError: aString pos: pos [
 	<category: 'error printing'>
 
-	^self compileError: aString line: nil
+	^ self compileError: aString line: nil
     ]
 
     add: aString classified: aCategory in: aClass browser: aGtkBrowserWidget [
@@ -67,10 +67,10 @@ UndoCommand subclass: AddMethodUndoCommand [
 	oldCompiledMethod := classOrMeta methodDictionary ifNotNil: [ classOrMeta methodDictionary at: selector ifAbsent: [ nil ] ].
 	compiledMethod := classOrMeta
 				compile: method
-				classified: category
+				"classified: category"
 				ifError: [ :fname :lineNo :errorString |
 				    self compileError: errorString line: lineNo.
-                                    ^false ].
+                                    ^ false ].
 	^true
     ]
 
