@@ -58,7 +58,7 @@
   <filein>Commands/RenameCategoryCommand.st</filein>
   <filein>Commands/FileoutMethodCommand.st</filein>
   <filein>Commands/InspectMethodCommand.st</filein>
-  <filein>Commands/AddMethodCommand.st</filein>
+  <filein>Commands/AcceptItCommand.st</filein>
   <filein>Commands/DeleteMethodCommand.st</filein>
   <filein>Commands/RunTestCommand.st</filein>
   <filein>Commands/OpenAssistantCommand.st</filein>
@@ -224,7 +224,7 @@
   <file>Commands/RenameCategoryCommand.st</file>
   <file>Commands/FileoutMethodCommand.st</file>
   <file>Commands/InspectMethodCommand.st</file>
-  <file>Commands/AddMethodCommand.st</file>
+  <file>Commands/AcceptItCommand.st</file>
   <file>Commands/DeleteMethodCommand.st</file>
   <file>Commands/RunTestCommand.st</file>
   <file>Commands/OpenAssistantCommand.st</file>

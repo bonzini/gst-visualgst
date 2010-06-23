@@ -200,39 +200,13 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     acceptIt [
 	<category: 'buffer events'>
 
-        saveWidget hideAll.
-	browser state hasSelectedCategory ifFalse: [ ^self acceptClassDefinition ].
-        self newMethod
-    ]
-
-    acceptClassDefinitionOn: aNamespace [
-	<category: 'class event'>
-
-	self codeSaved.
-        Namespace current: aNamespace.
-        (ReadStream on: self sourceCode) fileIn.
-	STInST.STEvaluationDriver new
-            parseSmalltalkStream: (ReadStream on: self sourceCode)
-            with: STInST.GSTFileInParser
+	browser acceptIt
     ]
 
     compileError: aString line: line [
 	<category: 'class event'>
 
-        textSaved := false.
         self showSave: aString
-    ]
-
-    newMethod [
-	<category: 'class event'>
-
-	browser newMethod
-    ]
-
-    acceptClassDefinition [
-	<category: 'class event'>
-
-	^ self acceptClassDefinitionOn: browser state namespace
     ]
 
     cancel [
@@ -270,6 +244,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     codeSaved [
 	<category: 'accessing'>
 
+        saveWidget hideAll.
 	self textSaved
     ]
 

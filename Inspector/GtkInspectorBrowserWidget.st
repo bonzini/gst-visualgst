@@ -332,6 +332,12 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
                 dlg destroy ].
     ]
 
+    acceptIt [
+	<category: 'smalltalk events'>
+
+        AcceptItCommand on: self
+    ]
+
     hasChanged [
 	<category: 'testing'>
 
@@ -348,6 +354,12 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	<category: 'accessing'>
 
 	^ codeWidget sourceCode
+    ]
+
+    clearUndo [
+	<category: 'code saved'>
+
+	codeWidget clearUndo
     ]
 
     codeSaved [
