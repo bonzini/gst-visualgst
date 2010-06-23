@@ -36,6 +36,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	<category: 'accessing'>
 
 	class := aClass.
+	categories empty.
 	model
 	    item: (self buildCategory: categories);
 	    refresh
