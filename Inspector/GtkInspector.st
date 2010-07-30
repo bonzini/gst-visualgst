@@ -257,8 +257,14 @@ GtkVisualGSTTool subclass: GtkInspector [
 
         | widget |
         widget := self focusedWidget.
-        widget isNil ifTrue: [^false].
-        ^widget hasSelection
+        widget isNil ifTrue: [ ^ false ].
+        ^ widget hasSelection
+    ]
+
+    hasChanged [
+	<category: 'close events'>
+
+	^ false
     ]
 ]
 
