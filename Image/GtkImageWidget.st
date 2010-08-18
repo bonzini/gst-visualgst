@@ -35,10 +35,10 @@ GtkConcreteWidget subclass: GtkImageWidget [
 
         imageTree := (GTK.GtkTreeView createListWithModel: {{GtkColumnTextType title: 'Methods and Classes'}}).
         imageTree setSearchEntry: searchEntry.
-        (model := GtkListModel on: imageTree getModel)
+        [ (model := GtkListModel on: imageTree getModel)
 					item: GtkImage current;
                                         contentsBlock: [ :each | {each displayString} ];
-					refresh.
+					refresh. ] fork.
         ^ GTK.GtkScrolledWindow withChild: imageTree
     ]
 

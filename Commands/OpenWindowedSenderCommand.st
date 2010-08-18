@@ -1,4 +1,4 @@
-Command subclass: OpenSenderCommand [
+Command subclass: OpenWindowedSenderCommand [
 
     selection [
         <category: 'focus checking'>
@@ -19,8 +19,8 @@ Command subclass: OpenSenderCommand [
 
         | selection |
         selection := self selection.
-        selection isNil ifTrue: [ ^ GtkLauncher uniqueInstance showHideSender ].
-	GtkLauncher uniqueInstance showSenderOn: selection
+        selection isNil ifTrue: [^GtkSender open].
+	GtkSender openOn: selection
     ]
 ]
 

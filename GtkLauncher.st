@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | history uniqueInstance | ]
 
-    | historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | senderResults resultArray resultModel resultTree resultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -340,6 +340,8 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         self browserPostInitialize.
 	1 to: 2 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	historyWidget hideAll.
+	imageWidget hideAll.
+	resultWidget hideAll.
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil
     ]
@@ -369,7 +371,17 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
         ^ GTK.GtkHPaned new
             pack1: self buildHistoryView resize: true shrink: false;
-            pack2: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true ;
+            pack2: self buildBottomPanedAndClassBrowser resize: true shrink: true ;
+            showAll;
+            yourself
+    ]
+
+    buildImplementorPaned [
+       <category: 'user interface'>
+
+        ^ GTK.GtkHPaned new
+            pack1: self buildImplementorView resize: true shrink: false;
+            pack2: self buildHistoryPaned resize: true shrink: true ;
             showAll;
             yourself
     ]
@@ -378,9 +390,19 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         <category: 'intialize-release'>
 
         ^ GTK.GtkVPaned new
-            pack1: self buildHistoryPaned resize: true shrink: true;
+            pack1: self buildImplementorPaned resize: true shrink: true;
             pack2: self buildNotebookWorkspaceWidget mainWidget resize: true shrink: false;
             yourself
+    ]
+
+    buildImplementorView [
+       <category: 'user interface'>
+
+        imageWidget := GtkImageWidget new
+				    initialize;
+				    whenSelectionChangedSend: #imageSelected to: self;
+                                    yourself.
+        ^ imageWidget mainWidget
     ]
 
     buildHistoryView [
@@ -391,6 +413,27 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
                                     yourself.
         self class history addDependent: historyWidget.
         ^ historyWidget mainWidget
+    ]
+
+    buildResultList [
+        <category: 'user interface'>
+
+	resultModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString}.
+        resultTree := GTK.GtkTreeView newWithSortedTextColumn: resultModel title: 'Methods and Classes'.
+        (resultTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
+        resultTree
+            getSelection
+                connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
+        ^ resultWidget := GTK.GtkScrolledWindow withChild: resultTree
+    ]
+
+    buildBottomPanedAndClassBrowser [
+        <category: 'user interface'>
+
+        ^ GTK.GtkVPaned new
+            pack1: self buildResultList resize: true shrink: false;
+            pack2: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
+            yourself
     ]
 
     buildClassBrowserTabbedWidget [
@@ -704,6 +747,35 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	browsers currentWidget acceptIt
     ]
 
+    showImplementorOn: aSymbol [
+        <category: 'image events'>
+
+        resultWidget showAll.
+        imageWidget showAll.
+        resultModel clear.
+        resultArray := imageWidget matchSelector: aSymbol.
+        resultArray keysDo: [ :each |
+            resultModel appendItem: {each} ]
+    ]
+
+    showHideImplementor [
+        <category: 'image events'>
+
+        imageWidget mainWidget getVisible
+            ifTrue: [ 
+		resultWidget hideAll.
+		imageWidget hideAll ]
+            ifFalse: [ 
+		resultWidget showAll.
+		imageWidget showAll ]
+    ]
+
+    showHideSender [
+        <category: 'image events'>
+
+	self showHideImplementor
+    ]
+
     back [
 	<category: 'history events'>
 
@@ -852,6 +924,57 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	<category: 'testing'>
 
 	^ outputs hasFocus
+    ]
+
+    senderSelected [
+        <category: 'events'>
+
+        imageWidget hasSelection ifFalse: [ ^ self ].
+	resultModel clear.
+        self findInMethod: (imageWidget matchSelector: imageWidget selection) values first element
+    ]
+
+    imageSelected [
+	<category: 'events'>
+
+        imageWidget hasSelection ifFalse: [ ^ self ].
+        self imageSelector: imageWidget selection
+    ]
+
+    imageSelector: aSymbol [
+        <category: 'accessing'>
+
+        | iter |
+        resultModel clear.
+        resultArray := imageWidget matchSelector: aSymbol.
+        resultArray keysDo: [ :each |
+            resultModel appendItem: {each} ]
+    ]
+
+    resultSelected [
+        <category: 'events'>
+
+        | selectedIter selectedString |
+        (selectedIter := resultTree selectedIter) ifNil: [ ^ self ].
+        selectedString := (resultModel getOop: selectedIter column: 0).
+
+        (resultArray at: selectedString) updateBrowser: self currentWidgetOfBrowser
+    ]
+
+    literalsAndSpecialSelectors [
+        <category: 'accessing'>
+
+        ^  GtkSender literalsAndSpecialSelectors
+    ]
+
+    findInMethod: anObject [
+        <category: 'find'>
+
+        | to |
+        senderResults := Dictionary new.
+        (self literalsAndSpecialSelectors at: anObject displaySymbol ifAbsent: [ #() ] ) do: [ :each |
+            resultModel appendItem: {each displayString}.
+            senderResults at: each displayString put: each ].
     ]
 
     keyPressedOn: aGtkWidget keyEvent: aGdkEventKey [
