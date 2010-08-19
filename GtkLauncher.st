@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | history uniqueInstance | ]
 
-    | senderResults resultArray resultModel resultTree resultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | isImplementor senderResults resultArray resultModel resultTree resultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -750,6 +750,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     showImplementorOn: aSymbol [
         <category: 'image events'>
 
+	isImplementor := true.
         resultWidget showAll.
         imageWidget showAll.
         resultModel clear.
@@ -761,6 +762,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     showHideImplementor [
         <category: 'image events'>
 
+	isImplementor := true.
         imageWidget mainWidget getVisible
             ifTrue: [ 
 		resultWidget hideAll.
@@ -773,7 +775,16 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     showHideSender [
         <category: 'image events'>
 
-	self showHideImplementor
+	self showHideImplementor.
+	isImplementor := false
+    ]
+
+    showSenderOn: aSymbol [
+        <category: 'image events'>
+
+        self showImplementorOn: aSymbol.
+	self imageSelectorForSender: aSymbol.
+        isImplementor := false
     ]
 
     back [
@@ -944,21 +955,56 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     imageSelector: aSymbol [
         <category: 'accessing'>
 
-        | iter |
+	isImplementor 
+	    ifTrue: [ self imageSelectorForImplementor: aSymbol ]
+	    ifFalse: [ self imageSelectorForSender: aSymbol ]
+    ]
+
+    imageSelectorForImplementor: aSymbol [
+
         resultModel clear.
         resultArray := imageWidget matchSelector: aSymbol.
         resultArray keysDo: [ :each |
             resultModel appendItem: {each} ]
     ]
 
+    imageSelectorForSender: aSymbol [
+
+        | selectedIter selectedString |
+        resultModel clear.
+        self findInMethod: (imageWidget matchSelector: aSymbol) values first element
+    ]
+
     resultSelected [
         <category: 'events'>
+
+	isImplementor 
+	    ifTrue: [ self resultSelectedForImplementor ]
+	    ifFalse: [ self resultSelectedForSender ]
+    ]
+
+    resultSelectedForImplementor [
 
         | selectedIter selectedString |
         (selectedIter := resultTree selectedIter) ifNil: [ ^ self ].
         selectedString := (resultModel getOop: selectedIter column: 0).
 
         (resultArray at: selectedString) updateBrowser: self currentWidgetOfBrowser
+    ]
+
+    resultSelectedForSender [
+
+        | count iter path selectedIter selectedString string currentMethod |
+        (selectedIter := resultTree selectedIter) ifNil: [ ^ self ].
+        selectedString := resultModel getOop: selectedIter column: 0.
+        currentMethod := senderResults at: selectedString ifAbsent: [ ^ self error: selectedString, 'not in the list' ].
+
+        self currentWidgetOfBrowser
+                selectANamespace: currentMethod methodClass environment;
+                selectAClass: (currentMethod methodClass isClass ifTrue: [ currentMethod methodClass ] ifFalse: [ currentMethod methodClass instanceClass ]).
+        currentMethod methodClass isClass
+                ifTrue: [ self currentWidgetOfBrowser selectAnInstanceMethod: currentMethod selector ]
+                ifFalse: [ self currentWidgetOfBrowser selectAClassMethod: currentMethod selector  ]
     ]
 
     literalsAndSpecialSelectors [
