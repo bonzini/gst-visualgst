@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | history uniqueInstance | ]
 
-    | isImplementor senderResults resultArray resultModel resultTree resultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | isImplementor resultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -378,20 +378,17 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildResultList [
         <category: 'user interface'>
 
-	resultModel := GTK.GtkTreeStore new: 1 varargs: {GTK.GValue gTypeString}.
-        resultTree := GTK.GtkTreeView newWithSortedTextColumn: resultModel title: 'Methods and Classes'.
-        (resultTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
-        resultTree
-            getSelection
-                connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
-        ^ resultWidget := GTK.GtkScrolledWindow withChild: resultTree
+        ^ resultWidget := GtkImplementorResults new
+				    initialize;
+				    whenSelectionChangedSend: #resultSelected to: self;
+				    yourself
     ]
 
     buildBottomPanedAndClassBrowser [
         <category: 'user interface'>
 
         ^ GTK.GtkVPaned new
-            pack1: self buildResultList resize: true shrink: false;
+            pack1: self buildResultList mainWidget resize: true shrink: false;
             pack2: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
             yourself
     ]
@@ -922,25 +919,20 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
     imageSelectorForImplementor: aSymbol [
 
-        resultModel clear.
-        resultArray := imageWidget matchSelector: aSymbol.
-        resultArray keysDo: [ :each |
-            resultModel appendItem: {each} ]
+	resultWidget appendImplementorResults: (imageWidget matchSelector: aSymbol)
     ]
 
     imageSelectorForSender: aSymbol [
 
-        | selectedIter selectedString |
-        resultModel clear.
-        self findInMethod: (imageWidget matchSelector: aSymbol) values first element
+	resultWidget appendSenderResults: (imageWidget matchSelector: aSymbol)
     ]
 
     resultSelected [
         <category: 'events'>
 
-	isImplementor 
+	"isImplementor 
 	    ifTrue: [ self resultSelectedForImplementor ]
-	    ifFalse: [ self resultSelectedForSender ]
+	    ifFalse: [ self resultSelectedForSender ]"
     ]
 
     resultSelectedForImplementor [
@@ -965,22 +957,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
         currentMethod methodClass isClass
                 ifTrue: [ self currentWidgetOfBrowser selectAnInstanceMethod: currentMethod selector ]
                 ifFalse: [ self currentWidgetOfBrowser selectAClassMethod: currentMethod selector  ]
-    ]
-
-    literalsAndSpecialSelectors [
-        <category: 'accessing'>
-
-        ^  GtkSender literalsAndSpecialSelectors
-    ]
-
-    findInMethod: anObject [
-        <category: 'find'>
-
-        | to |
-        senderResults := Dictionary new.
-        (self literalsAndSpecialSelectors at: anObject displaySymbol ifAbsent: [ #() ] ) do: [ :each |
-            resultModel appendItem: {each displayString}.
-            senderResults at: each displayString put: each ].
     ]
 
     keyPressedOn: aGtkWidget keyEvent: aGdkEventKey [

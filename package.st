@@ -140,6 +140,7 @@ Eval [
     filein: 'Inspector/GtkIntegerInspectorView.st';
     filein: 'Inspector/GtkFloatInspectorView.st';
     filein: 'Implementors/GtkImplementor.st';
+    filein: 'Implementors/GtkImplementorResults.st';
     filein: 'Senders/GtkSender.st';
     filein: 'Notification/Kernel/AbstractNamespace.st';
     filein: 'Notification/Kernel/Metaclass.st';
