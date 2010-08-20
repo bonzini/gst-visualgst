@@ -4,7 +4,7 @@ Object subclass: GtkImage [
     GtkImage class >> current [
 	<category: 'accessing'>
 
-	^ current ifNil: [ current := (self new)
+	^ current ifNil: [ (current := self new)
 					initialize;
 					yourself ]
     ]
