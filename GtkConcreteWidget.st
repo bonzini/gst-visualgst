@@ -1,4 +1,4 @@
-Smalltalk.Object subclass: GtkConcreteWidget [
+GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
     | child parentWindow |
 
     GtkConcreteWidget class >> showAll [

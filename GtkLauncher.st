@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | history uniqueInstance | ]
 
-    | isImplementor implementorResultWidget senderResultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | activeLeftPaned activeTopPaned isImplementor implementorResultWidget senderResultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -277,6 +277,8 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	self clearGlobalState.
 	super initialize.
 	window maximize.
+	isImplementor := false.
+	activeLeftPaned := activeTopPaned := GtkAbstractConcreteWidget new
     ]
 
     windowTitle [
@@ -726,44 +728,56 @@ GtkVisualGSTTool subclass: GtkLauncher [
     showImplementorOn: aSymbol [
         <category: 'image events'>
 
+	| isVisible |
+	isVisible := imageWidget mainWidget getVisible.
+	activeLeftPaned hideAll.
+	activeTopPaned hideAll.
+        (isVisible and: [ isImplementor ]) ifTrue: [ ^ self ].
 	isImplementor := true.
-        implementorResultWidget showAll.
-        imageWidget showAll.
+        activeTopPaned := implementorResultWidget showAll.
+        activeLeftPaned := imageWidget showAll.
 	self imageSelectorForImplementor: aSymbol
     ]
 
     showHideImplementor [
         <category: 'image events'>
 
-	isImplementor := true.
-        imageWidget mainWidget getVisible
+	| isVisible |
+	isVisible := imageWidget mainWidget getVisible.
+	activeLeftPaned hideAll.
+	activeTopPaned hideAll.
+        (isVisible not or: [ isImplementor not ])
             ifTrue: [ 
-		implementorResultWidget hideAll.
-		imageWidget hideAll ]
-            ifFalse: [ 
-		implementorResultWidget showAll.
-		imageWidget showAll ]
+		isImplementor := true.
+		activeTopPaned := implementorResultWidget showAll.
+		activeLeftPaned := imageWidget showAll ]
     ]
 
     showHideSender [
         <category: 'image events'>
 
-	isImplementor := false.
-        imageWidget mainWidget getVisible
+	| isVisible |
+	isVisible := imageWidget mainWidget getVisible.
+        activeLeftPaned hideAll.
+        activeTopPaned hideAll.
+        (isVisible not or: [ isImplementor ])
             ifTrue: [
-                senderResultWidget hideAll.
-                imageWidget hideAll ]
-            ifFalse: [
-                senderResultWidget showAll.
-                imageWidget showAll ]
+		isImplementor := false.
+                activeTopPaned := senderResultWidget showAll.
+                activeLeftPaned := imageWidget showAll ]
     ]
 
     showSenderOn: aSymbol [
         <category: 'image events'>
 
+	| isVisible |
+	isVisible := imageWidget mainWidget getVisible.
+        activeLeftPaned hideAll.
+        activeTopPaned hideAll.
+	(isVisible and: [ isImplementor not ]) ifTrue: [ ^ self ].
 	isImplementor := false.
-        implementorResultWidget showAll.
-        imageWidget showAll.
+        activeTopPaned := implementorResultWidget showAll.
+        activeLeftPaned := imageWidget showAll.
 	self imageSelectorForSender: aSymbol.
     ]
 
@@ -782,9 +796,10 @@ GtkVisualGSTTool subclass: GtkLauncher [
     showHideHistory [
 	<category: 'history events'>
 
+	activeLeftPaned hideAll.
+	activeTopPaned hideAll.
         historyWidget mainWidget getVisible
-            ifTrue: [ historyWidget hideAll ]
-            ifFalse: [ historyWidget showAll ]
+            ifFalse: [ activeLeftPaned := historyWidget showAll ]
     ]
 
     previousTab [

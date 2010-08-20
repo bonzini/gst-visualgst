@@ -56,6 +56,7 @@ Eval [
     filein: 'Category/ClassCategory.st';
     filein: 'Category/AbstractNamespace.st';
     filein: 'Category/Class.st';
+    filein: 'GtkAbstractConcreteWidget.st';
     filein: 'GtkConcreteWidget.st';
     filein: 'Model/GtkColumnType.st';
     filein: 'Model/GtkColumnTextType.st';
