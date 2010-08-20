@@ -699,7 +699,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     checkCodeWidgetAndUpdate: aBlock [
         <category: 'text editing'>
 
-        self saveCodeOr: [ aBlock value. self clearUndo ]
+        self saveCodeOr: [ self clearUndo. aBlock value ]
     ]
 
     saveCodeOr: dropBlock [
