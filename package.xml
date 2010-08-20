@@ -151,11 +151,9 @@
   <filein>Inspector/GtkCharacterInspectorView.st</filein>
   <filein>Inspector/GtkIntegerInspectorView.st</filein>
   <filein>Inspector/GtkFloatInspectorView.st</filein>
-  <filein>Implementors/GtkImplementor.st</filein>
   <filein>Implementors/GtkImageResultsWidget.st</filein>
   <filein>Implementors/GtkImplementorResultsWidget.st</filein>
   <filein>Implementors/GtkSenderResultsWidget.st</filein>
-  <filein>Senders/GtkSender.st</filein>
   <filein>Notification/Kernel/AbstractNamespace.st</filein>
   <filein>Notification/Kernel/Metaclass.st</filein>
   <filein>Notification/Kernel/Class.st</filein>
@@ -321,11 +319,9 @@
   <file>Inspector/GtkCharacterInspectorView.st</file>
   <file>Inspector/GtkIntegerInspectorView.st</file>
   <file>Inspector/GtkFloatInspectorView.st</file>
-  <file>Implementors/GtkImplementor.st</file>
   <file>Implementors/GtkImageResultsWidget.st</file>
   <file>Implementors/GtkImplementorResultsWidget.st</file>
   <file>Implementors/GtkSenderResultsWidget.st</file>
-  <file>Senders/GtkSender.st</file>
   <file>Notification/Kernel/AbstractNamespace.st</file>
   <file>Notification/Kernel/Metaclass.st</file>
   <file>Notification/Kernel/Class.st</file>

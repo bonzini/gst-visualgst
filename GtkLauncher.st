@@ -796,10 +796,12 @@ GtkVisualGSTTool subclass: GtkLauncher [
     showHideHistory [
 	<category: 'history events'>
 
+	| isVisible |
+        isVisible := historyWidget mainWidget getVisible.
 	activeLeftPaned hideAll.
 	activeTopPaned hideAll.
-        historyWidget mainWidget getVisible
-            ifFalse: [ activeLeftPaned := historyWidget showAll ]
+	isVisible
+	    ifFalse: [ activeLeftPaned := historyWidget showAll ]
     ]
 
     previousTab [
