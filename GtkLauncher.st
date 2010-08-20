@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | history uniqueInstance | ]
 
-    | isImplementor resultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | isImplementor implementorResultWidget senderResultWidget imageWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -301,7 +301,8 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	1 to: 2 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	historyWidget hideAll.
 	imageWidget hideAll.
-	resultWidget hideAll.
+	implementorResultWidget hideAll.
+	senderResultWidget hideAll.
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil
     ]
@@ -375,22 +376,40 @@ GtkVisualGSTTool subclass: GtkLauncher [
         ^ historyWidget mainWidget
     ]
 
-    buildResultList [
+    buildImplementorResultList [
         <category: 'user interface'>
 
-        ^ resultWidget := GtkImplementorResults new
-				    initialize;
-				    whenSelectionChangedSend: #resultSelected to: self;
-				    yourself
+        ^ implementorResultWidget := GtkImplementorResultsWidget new
+					    initialize;
+					    whenSelectionChangedSend: #resultImplementorSelected to: self;
+					    yourself
+    ]
+
+    buildSenderResultList [
+        <category: 'user interface'>
+
+        ^ senderResultWidget := GtkSenderResultsWidget new
+					    initialize;
+					    whenSelectionChangedSend: #resultSenderSelected to: self;
+					    yourself
     ]
 
     buildBottomPanedAndClassBrowser [
         <category: 'user interface'>
 
         ^ GTK.GtkVPaned new
-            pack1: self buildResultList mainWidget resize: true shrink: false;
+            pack1: self buildResultList resize: true shrink: false;
             pack2: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
             yourself
+    ]
+
+    buildResultList [
+        <category: 'user interface'>
+
+        ^ GTK.GtkVPaned new
+            pack1: self buildImplementorResultList mainWidget resize: true shrink: false;
+            pack2: self buildSenderResultList mainWidget resize: true shrink: true;
+	    yourself
     ]
 
     buildClassBrowserTabbedWidget [
@@ -708,12 +727,9 @@ GtkVisualGSTTool subclass: GtkLauncher [
         <category: 'image events'>
 
 	isImplementor := true.
-        resultWidget showAll.
+        implementorResultWidget showAll.
         imageWidget showAll.
-        resultModel clear.
-        resultArray := imageWidget matchSelector: aSymbol.
-        resultArray keysDo: [ :each |
-            resultModel appendItem: {each} ]
+	self imageSelectorForImplementor: aSymbol
     ]
 
     showHideImplementor [
@@ -722,26 +738,33 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	isImplementor := true.
         imageWidget mainWidget getVisible
             ifTrue: [ 
-		resultWidget hideAll.
+		implementorResultWidget hideAll.
 		imageWidget hideAll ]
             ifFalse: [ 
-		resultWidget showAll.
+		implementorResultWidget showAll.
 		imageWidget showAll ]
     ]
 
     showHideSender [
         <category: 'image events'>
 
-	self showHideImplementor.
-	isImplementor := false
+	isImplementor := false.
+        imageWidget mainWidget getVisible
+            ifTrue: [
+                senderResultWidget hideAll.
+                imageWidget hideAll ]
+            ifFalse: [
+                senderResultWidget showAll.
+                imageWidget showAll ]
     ]
 
     showSenderOn: aSymbol [
         <category: 'image events'>
 
-        self showImplementorOn: aSymbol.
+	isImplementor := false.
+        implementorResultWidget showAll.
+        imageWidget showAll.
 	self imageSelectorForSender: aSymbol.
-        isImplementor := false
     ]
 
     back [
@@ -898,7 +921,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
         <category: 'events'>
 
         imageWidget hasSelection ifFalse: [ ^ self ].
-	resultModel clear.
         self findInMethod: (imageWidget matchSelector: imageWidget selection) values first element
     ]
 
@@ -918,45 +940,27 @@ GtkVisualGSTTool subclass: GtkLauncher [
     ]
 
     imageSelectorForImplementor: aSymbol [
+        <category: 'events'>
 
-	resultWidget appendImplementorResults: (imageWidget matchSelector: aSymbol)
+	implementorResultWidget appendImplementorResults: (imageWidget matchSelector: aSymbol)
     ]
 
     imageSelectorForSender: aSymbol [
-
-	resultWidget appendSenderResults: (imageWidget matchSelector: aSymbol)
-    ]
-
-    resultSelected [
         <category: 'events'>
 
-	"isImplementor 
-	    ifTrue: [ self resultSelectedForImplementor ]
-	    ifFalse: [ self resultSelectedForSender ]"
+	senderResultWidget appendSenderResults: (imageWidget matchSelector: aSymbol)
     ]
 
-    resultSelectedForImplementor [
+    resultImplementorSelected [
+        <category: 'events'>
 
-        | selectedIter selectedString |
-        (selectedIter := resultTree selectedIter) ifNil: [ ^ self ].
-        selectedString := (resultModel getOop: selectedIter column: 0).
-
-        (resultArray at: selectedString) updateBrowser: self currentWidgetOfBrowser
+	implementorResultWidget selectedResult: self currentWidgetOfBrowser
     ]
 
-    resultSelectedForSender [
+    resultSenderSelected [
+        <category: 'events'>
 
-        | count iter path selectedIter selectedString string currentMethod |
-        (selectedIter := resultTree selectedIter) ifNil: [ ^ self ].
-        selectedString := resultModel getOop: selectedIter column: 0.
-        currentMethod := senderResults at: selectedString ifAbsent: [ ^ self error: selectedString, 'not in the list' ].
-
-        self currentWidgetOfBrowser
-                selectANamespace: currentMethod methodClass environment;
-                selectAClass: (currentMethod methodClass isClass ifTrue: [ currentMethod methodClass ] ifFalse: [ currentMethod methodClass instanceClass ]).
-        currentMethod methodClass isClass
-                ifTrue: [ self currentWidgetOfBrowser selectAnInstanceMethod: currentMethod selector ]
-                ifFalse: [ self currentWidgetOfBrowser selectAClassMethod: currentMethod selector  ]
+        senderResultWidget selectedResult: self currentWidgetOfBrowser
     ]
 
     keyPressedOn: aGtkWidget keyEvent: aGdkEventKey [

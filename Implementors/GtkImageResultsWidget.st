@@ -1,4 +1,4 @@
-GtkConcreteWidget subclass: GtkImplementorResults [
+GtkConcreteWidget subclass: GtkImageResultsWidget [
     | result resultTree model |
 
     initialize [
@@ -43,32 +43,9 @@ GtkConcreteWidget subclass: GtkImplementorResults [
         ^ resultTree selection
     ]
 
-    appendImplementorResults: aDictionary [
+    appendResults: aDictionary [
 
-	self clear.
-        model contentsBlock: [ :each | {each key asString} ].
-	aDictionary associationsDo: [ :each |
-	    model append: each ]
     ]
 
-    appendSenderResults: aDictionary [
-
-	self clear.
-	model contentsBlock: [ :each | {each displayString} ].
-	self findInMethod: aDictionary values first element
-    ]
-
-    literalsAndSpecialSelectors [
-        <category: 'accessing'>
-
-        ^  GtkSender literalsAndSpecialSelectors
-    ]
-
-    findInMethod: anObject [
-        <category: 'find'>
-
-        (self literalsAndSpecialSelectors at: anObject displaySymbol ifAbsent: [ #() ] ) do: [ :each |
-            model append: each ].
-    ]
 ]
 
