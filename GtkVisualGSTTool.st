@@ -139,12 +139,10 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
         <category: 'user interface'>
 
         | menu |
-        self accelGroup append: {{'<Control><shift>B'. '<GtkVisualGSTTool>/Tools/ClassBrowser'}.
-            {'<Control>M'. '<GtkVisualGSTTool>/Tools/Implementors'}.
+        self accelGroup append: {{'<Control>M'. '<GtkVisualGSTTool>/Tools/Implementors'}.
             {'<Control>N'. '<GtkVisualGSTTool>/Tools/Senders'}}.
 
-        menu := {GTK.GtkMenuItem menuItem: 'Browser window' accelPath: '<GtkVisualGSTTool>/Tools/ClassBrowser' connectTo: self selector: #newClassBrowser.
-            GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: self selector: #newImplementorBrowser.
+        menu := {GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: self selector: #newImplementorBrowser.
             GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Tools/Senders' connectTo: self selector: #newSenderBrowser.
             GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #newSUnitBrowser} asOrderedCollection.
 
@@ -197,12 +195,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	<category: 'tools events'>
 
 	OpenSUnitCommand on: self
-    ]
-
-    newClassBrowser [
-	<category: 'tools events'>
-
-	OpenWindowedBrowserCommand on: self
     ]
 
     newSenderBrowser [

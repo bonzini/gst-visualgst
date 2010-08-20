@@ -95,7 +95,6 @@ Eval [
     filein: 'GtkHistoryWidget.st';
     filein: 'Inspector/GtkInspector.st';
     filein: 'GtkClassBrowserWidget.st';
-    filein: 'GtkClassBrowser.st';
     filein: 'GtkEntryDialog.st';
     filein: 'HistoryStack.st';
     filein: 'Undo/UndoStack.st';
@@ -169,7 +168,6 @@ Eval [
     filein: 'GtkMethodSUnitWidget.st';
     filein: 'SUnit/GtkSUnit.st';
     filein: 'Commands/OpenBrowserCommand.st';
-    filein: 'Commands/OpenWindowedBrowserCommand.st';
     filein: 'Commands/OpenTabbedBrowserCommand.st';
     filein: 'Commands/OpenSUnitCommand.st';
     filein: 'Commands/OpenWorkspaceCommand.st';

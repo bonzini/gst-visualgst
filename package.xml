@@ -106,7 +106,6 @@
   <filein>GtkHistoryWidget.st</filein>
   <filein>Inspector/GtkInspector.st</filein>
   <filein>GtkClassBrowserWidget.st</filein>
-  <filein>GtkClassBrowser.st</filein>
   <filein>GtkEntryDialog.st</filein>
   <filein>HistoryStack.st</filein>
   <filein>Undo/UndoStack.st</filein>
@@ -180,7 +179,6 @@
   <filein>GtkMethodSUnitWidget.st</filein>
   <filein>SUnit/GtkSUnit.st</filein>
   <filein>Commands/OpenBrowserCommand.st</filein>
-  <filein>Commands/OpenWindowedBrowserCommand.st</filein>
   <filein>Commands/OpenTabbedBrowserCommand.st</filein>
   <filein>Commands/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWorkspaceCommand.st</filein>
@@ -274,7 +272,6 @@
   <file>GtkHistoryWidget.st</file>
   <file>Inspector/GtkInspector.st</file>
   <file>GtkClassBrowserWidget.st</file>
-  <file>GtkClassBrowser.st</file>
   <file>GtkEntryDialog.st</file>
   <file>HistoryStack.st</file>
   <file>Undo/UndoStack.st</file>
@@ -348,7 +345,6 @@
   <file>GtkMethodSUnitWidget.st</file>
   <file>SUnit/GtkSUnit.st</file>
   <file>Commands/OpenBrowserCommand.st</file>
-  <file>Commands/OpenWindowedBrowserCommand.st</file>
   <file>Commands/OpenTabbedBrowserCommand.st</file>
   <file>Commands/OpenSUnitCommand.st</file>
   <file>Commands/OpenWorkspaceCommand.st</file>
