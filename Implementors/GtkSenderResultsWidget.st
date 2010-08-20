@@ -1,5 +1,22 @@
 GtkImageResultsWidget subclass: GtkSenderResultsWidget [
 
+    GtkSenderResultsWidget class [ | LiteralsAndSpecialSelectors | ]
+
+    GtkSenderResultsWidget class >> literalsAndSpecialSelectors [
+        <category: 'accessing'>
+
+        ^ LiteralsAndSpecialSelectors ifNil: [
+            LiteralsAndSpecialSelectors := Dictionary new.
+            [ CompiledMethod allInstancesDo: [ :each |
+                each literalsAndSpecialSelectorsDo: [ :lit |
+                    lit isSymbol
+                        ifTrue: [ (LiteralsAndSpecialSelectors at: lit ifAbsentPut: [ OrderedCollection new ]) add: each ]
+                        ifFalse: [  "lit isClass ifTrue: [ lit displayString printNl.
+                                            (LiteralsAndSpecialSelectors at: lit displayString asSymbol ifAbsentPut: [ OrderedCollection new ]) add: each ]" ]
+                                 ] ] ] fork.
+            LiteralsAndSpecialSelectors ]
+    ]
+
     buildTreeView [
         <category: 'user interface'>
 
@@ -19,7 +36,7 @@ GtkImageResultsWidget subclass: GtkSenderResultsWidget [
     literalsAndSpecialSelectors [
         <category: 'accessing'>
 
-        ^  GtkSender literalsAndSpecialSelectors
+        ^  self class literalsAndSpecialSelectors
     ]
 
     findInMethod: anObject [
