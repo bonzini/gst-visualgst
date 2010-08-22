@@ -15,11 +15,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
     buildBrowser [
 
-	^ GTK.GtkHPaned new
-	    pack1: self buildHierarchy resize: true shrink: false;
-	    pack2: self buildProtocolAndMethod resize: true shrink: false;
-	    showAll;
-	    yourself
+	^ GTK.GtkHPaned addAll: {self buildHierarchy. self buildProtocolAndMethod}
     ]
 
     buildClassBrowser [
