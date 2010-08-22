@@ -41,7 +41,7 @@ GtkBrowsingTool subclass: GtkBrowserWrapper [
         (resultTree getColumn: 0) signalEmitByName: 'clicked' args: {}.
         resultTree
             getSelection
-                connectSignal: 'changed' to: self selector: #resultSelected userData: nil.
+                connectSignal: 'changed' to: self selector: #resultSelected.
         ^ GTK.GtkScrolledWindow withChild: resultTree
     ]
 

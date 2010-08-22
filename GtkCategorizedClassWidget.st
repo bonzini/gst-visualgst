@@ -87,7 +87,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	<category: 'user interface'>
    
         classesTree := (GTK.GtkTreeView createTreeWithModel: {{GtkColumnTextType title: 'Classes'}})
-                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:' userData: nil;
+                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:';
                             yourself.
         classesTree getSelection setMode: self selectionMode.
         (model := GtkTreeModel on: classesTree getModel)
@@ -124,7 +124,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	<category: 'events'>
 
 	classesTree getSelection
-	    connectSignal: 'changed' to: anObject selector: aSelector userData: nil
+	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
     selectionMode: aSelectionMode [

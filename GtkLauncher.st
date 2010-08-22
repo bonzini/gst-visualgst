@@ -306,7 +306,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	implementorResultWidget hideAll.
 	senderResultWidget hideAll.
 	window
-	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:' userData: nil
+	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:'
     ]
 
     buildNotebookWorkspaceWidget [
