@@ -329,33 +329,16 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ self buildBrowserAndWorkspaceWidget
     ]
 
-    buildHistoryPaned [
-       <category: 'user interface'>
-
-        ^ GTK.GtkHPaned new
-            pack1: self buildHistoryView resize: true shrink: false;
-            pack2: self buildBottomPanedAndClassBrowser resize: true shrink: true ;
-            showAll;
-            yourself
-    ]
-
     buildImplementorPaned [
        <category: 'user interface'>
 
-        ^ GTK.GtkHPaned new
-            pack1: self buildImplementorView resize: true shrink: false;
-            pack2: self buildHistoryPaned resize: true shrink: true ;
-            showAll;
-            yourself
+        ^ GTK.GtkHPaned addAll: {self buildImplementorView. self buildHistoryView. self buildBottomPanedAndClassBrowser}
     ]
 
     buildBrowserAndWorkspaceWidget [
         <category: 'intialize-release'>
 
-        ^ GTK.GtkVPaned new
-            pack1: self buildImplementorPaned resize: true shrink: true;
-            pack2: self buildNotebookWorkspaceWidget mainWidget resize: true shrink: false;
-            yourself
+        ^ GTK.GtkVPaned addAll: {self buildImplementorPaned. self buildNotebookWorkspaceWidget mainWidget}
     ]
 
     buildImplementorView [
@@ -399,19 +382,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildBottomPanedAndClassBrowser [
         <category: 'user interface'>
 
-        ^ GTK.GtkVPaned new
-            pack1: self buildResultList resize: true shrink: false;
-            pack2: self buildClassBrowserTabbedWidget mainWidget resize: true shrink: true;
-            yourself
-    ]
-
-    buildResultList [
-        <category: 'user interface'>
-
-        ^ GTK.GtkVPaned new
-            pack1: self buildImplementorResultList mainWidget resize: true shrink: false;
-            pack2: self buildSenderResultList mainWidget resize: true shrink: true;
-	    yourself
+	^ GTK.GtkVPaned addAll: {self buildImplementorResultList mainWidget. self buildSenderResultList mainWidget. self buildClassBrowserTabbedWidget mainWidget}
     ]
 
     buildClassBrowserTabbedWidget [
@@ -430,34 +401,34 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildClassBrowserWidget [
 	<category: 'user interface'>
 
-	^ (GtkClassBrowserWidget new)
-	    parentWindow: window;
-	    initialize;
-	    yourself
+	^ self buildWidget: GtkClassBrowserWidget
     ]
 
     buildTranscriptWidget [
 	<category: 'user interface'>
 
-	^ GtkTranscriptWidget new
-	    parentWindow: window;
-	    initialize;
-	    yourself
+	^ self buildWidget: GtkTranscriptWidget
     ]
 
     buildWorkspaceWidget [
 	<category: 'user interface'>
 
-	^ GtkWorkspaceWidget new
-	    parentWindow: window;
-	    initialize;
-	    yourself
+	^ self buildWidget: GtkWorkspaceWidget
+    ]
+
+    buildWidget: aClass [
+        <category: 'user interface'>
+
+        ^ aClass new
+            parentWindow: window;
+            initialize;
+            yourself
     ]
 
     createEditMenus [
 	<category: 'user interface'>
 
-	^super createEditMenus, {
+	^ super createEditMenus, {
             GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Clear Transcript' connectTo: self selector: #clearTranscriptWidget}
     ]

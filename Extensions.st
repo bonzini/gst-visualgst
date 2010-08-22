@@ -606,3 +606,31 @@ GTK.GtkWidget extend [
         ^nil
     ]
 ]
+
+GTK.GtkPaned class extend [
+
+    addAll: anArray [
+
+	^ self addAll: anArray from: 1
+    ]
+
+    addAll: anArray from: anInteger [
+
+        ^ anArray size - anInteger = 0 
+                ifTrue: [ self new
+                                pack1: (anArray at: anInteger) resize: true shrink: true;
+                                yourself ]
+                ifFalse: [ 
+                    anArray size - anInteger > 1 ifTrue: [ 
+					    self new
+                                                    pack1: (anArray at: anInteger) resize: true shrink: true;
+                                                    pack2: (self addAll: anArray from: anInteger + 1) resize: true shrink: false;
+                                                    yourself ]
+                                    ifFalse: [ self new
+                                                    pack1: (anArray at: anInteger) resize: true shrink: true;
+                                                    pack2: (anArray at: anInteger + 1) resize: true shrink: false;
+                                                    yourself ] ]
+    ]
+
+]
+
