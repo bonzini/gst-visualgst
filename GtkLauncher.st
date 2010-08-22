@@ -388,14 +388,10 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildClassBrowserTabbedWidget [
 	<category: 'user interface'>
 
-	browsers := GtkNotebookWidget new
-					initialize;
-					parentWindow: window;
-					showAll;
-					yourself.
-	browsers addWidget: self buildClassBrowserWidget labeled: 'Browser'.
-	^ browsers
-	    
+	^ browsers := (self buildWidget: GtkNotebookWidget)
+				    showAll;
+				    addWidget: self buildClassBrowserWidget labeled: 'Browser';
+				    yourself
     ]
 
     buildClassBrowserWidget [
