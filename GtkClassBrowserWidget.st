@@ -88,8 +88,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'user interface'>
 
 	^ aClass showAll
-                    whenSelectionChangedSend: aSymbol to: self;
-                    yourself
+                whenSelectionChangedSend: aSymbol to: self;
+                yourself
     ]
 
     buildHierarchy [
