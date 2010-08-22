@@ -1,6 +1,15 @@
 GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
     | child parentWindow |
 
+    GtkConcreteWidget class >> parentWindow: aGtkWindow [
+	<category: 'instance creation'>
+
+        ^ self new
+            parentWindow: aGtkWindow;
+            initialize;
+            yourself
+    ]
+
     GtkConcreteWidget class >> showAll [
 	<category: 'instance creation'>
 

@@ -388,7 +388,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildClassBrowserTabbedWidget [
 	<category: 'user interface'>
 
-	^ browsers := (self buildWidget: GtkNotebookWidget)
+	^ browsers := (GtkNotebookWidget parentWindow: window)
 				    showAll;
 				    addWidget: self buildClassBrowserWidget labeled: 'Browser';
 				    yourself
@@ -397,28 +397,19 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildClassBrowserWidget [
 	<category: 'user interface'>
 
-	^ self buildWidget: GtkClassBrowserWidget
+	^ GtkClassBrowserWidget parentWindow: window
     ]
 
     buildTranscriptWidget [
 	<category: 'user interface'>
 
-	^ self buildWidget: GtkTranscriptWidget
+	^ GtkTranscriptWidget parentWindow: window
     ]
 
     buildWorkspaceWidget [
 	<category: 'user interface'>
 
-	^ self buildWidget: GtkWorkspaceWidget
-    ]
-
-    buildWidget: aClass [
-        <category: 'user interface'>
-
-        ^ aClass new
-            parentWindow: window;
-            initialize;
-            yourself
+	^ GtkWorkspaceWidget parentWindow: window
     ]
 
     createEditMenus [
