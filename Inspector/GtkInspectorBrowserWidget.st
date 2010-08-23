@@ -20,18 +20,12 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 
     buildClassBrowser [
 
-	^ GTK.GtkHPaned new
-            pack1: self buildClassMethodView resize: true shrink: false;
-	    showAll;
-	    yourself
+	^ GTK.GtkHPaned addAll: {self buildClassMethodView}
     ]
 
     buildInstanceBrowser [
 
-	^ GTK.GtkHPaned new
-	    pack1: self buildInstanceMethodView resize: true shrink: false;
-	    showAll;
-	    yourself
+	^ GTK.GtkHPaned addAll: {self buildInstanceMethodView}
     ]
 
     buildProtocolAndMethod [
@@ -48,9 +42,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     buildCodeView [
 	<category: 'user interface'>
 
-	codeWidget := (GtkSourceCodeWidget new)
-			initialize;
-			parentWindow: self parentWindow;
+	codeWidget := (GtkSourceCodeWidget parentWindow: self parentWindow)
 			browser: self;
 			showAll;
 			yourself.
@@ -61,10 +53,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     buildHierarchy [
 	<category: 'user interface'>
 
-	classHierarchyWidget := (GtkClassHierarchyWidget new)
-				    initialize;
+	classHierarchyWidget := GtkClassHierarchyWidget showAll
 				    whenSelectionChangedSend: #onClassHierarchyChanged to: self;
-				    showAll;
 				    yourself.
 
 	^ classHierarchyWidget mainWidget
@@ -73,10 +63,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     buildClassMethodView [
 	<category: 'user interface'>
 
-	cMethodWidget := (GtkMethodWidget new)
-			    initialize;
+	cMethodWidget := GtkMethodWidget showAll
 			    whenSelectionChangedSend: #onClassSideMethodChanged to: self;
-			    showAll;
 			    yourself.
 
 	^ cMethodWidget mainWidget
@@ -85,10 +73,8 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     buildInstanceMethodView [
         <category: 'user interface'>
 
-        iMethodWidget := (GtkMethodWidget new)
-                            initialize;
+        iMethodWidget := GtkMethodWidget showAll 
                             whenSelectionChangedSend: #onInstanceSideMethodChanged to: self;
-                            showAll;
                             yourself.
 
         ^ iMethodWidget mainWidget
@@ -97,17 +83,10 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
     initialize [
 	<category: 'initialize-release'>
 
-	| vpaned |
 	classHierarchyUpdate := false.
 	checkCode := true.
-	vpaned := GTK.GtkVPaned new.
 	state := NamespaceState on: self with: Smalltalk.
-	self mainWidget: vpaned.
-    
-	vpaned
-	    pack1: self buildBrowser resize: true shrink: false;
-	    pack2: self buildCodeView resize: true shrink: true ;
-	    showAll
+	self mainWidget: (GTK.GtkVPaned addAll: {self buildBrowser. self buildCodeView})
     ]
 
     classInstanceSwitchOn: aGtkNotebook page: aGtkNotebookPage number: aSmallInteger [
