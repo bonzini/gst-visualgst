@@ -69,6 +69,9 @@
   <filein>Category/Class.st</filein>
   <filein>GtkAbstractConcreteWidget.st</filein>
   <filein>GtkConcreteWidget.st</filein>
+  <filein>GtkSidebarWidget.st</filein>
+  <filein>GtkHSidebarWidget.st</filein>
+  <filein>GtkVSidebarWidget.st</filein>
   <filein>Model/GtkColumnType.st</filein>
   <filein>Model/GtkColumnTextType.st</filein>
   <filein>Model/GtkColumnPixbufType.st</filein>
@@ -235,6 +238,9 @@
   <file>Category/Class.st</file>
   <file>GtkAbstractConcreteWidget.st</file>
   <file>GtkConcreteWidget.st</file>
+  <file>GtkSidebarWidget.st</file>
+  <file>GtkHSidebarWidget.st</file>
+  <file>GtkVSidebarWidget.st</file>
   <file>Model/GtkColumnType.st</file>
   <file>Model/GtkColumnTextType.st</file>
   <file>Model/GtkColumnPixbufType.st</file>

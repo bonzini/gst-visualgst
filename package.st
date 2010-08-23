@@ -58,6 +58,9 @@ Eval [
     filein: 'Category/Class.st';
     filein: 'GtkAbstractConcreteWidget.st';
     filein: 'GtkConcreteWidget.st';
+    filein: 'GtkSidebarWidget.st';
+    filein: 'GtkHSidebarWidget.st';
+    filein: 'GtkVSidebarWidget.st';
     filein: 'Model/GtkColumnType.st';
     filein: 'Model/GtkColumnTextType.st';
     filein: 'Model/GtkColumnPixbufType.st';

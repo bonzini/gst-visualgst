@@ -56,6 +56,12 @@ GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
 	child hideAll
     ]
 
+    isVisible [
+	<category: 'testing'>
+
+	^ child getVisible
+    ]
+
     hasFocus [
 	<category: 'testing'>
 
@@ -70,14 +76,14 @@ GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
     focusedWidget [
 	<category: 'focus'>
 
-        self hasFocus ifTrue: [^self].
-        ^nil
+        self hasFocus ifTrue: [ ^ self ].
+        ^ nil
     ]
 
     onFocusPerform: aSymbol [
         <category: 'widget'>
 
-        ^self focusedWidget perform: aSymbol
+        ^ self focusedWidget perform: aSymbol
     ]
 
     grabFocus [

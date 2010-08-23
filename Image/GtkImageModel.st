@@ -1,12 +1,11 @@
 Object subclass: GtkImage [
-    GtkImage class [ | current | ]
 
-    GtkImage class >> current [
-	<category: 'accessing'>
+    GtkImage class >> new [
+	<category: 'instance creation'>
 
-	^ current ifNil: [ (current := self new)
-					initialize;
-					yourself ]
+	^ self basicNew
+		initialize;
+		yourself
     ]
 
     | finderDic |
