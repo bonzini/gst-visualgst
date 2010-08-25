@@ -5,12 +5,11 @@ ClassCommand subclass: AcceptItCommand [
 
         Namespace current: aNamespace.
         "TODO: show errors as in AddMethodUndoCommand."
-        STInST.STEvaluationDriver new
-		    parseSmalltalkStream: (ReadStream on: target sourceCode) with: STInST.GSTFileInParser;
-		    result.
         target 
 	    codeSaved;
-	    clearUndo
+	    clearUndo.
+        STInST.STEvaluationDriver new
+		    parseSmalltalkStream: (ReadStream on: target sourceCode) with: STInST.GSTFileInParser
     ]
 
     acceptClassDefinition [
