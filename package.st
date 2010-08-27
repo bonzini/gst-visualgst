@@ -71,7 +71,6 @@ Eval [
     filein: 'GtkMainWindow.st';
     filein: 'GtkVisualGSTTool.st';
     filein: 'GtkBrowsingTool.st';
-    filein: 'GtkBrowserWrapper.st';
     filein: 'GtkLauncher.st';
     filein: 'Text/GtkTextPluginWidget.st';
     filein: 'Text/GtkFindWidget.st';

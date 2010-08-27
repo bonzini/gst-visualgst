@@ -31,9 +31,29 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
                 header.
         aNamespace do: [ :each |
             (each isNil not and: [ each isClass and: [ each environment = aNamespace ] ])
-                    ifTrue: [ stream := FileStream open: (aDirectory / ((each name asString) , '.st')) asString mode: FileStream write.
-                            (ClassSource write: each on: stream)
-                                source ] ]
+                    ifTrue: [ self fileoutClass: each from: aDirectory ] ]
+    ]
+
+    fileoutClass: aClass from: aDirectory [
+
+	| directory stream |
+	directory := self createCategories: aClass from: aDirectory.
+	stream := FileStream open: (directory / ((aClass name asString) , '.st')) asString mode: FileStream write.
+	(ClassSource write: aClass on: stream)
+                source
+    ]
+
+    createCategories: aClass from: aDirectory [
+
+        | categories directory |
+	aClass category ifNil: [ ^ aDirectory ].
+        categories := (aClass category tokenize: '-') asOrderedCollection.
+        categories first = aClass environment name asString ifTrue: [ categories removeFirst ].
+        directory := aDirectory.
+        categories do: [ :each |
+            directory := directory / each.
+            directory exists ifFalse: [ directory createDirectory ] ].
+	^ directory
     ]
 ]
 
