@@ -15,11 +15,11 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         ^ (GTK.GtkVBox new: false spacing: 0)
             add: self buildPackageNameEntry mainWidget;
 	    add: self buildNamespaceEntry mainWidget;
-	    add: self buildPrereqEntry;
+	    add: self buildPrereq;
 	    add: self buildProvideEntry mainWidget;
 	    add: self buildTestsEntry mainWidget;
 	    add: self buildClassCategoryEntry mainWidget;
-	    add: self buildFilesEntry;
+	    add: self buildClassCategory;
 	    add: self buildRessourcesEntry;
             yourself
     ]
@@ -84,6 +84,28 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 	^ self buildList: #prereq labeled: 'Packages prerequired :'
     ]
 
+    buildPrereq [
+
+        | hbox vbox add remove |
+        hbox := GTK.GtkHBox new: false spacing: 0.
+
+        hbox packStart: self buildPrereqEntry expand: true fill: true padding: 3.
+        add := GTK.GtkButton createButton: GTK.Gtk gtkStockAdd.
+        add
+            setTooltipText: 'Add a file into the package';
+            connectSignal: 'clicked' to: self selector: #cbAddFilesItem.
+
+        vbox := GTK.GtkVBox new: false spacing: 0.
+        vbox packStart: add expand: false fill: true padding: 3.
+
+        remove := GTK.GtkButton createButton: GTK.Gtk gtkStockRemove.
+        remove
+            setTooltipText: 'Remove the selected file from the list'.
+        vbox packStart: remove expand: false fill: true padding: 3.
+        hbox packStart: vbox expand: false fill: true padding: 3.
+        ^ hbox
+    ]
+
     buildProvideEntry [
         <category: 'user interface'>
 
@@ -119,6 +141,28 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         ^ packName := (GtkEntryWidget labeled: 'Class category :')
                                                 completion: completion;
                                                 yourself
+    ]
+
+    buildClassCategory [
+
+	| hbox vbox add remove |
+	hbox := GTK.GtkHBox new: false spacing: 0.
+	
+	hbox packStart: self buildFilesEntry expand: true fill: true padding: 3.
+        add := GTK.GtkButton createButton: GTK.Gtk gtkStockAdd.
+        add
+	    setTooltipText: 'Add a file into the package';
+            connectSignal: 'clicked' to: self selector: #cbAddFilesItem.
+
+	vbox := GTK.GtkVBox new: false spacing: 0.
+        vbox packStart: add expand: false fill: true padding: 3.
+
+        remove := GTK.GtkButton createButton: GTK.Gtk gtkStockRemove.
+	remove 
+	    setTooltipText: 'Remove the selected file from the list'.
+        vbox packStart: remove expand: false fill: true padding: 3.
+        hbox packStart: vbox expand: false fill: true padding: 3.
+	^ hbox
     ]
 
     buildFilesEntry [
