@@ -1,6 +1,6 @@
 GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 
-    | packName namespace provide test entries |
+    | packName namespace provide test classCategory entries |
 
     initialize [
         <category: 'initialization'>
@@ -18,6 +18,7 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 	    add: self buildPrereqEntry;
 	    add: self buildProvideEntry mainWidget;
 	    add: self buildTestsEntry mainWidget;
+	    add: self buildClassCategoryEntry mainWidget;
 	    add: self buildFilesEntry;
 	    add: self buildRessourcesEntry;
             yourself
@@ -95,10 +96,35 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 	^ test := GtkEntryWidget labeled: 'Tests :'
     ]
 
+    buildClassCategoryCompletion: model [
+
+	| set |
+	set := Set new.
+	Class allSubclassesDo: [ :each |
+	    (set includes: each category)
+		ifFalse: [
+		    set add: each category.
+		    model appendItem: {each category} ] ]
+    ]
+
+    buildClassCategoryEntry [
+        <category: 'user interface'>
+
+        | completion model |
+        completion := GTK.GtkEntryCompletion new.
+        completion
+            setModel: (model := GTK.GtkListStore createModelWith: {{GtkColumnTextType title: ''}});
+            setTextColumn: 0.
+        self buildClassCategoryCompletion: model.
+        ^ packName := (GtkEntryWidget labeled: 'Class category :')
+                                                completion: completion;
+                                                yourself
+    ]
+
     buildFilesEntry [
         <category: 'user interface'>
 
-	^ self buildList: #files labeled: 'Files :'
+	^ self buildList: #classes labeled: 'Classes category :'
     ]
 
     buildRessourcesEntry [
