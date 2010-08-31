@@ -120,8 +120,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
             {'<Alt>D'. '<GtkVisualGSTTool>/Smalltalk/DebugIt'. self. #printIt}.
             {'<Control>P'. '<GtkVisualGSTTool>/Smalltalk/PrintIt'. self. #printIt}.
             {'<Control>I'. '<GtkVisualGSTTool>/Smalltalk/InspectIt'. self. #inspectIt}.
-            "{'<Control>M'. '<GtkVisualGSTTool>/Smalltalk/Implementors'. self. #implementors}.
-            {'<Control>N'. '<GtkVisualGSTTool>/Smalltalk/Senders'. self. #senders}."
             {'<Control>S'. '<GtkVisualGSTTool>/Smalltalk/AcceptIt'. self. #acceptIt}}.
 
         ^{GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkVisualGSTTool>/Smalltalk/DoIt' connectTo: self selector: #doIt.
@@ -129,9 +127,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
             GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkVisualGSTTool>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
             GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkVisualGSTTool>/Smalltalk/DebugIt' connectTo: self selector: #debugIt.
             GTK.GtkMenuItem new.
-            "GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Smalltalk/Implementors' connectTo: self selector: #implementors.
-            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Smalltalk/Senders' connectTo: self selector: #senders.
-            GTK.GtkMenuItem new."
             GTK.GtkMenuItem menuItem: 'Accept' accelPath: '<GtkVisualGSTTool>/Smalltalk/AcceptIt' connectTo: self selector: #acceptIt}
     ]
 
@@ -140,11 +135,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
         | menu |
         self accelGroup append: {{'<Control>M'. '<GtkVisualGSTTool>/Tools/Implementors'}.
-            {'<Control>N'. '<GtkVisualGSTTool>/Tools/Senders'}}.
+            {'<Control>N'. '<GtkVisualGSTTool>/Tools/Senders'}.
+            {'<Alt>P'. '<GtkVisualGSTTool>/Tools/PackageBuilder'}}.
 
         menu := {GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: self selector: #newImplementorBrowser.
             GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Tools/Senders' connectTo: self selector: #newSenderBrowser.
-            GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #newSUnitBrowser} asOrderedCollection.
+            GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #newSUnitBrowser.
+            GTK.GtkMenuItem menuItem: 'PackageBuilder' accelPath: '<GtkVisualGSTTool>/Tools/PackageBuilder' connectTo: self selector: #packageBuilder} asOrderedCollection.
 
         GtkWebView hasWebkit ifTrue: [ menu := menu, {GTK.GtkMenuItem new.
             GTK.GtkMenuItem menuItem: 'Assistant' connectTo: OpenAssistantCommand selector: #execute.
@@ -207,6 +204,12 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	<category: 'tools events'>
 
 	OpenImplementorCommand on: self
+    ]
+
+    packageBuilder [
+        <category: 'tools events'>
+
+        OpenPackageBuilderCommand on: self
     ]
 
     helpContents [

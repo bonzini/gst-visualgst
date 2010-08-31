@@ -68,6 +68,7 @@ Eval [
     filein: 'GtkListModel.st';
     filein: 'GtkTreeModel.st';
     filein: 'Text/GtkTextWidget.st';
+    filein: 'GtkPackageBuilderWidget.st';
     filein: 'GtkMainWindow.st';
     filein: 'GtkVisualGSTTool.st';
     filein: 'GtkBrowsingTool.st';
@@ -175,6 +176,7 @@ Eval [
     filein: 'Commands/OpenWorkspaceCommand.st';
     filein: 'Commands/OpenImplementorCommand.st';
     filein: 'Commands/OpenSenderCommand.st';
+    filein: 'Commands/OpenPackageBuilderCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
     ressource: 'Icons/category.gif';

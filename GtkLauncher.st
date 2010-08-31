@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | history uniqueInstance | ]
 
-    | leftSidebar topSidebar implementorResultWidget senderResultWidget senderWidget implementorWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | leftSidebar rightSidebar topSidebar packageBuilderWidget implementorResultWidget senderResultWidget senderWidget implementorWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
 
     GtkLauncher class >> addHistory: aClass [
 	<category: 'public'>
@@ -301,6 +301,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	1 to: 2 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	leftSidebar postInitialize.
 	topSidebar postInitialize.
+	rightSidebar postInitialize.
 	window
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:'
     ]
@@ -335,10 +336,31 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ leftSidebar mainWidget
     ]
 
+    buildPackageBuilderView [
+	<category: 'user interface'>
+
+	packageBuilderWidget := GtkPackageBuilderWidget new
+						    initialize;
+						    yourself.
+	^ packageBuilderWidget mainWidget
+    ]
+
+    buildRightSidebarPaned [
+       <category: 'user interface'>
+
+        rightSidebar := GtkHSidebarWidget new
+                            initialize;
+                            addAll: {self buildPackageBuilderView};
+                            yourself.
+        ^ rightSidebar mainWidget
+    ]
+
     buildBrowserAndWorkspaceWidget [
         <category: 'intialize-release'>
 
-        ^ GTK.GtkVPaned addAll: {GTK.GtkHPaned addAll: {self buildImplementorPaned. self buildBottomPanedAndClassBrowser}. self buildNotebookWorkspaceWidget mainWidget}
+        ^ GTK.GtkVPaned addAll: {
+		    GTK.GtkHPaned addAll: {self buildImplementorPaned. self buildBottomPanedAndClassBrowser. self buildRightSidebarPaned}. 
+		    self buildNotebookWorkspaceWidget mainWidget}
     ]
 
     buildImplementorView [
@@ -758,6 +780,19 @@ GtkVisualGSTTool subclass: GtkLauncher [
         leftSidebar show: anIndex.
         topSidebar show: anIndex.
 	^ true
+    ]
+
+    showHidePackageBuilder [
+        <category: 'image events'>
+
+        | isVisible |
+        isVisible := packageBuilderWidget isVisible.
+        leftSidebar hide.
+        topSidebar hide.
+	rightSidebar hide.
+        isVisible
+            ifFalse: [
+                rightSidebar show: 1 ]
     ]
 
     back [

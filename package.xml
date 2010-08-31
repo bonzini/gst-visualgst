@@ -79,6 +79,7 @@
   <filein>GtkListModel.st</filein>
   <filein>GtkTreeModel.st</filein>
   <filein>Text/GtkTextWidget.st</filein>
+  <filein>GtkPackageBuilderWidget.st</filein>
   <filein>GtkMainWindow.st</filein>
   <filein>GtkVisualGSTTool.st</filein>
   <filein>GtkBrowsingTool.st</filein>
@@ -186,6 +187,7 @@
   <filein>Commands/OpenWorkspaceCommand.st</filein>
   <filein>Commands/OpenImplementorCommand.st</filein>
   <filein>Commands/OpenSenderCommand.st</filein>
+  <filein>Commands/OpenPackageBuilderCommand.st</filein>
   <filein>Commands/SaveImageCommand.st</filein>
   <filein>Commands/SaveImageAsCommand.st</filein>
   <file>Notification/AbstractEvent.st</file>
@@ -247,6 +249,7 @@
   <file>GtkListModel.st</file>
   <file>GtkTreeModel.st</file>
   <file>Text/GtkTextWidget.st</file>
+  <file>GtkPackageBuilderWidget.st</file>
   <file>GtkMainWindow.st</file>
   <file>GtkVisualGSTTool.st</file>
   <file>GtkBrowsingTool.st</file>
@@ -354,6 +357,7 @@
   <file>Commands/OpenWorkspaceCommand.st</file>
   <file>Commands/OpenImplementorCommand.st</file>
   <file>Commands/OpenSenderCommand.st</file>
+  <file>Commands/OpenPackageBuilderCommand.st</file>
   <file>Commands/SaveImageCommand.st</file>
   <file>Commands/SaveImageAsCommand.st</file>
   <file>Icons/category.gif</file>
