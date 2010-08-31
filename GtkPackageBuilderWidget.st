@@ -1,6 +1,6 @@
 GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 
-    | packName namespace provide test classCategory entries |
+    | packName namespace provide test classCategory prereq entries |
 
     initialize [
         <category: 'initialization'>
@@ -15,6 +15,7 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         ^ (GTK.GtkVBox new: false spacing: 0)
             add: self buildPackageNameEntry mainWidget;
 	    add: self buildNamespaceEntry mainWidget;
+            add: self buildPackageEntry mainWidget;
 	    add: self buildPrereq;
 	    add: self buildProvideEntry mainWidget;
 	    add: self buildTestsEntry mainWidget;
@@ -78,6 +79,20 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 						yourself
     ]
 
+    buildPackageEntry [
+        <category: 'user interface'>
+
+        | completion model |
+        completion := GTK.GtkEntryCompletion new.
+        completion
+            setModel: (model := GTK.GtkListStore createModelWith: {{GtkColumnTextType title: ''}});
+            setTextColumn: 0.
+	Smalltalk.PackageLoader root do: [ :each | model appendItem: {each name} ].
+        ^ prereq := (GtkEntryWidget labeled: 'Package :')
+                                                completion: completion;
+                                                yourself
+    ]
+
     buildPrereqEntry [
         <category: 'user interface'>
 
@@ -93,7 +108,7 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         add := GTK.GtkButton createButton: GTK.Gtk gtkStockAdd.
         add
             setTooltipText: 'Add a file into the package';
-            connectSignal: 'clicked' to: self selector: #cbAddFilesItem.
+            connectSignal: 'clicked' to: self selector: #addPrereq.
 
         vbox := GTK.GtkVBox new: false spacing: 0.
         vbox packStart: add expand: false fill: true padding: 3.
@@ -152,7 +167,7 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         add := GTK.GtkButton createButton: GTK.Gtk gtkStockAdd.
         add
 	    setTooltipText: 'Add a file into the package';
-            connectSignal: 'clicked' to: self selector: #cbAddFilesItem.
+            connectSignal: 'clicked' to: self selector: #addCategory.
 
 	vbox := GTK.GtkVBox new: false spacing: 0.
         vbox packStart: add expand: false fill: true padding: 3.
@@ -175,6 +190,16 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         <category: 'user interface'>
 
 	^ self buildList: #ressources labeled: 'Ressources :'
+    ]
+
+    addPrereq [
+
+	(entries at: #prereq) getModel appendItem: {prereq text}
+    ]
+
+    addCategory [
+
+	(entries at: #classes) getModel appendItem: {packName text}
     ]
 ]
 

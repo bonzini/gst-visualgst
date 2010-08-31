@@ -31,5 +31,10 @@ GtkConcreteWidget subclass: GtkEntryWidget [
 
 	entry setCompletion: aGtkEntryCompletion
     ]
+
+    text [
+
+	^ entry getText
+    ]
 ]
 
