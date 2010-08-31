@@ -1,6 +1,6 @@
 GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 
-    | entries |
+    | packName namespace provide test entries |
 
     initialize [
         <category: 'initialization'>
@@ -13,25 +13,13 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         <category: 'user interface'>
 
         ^ (GTK.GtkVBox new: false spacing: 0)
-            add: self buildPackageNameEntry;
-	    add: self buildNamespaceEntry;
+            add: self buildPackageNameEntry mainWidget;
+	    add: self buildNamespaceEntry mainWidget;
 	    add: self buildPrereqEntry;
-	    add: self buildProvideEntry;
-	    add: self buildTestsEntry;
+	    add: self buildProvideEntry mainWidget;
+	    add: self buildTestsEntry mainWidget;
 	    add: self buildFilesEntry;
 	    add: self buildRessourcesEntry;
-            yourself
-    ]
-
-    buildEntry: aSymbol labeled: aString [
-
-	| widget |
-        entries 
-            at: aSymbol 
-            put: (widget := GTK.GtkEntry new).
-        ^ (GTK.GtkHBox new: true spacing: 3)
-            add: (GTK.GtkLabel new: aString);
-            add: widget;
             yourself
     ]
 
@@ -52,13 +40,41 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
     buildPackageNameEntry [
         <category: 'user interface'>
 
-	^ self buildEntry: #packName labeled: 'Package name :'
+        | completion model |
+        completion := GTK.GtkEntryCompletion new.
+        completion 
+            setModel: (model := GTK.GtkListStore createModelWith: {{GtkColumnTextType title: ''}});
+            setTextColumn: 0.
+	Smalltalk.PackageLoader root do: [ :each | model appendItem: {each name} ].
+	^ packName := (GtkEntryWidget labeled: 'Package name :')
+						completion: completion;
+                                                yourself
+    ]
+
+    buildNamespaceCompletion: model [
+
+	self buildNamespaceCompletion: Smalltalk on: model
+    ]
+
+    buildNamespaceCompletion: aNamespace on: model [
+
+	model appendItem: {aNamespace name asString}.
+	aNamespace subspaces do: [ :each |
+	    self buildNamespaceCompletion: each on: model ]
     ]
 
     buildNamespaceEntry [
         <category: 'user interface'>
 
-	^ self buildEntry: #namespace labeled: 'Namespace :'
+	| completion model |
+	completion := GTK.GtkEntryCompletion new.
+	completion 
+	    setModel: (model := GTK.GtkListStore createModelWith: {{GtkColumnTextType title: ''}});
+	    setTextColumn: 0.
+	self buildNamespaceCompletion: model.
+	^ namespace := (GtkEntryWidget labeled: 'Namespace :')
+						completion: completion;
+						yourself
     ]
 
     buildPrereqEntry [
@@ -70,13 +86,13 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
     buildProvideEntry [
         <category: 'user interface'>
 
-	^ self buildEntry: #provide labeled: 'Provides :'
+	^ provide := GtkEntryWidget labeled: 'Provides :'
     ]
 
     buildTestsEntry [
         <category: 'user interface'>
 
-	^ self buildEntry: #test labeled: 'Tests :'
+	^ test := GtkEntryWidget labeled: 'Tests :'
     ]
 
     buildFilesEntry [

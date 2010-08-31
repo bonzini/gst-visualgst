@@ -69,6 +69,7 @@
   <filein>Category/Class.st</filein>
   <filein>GtkAbstractConcreteWidget.st</filein>
   <filein>GtkConcreteWidget.st</filein>
+  <filein>GtkEntryWidget.st</filein>
   <filein>GtkSidebarWidget.st</filein>
   <filein>GtkHSidebarWidget.st</filein>
   <filein>GtkVSidebarWidget.st</filein>
@@ -239,6 +240,7 @@
   <file>Category/Class.st</file>
   <file>GtkAbstractConcreteWidget.st</file>
   <file>GtkConcreteWidget.st</file>
+  <file>GtkEntryWidget.st</file>
   <file>GtkSidebarWidget.st</file>
   <file>GtkHSidebarWidget.st</file>
   <file>GtkVSidebarWidget.st</file>

@@ -431,16 +431,48 @@ STInST.RBParser class extend [
     ]	
 ]
 
-GTK.GtkTreeView class extend [
-
-    createModel: aGtkStoreClass with: anArray [
-	<category: '*VisualGST'>
+GTK.GtkTreeModel class extend [
+    createModelWith: anArray [
+        <category: '*VisualGST'>
 
         | model |
         model := OrderedCollection new.
         anArray do: [ :each | model addAll: (each collect: [ :elem | elem kind ]) ].
         model addLast: VisualGST.GtkColumnOOPType kind.
-        ^ self newWithModel: (aGtkStoreClass new: model size varargs: model asArray)
+        ^ self new: model size varargs: model asArray
+    ]
+]
+
+GTK.GtkListStore class extend [
+    createModelWith: anArray [
+        <category: '*VisualGST'>
+
+        | model |
+        model := OrderedCollection new.
+        anArray do: [ :each | model addAll: (each collect: [ :elem | elem kind ]) ].
+        model addLast: VisualGST.GtkColumnOOPType kind.
+        ^ self new: model size varargs: model asArray
+    ]
+]
+
+GTK.GtkTreeStore class extend [
+    createModelWith: anArray [
+        <category: '*VisualGST'>
+
+        | model |
+        model := OrderedCollection new.
+        anArray do: [ :each | model addAll: (each collect: [ :elem | elem kind ]) ].
+        model addLast: VisualGST.GtkColumnOOPType kind.
+        ^ self new: model size varargs: model asArray
+    ]
+]
+
+GTK.GtkTreeView class extend [
+
+    createModel: aGtkStoreClass with: anArray [
+	<category: '*VisualGST'>
+
+	^ self newWithModel: (aGtkStoreClass createModelWith: anArray)
     ]
 
     createTreeViewWith: anArray [
@@ -634,3 +666,10 @@ GTK.GtkPaned class extend [
 
 ]
 
+Smalltalk.PackageLoader class extend [
+    root [
+	<category: 'accessing'>
+
+	^ root
+    ]
+]
