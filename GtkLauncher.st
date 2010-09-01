@@ -757,12 +757,18 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	self showHideOn: senderWidget at: 2
     ]
 
+    hideSidebars [
+
+        leftSidebar hide.
+        topSidebar hide.
+        rightSidebar hide.
+    ]
+
     showHideOn: aGtkWidget at: anIndex [
 
         | isVisible |
         isVisible := aGtkWidget isVisible.
-        leftSidebar hide.
-        topSidebar hide.
+	self hideSidebars.
         isVisible
             ifFalse: [
                 topSidebar show: anIndex.
@@ -774,8 +780,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
         | isVisible |
         isVisible := aGtkWidget isVisible.
-        leftSidebar hide.
-        topSidebar hide.
+	self hideSidebars.
         isVisible ifTrue: [ ^ false ].
         leftSidebar show: anIndex.
         topSidebar show: anIndex.
@@ -787,9 +792,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
         | isVisible |
         isVisible := packageBuilderWidget isVisible.
-        leftSidebar hide.
-        topSidebar hide.
-	rightSidebar hide.
+	self hideSidebars.
         isVisible
             ifFalse: [
                 rightSidebar show: 1 ]
