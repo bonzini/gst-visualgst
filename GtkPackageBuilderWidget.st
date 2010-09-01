@@ -202,7 +202,7 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         add := GTK.GtkButton createButton: GTK.Gtk gtkStockAdd.
         add
             setTooltipText: 'Add a file into the package';
-            connectSignal: 'clicked' to: self selector: #addPrereq.
+            connectSignal: 'clicked' to: self selector: #buildPackage.
 
         hbox packStart: add expand: false fill: true padding: 3.
 
@@ -221,6 +221,9 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
     addCategory [
 
 	(entries at: #classes) getModel appendItem: {packName text}
+    ]
+
+    buildPackage [
     ]
 ]
 
