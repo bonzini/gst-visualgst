@@ -6,13 +6,13 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         <category: 'initialization'>
 
 	entries := Dictionary new.
-        self mainWidget: self buildMainWidget
+        self mainWidget: (GTK.GtkScrolledWindow withViewport: self buildMainWidget)
     ]
 
     buildMainWidget [
         <category: 'user interface'>
 
-        ^ (GTK.GtkVBox new: false spacing: 0)
+        ^ (GTK.GtkVBox new: false spacing: 3)
             add: self buildPackageNameEntry mainWidget;
 	    add: self buildNamespaceEntry mainWidget;
             add: self buildPackageEntry mainWidget;
@@ -22,6 +22,7 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 	    add: self buildClassCategoryEntry mainWidget;
 	    add: self buildClassCategory;
 	    add: self buildRessourcesEntry;
+	    add: self buildButtons;
             yourself
     ]
 
@@ -190,6 +191,26 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
         <category: 'user interface'>
 
 	^ self buildList: #ressources labeled: 'Ressources :'
+    ]
+
+    buildButtons [
+        <category: 'user interface'>
+
+        | hbox add remove |
+        hbox := GTK.GtkHBox new: false spacing: 0.
+
+        add := GTK.GtkButton createButton: GTK.Gtk gtkStockAdd.
+        add
+            setTooltipText: 'Add a file into the package';
+            connectSignal: 'clicked' to: self selector: #addPrereq.
+
+        hbox packStart: add expand: false fill: true padding: 3.
+
+        remove := GTK.GtkButton createButton: GTK.Gtk gtkStockRemove.
+        remove
+            setTooltipText: 'Remove the selected file from the list'.
+        hbox packStart: remove expand: false fill: true padding: 3.
+        ^ hbox
     ]
 
     addPrereq [

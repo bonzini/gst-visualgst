@@ -666,6 +666,18 @@ GTK.GtkPaned class extend [
 
 ]
 
+GTK.GtkScrolledWindow class extend [
+
+    withViewport: aGtkWidget [
+	<category: 'instance creation'>
+
+	^ (GTK.GtkScrolledWindow new: nil vadjustment: nil)
+	    addWithViewport: aGtkWidget;
+	    setPolicy: GTK.Gtk gtkPolicyAutomatic vscrollbarPolicy: GTK.Gtk gtkPolicyAutomatic;
+	    yourself
+    ]
+]
+
 Smalltalk.PackageLoader class extend [
     root [
 	<category: 'accessing'>
