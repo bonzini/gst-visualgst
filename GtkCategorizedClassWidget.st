@@ -230,9 +230,8 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
         <category: 'model event'>
 
         anEvent item environment == self namespace ifFalse: [ ^ self ].
-        anEvent oldCategory = anEvent item category ifTrue: [ ^ self ].
-        (anEvent oldCategory = self category or: [ self category isEmpty ]) ifTrue: [ model remove: anEvent item class ].
-        (anEvent item category = self category or: [ self category isEmpty ]) ifTrue: [ self addToModel: anEvent item ]
+        (anEvent oldCategory = self category or: [ anEvent oldCategory isNil and: [ self category isEmpty ] ]) ifTrue: [ model remove: anEvent item class ].
+        (anEvent item category = self category or: [ anEvent item category isNil and: [ self category isEmpty ] ]) ifTrue: [ self addToModel: anEvent item ]
     ]
 ]
 
