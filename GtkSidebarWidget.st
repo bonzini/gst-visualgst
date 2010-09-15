@@ -3,7 +3,9 @@ GtkConcreteWidget subclass: GtkSidebarWidget [
 
     initialize [
 
-	paned := GTK.GtkHPaned new.
+	paned := GTK.GtkNotebook new
+				setTabPos: GTK.Gtk gtkPosBottom;
+				yourself.
 	self mainWidget: paned.
 	activeWidget := GtkAbstractConcreteWidget new.
 	widgets := OrderedCollection new
@@ -14,25 +16,23 @@ GtkConcreteWidget subclass: GtkSidebarWidget [
 	self hideAll
     ]
 
-    add: aGtkWidget [
+    add: aGtkWidget labeled: aString [
 
-	| p |
-	widgets add: aGtkWidget.
-	p := GTK.GtkHPaned new.
 	paned
-	    pack1: aGtkWidget resize: true shrink: true;
-	    pack2: p resize: true shrink: true.
-	paned := p
+            appendPage: aGtkWidget tabLabel: (GTK.GtkLabel new: aString).
+	widgets add: aGtkWidget
     ]
 
     addAll: anArray [
 
-	anArray do: [ :each | self add: each ]
+	anArray do: [ :each | self add: each key labeled: each value ]
     ]
 
     show: anIndex [
 
 	activeWidget hideAll.
+	self mainWidget showAll.
+	self mainWidget setCurrentPage: anIndex - 1.
 	activeWidget := (widgets at: anIndex)
 					showAll;
 					yourself
@@ -40,17 +40,27 @@ GtkConcreteWidget subclass: GtkSidebarWidget [
 
     showAll [
 
-	widgets do: [ :each | each showAll ]
+	self mainWidget show
+    ]
+
+    hideTabs [
+
+	self mainWidget setShowTabs: false
     ]
 
     hide [
 
-	activeWidget hideAll
+	self hideMainPained
     ]
 
     hideAll [
 
-	widgets do: [ :each | each hideAll ]
+	self hideMainPained
+    ]
+
+    hideMainPained [
+
+	self mainWidget hideAll
     ]
 
     panedOrientation [
