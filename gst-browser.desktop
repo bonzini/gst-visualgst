@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Development
+Exec=gst-browser
+GenericName=IDE for GNU Smalltalk
+Icon=/usr/share/icons/visualgst.png
+Name=VisualGST
+StartupNotify=true
+Terminal=false
+Type=Application
