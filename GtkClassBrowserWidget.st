@@ -150,6 +150,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'initialize-release'>
 
 	state := NamespaceState on: self with: Smalltalk.
+	state classCategory: Smalltalk category.
 	classHierarchyUpdate := false.
 	checkCode := true.
 
@@ -216,7 +217,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    iMethodWidget clear.
 	    cMethodWidget clear.
 	    codeWidget namespaceDefinition: (NamespaceSource on: namespace).
-	    state := NamespaceState on: self with: namespace ]
+	    state := NamespaceState on: self with: namespace.
+	    state classCategory: namespace category ]
     ]
 
     onClassChanged [

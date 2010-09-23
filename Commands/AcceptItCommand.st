@@ -1,4 +1,4 @@
-ClassCommand subclass: AcceptItCommand [
+Command subclass: AcceptItCommand [
 
     acceptClassDefinitionOn: aNamespace [
         <category: 'class event'>
