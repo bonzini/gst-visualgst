@@ -52,6 +52,7 @@ Eval [
     filein: 'Commands/RunTestCommand.st';
     filein: 'Commands/OpenAssistantCommand.st';
     filein: 'Commands/OpenWebBrowserCommand.st';
+    filein: 'Pragmas/Pragmas.st';
     filein: 'FakeNamespace.st';
     filein: 'Category/ClassCategory.st';
     filein: 'Category/AbstractNamespace.st';

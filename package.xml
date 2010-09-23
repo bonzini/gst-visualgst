@@ -11,13 +11,16 @@
     <filein>Tests/ExtractLiteralsTest.st</filein>
     <filein>Tests/CategoryTest.st</filein>
     <filein>Tests/EmptyTest.st</filein>
+    <filein>Tests/PragmaTest.st</filein>
     <file>Tests/ExtractLiteralsTest.st</file>
     <file>Tests/CategoryTest.st</file>
     <file>Tests/EmptyTest.st</file>
+    <file>Tests/PragmaTest.st</file>
     <sunit>
       VisualGST.ExtractLiteralsTest
       VisualGST.CategoryTest
       VisualGST.EmptyTest
+      VisualGST.PragmasTest
     </sunit>
   </test>
   <filein>Notification/AbstractEvent.st</filein>
@@ -63,6 +66,7 @@
   <filein>Commands/RunTestCommand.st</filein>
   <filein>Commands/OpenAssistantCommand.st</filein>
   <filein>Commands/OpenWebBrowserCommand.st</filein>
+  <filein>Pragmas/Pragmas.st</filein>
   <filein>FakeNamespace.st</filein>
   <filein>Category/ClassCategory.st</filein>
   <filein>Category/AbstractNamespace.st</filein>
@@ -234,6 +238,7 @@
   <file>Commands/RunTestCommand.st</file>
   <file>Commands/OpenAssistantCommand.st</file>
   <file>Commands/OpenWebBrowserCommand.st</file>
+  <file>Pragmas/Pragmas.st</file>
   <file>FakeNamespace.st</file>
   <file>Category/ClassCategory.st</file>
   <file>Category/AbstractNamespace.st</file>
