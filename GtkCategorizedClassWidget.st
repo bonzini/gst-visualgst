@@ -153,11 +153,12 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 
     state [
         <category: 'testing'>
-        self hasSelectedClass
-            ifTrue: [ ^ClassState with: self selectedClass ].
-        namespace isNil
-            ifFalse: [ ^NamespaceState with: namespace ].
-        ^BrowserState new
+
+        self hasSelectedClass ifTrue: [ ^ ClassState with: self selectedClass ].
+        namespace ifNotNil: [ ^ (NamespaceState with: namespace)
+				    classCategory: namespace category;
+				    yourself ].
+        ^ BrowserState new
     ]
 
     selectedClass [
@@ -205,6 +206,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 
     addToModel: aClass [
 
+	(model includes: aClass class) ifTrue: [ ^ self ].
 	(aClass superclass environment == self namespace and: [ aClass superclass category = self category or: [ self category isEmpty ] ]) 
 				    ifFalse: [ model append: aClass class ] 
 				    ifTrue: [ model append: aClass class parent: aClass superclass class ]
