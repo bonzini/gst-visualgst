@@ -8,18 +8,24 @@
   <prereq>DebugTools</prereq>
   <provides>Browser</provides>
   <test>
+    <filein>Tests/AddNamespaceUndoCommandTest.st</filein>
     <filein>Tests/ExtractLiteralsTest.st</filein>
     <filein>Tests/CategoryTest.st</filein>
     <filein>Tests/EmptyTest.st</filein>
+    <filein>Tests/AddClassUndoCommandTest.st</filein>
     <filein>Tests/PragmaTest.st</filein>
+    <file>Tests/AddNamespaceUndoCommandTest.st</file>
     <file>Tests/ExtractLiteralsTest.st</file>
     <file>Tests/CategoryTest.st</file>
     <file>Tests/EmptyTest.st</file>
+    <file>Tests/AddClassUndoCommandTest.st</file>
     <file>Tests/PragmaTest.st</file>
     <sunit>
+      VisualGST.AddNamespaceUndoCommandTest
       VisualGST.ExtractLiteralsTest
       VisualGST.CategoryTest
       VisualGST.EmptyTest
+      VisualGST.AddClassUndoCommandTest
       VisualGST.PragmasTest
     </sunit>
   </test>

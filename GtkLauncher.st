@@ -678,20 +678,20 @@ GtkVisualGSTTool subclass: GtkLauncher [
     state [
 	<category: 'focus'>
 
-	browsers currentWidget isNil ifTrue: [^BrowserState new].
-	^browsers currentWidget state
+	browsers currentWidget ifNil: [ ^ BrowserState new ].
+	^ browsers currentWidget state
     ]
 
     selectedText [
 	<category: 'smalltalk events'>
 
-	^self onFocusPerform: #selectedText
+	^ self onFocusPerform: #selectedText
     ]
 
     selectedMethodSymbol [
         <category: 'text editing'>
 
-        ^self onFocusPerform: #selectedMethodSymbol
+        ^ self onFocusPerform: #selectedMethodSymbol
     ]
 
     hasSelection [
@@ -699,7 +699,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
         | widget |
 	widget := self focusedWidget.
-	^widget notNil and: [widget hasSelection]
+	^ widget notNil and: [widget hasSelection]
     ]
 
     doIt [
