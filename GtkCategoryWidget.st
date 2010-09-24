@@ -13,9 +13,14 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     initialize [
 	<category: 'initialization'>
 
-	categories := Set new.
+	self initializeCategories.
 	self mainWidget: self buildTreeView.
 	self registerNotifier
+    ]
+
+    initializeCategories [
+
+	categories := Set new.
     ]
 
     registerNotifier [
@@ -196,5 +201,6 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         (anEvent item methodClass == self classOrMeta and: [ (model hasItem: anEvent item methodCategory) not ]) ifFalse: [ ^ self ].
 	self removeEmptyCategory
     ]
+
 ]
 

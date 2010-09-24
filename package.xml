@@ -15,6 +15,7 @@
     <filein>Tests/GtkAssistantTest.st</filein>
     <filein>Tests/EmptyTest.st</filein>
     <filein>Tests/AddClassUndoCommandTest.st</filein>
+    <filein>Tests/GtkCategoryWidgetTest.st</filein>
     <filein>Tests/StateTest.st</filein>
     <filein>Tests/FinderTest.st</filein>
     <filein>Tests/PragmaTest.st</filein>
@@ -26,6 +27,7 @@
     <file>Tests/GtkAssistantTest.st</file>
     <file>Tests/EmptyTest.st</file>
     <file>Tests/AddClassUndoCommandTest.st</file>
+    <file>Tests/GtkCategoryWidgetTest.st</file>
     <file>Tests/StateTest.st</file>
     <file>Tests/FinderTest.st</file>
     <file>Tests/PragmaTest.st</file>
@@ -38,6 +40,7 @@
       VisualGST.GtkAssistantTest
       VisualGST.EmptyTest
       VisualGST.AddClassUndoCommandTest
+      VisualGST.GtkCategoryWidgetTest
       VisualGST.StateTest
       VisualGST.FinderTest
       VisualGST.PragmasTest
