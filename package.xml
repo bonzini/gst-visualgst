@@ -13,12 +13,16 @@
     <filein>Tests/CategoryTest.st</filein>
     <filein>Tests/EmptyTest.st</filein>
     <filein>Tests/AddClassUndoCommandTest.st</filein>
+    <filein>Tests/StateTest.st</filein>
+    <filein>Tests/FinderTest.st</filein>
     <filein>Tests/PragmaTest.st</filein>
     <file>Tests/AddNamespaceUndoCommandTest.st</file>
     <file>Tests/ExtractLiteralsTest.st</file>
     <file>Tests/CategoryTest.st</file>
     <file>Tests/EmptyTest.st</file>
     <file>Tests/AddClassUndoCommandTest.st</file>
+    <file>Tests/StateTest.st</file>
+    <file>Tests/FinderTest.st</file>
     <file>Tests/PragmaTest.st</file>
     <sunit>
       VisualGST.AddNamespaceUndoCommandTest
@@ -26,6 +30,8 @@
       VisualGST.CategoryTest
       VisualGST.EmptyTest
       VisualGST.AddClassUndoCommandTest
+      VisualGST.StateTest
+      VisualGST.FinderTest
       VisualGST.PragmasTest
     </sunit>
   </test>
