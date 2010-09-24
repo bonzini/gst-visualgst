@@ -19,6 +19,11 @@ GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
 	    yourself
     ]
 
+    initialize [
+	<category: 'initialize'>
+
+    ]
+
     parentWindow: aGtkWindow [
         <category: 'accessing'>
 
