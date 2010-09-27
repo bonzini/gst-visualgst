@@ -19,6 +19,8 @@
     <filein>Tests/StateTest.st</filein>
     <filein>Tests/FinderTest.st</filein>
     <filein>Tests/PragmaTest.st</filein>
+    <filein>Tests/GtkCategorizedNamespaceWidgetTest.st</filein>
+    <filein>Tests/GtkCategorizedClassWidgetTest.st</filein>
     <filein>Tests/GtkConcreteWidgetTest.st</filein>
     <file>Tests/AddNamespaceUndoCommandTest.st</file>
     <file>Tests/GtkMethodWidgetTest.st</file>
@@ -31,6 +33,8 @@
     <file>Tests/StateTest.st</file>
     <file>Tests/FinderTest.st</file>
     <file>Tests/PragmaTest.st</file>
+    <file>Tests/GtkCategorizedNamespaceWidgetTest.st</file>
+    <file>Tests/GtkCategorizedClassWidgetTest.st</file>
     <file>Tests/GtkConcreteWidgetTest.st</file>
     <sunit>
       VisualGST.AddNamespaceUndoCommandTest
@@ -44,6 +48,8 @@
       VisualGST.StateTest
       VisualGST.FinderTest
       VisualGST.PragmasTest
+      VisualGST.GtkCategorizedNamespaceWidgetTest
+      VisualGST.GtkCategorizedClassWidgetTest
       VisualGST.GtkConcreteWidgetTest
     </sunit>
   </test>

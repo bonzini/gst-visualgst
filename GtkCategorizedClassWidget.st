@@ -13,8 +13,8 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     initialize [
 	<category: 'initialization'>
 
-	category := ''.
-	self 
+	self
+	    category: '';
 	    mainWidget: self buildTreeView;
 	    registerNotifier
     ]
