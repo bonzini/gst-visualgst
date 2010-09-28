@@ -85,12 +85,12 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     buildTreeView [
         <category: 'user interface'>
     
-	methodTree := (GTK.GtkTreeView createListWithModel: {{GtkColumnTextType title: 'Methods'}})
+	methodTree := (GTK.GtkTreeView createListWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Methods'}})
                             connectSignal: 'button-press-event' to: self selector: #'onPress:event:';
                             yourself.
 	methodTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(model := GtkListModel on: methodTree getModel)
-					contentsBlock: [ :each | {each selector asString} ].
+					contentsBlock: [ :each | {each methodViewIcon. each selector asString} ].
 	^ GTK.GtkScrolledWindow withChild: methodTree
     ]
 

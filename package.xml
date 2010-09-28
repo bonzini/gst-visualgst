@@ -10,6 +10,7 @@
   <test>
     <filein>Tests/AddNamespaceUndoCommandTest.st</filein>
     <filein>Tests/GtkMethodWidgetTest.st</filein>
+    <filein>Tests/CompiledMethodTest.st</filein>
     <filein>Tests/ExtractLiteralsTest.st</filein>
     <filein>Tests/CategoryTest.st</filein>
     <filein>Tests/GtkAssistantTest.st</filein>
@@ -24,6 +25,7 @@
     <filein>Tests/GtkConcreteWidgetTest.st</filein>
     <file>Tests/AddNamespaceUndoCommandTest.st</file>
     <file>Tests/GtkMethodWidgetTest.st</file>
+    <file>Tests/CompiledMethodTest.st</file>
     <file>Tests/ExtractLiteralsTest.st</file>
     <file>Tests/CategoryTest.st</file>
     <file>Tests/GtkAssistantTest.st</file>
@@ -39,6 +41,7 @@
     <sunit>
       VisualGST.AddNamespaceUndoCommandTest
       VisualGST.GtkMethodWidgetTest
+      VisualGST.CompiledMethodTest
       VisualGST.ExtractLiteralsTest
       VisualGST.CategoryTest
       VisualGST.GtkAssistantTest
@@ -417,6 +420,9 @@
   <file>Icons/NUnit.Running.png</file>
   <file>Icons/NUnit.SuccessAndFailed.png</file>
   <file>Icons/NUnit.Success.png</file>
+  <file>Icons/extension.png</file>
+  <file>Icons/overridden.png</file>
+  <file>Icons/override.png</file>
   <start>VisualGST.GtkLauncher open.
     GTK.Gtk main</start>
 </package>

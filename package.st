@@ -201,6 +201,9 @@ Eval [
     ressource: 'Icons/NUnit.Running.png';
     ressource: 'Icons/NUnit.SuccessAndFailed.png';
     ressource: 'Icons/NUnit.Success.png';
+    ressource: 'Icons/extension.png';
+    ressource: 'Icons/overridden.png';
+    ressource: 'Icons/override.png';
     start: 'VisualGST.GtkLauncher open.
     GTK.Gtk main';
     buildXml
