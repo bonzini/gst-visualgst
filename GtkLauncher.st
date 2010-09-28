@@ -275,7 +275,8 @@ GtkVisualGSTTool subclass: GtkLauncher [
         SystemChangeNotifier root add: systemChangeNotifier.
 	self clearGlobalState.
 	super initialize.
-	window maximize
+	window maximize.
+	window setIcon: (GTK.GdkPixbuf newFromFile: (self class / 'Icons/visualgst.png') file displayString error: nil)
     ]
 
     windowTitle [

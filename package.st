@@ -204,6 +204,7 @@ Eval [
     ressource: 'Icons/extension.png';
     ressource: 'Icons/overridden.png';
     ressource: 'Icons/override.png';
+    ressource: 'Icons/visualgst.png';
     start: 'VisualGST.GtkLauncher open.
     GTK.Gtk main';
     buildXml

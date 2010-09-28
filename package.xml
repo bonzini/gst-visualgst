@@ -423,6 +423,7 @@
   <file>Icons/extension.png</file>
   <file>Icons/overridden.png</file>
   <file>Icons/override.png</file>
+  <file>Icons/visualgst.png</file>
   <start>VisualGST.GtkLauncher open.
     GTK.Gtk main</start>
 </package>
