@@ -42,11 +42,16 @@ GtkConcreteWidget subclass: GtkScrollTreeWidget [
 
     ]
 
+    connectToPopupMenu [
+	<category: 'user interface'>
+
+	^ self treeView connectSignal: 'button-press-event' to: self selector: #'onPress:event:'
+    ]
+
     treeView: aGtkTreeView [
 	<category: 'accessing'>
 
 	treeView := aGtkTreeView.
-	treeView connectSignal: 'button-press-event' to: self selector: #'onPress:event:'
     ]
 
     treeView [

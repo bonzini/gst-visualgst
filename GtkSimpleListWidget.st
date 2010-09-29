@@ -13,11 +13,5 @@ GtkScrollTreeWidget subclass: GtkSimpleListWidget [
         (GtkListModel on: self treeView getModel)
                                         contentsBlock: [ :each | {each displayString} ]
     ]
-
-    treeView: aGtkTreeView [
-        <category: 'accessing'>
-
-        treeView := aGtkTreeView
-    ]
 ]
 

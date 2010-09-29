@@ -205,12 +205,12 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
 
     addPrereq [
 
-	(entries at: #prereq) getModel appendItem: {prereq text}
+	prereqList getModel appendItem: {prereq text}
     ]
 
     addCategory [
 
-	(entries at: #classes) getModel appendItem: {packName text}
+	categoryList getModel appendItem: {packName text}
     ]
 
     buildPackage [
