@@ -59,6 +59,8 @@ Eval [
     filein: 'Category/Class.st';
     filein: 'GtkAbstractConcreteWidget.st';
     filein: 'GtkConcreteWidget.st';
+    filein: 'GtkScrollTreeWidget.st';
+    filein: 'GtkSimpleListWidget.st';
     filein: 'GtkEntryWidget.st';
     filein: 'GtkSidebarWidget.st';
     filein: 'GtkHSidebarWidget.st';
