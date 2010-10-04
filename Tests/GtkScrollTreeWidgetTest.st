@@ -14,7 +14,7 @@ TestCase subclass: GtkScrollTreeWidgetTest [
 
         | widget |
         widget := GtkScrollTreeWidget createListWithModel: {{GtkColumnTextType title: 'aString'}}.
-        self assert: widget connectToPopupMenu > 0
+        self assert: (widget connectToWhenPopupMenu: []) > 0
     ]
 ]
 

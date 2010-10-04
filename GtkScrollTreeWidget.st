@@ -9,11 +9,21 @@ GtkConcreteWidget subclass: GtkScrollTreeWidget [
 		yourself
     ]
 
-    | treeView |
+    GtkScrollTreeWidget class >> createTreeWithModel: anObject [
+        <category: 'instance creation'>
+
+        ^ self basicNew
+                treeView: (GTK.GtkTreeView createTreeWithModel: anObject);
+                initialize;
+                yourself
+    ]
+
+    | treeView popupMenu |
 
     initialize [
 	<category:'initialize'>
 
+	popupMenu := [ :value | ].
 	self buildTreeView.
 	self mainWidget: (GTK.GtkScrolledWindow withChild: self treeView)
     ]
@@ -35,6 +45,7 @@ GtkConcreteWidget subclass: GtkScrollTreeWidget [
     buildPopupMenu: aGtkMenu [
 	<category: 'user interface'>
 
+	popupMenu value: aGtkMenu
     ]
 
     buildTreeView [
@@ -42,9 +53,10 @@ GtkConcreteWidget subclass: GtkScrollTreeWidget [
 
     ]
 
-    connectToPopupMenu [
+    connectToWhenPopupMenu: aBlock [
 	<category: 'user interface'>
 
+	popupMenu := aBlock.
 	^ self treeView connectSignal: 'button-press-event' to: self selector: #'onPress:event:'
     ]
 
