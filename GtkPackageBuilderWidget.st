@@ -186,20 +186,20 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
     buildButtons [
         <category: 'user interface'>
 
-        | hbox add remove |
+        | hbox add cancel |
         hbox := GTK.GtkHBox new: false spacing: 0.
 
         add := GTK.GtkButton createButton: GTK.Gtk gtkStockAdd.
         add
-            setTooltipText: 'Add a file into the package';
+            setTooltipText: 'Save the package';
             connectSignal: 'clicked' to: self selector: #buildPackage.
 
         hbox packStart: add expand: false fill: true padding: 3.
 
-        remove := GTK.GtkButton createButton: GTK.Gtk gtkStockRemove.
-        remove
-            setTooltipText: 'Remove the selected file from the list'.
-        hbox packStart: remove expand: false fill: true padding: 3.
+        cancel := GTK.GtkButton createButton: GTK.Gtk gtkStockRemove.
+        cancel
+            setTooltipText: 'Cancel'.
+        hbox packStart: cancel expand: false fill: true padding: 3.
         ^ hbox
     ]
 
