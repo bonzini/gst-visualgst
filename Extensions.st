@@ -303,8 +303,7 @@ Behavior extend [
     debuggerClass [
 	<category: '*VisualGST'>
 
-	^ nil
-	"^ VisualGST.GtkDebugger"
+	^ VisualGST.GtkDebugger
     ]
 ]
 
