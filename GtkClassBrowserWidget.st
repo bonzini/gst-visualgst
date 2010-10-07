@@ -206,55 +206,22 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    | namespace |
-	    namespaceWidget hasSelectedNamespace ifFalse: [ ^ self ].
-	    namespace := namespaceWidget selectedNamespace.
-	    classWidget namespace: namespace category: namespaceWidget selectedCategory fullname.
-
-	    classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
-	    iCategoryWidget clear.
-	    cCategoryWidget clear.
-	    iMethodWidget clear.
-	    cMethodWidget clear.
-	    codeWidget namespaceDefinition: (NamespaceSource on: namespace).
-	    state := NamespaceState on: self with: namespace.
-	    state classCategory: namespace category ]
+	    namespaceWidget updateBrowser: self ]
     ]
 
     onClassChanged [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    | aClass |
-	    classWidget hasSelectedClass ifFalse: [ ^ self ].
-	    aClass := classWidget selectedClass.
-	    classHierarchyUpdate ifFalse: [ classHierarchyWidget classOrMeta: aClass ].
-	    iCategoryWidget classOrMeta: aClass.
-	    cCategoryWidget classOrMeta: aClass class.
-	    iCategoryWidget unselectAll.
-	    cCategoryWidget unselectAll.
-
-	    self updateHistory: aClass.
-
-	    iMethodWidget emptyModel.
-	    cMethodWidget emptyModel.
-	    codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
-	    state := ClassState on: self with: aClass ]
+	    classWidget updateBrowser: self ]
     ]
 
     onClassHierarchyChanged [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    | aClass |
-	    classHierarchyWidget hasSelectedClass ifFalse: [ ^ self ].
 	    classHierarchyUpdate := true.
-	    aClass := classHierarchyWidget selectedClass.
-	    namespaceWidget selectedNamespace ~= classHierarchyWidget selectedClass environment
-						    ifTrue: [ namespaceWidget selectANamespace: aClass environment ]
-						    ifFalse: [ namespaceWidget selectedCategory ~= aClass classCategory 
-											ifTrue: [ namespaceWidget selectANamespace: aClass environment ] ].
-	    classWidget selectAClass: aClass class.
+	    classHierarchyWidget updateBrowser: self.
 	    classHierarchyUpdate := false ]
     ]
 
@@ -484,30 +451,120 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	FileoutMethodCommand on: self
     ]
 
+    selectedNamespace [
+	<category: 'selection'>
+
+	^ namespaceWidget selectedNamespace
+    ]
+
+    selectedClassCategory [
+	<category: 'selection'>
+
+	^ namespaceWidget selectedCategory
+    ]
+
+    clearClass [
+	<category: 'private-selection'>
+
+	classWidget clear
+    ]
+
+    clearCategories [
+	<category: 'private-selection'>
+
+        iCategoryWidget clear.
+        cCategoryWidget clear
+    ]
+
+    clearMethods [
+	<category: 'private-selection'>
+
+        iMethodWidget clear.
+        cMethodWidget clear
+    ]
+
+    displayNamespaceSource: aNamespace [
+	<category: 'private-selection'>
+
+        codeWidget namespaceDefinition: (NamespaceSource on: aNamespace)
+    ]
+
+    displayClassSource: aClass [
+	<category: 'private-selection'>
+
+	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
+    ]
+
+    updateNamespaceWidget: aNamespace [
+	<category: 'private-selection'>
+
+	namespaceWidget selectANamespace: aNamespace.
+        classWidget namespace: aNamespace category: ''.
+        classHierarchyWidget emptyModel
+    ]
+
+    updateClassWidget: aClass [
+	<category: 'private-selection'>
+
+        classWidget selectAClass: aClass class.
+	classHierarchyWidget classOrMeta: aClass class
+    ]
+
+    updateClassHierarchyWidget [
+	<category: 'private-selection'>
+
+        namespaceWidget selectedNamespace ~= classHierarchyWidget selectedClass environment
+                                                    ifTrue: [ namespaceWidget selectANamespace: classHierarchyWidget selectedClass environment ]
+                                                    ifFalse: [ (namespaceWidget selectedCategory fullname ~= '' and: [ namespaceWidget selectedCategory ~= classHierarchyWidget selectedClass asClass classCategory ])
+                                                                                        ifTrue: [ namespaceWidget selectANamespace: classHierarchyWidget selectedClass environment ] ].
+        classWidget selectAClass: classHierarchyWidget selectedClass class
+    ]
+
+    updateCategoryWidget: aClass [
+	<category: 'private-selection'>
+
+        iCategoryWidget classOrMeta: aClass.
+        cCategoryWidget classOrMeta: aClass class
+    ]
+
+    updateNamespaceOfClass: aNamespace classCategory: aClassCategory [
+	<category: 'private-selection'>
+
+	classWidget namespace: aNamespace category: aClassCategory fullname.
+	classHierarchyUpdate ifFalse: [ classHierarchyWidget emptyModel ].
+	self
+	    clearCategories;
+	    clearMethods
+    ]
+
+    updateClassOfCategory: aClass [
+	<category: 'private-selection'>
+
+        classHierarchyUpdate ifFalse: [ classHierarchyWidget classOrMeta: aClass ].
+        self
+	    updateCategoryWidget: aClass;
+	    updateHistory: aClass;
+	    clearMethods
+	
+    ]
+
     selectANamespace: aNamespace [
 	<Category: 'selection'>
 
-	namespaceWidget selectANamespace: aNamespace.
-        classWidget namespace: aNamespace.
-
-        classHierarchyWidget emptyModel.
-        iCategoryWidget clear.
-        cCategoryWidget clear.
-        iMethodWidget clear.
-        cMethodWidget clear.
-        codeWidget namespaceDefinition: (NamespaceSource on: aNamespace)
+	self
+	    updateNamespaceWidget: aNamespace;
+	    clearCategories;
+	    clearMethods;
+	    displayNamespaceSource: aNamespace
     ]
 
     selectAClass: aClass [
 	<category: 'selection'>
 
-        classWidget selectAClass: aClass class.
-	classHierarchyWidget classOrMeta: aClass class.
-        iCategoryWidget classOrMeta: aClass.
-        cCategoryWidget classOrMeta: aClass class.
-
-        iMethodWidget clear.
-        cMethodWidget clear
+	self 
+	    updateClassWidget: aClass;
+	    updateCategoryWidget: aClass;
+	    clearMethods
     ]
 
     select: aSelector in: aMethodWidget withCategory: aCategoryWidget [
@@ -544,7 +601,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     targetObject [
         <category: 'target'>
 
-        ^state classOrMeta
+        ^ state classOrMeta
     ]
 
     doIt: object [
@@ -703,6 +760,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'accessing'>
 
 	^ state
+    ]
+
+    state: aState [
+	<category: 'accessing'>
+
+	state := state
     ]
 
     clearUndo [

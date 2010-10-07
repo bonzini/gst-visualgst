@@ -81,5 +81,13 @@ Object subclass: BrowserState [
         ^ ClassCategory extractClassCategory: self classOrMeta
     ]
 
+    updateBrowser: aGtkClassBrowserWidget [
+	<category: 'events'>
+
+        aGtkClassBrowserWidget
+		    clearClass;
+		    clearCategories;
+		    clearMethods
+    ]
 ]
 

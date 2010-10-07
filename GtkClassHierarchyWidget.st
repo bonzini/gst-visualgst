@@ -98,5 +98,12 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
 	self hasSelectedClass ifFalse: [ ^ self classOrMeta " self error: 'Nothing is selected' " ].
 	^ classesTree selection asClass
     ]
+
+    updateBrowser: aGtkClassBrowserWidget [
+        <category: 'events'>
+
+	self hasSelectedClass ifFalse: [ ^ self ].
+	aGtkClassBrowserWidget updateClassHierarchyWidget
+    ]
 ]
 

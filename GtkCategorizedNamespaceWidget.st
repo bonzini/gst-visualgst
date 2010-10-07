@@ -78,12 +78,19 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     ]
 
     state [
-        <category: 'testing'>
+        <category: 'events'>
 
-        namespacesTree treeView hasSelectedItem ifFalse: [ ^ BrowserState new ].
-        ^ (NamespaceState with: namespacesTree treeView selection namespace)
-            classCategory: namespacesTree treeView selection category;
+        self hasSelectedNamespace ifFalse: [ ^ BrowserState new ].
+        ^ (NamespaceState with: self selectedNamespace)
+            classCategory: self selectedCategory;
             yourself
+    ]
+
+    updateBrowser: aGtkClassBrowserWidget [
+        <category: 'events'>
+
+	self state updateBrowser: aGtkClassBrowserWidget.
+	aGtkClassBrowserWidget state: self state
     ]
 
     childToggled: model path: path iter: iter [

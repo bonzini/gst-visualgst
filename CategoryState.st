@@ -57,5 +57,8 @@ BrowserState subclass: CategoryState [
 
 	^ self classOrMeta displayString
     ]
+
+    updateBrowser: aGtkClassBrowserWidget [
+    ]
 ]
 

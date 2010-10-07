@@ -83,6 +83,12 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	^ GTK.Gtk gtkSelectionBrowse
     ]
 
+    clear [
+        <category: 'accessing'>
+
+        model clear
+    ]
+
     buildTreeView [
 	<category: 'user interface'>
    
@@ -159,6 +165,13 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 				    classCategory: namespace category;
 				    yourself ].
         ^ BrowserState new
+    ]
+
+    updateBrowser: aGtkClassBrowserWidget [
+        <category: 'events'>
+
+        self state updateBrowser: aGtkClassBrowserWidget.
+        aGtkClassBrowserWidget state: self state
     ]
 
     selectedClass [
