@@ -229,22 +229,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    iCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	    iMethodWidget class: classWidget selectedClass withCategory: iCategoryWidget selectedCategory.
-
-	    codeWidget clear.
-	    state := CategoryState on: self with: classWidget selectedClass -> iCategoryWidget selectedCategory ]
+	    iCategoryWidget updateBrowser: self ]
     ]
 
     onClassSideCategoryChanged [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    cCategoryWidget hasSelectedCategory ifFalse: [ ^ self ].
-	    cMethodWidget class: classWidget selectedClass class withCategory: cCategoryWidget selectedCategory.
-
-	    codeWidget clear.
-	    state := CategoryState on: self with: classWidget selectedClass class -> cCategoryWidget selectedCategory ]
+	    cCategoryWidget updateBrowser: self ]
     ]
 
     onInstanceSideMethodChanged [
@@ -495,6 +487,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
     ]
 
+    clearSource [
+	<category: 'private-selection'>
+
+	codeWidget clear
+    ]
+
     updateNamespaceWidget: aNamespace [
 	<category: 'private-selection'>
 
@@ -546,6 +544,18 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    updateHistory: aClass;
 	    clearMethods
 	
+    ]
+
+    updateInstanceSideMethodCategory: aString [
+	<category: 'private-selection'>
+
+        iMethodWidget class: classWidget selectedClass withCategory: aString
+    ]
+
+    updateClassSideMethodCategory: aString [
+        <category: 'private-selection'>
+
+        cMethodWidget class: classWidget selectedClass class withCategory: aString
     ]
 
     selectANamespace: aNamespace [

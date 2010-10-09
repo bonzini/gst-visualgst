@@ -110,11 +110,18 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
+    updateBrowser: aGtkClassBrowserWidget [
+	<category: 'events'>
+
+	self state updateBrowser: aGtkClassBrowserWidget.
+	aGtkClassBrowserWidget state: self state
+    ]
+
     state [
         <category: 'testing'>
-        categoryTree hasSelectedItem ifTrue: [
-            ^CategoryState with: self classOrMeta->categoryTree selection ].
-        ^ClassState with: self classOrMeta
+
+        self hasSelectedCategory ifFalse: [ ^ ClassState with: self classOrMeta ].
+        ^ CategoryState with: self classOrMeta->self selectedCategory
     ]
 
     hasSelectedCategory [

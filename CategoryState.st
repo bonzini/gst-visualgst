@@ -59,6 +59,12 @@ BrowserState subclass: CategoryState [
     ]
 
     updateBrowser: aGtkClassBrowserWidget [
+        <category: 'events'>
+
+	self classOrMeta isClass 
+			    ifTrue: [ aGtkClassBrowserWidget updateInstanceSideMethodCategory: self category ]
+			    ifFalse: [ aGtkClassBrowserWidget updateClassSideMethodCategory: self category ].
+        aGtkClassBrowserWidget clearSource
     ]
 ]
 
