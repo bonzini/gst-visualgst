@@ -244,10 +244,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidgetAndUpdate: [
-	    iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
-	    method := iMethodWidget selectedMethod.
-	    codeWidget sourceCode: iMethodWidget sourceCode.
-	    state := MethodState on: self with: method ]
+	    iMethodWidget updateBrowser: self ]
     ]
 
     onClassSideMethodChanged [
@@ -255,10 +252,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidgetAndUpdate: [
-	    cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
-	    method := cMethodWidget selectedMethod.
-	    codeWidget sourceCode: cMethodWidget sourceCode.
-	    state := MethodState on: self with: method ]
+	    cMethodWidget updateBrowser: self ]
     ]
 
     undoStack [
@@ -485,6 +479,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'private-selection'>
 
 	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
+    ]
+
+    displayMethodSource: aString [
+	<category: 'private-selection'>
+
+	codeWidget sourceCode: aString
     ]
 
     clearSource [

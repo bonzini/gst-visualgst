@@ -190,11 +190,18 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	^ (self classOrMeta compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
 
+    updateBrowser: aGtkClassBrowserWidget [
+        <category: 'events'>
+
+        self state updateBrowser: aGtkClassBrowserWidget.
+        aGtkClassBrowserWidget state: self state
+    ]
+
     state [
         <category: 'testing'>
-        methodTree hasSelectedItem ifTrue: [
-            ^MethodState with: self selectedMethod ].
-        ^BrowserState new
+
+        self hasSelectedMethod ifFalse: [ ^ BrowserState new ].
+        ^ MethodState with: self selectedMethod
     ]
 
     deleteMethod [

@@ -84,10 +84,6 @@ Object subclass: BrowserState [
     updateBrowser: aGtkClassBrowserWidget [
 	<category: 'events'>
 
-        aGtkClassBrowserWidget
-		    clearClass;
-		    clearCategories;
-		    clearMethods
     ]
 ]
 
