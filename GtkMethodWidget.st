@@ -208,12 +208,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	^ (self classOrMeta compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
 
-    updateBrowser: aGtkClassBrowserWidget [
-        <category: 'events'>
-
-        aGtkClassBrowserWidget state: self state
-    ]
-
     state [
         <category: 'testing'>
 

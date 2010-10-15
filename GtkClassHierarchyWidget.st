@@ -99,6 +99,13 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
 	^ classesTree selection asClass
     ]
 
+    state [
+        <category: 'testing'>
+
+        self hasSelectedClass ifTrue: [ ^ ClassState with: self selectedClass ].
+        ^ BrowserState new
+    ]
+
     updateBrowser: aGtkClassBrowserWidget [
         <category: 'events'>
 
