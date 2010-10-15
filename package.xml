@@ -183,6 +183,7 @@
   <filein>MethodState.st</filein>
   <filein>GtkWorkspaceWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
+  <filein>GtkBrowserWidget.st</filein>
   <filein>GtkCategorizedNamespaceWidget.st</filein>
   <filein>GtkCategorizedClassWidget.st</filein>
   <filein>GtkCategoryWidget.st</filein>
@@ -399,6 +400,7 @@
   <file>MethodState.st</file>
   <file>GtkWorkspaceWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
+  <file>GtkBrowserWidget.st</file>
   <file>GtkCategorizedNamespaceWidget.st</file>
   <file>GtkCategorizedClassWidget.st</file>
   <file>GtkCategoryWidget.st</file>

@@ -1,4 +1,4 @@
-GtkConcreteWidget subclass: GtkClassHierarchyWidget [
+GtkBrowserWidget subclass: GtkClassHierarchyWidget [
     | dic classOrMeta classesTree model |
 
     GtkClassHierarchyWidget class >> on: aClass [
@@ -55,6 +55,7 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
    
         classesTree := GTK.GtkTreeView createTreeWithModel: {{GtkColumnTextType title: 'Classes'}}.
         classesTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+        self connectToSignal: 'changed' of: classesTree getSelection.
         (model := GtkTreeModel on: classesTree getModel)
                                         item: #root;
                                         childrenBlock: [ :each |
@@ -64,13 +65,6 @@ GtkConcreteWidget subclass: GtkClassHierarchyWidget [
 	self refresh.
 	classesTree expandAll.
         ^ GTK.GtkScrolledWindow withChild: classesTree
-    ]
-
-    whenSelectionChangedSend: aSelector to: anObject [
-	<category: 'events'>
-
-	classesTree getSelection
-	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
     hasSelectedClass [

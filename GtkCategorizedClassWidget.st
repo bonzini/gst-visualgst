@@ -1,4 +1,4 @@
-GtkConcreteWidget subclass: GtkCategorizedClassWidget [
+GtkBrowserWidget subclass: GtkCategorizedClassWidget [
     | classesTree column model namespace category |
 
     GtkCategorizedClassWidget >> on: aNamespace [
@@ -103,6 +103,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
         classesTree := GtkScrollTreeWidget createTreeWithModel: {{GtkColumnTextType title: 'Classes'}}.
         classesTree connectToWhenPopupMenu: (ClassMenus on: self).
         classesTree treeView getSelection setMode: self selectionMode.
+	self connectToSignal: 'changed' of: classesTree treeView getSelection.
         (model := GtkTreeModel on: classesTree treeView getModel)
 					item: self root;
 					childrenBlock: [ :each | | col | 
@@ -111,13 +112,6 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 							    col ];
                                         contentsBlock: [ :each | {each asClass name asString, ' '} ].
         ^ classesTree mainWidget
-    ]
-
-    whenSelectionChangedSend: aSelector to: anObject [
-	<category: 'events'>
-
-	classesTree treeView getSelection
-	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
     selectionMode: aSelectionMode [

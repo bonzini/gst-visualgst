@@ -1,4 +1,4 @@
-GtkConcreteWidget subclass: GtkCategoryWidget [
+GtkBrowserWidget subclass: GtkCategoryWidget [
     | categoryTree categories model class |
 
     GtkCategoryWidget >> on: aClass [
@@ -70,6 +70,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	categoryTree := GtkScrollTreeWidget createListWithModel: {{GtkColumnTextType title: 'Method categories'}}.
 	categoryTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	categoryTree connectToWhenPopupMenu: (CategoryMenus on: self).
+	self connectToSignal: 'changed' of: categoryTree treeView getSelection.
         (model := GtkListModel on: categoryTree treeView getModel)
                                         contentsBlock: [ :each | {each displayString} ].
 	^ categoryTree mainWidget
@@ -79,13 +80,6 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	<category: 'selection'>
 
 	categoryTree treeView getSelection unselectAll
-    ]
-
-    whenSelectionChangedSend: aSelector to: anObject [
-	<category: 'events'>
-
-	categoryTree treeView getSelection
-	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
     state [

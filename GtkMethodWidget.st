@@ -1,5 +1,5 @@
-GtkConcreteWidget subclass: GtkMethodWidget [
-    | browser model methodTree class category |
+GtkBrowserWidget subclass: GtkMethodWidget [
+    | model methodTree class category |
 
     GtkMethodWidget >> on: aClass withCategory: aCategory [
 	<category: 'instance creation'>
@@ -24,18 +24,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         (GtkLauncher uniqueInstance systemChangeNotifier)
             notify: self ofSystemChangesOfItem: #method change: #Added using: #'addEvent:';
             notify: self ofSystemChangesOfItem: #method change: #Removed using: #'removeEvent:'
-    ]
-
-    browser [
-	<category: 'accessing'>
-
-	^ browser
-    ]
-
-    browser: anObject [
-	<category: 'accessing'>
-
-	browser := anObject.
     ]
 
     category [
@@ -101,6 +89,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     
 	methodTree := GtkScrollTreeWidget createListWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Methods'}}.
         methodTree connectToWhenPopupMenu: (MethodMenus on: self).
+	self connectToSignal: 'changed' of: methodTree treeView getSelection.
 	methodTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(model := GtkListModel on: methodTree treeView getModel)
 					contentsBlock: [ :each | {each methodViewIcon. each selector asString} ].
@@ -113,13 +102,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	self ifNoSelection: [ ^ false ].
 	^ (self classOrMeta inheritsFrom: TestCase)
 	    and: [ self selectedMethodSymbol startsWith: 'test' ]
-    ]
-
-    whenSelectionChangedSend: aSelector to: anObject [
-	<category: 'events'>
-
-	methodTree treeView getSelection
-	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
     launcher [

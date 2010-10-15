@@ -125,6 +125,7 @@ Eval [
     filein: 'MethodState.st';
     filein: 'GtkWorkspaceWidget.st';
     filein: 'GtkTranscriptWidget.st';
+    filein: 'GtkBrowserWidget.st';
     filein: 'GtkCategorizedNamespaceWidget.st';
     filein: 'GtkCategorizedClassWidget.st';
     filein: 'GtkCategoryWidget.st';

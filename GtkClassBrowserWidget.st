@@ -73,14 +73,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildNamespaceView [
 	<category: 'user interface'>
 
-	^ (namespaceWidget := self buildWidget: GtkCategorizedNamespaceWidget whenSelectionChangedSend: #onNamespaceChanged)
+	^ (namespaceWidget := self buildWidget: GtkCategorizedNamespaceWidget)
 	    mainWidget
     ]
 
     buildClassView [
 	<category: 'user interface'>
 
-	^ (classWidget := self buildWidget: GtkCategorizedClassWidget whenSelectionChangedSend: #onClassChanged)
+	^ (classWidget := self buildWidget: GtkCategorizedClassWidget)
 	    mainWidget
     ]
 
@@ -95,39 +95,39 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	^ codeWidget mainWidget
     ]
 
-    buildWidget: aClass whenSelectionChangedSend: aSymbol [
+    buildWidget: aClass [
 	<category: 'user interface'>
 
 	^ aClass showAll
-                whenSelectionChangedSend: aSymbol to: self;
+                browser: self;
                 yourself
     ]
 
     buildHierarchy [
 	<category: 'user interface'>
 
-	^ (classHierarchyWidget := self buildWidget: GtkClassHierarchyWidget whenSelectionChangedSend: #onClassHierarchyChanged)
+	^ (classHierarchyWidget := self buildWidget: GtkClassHierarchyWidget)
 	    mainWidget
     ]
 
     buildInstanceCategoryView [
         <category: 'user interface'>
 
-        ^ (iCategoryWidget := self buildWidget: GtkCategoryWidget whenSelectionChangedSend: #onInstanceSideCategoryChanged)
+        ^ (iCategoryWidget := self buildWidget: GtkCategoryWidget)
 	    mainWidget
     ]
 
     buildClassCategoryView [
 	<category: 'user interface'>
 
-	^ (cCategoryWidget := self buildWidget: GtkCategoryWidget whenSelectionChangedSend: #onClassSideCategoryChanged)
+	^ (cCategoryWidget := self buildWidget: GtkCategoryWidget)
 	    mainWidget
     ]
 
     buildClassMethodView [
 	<category: 'user interface'>
 
-	^ (cMethodWidget := self buildWidget: GtkMethodWidget whenSelectionChangedSend: #onClassSideMethodChanged)
+	^ (cMethodWidget := self buildWidget: GtkMethodWidget)
             browser: self;
 	    mainWidget
     ]
@@ -135,7 +135,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     buildInstanceMethodView [
         <category: 'user interface'>
 
-        ^ (iMethodWidget := self buildWidget: GtkMethodWidget whenSelectionChangedSend: #onInstanceSideMethodChanged)
+        ^ (iMethodWidget := self buildWidget: GtkMethodWidget)
             browser: self;
 	    mainWidget
     ]
@@ -196,48 +196,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 		ifFalse: [ self state classOrMeta asMetaclass ]).
 
         self updateState: classState
-    ]
-
-    onNamespaceChanged [
-	<category: 'events'>
-
-	self updateState: namespaceWidget state
-    ]
-
-    onClassChanged [
-	<category: 'events'>
-
-	self updateState: classWidget state
-    ]
-
-    onClassHierarchyChanged [
-	<category: 'events'>
-
-	self updateState: classHierarchyWidget state
-    ]
-
-    onInstanceSideCategoryChanged [
-	<category: 'events'>
-
-	self updateState: iCategoryWidget state
-    ]
-
-    onClassSideCategoryChanged [
-	<category: 'events'>
-
-	self updateState: cCategoryWidget state
-    ]
-
-    onInstanceSideMethodChanged [
-	<category: 'events'>
-
-	self updateState: iMethodWidget state
-    ]
-
-    onClassSideMethodChanged [
-	<category: 'events'>
-
-	self updateState: cMethodWidget state
     ]
 
     undoStack [
