@@ -786,7 +786,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     state: aState [
 	<category: 'accessing'>
 
-	state := state
+        aState updateBrowser: self.
+	state := aState
     ]
 
     clearUndo [
