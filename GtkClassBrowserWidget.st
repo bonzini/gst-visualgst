@@ -222,54 +222,45 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     onNamespaceChanged [
 	<category: 'events'>
 
-	self checkCodeWidgetAndUpdate: [
-	    self state: namespaceWidget state ]
+	self updateState: namespaceWidget state
     ]
 
     onClassChanged [
 	<category: 'events'>
 
-	self checkCodeWidgetAndUpdate: [
-	    self state: classWidget state ]
+	self updateState: classWidget state
     ]
 
     onClassHierarchyChanged [
 	<category: 'events'>
 
-	self checkCodeWidgetAndUpdate: [
-	    classHierarchyUpdate := true.
-	    self state: classHierarchyWidget state.
-	    classHierarchyUpdate := false ]
+	[classHierarchyUpdate := true.
+	self updateState: classHierarchyWidget state]
+	    ensure: [classHierarchyUpdate := false ]
     ]
 
     onInstanceSideCategoryChanged [
 	<category: 'events'>
 
-	self checkCodeWidgetAndUpdate: [
-	    self state: iCategoryWidget state ]
+	self updateState: iCategoryWidget state
     ]
 
     onClassSideCategoryChanged [
 	<category: 'events'>
 
-	self checkCodeWidgetAndUpdate: [
-	    self state: cCategoryWidget state ]
+	self updateState: cCategoryWidget state
     ]
 
     onInstanceSideMethodChanged [
 	<category: 'events'>
 
-	| method |
-	self checkCodeWidgetAndUpdate: [
-	    self state: iMethodWidget state ]
+	self updateState: iMethodWidget state
     ]
 
     onClassSideMethodChanged [
 	<category: 'events'>
 
-	| method |
-	self checkCodeWidgetAndUpdate: [
-	    self state: cMethodWidget state ]
+	self updateState: cMethodWidget state
     ]
 
     undoStack [
@@ -781,6 +772,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'accessing'>
 
 	^ state
+    ]
+
+    updateState: newState [
+	<category: 'accessing'>
+        newState isNil ifTrue: [^self].
+        self checkCodeWidgetAndUpdate: [ self state: newState ]
     ]
 
     state: aState [
