@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkTextWidget [
-    | findWidget replaceWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand |
+    | findWidget replaceWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand frozen |
 
     GtkTextWidget class >> newWithBuffer: aGtkTextBuffer [
         <category: 'instance creation'>
@@ -40,7 +40,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
     initialize [
         <category: 'initialization'>
 
-	textSaved := false.
+	frozen := textSaved := false.
         cut := userAction := false.
         undoStack := (UndoStack new)
                         initialize;
@@ -290,6 +290,19 @@ GtkConcreteWidget subclass: GtkTextWidget [
         self text: ''
     ]
 
+    frozen [
+	<category: 'preserving state'>
+        ^frozen
+    ]
+
+    whileFrozenDo: aBlock [
+	<category: 'preserving state'>
+        | saveFrozen |
+        saveFrozen := frozen.
+        frozen := true.
+        ^aBlock ensure: [frozen := saveFrozen]
+    ]
+
     text [
         <category: 'text accessing'>
 
@@ -299,6 +312,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
     text: aString [
         <category: 'text accessing'>
 
+        frozen ifTrue: [^self].
         self buffer setText: aString
     ]
 

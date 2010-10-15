@@ -1,11 +1,11 @@
 GtkTextWidget subclass: GtkSourceCodeWidget [
-    | browser codeText saveWidget |
+    | browser source saveWidget |
 
     initialize [
 	<category: 'initialization'>
 
 	super initialize.
-	self initializeHighlighter
+	self initializeHighlighter.
     ]
 
     initializeHighlighter [
@@ -36,18 +36,6 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	<category: 'accessing'>
 
 	^ self buffer text
-    ]
-
-    source: aSource [
-	<category: 'accessing'>
-
-        | string |
-        string := aSource source.
-	self emptyStack.
-	self codeText: string. 
-	self buffer setText: self codeText.
-	aSource parser == STInST.RBBracketedMethodParser ifTrue: [
-            self parseSource: string ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ] ]
     ]
 
     parseSource: aString ifParsed: aOneArgBlock [
@@ -132,7 +120,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	self clearUndo.
         saveWidget hideAll.
-	self buffer setText: self codeText
+	self source: source
     ]
 
     doIt [
@@ -166,16 +154,25 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	self textSaved
     ]
 
-    codeText [
+    source [
 	<category: 'accessing'>
 
-	^ codeText ifNil: [ codeText := '' ]
+	^ source ifNil: [ source := nil ]
     ]
 
-    codeText: aString [
+    source: aSource [
 	<category: 'accessing'>
 
-	codeText := aString copy
+        | string |
+	source := aSource.
+
+        (self frozen or: [aSource isNil]) ifTrue: [^self].
+        string := aSource source.
+	self emptyStack.
+	self text: string.
+	aSource parser == STInST.RBBracketedMethodParser ifTrue: [
+            self parseSource: string ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ] ]
+
     ]
 
     browser: aGtkClassBrowserWidget [

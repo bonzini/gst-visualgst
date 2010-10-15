@@ -91,7 +91,10 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
 	widget hasSelectedItem ifFalse: [ ^ self ].
         model item selectedIndex = widget selectedIndex ifTrue: [^self].
         model item selectItem: widget selectedIndex.
-        launcher currentWidgetOfBrowser updateState: self state
+
+        "maybe handle RestoreBrowserState?"
+        launcher currentWidgetOfBrowser updateState: self state.
+        launcher historyChanged
     ]
 
     browseTabbedClass [
