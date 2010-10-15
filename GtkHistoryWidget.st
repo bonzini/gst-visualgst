@@ -28,23 +28,20 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
                             connectSignal: 'button-press-event' to: self selector: #'onPress:event:';
                             yourself.
         widget getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+        widget getSelection connectSignal: 'changed' to: self selector: #onSelectionChanged.
         (model := GtkListModel on: widget getModel)
                                         contentsBlock: [ :each | {each name displayString} ].
         ^ GTK.GtkScrolledWindow withChild: widget
     ]
 
-    refresh [
+    refresh: historyStack [
 	<category: 'user interface'>
 
 	model
-	    item: GtkLauncher history;
-	    refresh
-    ]
+	    item: historyStack;
+	    refresh.
 
-    update: anObject [
-	<category: 'user interface'>
-
-	self refresh
+        widget selectNth: historyStack selectedIndex.
     ]
 
     onPress: aGtkWidget event: aGdkEvent [
@@ -55,7 +52,6 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
         menu appendMenuItems: {{'Inspect a class'. self. #inspectClass}.
-            {'Go to a class'. self. #goClass}.
             {'Open in new tab'. self. #browseTabbedClass}.
             "{'Open in new window'. self. #browseClass}"}.
         menu attachToWidget: widget detacher: nil.
@@ -91,13 +87,12 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
 	InspectItCommand on: self
     ]
 
-    goClass [
+    onSelectionChanged [
 	<category: 'event'>
 
 	widget hasSelectedItem ifFalse: [ ^ self ].
-
-        "TODO: add a #state: method to remove dependency on #currentWidgetOfBrowser"
-	self updateBrowser: browser currentWidgetOfBrowser
+        model item selectedIndex = widget selectedIndex ifTrue: [^self].
+        model item selectItem: widget selectedIndex.
     ]
 
     browseTabbedClass [
@@ -107,6 +102,12 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
          GtkHistoryWidget."
 	widget hasSelectedItem ifFalse: [ ^ self ].
         self updateBrowser: GtkLauncher uniqueInstance classBrowser
+    ]
+
+    state [
+        <category: 'state'>
+
+        ^model item current
     ]
 ]
 
