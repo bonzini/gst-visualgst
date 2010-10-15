@@ -287,7 +287,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 	| iter |
 	self checkCodeWidgetAndUpdate: [
 	    contextWidget hasSelectedContext ifFalse: [ ^ self ].
-	    codeWidget sourceCode: contextWidget selectedContext method methodSourceString.
+	    codeWidget source: (BrowserMethodSource on: contextWidget selectedContext method).
 	    codeWidget applyTag: #debug forLine: contextWidget selectedContext currentLine.
 	    self updateInspectorWidget: contextWidget selectedContext ]
     ]

@@ -141,10 +141,14 @@ Eval [
     filein: 'Undo/AddNamespaceUndoCommand.st';
     filein: 'Undo/RenameNamespaceUndoCommand.st';
     filein: 'Undo/DeleteNamespaceUndoCommand.st';
+    filein: 'Source/SourceFormatter.st';
+    filein: 'Source/NamespaceHeaderSource.st';
     filein: 'Source/NamespaceSource.st';
+    filein: 'Source/ClassHeaderSource.st';
     filein: 'Source/ClassSource.st';
     filein: 'Source/CategorySource.st';
     filein: 'Source/MethodSource.st';
+    filein: 'Source/BrowserMethodSource.st';
     filein: 'Undo/AddClassUndoCommand.st';
     filein: 'Undo/RenameClassUndoCommand.st';
     filein: 'Undo/DeleteClassUndoCommand.st';

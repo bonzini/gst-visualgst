@@ -38,29 +38,16 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	^ self buffer text
     ]
 
-    namespaceDefinition: aString [
+    source: aSource [
 	<category: 'accessing'>
 
+        | string |
+        string := aSource source.
 	self emptyStack.
-	self codeText: aString. 
-	self buffer setText: (self codeText)
-    ]
-
-    classDefinition: aString [
-	<category: 'accessing'>
-
-	self emptyStack.
-	self codeText: aString. 
-	self buffer setText: (self codeText)
-    ]
-
-    sourceCode: aString [
-	<category: 'accessing'>
-
-	self emptyStack.
-	self codeText: aString. 
-	self buffer setText: (self codeText).
-	self parseSource: aString ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ]
+	self codeText: string. 
+	self buffer setText: self codeText.
+	aSource parser == STInST.RBBracketedMethodParser ifTrue: [
+            self parseSource: string ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ] ]
     ]
 
     parseSource: aString ifParsed: aOneArgBlock [

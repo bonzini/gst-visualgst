@@ -211,11 +211,11 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    aSmallInteger = 0 
 		ifTrue: [
 		    iMethodWidget hasSelectedMethod 
-			ifTrue: [ codeWidget sourceCode: iMethodWidget sourceCode ]
+			ifTrue: [ codeWidget source: (BrowserMethodSource on: iMethodWidget selectedMethod) ]
 			ifFalse: [ codeWidget clear ] ]
 		ifFalse: [
 		    cMethodWidget hasSelectedMethod
-			ifTrue: [ codeWidget sourceCode: cMethodWidget sourceCode ]
+			ifTrue: [ codeWidget source: (BrowserMethodSource on: cMethodWidget selectedMethod) ]
 			ifFalse: [ codeWidget clear ] ] ]
     ]
 
@@ -363,24 +363,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         cMethodWidget clear
     ]
 
-    displayNamespaceSource: aNamespace [
-	<category: 'private-selection'>
-
-        codeWidget namespaceDefinition: (NamespaceSource on: aNamespace)
-    ]
-
-    displayClassSource: aClass [
-	<category: 'private-selection'>
-
-	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass)
-    ]
-
-    displayMethodSource: aString [
-	<category: 'private-selection'>
-
-	codeWidget sourceCode: aString
-    ]
-
     clearSource [
 	<category: 'private-selection'>
 
@@ -459,7 +441,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    updateNamespaceWidget: aNamespace;
 	    clearCategories;
 	    clearMethods;
-	    displayNamespaceSource: aNamespace
+	    source: (NamespaceHeaderSource on: aNamespace)
     ]
 
     selectAClass: aClass [
@@ -677,6 +659,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'code saved'>
 
 	codeWidget clearUndo
+    ]
+
+    source: aSourceFormatter [
+	<category: 'code saved'>
+
+	codeWidget source: aSourceFormatter
     ]
 
     codeSaved [

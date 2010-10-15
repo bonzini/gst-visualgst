@@ -96,12 +96,12 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	    aSmallInteger = 0 
 		ifTrue: [
 		    iMethodWidget hasSelectedMethod 
-			ifTrue: [ codeWidget sourceCode: iMethodWidget sourceCode ]
-			ifFalse: [ codeWidget sourceCode: '' ] ]
+			ifTrue: [ codeWidget source: (BrowserMethodSource on: iMethodWidget selectedMethod) ]
+			ifFalse: [ codeWidget clear ] ]
 		ifFalse: [
                     cMethodWidget hasSelectedMethod
-                        ifTrue: [ codeWidget sourceCode: cMethodWidget sourceCode ]
-                        ifFalse: [ codeWidget sourceCode: '' ] ] ]
+                        ifTrue: [ codeWidget source: (BrowserMethodSource on: cMethodWidget selectedMethod) ]
+                        ifFalse: [ codeWidget clear ] ] ]
     ]
 
     onClassHierarchyChanged [
@@ -116,7 +116,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
             iMethodWidget class: aClass withCategory: '*'.
             cMethodWidget class: aClass class withCategory: '*'.
 
-            codeWidget sourceCode: ''.
+            codeWidget clear.
 	    state := CategoryState on: self with: classHierarchyWidget selectedClass -> '*' ]
     ]
 
@@ -127,7 +127,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	self checkCodeWidgetAndUpdate: [
 	    iMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	    method := iMethodWidget selectedMethod.
-	    codeWidget sourceCode: iMethodWidget sourceCode.
+	    codeWidget source: (BrowserMethodSource on: method).
 	    state := MethodState on: self with: method ]
     ]
 
@@ -138,7 +138,7 @@ GtkConcreteWidget subclass: GtkInspectorBrowserWidget [
 	self checkCodeWidgetAndUpdate: [
 	    cMethodWidget hasSelectedMethod ifFalse: [ ^ self ].
 	    method := cMethodWidget selectedMethod.
-	    codeWidget sourceCode: cMethodWidget sourceCode.
+	    codeWidget source: (BrowserMethodSource on: method).
 	    state := MethodState on: self with: method ]
     ]
 

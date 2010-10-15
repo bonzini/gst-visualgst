@@ -20,8 +20,7 @@ CategoryCommand subclass: FileoutCategoryCommand [
 
         | stream |
         stream := FileStream open: aString mode: FileStream write.
-        (CategorySource write: target state category of: target classOrMeta on: stream)
-            source
+        CategorySource write: target state category of: target classOrMeta on: stream
     ]
 ]
 

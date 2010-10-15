@@ -36,7 +36,7 @@ BrowserState subclass: ClassState [
 
         aGtkClassBrowserWidget 
                         updateClassOfCategory: self classOrMeta;
-                        displayClassSource: self classOrMeta asClass
+                        source: (ClassHeaderSource on: self classOrMeta asClass).
     ]
 ]
 

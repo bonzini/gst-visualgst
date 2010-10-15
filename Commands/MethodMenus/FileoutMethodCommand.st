@@ -25,8 +25,7 @@ MethodCommand subclass: FileoutMethodCommand [
 
         | stream |
         stream := FileStream open: aString mode: FileStream write.
-        (MethodSource write: target state method on: stream)
-            source
+        MethodSource write: target state method on: stream
     ]
 ]
 

@@ -56,8 +56,7 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
 	| directory stream |
 	directory := self createCategories: aClass category from: aDirectory.
 	stream := FileStream open: (directory / ((aClass name asString) , '.st')) asString mode: FileStream write.
-	(ClassSource write: aClass on: stream)
-                source
+	ClassSource write: aClass on: stream
     ]
 
     fileoutExtendsMethods: aSetOfMethods category: aString from: aDirectory [
@@ -69,9 +68,7 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
 	    (class at: each methodClass ifAbsentPut: [ OrderedCollection new ]) add: each ].
 	class keysAndValuesDo: [ :key :value |
 	    stream := FileStream open: (directory / (key name asString), '-Ext.st') asString mode: FileStream write.
-	    (MethodSource writeMethods: value on: stream)
-                source ]
-	
+	    MethodSource writeMethods: value on: stream ]
     ]
 
     createCategories: aString from: aDirectory [
