@@ -1,7 +1,7 @@
 GtkConcreteWidget subclass: GtkClassBrowserWidget [
     GtkClassBrowserWidget class [ | Undo | ]
 
-    | checkCode namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget history historyUpdate state |
+    | launcher checkCode namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget history historyUpdate state |
 
     GtkClassBrowserWidget class >> title [
 	<category: 'accessing'>
@@ -15,6 +15,18 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         ^ Undo ifNil: [ Undo := (UndoStack new)
 				    initialize;
 				    yourself ]
+    ]
+
+    launcher: aGtkLauncher [
+        <category: 'accessing'>
+
+        launcher := aGtkLauncher
+    ]
+    
+    launcher [
+	<category: 'accessing'>
+
+	^ launcher
     ]
 
     buildBrowser [
@@ -117,6 +129,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'user interface'>
 
 	^ (cMethodWidget := self buildWidget: GtkMethodWidget whenSelectionChangedSend: #onClassSideMethodChanged)
+            browser: self;
 	    mainWidget
     ]
 
@@ -124,6 +137,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'user interface'>
 
         ^ (iMethodWidget := self buildWidget: GtkMethodWidget whenSelectionChangedSend: #onInstanceSideMethodChanged)
+            browser: self;
 	    mainWidget
     ]
 
