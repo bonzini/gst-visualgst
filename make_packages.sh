@@ -1,7 +1,8 @@
 #!/bin/bash
 
-GST_PACK="/usr/bin/env gst-package"
-GST="/usr/bin/env gst"
+: ${GST_PACK="/usr/bin/env gst-package"}
+: ${GST="/usr/bin/env gst"}
+: ${DESTDIR="$HOME/.st"}
 CURR_DIR=`pwd`
 PACK_BUILDER=$CURR_DIR"/PackageBuilder.st"
 
@@ -15,6 +16,6 @@ do
 	cd $CURR_DIR
 
     echo "packaging..."
-    $GST_PACK -t ~/.st $DIR/package.xml >> make_packages.log
+    $GST_PACK -t $DESTDIR $DIR/package.xml >> make_packages.log
 done
 
