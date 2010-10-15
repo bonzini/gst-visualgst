@@ -1,13 +1,17 @@
 Object subclass: HistoryStack [
 
-    | previousStack nextStack browser |
+    | previousStack nextStack |
 
-    initialize: aGtkClassBrowserWidget [
+    HistoryStack class >> new [
+        <category: 'instance creation'>
+        ^super new initialize
+    ]
+
+    initialize [
 	<category: 'initialization'>
 
 	previousStack := OrderedCollection new.
 	nextStack := OrderedCollection new.
-	browser := aGtkClassBrowserWidget.
     ]
 
     clear [
@@ -22,12 +26,14 @@ Object subclass: HistoryStack [
         ^previousStack isEmpty ifTrue: [ nil ] ifFalse: [ previousStack first ]
     ]
 
-    push: aClass [
+    push: aState [
 	<category: 'stack'>
 
-	(aClass isNil or: [self current == aClass]) ifTrue: [ ^ self ].
+	aState isNil ifTrue: [^self].
+        self current = aState ifTrue: [ ^self ].
+        aState recordedState ifFalse: [ ^self ].
 	nextStack empty.
-	previousStack addFirst: aClass
+	previousStack addFirst: aState
     ]
 
     size [
@@ -60,29 +66,22 @@ Object subclass: HistoryStack [
             nextStack addFirst: previousStack removeFirst ].
         [ self selectedIndex > anInteger ] whileTrue: [
             previousStack addFirst: nextStack removeFirst ].
-
-        browser selectANamespace: self current environment.
-        browser selectAClass: self current
     ]
 
     previous [
 	<category: 'undo-redo'>
 
-	previousStack size <= 1 ifTrue: [ ^ self ].
-
+	previousStack size <= 1 ifTrue: [ ^ nil ].
 	nextStack addFirst: previousStack removeFirst.
-        browser selectANamespace: self current environment.
-        browser selectAClass: self current
+        ^self current
     ]
 
     next [
         <category: 'undo-redo'>
 
-	nextStack isEmpty ifTrue: [ ^ self ].
-
+	nextStack isEmpty ifTrue: [ ^ nil ].
 	previousStack addFirst: nextStack removeFirst.
-        browser selectANamespace: self current environment.
-        browser selectAClass: self current
+        ^self current
     ]
 ]
 

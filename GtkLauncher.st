@@ -380,7 +380,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
        <category: 'user interface'>
 
         historyWidget := GtkHistoryWidget new
-                                    browser: self;
+                                    launcher: self;
                                     yourself.
         ^ historyWidget mainWidget
     ]

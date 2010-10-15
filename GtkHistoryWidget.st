@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkHistoryWidget [
-    | browser model widget |
+    | launcher model widget |
 
     GtkHistoryWidget class >> new [
 	<category: 'instance creation'>
@@ -15,10 +15,16 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
 	self mainWidget: self buildListView
     ]
 
-    browser: aBrowser [
+    launcher [
 	<category: 'accessing'>
 
-	browser := aBrowser
+	^launcher
+    ]
+
+    launcher: aBrowser [
+	<category: 'accessing'>
+
+	launcher := aBrowser
     ]
 
     buildListView [
@@ -30,7 +36,7 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
         widget getSelection setMode: GTK.Gtk gtkSelectionBrowse.
         widget getSelection connectSignal: 'changed' to: self selector: #onSelectionChanged.
         (model := GtkListModel on: widget getModel)
-                                        contentsBlock: [ :each | {each name displayString} ].
+                                        contentsBlock: [ :each | {each displayString} ].
         ^ GTK.GtkScrolledWindow withChild: widget
     ]
 
@@ -63,17 +69,9 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
     targetObject [
         <category: 'evaluation'>
 
-        ^ widget selection
+        ^ self state state "ugly!!"
     ]
 
-    updateBrowser: aBrowser [
-	<category: 'event'>
-
-        aBrowser 
-	    selectANamespace: self targetObject environment;
-	    selectAClass: self targetObject
-    ]
-    
     inspectIt: anObject [
         <category: 'smalltalk event'>
 
@@ -93,21 +91,32 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
 	widget hasSelectedItem ifFalse: [ ^ self ].
         model item selectedIndex = widget selectedIndex ifTrue: [^self].
         model item selectItem: widget selectedIndex.
+        launcher currentWidgetOfBrowser updateState: self state
     ]
 
     browseTabbedClass [
 	<category: 'event'>
 
-        "TODO: should reuse OpenTabbedBrowserCommand by giving a state to
-         GtkHistoryWidget."
 	widget hasSelectedItem ifFalse: [ ^ self ].
-        self updateBrowser: GtkLauncher uniqueInstance classBrowser
+        OpenTabbedBrowserCommand on: self
     ]
 
     state [
         <category: 'state'>
 
         ^model item current
+    ]
+
+    browserHasFocus [
+        <category: 'Command'>
+
+        ^true
+    ]
+
+    sourceCodeWidgetHasFocus [
+        <category: 'Command'>
+
+        ^false
     ]
 ]
 

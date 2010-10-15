@@ -150,38 +150,27 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    yourself
     ]
 
-    initializeHistory [
-	<category: 'initialize-release'>
-
-	historyStack := HistoryStack new
-            initialize: self;
-            yourself
-    ]
-
     initialize [
 	<category: 'initialize-release'>
 
-	state := NamespaceState on: self with: Smalltalk.
-	state classCategory: Smalltalk category.
+	historyStack := HistoryStack new.
 	checkCode := true.
         updating := false.
 
 	self 
-	    initializeHistory;
 	    mainWidget: self buildBrowserPaned
     ]
 
     postInitialize [
 	<category: 'initialize'>
 
+        self updateState: (ClassState with: Object).
 	codeWidget postInitialize
     ]
 
     updateHistory: aClass [
 	<category: 'history'>
 
-        historyStack push: aClass.
-        launcher isNil ifFalse: [ launcher historyChanged ]
     ]
 
     historyStack [
@@ -493,7 +482,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     targetObject [
         <category: 'target'>
 
-        ^ state classOrMeta
+        ^ self state classOrMeta
     ]
 
     doIt: object [
@@ -547,14 +536,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     forward [
 	<category: 'history events'>
 
-	historyStack next.
+	self updateState: historyStack next.
         launcher isNil ifFalse: [ launcher historyChanged ]
     ]
 
     back [
 	<category: 'history events'>
 
-	historyStack previous.
+	self updateState: historyStack previous.
         launcher isNil ifFalse: [ launcher historyChanged ]
     ]
 
@@ -659,12 +648,15 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'accessing'>
 
         | saveUpdating |
-        state = aState ifTrue: [^self].
-	state := aState.
+        self state = aState ifTrue: [^self].
         saveUpdating := updating.
         updating := true.
+        state := aState.
         aState selectInBrowser: self.
+        historyStack push: aState.
         updating := saveUpdating.
+
+        launcher isNil ifFalse: [ launcher historyChanged ]
     ]
 
     clearUndo [

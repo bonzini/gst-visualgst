@@ -27,6 +27,12 @@ Object subclass: BrowserState [
         ^self class = aState class and: [self state = aState state]
     ]
 
+    recordedState [
+	<category: 'history'>
+
+	^true
+    ]
+
     state [
 	<category: 'initialize-release'>
 

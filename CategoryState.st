@@ -52,6 +52,12 @@ BrowserState subclass: CategoryState [
         ^ true
     ]
 
+    recordedState [
+	<category: 'history'>
+
+	^ false
+    ]
+
     displayString [
 	<category: 'printing'>
 
