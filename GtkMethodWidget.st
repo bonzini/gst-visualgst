@@ -211,7 +211,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     updateBrowser: aGtkClassBrowserWidget [
         <category: 'events'>
 
-        self state updateBrowser: aGtkClassBrowserWidget.
         aGtkClassBrowserWidget state: self state
     ]
 
