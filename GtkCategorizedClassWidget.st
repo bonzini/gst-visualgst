@@ -167,12 +167,6 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
         ^ BrowserState new
     ]
 
-    updateBrowser: aGtkClassBrowserWidget [
-        <category: 'events'>
-
-        aGtkClassBrowserWidget state: self state
-    ]
-
     selectedClass [
 	<category: 'accessing'>
 

@@ -110,12 +110,6 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
-    updateBrowser: aGtkClassBrowserWidget [
-	<category: 'events'>
-
-	aGtkClassBrowserWidget state: self state
-    ]
-
     state [
         <category: 'testing'>
 

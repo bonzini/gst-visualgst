@@ -223,14 +223,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    namespaceWidget updateBrowser: self ]
+	    self state: namespaceWidget state ]
     ]
 
     onClassChanged [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    classWidget updateBrowser: self ]
+	    self state: classWidget state ]
     ]
 
     onClassHierarchyChanged [
@@ -238,7 +238,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	self checkCodeWidgetAndUpdate: [
 	    classHierarchyUpdate := true.
-	    classHierarchyWidget updateBrowser: self.
+	    self state: classHierarchyWidget state.
 	    classHierarchyUpdate := false ]
     ]
 
@@ -246,14 +246,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    iCategoryWidget updateBrowser: self ]
+	    self state: iCategoryWidget state ]
     ]
 
     onClassSideCategoryChanged [
 	<category: 'events'>
 
 	self checkCodeWidgetAndUpdate: [
-	    cCategoryWidget updateBrowser: self ]
+	    self state: cCategoryWidget state ]
     ]
 
     onInstanceSideMethodChanged [
@@ -261,7 +261,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidgetAndUpdate: [
-	    iMethodWidget updateBrowser: self ]
+	    self state: iMethodWidget state ]
     ]
 
     onClassSideMethodChanged [
@@ -269,7 +269,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	| method |
 	self checkCodeWidgetAndUpdate: [
-	    cMethodWidget updateBrowser: self ]
+	    self state: cMethodWidget state ]
     ]
 
     undoStack [
