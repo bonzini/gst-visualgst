@@ -638,6 +638,18 @@ GTK.GtkTreeView extend [
                     ^ self getSelection selectIter: iter ] ].
     ]
 
+    selectNth: anInteger [
+	<category: 'accessing'>
+
+        | path iter |
+        self getSelection unselectAll.
+        anInteger = 0 ifTrue: [^self].
+        path := GtkTreePath newFromIndices: {anInteger - 1. -1}.
+	(self getModel getIter: path) isNil ifTrue: [^self].
+        self scrollToCell: path column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.
+        self getSelection selectPath: path
+    ]
+
     selectFirstItem [
 	<category: 'accessing'>
 

@@ -1,7 +1,7 @@
 GtkConcreteWidget subclass: GtkClassBrowserWidget [
     GtkClassBrowserWidget class [ | Undo | ]
 
-    | launcher checkCode namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget history historyUpdate state |
+    | launcher checkCode namespaceWidget classWidget classHierarchyWidget classHierarchyUpdate iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget historyStack state |
 
     GtkClassBrowserWidget class >> title [
 	<category: 'accessing'>
@@ -154,10 +154,9 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     initializeHistory [
 	<category: 'initialize-release'>
 
-	historyUpdate := true.
-	history := HistoryStack new
-		    initialize: self;
-		    yourself
+	historyStack := HistoryStack new
+            initialize: self;
+            yourself
     ]
 
     initialize [
@@ -182,10 +181,14 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     updateHistory: aClass [
 	<category: 'history'>
 
-        historyUpdate ifTrue: [
-                        GtkLauncher addHistory: aClass.
-                        history push: aClass ]
+        historyStack push: aClass.
+        launcher isNil ifFalse: [ launcher historyChanged ]
+    ]
 
+    historyStack [
+	<category: 'history'>
+
+        ^historyStack
     ]
 
     grabFocus [
@@ -679,21 +682,15 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     forward [
 	<category: 'history events'>
 
-	history next
+	historyStack next.
+        launcher isNil ifFalse: [ launcher historyChanged ]
     ]
 
     back [
 	<category: 'history events'>
 
-	history previous
-    ]
-
-    updateClass: aClass [
-	<category: 'history events'>
-
-	historyUpdate := false.
-	self selectAClass: aClass.
-	historyUpdate := true.
+	historyStack previous.
+        launcher isNil ifFalse: [ launcher historyChanged ]
     ]
 
     sourceCodeWidgetHasFocus [
