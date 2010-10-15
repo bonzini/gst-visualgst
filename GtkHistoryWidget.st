@@ -56,8 +56,8 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
         menu := GTK.GtkMenu new.
         menu appendMenuItems: {{'Inspect a class'. self. #inspectClass}.
             {'Go to a class'. self. #goClass}.
-            {'Browse a class in a tab'. self. #browseTabbedClass}.
-            {'Browse a class'. self. #browseClass}}.
+            {'Open in new tab'. self. #browseTabbedClass}.
+            "{'Open in new window'. self. #browseClass}"}.
         menu attachToWidget: widget detacher: nil.
         menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
         menu showAll.
@@ -107,15 +107,6 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
          GtkHistoryWidget."
 	widget hasSelectedItem ifFalse: [ ^ self ].
         self updateBrowser: GtkLauncher uniqueInstance classBrowser
-    ]
-
-    browseClass [
-	<category: 'event'>
-
-        "TODO: should reuse OpenWindowedBrowserCommand by giving a state to
-         GtkHistoryWidget."
-	widget hasSelectedItem ifFalse: [ ^ self ].
-        self updateBrowser: GtkClassBrowser open
     ]
 ]
 
