@@ -441,7 +441,9 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildClassBrowserWidget [
 	<category: 'user interface'>
 
-	^ GtkClassBrowserWidget parentWindow: window
+	^ (GtkClassBrowserWidget parentWindow: window)
+             launcher: self;
+             yourself
     ]
 
     buildTranscriptWidget [
@@ -590,6 +592,12 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	<category: 'tools events'>
 
 	OpenTabbedBrowserCommand on: self
+    ]
+
+    launcher [
+	<category: 'accessing'>
+
+	^self
     ]
 
     cancel [
