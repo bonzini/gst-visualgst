@@ -105,12 +105,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ widget
     ]
 
-    classBrowserInAWindow [
-	<category: 'tools events'>
-
-	GtkClassBrowser open
-    ]
-
     newWorkspace [
 	<category: 'tools events'>
 
