@@ -24,6 +24,7 @@ GtkEditTab subclass: GtkWorkspaceTab [
         ^ (GTK.GtkHPaned new)
 		    add1: (self buildCodeView: GtkWorkspaceWidget);
 		    add2: (variableWidget := GtkVariableTrackerWidget on: codeWidget variableTracker) mainWidget;
+                    setPosition: 500;
                     yourself
     ]
 
