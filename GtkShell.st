@@ -32,6 +32,16 @@ GtkVisualGSTTool subclass: GtkShell [
 	^ '<GtkShell>'
     ]
 
+    sunitBrowser [
+	<category: 'tools events'>
+
+	| widget |
+	browsers addWidget: (widget := self buildSUnitBrowserWidget) labeled: 'SUnit'.
+        browsers showLastPage.
+	widget postInitialize.
+	^ widget
+    ]
+
     classBrowser [
 	<category: 'tools events'>
 
@@ -295,6 +305,14 @@ GtkVisualGSTTool subclass: GtkShell [
 	<category: 'user interface'>
 
 	browsers addWidget: self buildClassBrowserWidget labeled: 'Browser'
+    ]
+
+    buildSUnitBrowserWidget [
+	<category: 'user interface'>
+
+	^ (GtkSUnitTab parentWindow: window)
+             shell: self;
+             yourself
     ]
 
     buildClassBrowserWidget [

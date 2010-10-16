@@ -187,12 +187,6 @@ GtkEditTab subclass: GtkClassBrowserWidget [
 	^ namespaceWidget selectedNamespace
     ]
 
-    selectedClassCategory [
-	<category: 'selection'>
-
-	^ namespaceWidget selectedCategory
-    ]
-
     clearMethods [
 	<category: 'private-selection'>
 

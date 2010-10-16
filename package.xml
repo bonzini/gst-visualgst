@@ -271,7 +271,7 @@
   <filein>SUnit/GtkSUnitResultWidget.st</filein>
   <filein>GtkClassSUnitWidget.st</filein>
   <filein>GtkMethodSUnitWidget.st</filein>
-  <filein>SUnit/GtkSUnit.st</filein>
+  <filein>SUnit/GtkSUnitTab.st</filein>
   <filein>Commands/OpenBrowserCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenTabbedBrowserCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenSUnitCommand.st</filein>
@@ -492,7 +492,7 @@
   <file>SUnit/GtkSUnitResultWidget.st</file>
   <file>GtkClassSUnitWidget.st</file>
   <file>GtkMethodSUnitWidget.st</file>
-  <file>SUnit/GtkSUnit.st</file>
+  <file>SUnit/GtkSUnitTab.st</file>
   <file>Commands/OpenBrowserCommand.st</file>
   <file>Commands/ToolsMenus/OpenTabbedBrowserCommand.st</file>
   <file>Commands/ToolsMenus/OpenSUnitCommand.st</file>

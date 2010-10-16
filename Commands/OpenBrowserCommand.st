@@ -42,5 +42,18 @@ Command subclass: OpenBrowserCommand [
 
 	^target state
     ]
+
+    buildBrowserAndSelect: aState [
+        <category: 'user interface'>
+
+        self subclassResponsibility
+    ]
+
+    execute [
+        <category: 'command'>
+
+        self buildBrowserAndSelect: self selection
+    ]
+
 ]
 

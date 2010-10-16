@@ -12,11 +12,5 @@ OpenBrowserCommand subclass: OpenTabbedBrowserCommand [
         browser := target shell classBrowser.
         browser updateState: aState.
     ]
-
-    execute [
-        <category: 'command'>
-
-	self buildBrowserAndSelect: self selection
-    ]
 ]
 

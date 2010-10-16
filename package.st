@@ -213,7 +213,7 @@ Eval [
     filein: 'SUnit/GtkSUnitResultWidget.st';
     filein: 'GtkClassSUnitWidget.st';
     filein: 'GtkMethodSUnitWidget.st';
-    filein: 'SUnit/GtkSUnit.st';
+    filein: 'SUnit/GtkSUnitTab.st';
     filein: 'Commands/OpenBrowserCommand.st';
     filein: 'Commands/ToolsMenus/OpenTabbedBrowserCommand.st';
     filein: 'Commands/ToolsMenus/OpenSUnitCommand.st';

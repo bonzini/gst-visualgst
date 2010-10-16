@@ -7,6 +7,28 @@ GtkCategorizedClassWidget subclass: GtkClassSUnitWidget [
                     ifTrue: [ model append: aClass class parent: aClass superclass class ]
     ]
 
+    onPress: aGtkWidget event: aGdkEvent [
+        <category: 'button event'>
+
+        | menu aGdkButtonEvent |
+        aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
+        aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
+        menu := GTK.GtkMenu new.
+        menu appendMenuItems: {{'Run tests'. self. #runTests}.
+            {}.
+            {'Add a class'. self. #newClass}.
+            {'Rename a class'. self. #renameClass}.
+            {'Delete a class'. self. #deleteClass}.
+            {}.
+            {'Inspect a class'. self. #inspectClass}.
+            {}.
+            {'File out a class'. self. #fileoutClass}}.
+        menu attachToWidget: classesTree detacher: nil.
+        menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
+        menu showAll.
+        ^ true
+    ]
+
     root [
 	<category: 'accessing'>
 
@@ -60,5 +82,34 @@ GtkCategorizedClassWidget subclass: GtkClassSUnitWidget [
         (anEvent item inheritsFrom: TestCase) ifFalse: [ ^ self ].
         super addEvent: anEvent
     ]
+
+    state [
+        <category: 'testing'>
+
+        self hasSelectedClass ifTrue: [ ^ CategoryState with: self selectedClass->'*' ].
+        ^super state
+    ]
+
+    runTests [ 
+        <category: 'class events'> 
+ 
+        "TODO: Change to a Command."
+        self browser runSuite: self suite
+    ] 
+
+    suite [
+        <category: 'run events'>
+
+        | suite class |
+        self state hasSelectedClass ifFalse: [ ^TestSuite named: 'empty'].
+
+        suite := TestSuite named: self allClassNames.
+        self selectedClasses do: [ :elem |
+            elem selectors do: [ :each |
+                (each matchRegex: 'test' from: 1 to: 4)
+                    ifTrue: [ suite addTest: (elem selector: each) ] ] ].
+        ^suite
+    ]
+
 ]
 

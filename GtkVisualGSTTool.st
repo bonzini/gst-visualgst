@@ -148,12 +148,6 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 	^nil
     ]
 
-    newSUnitBrowser [
-	<category: 'tools events'>
-
-	OpenSUnitCommand executeOn: self
-    ]
-
     newSenderBrowser [
 	<category: 'tools events'>
 

@@ -9,27 +9,25 @@ OpenBrowserCommand subclass: OpenSUnitCommand [
     defaultDestination [
         <category: 'selection'>
 
-	^Smalltalk->nil
+	^super defaultDestination namespaceState
     ]
 
     selection [
         <category: 'selection'>
 
         | selection |
-	selection := super selection printNl.
-        selection value isNil ifTrue: [^selection].
-        (selection value inheritsFrom: TestCase) ifTrue: [^selection].
-        ^selection key->nil
+	selection := super selection.
+        selection hasSelectedClass ifFalse: [^selection].
+        (selection classOrMeta inheritsFrom: TestCase) ifTrue: [^selection].
+        ^NamespaceState with: selection classOrMeta environment
     ]
 
-    execute [
+    buildBrowserAndSelect: aState [
         <category: 'command'>
 
 	| browser selection |
-	browser := GtkSUnit open.
-	selection := self selection.
-	browser selectANamespace: selection key.
-	selection value ifNotNil: [ browser selectAClass: selection value ]
+	browser := target shell sunitBrowser.
+	browser updateState: aState
     ]
 ]
 
