@@ -113,6 +113,7 @@ Eval [
     filein: 'Text/GtkFindWidget.st';
     filein: 'Text/GtkReplaceWidget.st';
     filein: 'Text/GtkSaveTextWidget.st';
+    filein: 'Text/GtkWorkspaceWidget.st';
     filein: 'GtkNotebookWidget.st';
     filein: 'Image/GtkImageModel.st';
     filein: 'Image/GtkImageWidget.st';
@@ -125,8 +126,8 @@ Eval [
     filein: 'MethodState.st';
     filein: 'GtkLauncherTab.st';
     filein: 'GtkEditTab.st';
-    filein: 'GtkWorkspaceWidget.st';
-    filein: 'GtkTranscriptWidget.st';
+    filein: 'GtkWorkspaceTab.st';
+    filein: 'GtkTranscriptTab.st';
     filein: 'GtkBrowserWidget.st';
     filein: 'GtkCategorizedNamespaceWidget.st';
     filein: 'GtkCategorizedClassWidget.st';

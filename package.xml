@@ -171,6 +171,7 @@
   <filein>Text/GtkFindWidget.st</filein>
   <filein>Text/GtkReplaceWidget.st</filein>
   <filein>Text/GtkSaveTextWidget.st</filein>
+  <filein>Text/GtkWorkspaceWidget.st</filein>
   <filein>GtkNotebookWidget.st</filein>
   <filein>Image/GtkImageModel.st</filein>
   <filein>Image/GtkImageWidget.st</filein>
@@ -183,8 +184,8 @@
   <filein>MethodState.st</filein>
   <filein>GtkLauncherTab.st</filein>
   <filein>GtkEditTab.st</filein>
-  <filein>GtkWorkspaceWidget.st</filein>
-  <filein>GtkTranscriptWidget.st</filein>
+  <filein>GtkWorkspaceTab.st</filein>
+  <filein>GtkTranscriptTab.st</filein>
   <filein>GtkBrowserWidget.st</filein>
   <filein>GtkCategorizedNamespaceWidget.st</filein>
   <filein>GtkCategorizedClassWidget.st</filein>
@@ -390,6 +391,7 @@
   <file>Text/GtkFindWidget.st</file>
   <file>Text/GtkReplaceWidget.st</file>
   <file>Text/GtkSaveTextWidget.st</file>
+  <file>Text/GtkWorkspaceWidget.st</file>
   <file>GtkNotebookWidget.st</file>
   <file>Image/GtkImageModel.st</file>
   <file>Image/GtkImageWidget.st</file>
@@ -402,8 +404,8 @@
   <file>MethodState.st</file>
   <file>GtkLauncherTab.st</file>
   <file>GtkEditTab.st</file>
-  <file>GtkWorkspaceWidget.st</file>
-  <file>GtkTranscriptWidget.st</file>
+  <file>GtkWorkspaceTab.st</file>
+  <file>GtkTranscriptTab.st</file>
   <file>GtkBrowserWidget.st</file>
   <file>GtkCategorizedNamespaceWidget.st</file>
   <file>GtkCategorizedClassWidget.st</file>

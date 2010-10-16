@@ -1,5 +1,5 @@
 GtkTextWidget subclass: GtkSourceCodeWidget [
-    | browser source saveWidget |
+    | source saveWidget |
 
     initialize [
 	<category: 'initialization'>
@@ -173,12 +173,6 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	aSource parser == STInST.RBBracketedMethodParser ifTrue: [
             self parseSource: string ifParsed: [ :node | SyntaxHighlighter highlight: node in: self buffer ] ]
 
-    ]
-
-    browser: aGtkClassBrowserWidget [
-	<category: 'accessing'>
-
-	browser := aGtkClassBrowserWidget
     ]
 
     selectedMethodSymbol [

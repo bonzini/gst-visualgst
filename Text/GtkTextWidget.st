@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkTextWidget [
-    | findWidget replaceWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand frozen |
+    | browser findWidget replaceWidget textWidget userAction undoStack lastCommand cut textSaved lastSavedCommand frozen |
 
     GtkTextWidget class >> newWithBuffer: aGtkTextBuffer [
         <category: 'instance creation'>
@@ -73,6 +73,12 @@ GtkConcreteWidget subclass: GtkTextWidget [
             packEnd: ((findWidget := GtkFindWidget on: self) mainWidget) expand: false fill: false padding: 0;
             packEnd: ((replaceWidget := GtkReplaceWidget on: self)  mainWidget) expand: false fill: false padding: 0;
             yourself
+    ]
+
+    browser: aGtkClassBrowserWidget [
+	<category: 'accessing'>
+
+	browser := aGtkClassBrowserWidget
     ]
 
     beginUserAction [

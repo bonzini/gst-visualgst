@@ -149,6 +149,12 @@ GtkLauncherTab subclass: GtkEditTab [
 	codeWidget codeSaved
     ]
 
+    text [
+	<category: 'testing'>
+
+	^ codeWidget text
+    ]
+
     hasChanged [
 	<category: 'testing'>
 
@@ -165,6 +171,12 @@ GtkLauncherTab subclass: GtkEditTab [
 	<category: 'user interface'>
 
 	codeWidget showReplace
+    ]
+
+    insertAtEnd: aString [
+	<category: 'updating'>
+
+	codeWidget buffer insertAtEnd: aString
     ]
 
     whileFrozenDo: aBlock [

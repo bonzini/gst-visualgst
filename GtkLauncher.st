@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | uniqueInstance | ]
 
-    | leftSidebar rightSidebar topSidebar packageBuilderWidget implementorResultWidget senderResultWidget senderWidget implementorWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier undoStack |
+    | leftSidebar rightSidebar topSidebar packageBuilderWidget implementorResultWidget senderResultWidget senderWidget implementorWidget historyWidget browsers saved imageName transcriptWidget windowsMenu systemChangeNotifier undoStack |
 
     GtkLauncher class >> uniqueInstance [
 	<category: 'public'>
@@ -109,8 +109,8 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	| widget |
 	widget := self buildWorkspaceWidget showAll.
 	widget postInitialize.
-	outputs addWidget: widget labeled: aString.
-        outputs showLastPage.
+	browsers addWidget: widget labeled: aString.
+        browsers showLastPage.
         ^widget
     ]
 
@@ -169,7 +169,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
             showModalOnAnswer: [ :dlg :res |
                 res = GTK.Gtk gtkResponseAccept 
 				ifTrue: [ file := FileStream open: dlg getFilename mode: FileStream write.
-					  file nextPutAll: outputs currentWidget text ].
+					  file nextPutAll: browsers currentWidget text ].
 		dlg destroy ]
     ]
 
@@ -286,7 +286,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
 	super postInitialize.
         self browserPostInitialize.
-	1 to: 2 do: [ :i | (outputs widgetAt: i) postInitialize ].
+	transcriptWidget postInitialize.
 	leftSidebar postInitialize.
 	topSidebar postInitialize.
 	rightSidebar postInitialize.
@@ -294,24 +294,12 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:'
     ]
 
-    buildNotebookWorkspaceWidget [
-	<category: 'user interface'>
+    buildTranscriptWidget [
+       <category: 'user interface'>
 
-	outputs := GtkNotebookWidget new
-				initialize;
-				parentWindow: window;
-				showAll;
-				yourself.
-	^ outputs
-	    addPermanentWidget: (transcriptWidget := self buildTranscriptWidget) labeled: 'Transcript';
-	    addWidget: self buildWorkspaceWidget labeled: 'Workspace';
-	    yourself
-    ]
-
-    buildCentralWidget [
-	<category: 'intialize-release'>
-
-	^ self buildBrowserAndWorkspaceWidget
+       ^(transcriptWidget := GtkTranscriptTab parentWindow: window)
+            showAll;
+            yourself
     ]
 
     buildImplementorPaned [
@@ -343,12 +331,10 @@ GtkVisualGSTTool subclass: GtkLauncher [
         ^ rightSidebar mainWidget
     ]
 
-    buildBrowserAndWorkspaceWidget [
+    buildCentralWidget [
         <category: 'intialize-release'>
 
-        ^ GTK.GtkVPaned addAll: {
-		    GTK.GtkHPaned addAll: {self buildImplementorPaned. self buildBottomPanedAndClassBrowser. self buildRightSidebarPaned}. 
-		    self buildNotebookWorkspaceWidget mainWidget}
+        ^ GTK.GtkHPaned addAll: {self buildImplementorPaned. self buildBottomPanedAndClassBrowser. self buildRightSidebarPaned}. 
     ]
 
     buildImplementorView [
@@ -418,16 +404,18 @@ GtkVisualGSTTool subclass: GtkLauncher [
     buildBottomPanedAndClassBrowser [
         <category: 'user interface'>
 
-	^ GTK.GtkVPaned addAll: {self buildTopSidebar. self buildClassBrowserTabbedWidget mainWidget}
+	^ GTK.GtkVPaned addAll: {self buildTopSidebar. self buildTabAreaWidget mainWidget}
     ]
 
-    buildClassBrowserTabbedWidget [
+    buildTabAreaWidget [
 	<category: 'user interface'>
 
 	^ (browsers := GtkNotebookWidget parentWindow: window)
 				    showAll;
                                     whenSelectionChangedSend: #historyChanged to: self;
+				    addPermanentWidget: self buildTranscriptWidget labeled: 'Transcript';
 				    addWidget: self buildClassBrowserWidget labeled: 'Browser';
+                                    showLastPage;
 				    yourself
     ]
 
@@ -439,16 +427,10 @@ GtkVisualGSTTool subclass: GtkLauncher [
              yourself
     ]
 
-    buildTranscriptWidget [
-	<category: 'user interface'>
-
-	^ GtkTranscriptWidget parentWindow: window
-    ]
-
     buildWorkspaceWidget [
 	<category: 'user interface'>
 
-	^ GtkWorkspaceWidget parentWindow: window
+	^ GtkWorkspaceTab parentWindow: window
     ]
 
     createEditMenus [
@@ -491,9 +473,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'}.
 	    {'<Control>Q'. '<GtkLauncher>/File/Quit'}}.
 
-	^{GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
-            GTK.GtkMenuItem new.
-	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open' connectTo: self selector: #open.
+	^{	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open' connectTo: self selector: #open.
             GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #save.
             GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs' connectTo: self selector: #saveAs.
             GTK.GtkMenuItem new}, super createFileMenus
@@ -541,10 +521,19 @@ GtkVisualGSTTool subclass: GtkLauncher [
     createToolsMenus [
 	<category: 'user interface'>
 
-        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/TabbedClassBrowser'}}.
+        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/TabbedClassBrowser'}.
+            {'<Control>M'. '<GtkVisualGSTTool>/Tools/Implementors'}.
+            {'<Control>N'. '<GtkVisualGSTTool>/Tools/Senders'}.
+            {'<Alt>P'. '<GtkVisualGSTTool>/Tools/PackageBuilder'}}.
 
-	^{GTK.GtkMenuItem menuItem: 'Browser' accelPath: '<GtkLauncher>/Tools/TabbedClassBrowser' connectTo: self selector: #newTabbedBrowser},
-            super createToolsMenus.
+	^{GTK.GtkMenuItem menuItem: 'Browser' accelPath: '<GtkLauncher>/Tools/TabbedClassBrowser' connectTo: self selector: #newTabbedBrowser.
+         GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
+         GTK.GtkMenuItem new.
+	 GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: self selector: #newImplementorBrowser.
+         GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Tools/Senders' connectTo: self selector: #newSenderBrowser.
+         GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #newSUnitBrowser.
+         GTK.GtkMenuItem menuItem: 'PackageBuilder' accelPath: '<GtkVisualGSTTool>/Tools/PackageBuilder' connectTo: self selector: #packageBuilder},
+           super createToolsMenus.
     ]
 
     newTabbedBrowser [
@@ -622,7 +611,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     focusedWidget [
 	<category: 'focus'>
 
-	^browsers focusedWidget ifNil: [ outputs focusedWidget ]
+	^browsers focusedWidget
     ]
 
     browserHasFocus [
@@ -850,12 +839,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ browsers currentWidget
     ]
 
-    notebookHasFocus [
-	<category: 'testing'>
-
-	^ outputs hasFocus
-    ]
-
     senderSelected [
         <category: 'events'>
 
@@ -922,4 +905,3 @@ GtkVisualGSTTool subclass: GtkLauncher [
         ^ undoStack
     ]
 ]
-

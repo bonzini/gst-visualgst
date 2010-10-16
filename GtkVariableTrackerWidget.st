@@ -1,12 +1,12 @@
 GtkConcreteWidget subclass: GtkVariableTrackerWidget [
     | model object widget |
 
-    GtkVariableTrackerWidget class >> on: anObject [
+    GtkVariableTrackerWidget class >> on: aVariableTracker [
 	<category: 'instance creation'>
 
 	^ self new
 		initialize;
-		object: anObject;
+		variableTracker: aVariableTracker;
 		yourself
     ]
 
@@ -16,10 +16,11 @@ GtkConcreteWidget subclass: GtkVariableTrackerWidget [
 	self mainWidget: self buildListView
     ]
 
-    object: anObject [
+    variableTracker: aVariableTracker [
 	<category: 'accessing'>
 
-	object := anObject.
+	object := aVariableTracker object.
+	aVariableTracker addDependent: self.
 	self refresh
     ]
 
@@ -32,6 +33,12 @@ GtkConcreteWidget subclass: GtkVariableTrackerWidget [
         (model := GtkListModel on: widget treeView getModel)
                                         contentsBlock: [ :each | {each asString. (object instVarNamed: each) displayString} ].
         ^ widget mainWidget
+    ]
+
+    update: aSymbol [
+	<category: 'dependents'>
+
+        self refresh
     ]
 
     refresh [

@@ -1,37 +1,45 @@
 STInST.STInST.RBProgramNodeVisitor subclass: WorkspaceVariableTracker [
-    | keyword class |
+    | keyword object |
 
     initialize [
         <category: 'initialization'>
 
+        | class |
         keyword := #('self' 'super' 'true' 'false' 'nil' 'thisContext') asSet.
 	class := (Behavior new)
                     superclass: Object;
-                    yourself
+                    yourself.
+        object := class new.
+    ]
+
+    object [
+        <category: 'accessing'>
+
+        ^ object
     ]
 
     objectClass [
         <category: 'accessing'>
 
-        ^ class
+        ^ object class
     ]
 
     includesVariable: aString [
         <category: 'operation'>
 
-        ^ aString first isUppercase or: [ (keyword includes: aString) or: [ class allInstVarNames includes: aString asSymbol ] ]
+        ^ aString first isUppercase or: [ (keyword includes: aString) or: [ self objectClass allInstVarNames includes: aString asSymbol ] ]
     ]
 
     defineVariable: aString [
         <category: 'operation'>
 
-        class addInstVarName: aString
+        self objectClass addInstVarName: aString
     ]
 
     removeVariable: aString [
 	<category: 'operation'>
 
-        class removeInstVarName: aString
+        self objectClass removeInstVarName: aString
     ]
 
     checkAndAdd: aString [

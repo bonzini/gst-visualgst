@@ -1,5 +1,5 @@
 GtkTextWidget subclass: GtkWorkspaceWidget [
-    | variableWidget variableTracker object |
+    | variableTracker object |
     
     popupMenuOn: aGtkWidget menu: aGtkMenu [
 	<category: 'events'>
@@ -29,14 +29,6 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 	    show;
 	    connectSignal: 'activate' to: self selector: #debugIt.
 	aGtkMenu append: menuitem.
-        menuitem := GTK.GtkMenuItem new.
-        menuitem show.
-        aGtkMenu append: menuitem.
-        menuitem := GTK.GtkMenuItem newWithLabel: 'Show/Hide workspace variable(s)'.
-        menuitem
-            show;
-            connectSignal: 'activate' to: self selector: #showIVar.
-        aGtkMenu append: menuitem.
     ]
 
     initialize [
@@ -45,24 +37,14 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 	variableTracker := (WorkspaceVariableTracker new)
 				initialize;
 				yourself.
-	object := variableTracker objectClass new.
+	object := variableTracker object.
 	super initialize.
     ]
 
-    postInitialize [
-        <category: 'initialize'>
+    variableTracker [
+	<category: 'evaluation'>
 
-	variableWidget hideAll.
-	super postInitialize
-    ]
-
-    buildWidget [
-        <category: 'user interface'>
-
-        ^ (GTK.GtkHPaned new)
-		    add1: (variableWidget := GtkVariableTrackerWidget on: object) mainWidget;
-		    add2: super buildWidget;
-                    yourself
+        ^variableTracker
     ]
 
     object: anObject [
@@ -91,7 +73,7 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
     afterEvaluation [
         <category: 'smalltalk event'>
 
-	variableWidget refresh
+	variableTracker changed
     ]
 
     doIt [
@@ -117,13 +99,4 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 
 	PrintItCommand executeOn: self
     ]
-
-    showIVar [
-	<category: 'smalltalk event'>
-
-	variableWidget mainWidget getVisible 
-		ifFalse: [ variableWidget showAll ]
-		ifTrue: [ variableWidget hideAll ].
-    ]
-
 ]
