@@ -1,22 +1,10 @@
-GtkConcreteWidget subclass: GtkClassBrowserWidget [
-    | launcher checkCode namespaceWidget classWidget classHierarchyWidget iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget historyStack state updating |
+GtkLauncherTab subclass: GtkClassBrowserWidget [
+    | namespaceWidget classWidget classHierarchyWidget iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget |
 
     GtkClassBrowserWidget class >> title [
 	<category: 'accessing'>
 
 	^ 'Gtk class browser'
-    ]
-
-    launcher: aGtkLauncher [
-        <category: 'accessing'>
-
-        launcher := aGtkLauncher
-    ]
-    
-    launcher [
-	<category: 'accessing'>
-
-	^ launcher
     ]
 
     buildBrowser [
@@ -130,7 +118,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    mainWidget
     ]
 
-    buildBrowserPaned [
+    buildMainWidget [
         <category: 'user interface'>
 
 	^ GTK.GtkVPaned new
@@ -140,33 +128,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    yourself
     ]
 
-    initialize [
-	<category: 'initialize-release'>
-
-	historyStack := HistoryStack new.
-	checkCode := true.
-        updating := false.
-
-	self 
-	    mainWidget: self buildBrowserPaned
-    ]
-
     postInitialize [
 	<category: 'initialize'>
 
+	super postInitialize.
         self updateState: (ClassState with: Object).
 	codeWidget postInitialize
-    ]
-
-    updateHistory: aClass [
-	<category: 'history'>
-
-    ]
-
-    historyStack [
-	<category: 'history'>
-
-        ^historyStack
     ]
 
     grabFocus [
@@ -188,12 +155,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         self updateState: classState
     ]
 
-    undoStack [
-	<category: 'accessings'>
-
-	^ launcher undoStack
-    ]
-
     cancel [
 	<category: 'edit events'>
 
@@ -205,7 +166,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
 	codeWidget hasFocus 
 	    ifTrue: [ codeWidget undo ]
-	    ifFalse: [ self undoStack undo ]
+	    ifFalse: [ super undo ]
     ]
 
     redo [
@@ -213,7 +174,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
         codeWidget hasFocus
             ifTrue: [ codeWidget redo ]
-            ifFalse: [ self undoStack redo ]
+            ifFalse: [ super redo ]
     ]
 
     acceptIt [
@@ -297,11 +258,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	codeWidget clear
     ]
 
-    selectEmptyState [
-	<category: 'state-callbacks'>
-        "TODO"
-    ]
-
     selectNamespaceState: aState [
 	<category: 'private-selection'>
 
@@ -320,14 +276,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
     finishNamespaceState [
         classWidget unselectAll
-    ]
-
-    selectANamespace: aNamespace [
-        ^self updateState: (NamespaceState with: aNamespace)
-    ]
-
-    selectAClass: aClass [
-        ^self updateState: (ClassState with: aClass)
     ]
 
     selectClassState: aState [
@@ -415,24 +363,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
     ]
 
-    selectAnInstanceMethod: aSelector [
-        <category: 'selection'>
-
-	self updateState: (MethodState state: self classOrMeta asClass >> aSelector)
-    ]
-
-    selectAClassMethod: aSelector [
-	<category: 'selection'>
-
-	self updateState: (MethodState state: self classOrMeta asMetaclass >> aSelector)
-    ]
-
-    targetObject [
-        <category: 'target'>
-
-        ^ self state classOrMeta
-    ]
-
     doIt: object [
 	<category: 'smalltalk event'>
 
@@ -479,20 +409,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'smalltalk event'>
 
 	PrintItCommand executeOn: self
-    ]
-
-    forward [
-	<category: 'history events'>
-
-        self updateState: historyStack next
-            onCancel: [ historyStack previous].
-    ]
-
-    back [
-	<category: 'history events'>
-
-        self updateState: historyStack previous
-            onCancel: [ historyStack next].
     ]
 
     sourceCodeWidgetHasFocus [
@@ -543,97 +459,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	^ codeWidget selectedText
     ]
 
-    doNotCheckCode [
-	<category: 'text editing'>
-
-	checkCode := false
-    ]
-
-    dropAndEvaluate: aBlock [
-        "FIXME: is this #clearUndo necessary?"
-        self clearUndo.
-        ^aBlock value
-    ]
-
-    cancelAndEvaluate: aBlock [
-	<category: 'accessing'>
-        | result |
-        result := aBlock value.
-        codeWidget whileFrozenDo: [ self selectState ].
-        ^result
-    ]
-
-    checkCodeWidgetAndUpdate: aBlock [
-        <category: 'text editing'>
-
-        self checkCodeWidgetAndUpdate: aBlock onCancel: []
-    ]
-
-    checkCodeWidgetAndUpdate: aBlock onCancel: cancelBlock [
-        <category: 'saving'>
-
-        | dialog |
-        checkCode ifFalse: [ checkCode := true. ^self dropAndEvaluate: aBlock ].
-        self hasChanged ifFalse: [ ^self dropAndEvaluate: aBlock ].
-        dialog := GTK.GtkMessageDialog
-                                new: self parentWindow
-                                flags: GTK.Gtk gtkDialogDestroyWithParent
-                                type: GTK.Gtk gtkMessageWarning
-                                buttons: GTK.Gtk gtkButtonsNone
-                                message: 'Accept changes before exiting?'
-                                tip: 'If you do not accept them, your changes to %1 will be lost...' % {self state}.
-
-        dialog
-            addButton: 'Drop' responseId: 0;
-            addButton: 'Cancel' responseId: 2;
-            addButton: 'Accept' responseId: 1;
-            showModalOnAnswer: [ :dlg :res |
-                res = 0 ifTrue: [ self codeSaved ].
-                res = 1 ifTrue: [ self acceptIt ].
-                (res <= 1 and: [ self hasChanged not ])
-                    ifTrue: [ self dropAndEvaluate: aBlock ]
-                    ifFalse: [ self cancelAndEvaluate: cancelBlock ].
-                dlg destroy ].
-    ]
-
-    state [
-	<category: 'accessing'>
-
-	^ state
-    ]
-
-    updateState: newState onCancel: aBlock [
-	<category: 'accessing'>
-        updating ifTrue: [^self].
-        newState isNil ifTrue: [^self].
-        self checkCodeWidgetAndUpdate: [ self state: newState ] onCancel: aBlock
-    ]
-
-    updateState: newState [
-	<category: 'accessing'>
-        self updateState: newState onCancel: []
-    ]
-
-    selectState [
-	<category: 'accessing'>
-
-        | saveUpdating |
-        saveUpdating := updating.
-        updating := true.
-        state selectInBrowser: self.
-        launcher isNil ifFalse: [ launcher historyChanged ].
-        updating := saveUpdating.
-    ]
-
-    state: aState [
-	<category: 'accessing'>
-
-        self state = aState ifTrue: [^self].
-        state := aState.
-        historyStack push: aState.
-        self selectState.
-    ]
-
     clearUndo [
 	<category: 'code saved'>
 
@@ -650,13 +475,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'code saved'>
 
 	codeWidget codeSaved
-    ]
-
-    close [
-	<category: 'user interface'>
-
-        "is this right?"
-	self checkCodeWidgetAndUpdate: []
     ]
 
     hasChanged [

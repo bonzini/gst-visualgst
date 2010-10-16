@@ -123,6 +123,7 @@ Eval [
     filein: 'ClassState.st';
     filein: 'CategoryState.st';
     filein: 'MethodState.st';
+    filein: 'GtkLauncherTab.st';
     filein: 'GtkWorkspaceWidget.st';
     filein: 'GtkTranscriptWidget.st';
     filein: 'GtkBrowserWidget.st';
