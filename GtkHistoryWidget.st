@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkHistoryWidget [
-    | launcher model widget |
+    | shell model widget |
 
     GtkHistoryWidget class >> new [
 	<category: 'instance creation'>
@@ -15,16 +15,16 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
 	self mainWidget: self buildListView
     ]
 
-    launcher [
+    shell [
 	<category: 'accessing'>
 
-	^launcher
+	^shell
     ]
 
-    launcher: aBrowser [
+    shell: aBrowser [
 	<category: 'accessing'>
 
-	launcher := aBrowser
+	shell := aBrowser
     ]
 
     buildListView [
@@ -93,8 +93,8 @@ GtkConcreteWidget subclass: GtkHistoryWidget [
         model item selectItem: widget selectedIndex.
 
         "maybe handle RestoreBrowserState?"
-        launcher currentWidgetOfBrowser updateState: self state.
-        launcher historyChanged
+        shell currentWidgetOfBrowser updateState: self state.
+        shell historyChanged
     ]
 
     browseTabbedClass [

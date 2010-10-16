@@ -29,7 +29,7 @@ Command subclass: OpenSenderCommand [
     valid [
         <category: 'checking'>
 
-        ^ target launcher notNil or: [ self selection notNil ]
+        ^ target shell notNil or: [ self selection notNil ]
     ]
 
     execute [
@@ -37,8 +37,8 @@ Command subclass: OpenSenderCommand [
 
         | selection |
         selection := self selection.
-        selection isNil ifTrue: [ ^ target launcher showHideSender ].
-	target launcher showSenderOn: selection
+        selection isNil ifTrue: [ ^ target shell showHideSender ].
+	target shell showSenderOn: selection
     ]
 ]
 

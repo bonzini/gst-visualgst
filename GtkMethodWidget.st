@@ -104,10 +104,10 @@ GtkBrowserWidget subclass: GtkMethodWidget [
 	    and: [ self selectedMethodSymbol startsWith: 'test' ]
     ]
 
-    launcher [
+    shell [
 	<category: 'accessing'>
 
-	^ browser ifNotNil: [ browser launcher ]
+	^ browser ifNotNil: [ browser shell ]
     ]
 
     browserHasFocus [

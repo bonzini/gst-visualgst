@@ -15,6 +15,6 @@ Command subclass: OpenPackageBuilderCommand [
     execute [
         <category: 'command'>
 
-        ^ GtkLauncher uniqueInstance showHidePackageBuilder
+        ^ target shell showHidePackageBuilder
     ]
 ]

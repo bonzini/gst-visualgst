@@ -1,7 +1,7 @@
-GtkVisualGSTTool subclass: GtkLauncher [
+GtkShell subclass: GtkLauncher [
     GtkLauncher class [ | uniqueInstance | ]
 
-    | leftSidebar rightSidebar topSidebar packageBuilderWidget implementorResultWidget senderResultWidget senderWidget implementorWidget historyWidget browsers saved imageName transcriptWidget windowsMenu systemChangeNotifier undoStack |
+    | imageName transcriptWidget systemChangeNotifier |
 
     GtkLauncher class >> uniqueInstance [
 	<category: 'public'>
@@ -27,12 +27,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class >> createInstance [
         <category: 'private'>
 
-        ^ (uniqueInstance :=  self basicNew)
-            initialize;
-            showAll;
-            postInitialize;
-	    resize: 1024@600;
-            yourself
+        ^ self basicNew open
     ]
 
     GtkLauncher class >> instanceCreationErrorString [
@@ -45,13 +40,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
         <category: 'instance creation'>
 
         ^ self error: self instanceCreationErrorString
-    ]
-
-    GtkLauncher class >> exit [
-	<category: 'exit'>
-
-	GTK.Gtk mainQuit.
-	ObjectMemory quit	
     ]
  
     GtkLauncher class >> open [
@@ -81,39 +69,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
         ^self displayError: 'Error' message: error
     ]
 
-    accelPath [
-	<category: 'accelerator path'>
-
-	^ '<VisualGST>'
-    ]
-
-    classBrowser [
-	<category: 'tools events'>
-
-	| widget |
-	browsers addWidget: (widget := self buildClassBrowserWidget) labeled: 'Browser'.
-        browsers showLastPage.
-	widget postInitialize.
-	^ widget
-    ]
-
-    newWorkspace [
-	<category: 'tools events'>
-
-        ^self newWorkspaceLabeled: 'Workspace'
-    ]
-
-    newWorkspaceLabeled: aString [
-	<category: 'tools events'>
-
-	| widget |
-	widget := self buildWorkspaceWidget showAll.
-	widget postInitialize.
-	browsers addWidget: widget labeled: aString.
-        browsers showLastPage.
-        ^widget
-    ]
-
     onDelete: aGtkWidget event: aGdkEvent [
 	<category: 'window events'>
 
@@ -122,7 +77,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     ]
 
     quit [
-	<category: 'file events'>
+        <category: 'file events'>
 
         | dialog |
         dialog := GTK.GtkMessageDialog
@@ -131,7 +86,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
                                 type: GTK.Gtk gtkMessageWarning
                                 buttons: GTK.Gtk gtkButtonsNone
                                 message: 'Save the image before exiting?'
-				tip: 'The image hosts all the code changes that you made %<since the last save|since starting VisualGST>1.  Unless you exported these changes, not saving the image will lose them.' % {saved}.
+                                tip: 'The image hosts all the code changes that you made %<since the last save|since starting VisualGST>1.  Unless you exported these changes, not saving the image will lose them.' % {saved}.
 
         dialog
             addButton: 'Exit without saving' responseId: 0;
@@ -139,42 +94,9 @@ GtkVisualGSTTool subclass: GtkLauncher [
             addButton: 'Save image' responseId: 1;
             setDefaultResponse: 2;
             showModalOnAnswer: [ :dlg :res |
-                res = 0 ifTrue: [ self class exit ].
+                res = 0 ifTrue: [ self exit ].
                 res = 1 ifTrue: [ self saveImageAndQuit ].
                 dlg destroy ].
-    ]
-
-    open [
-	<category: 'file events'>
-
-	| file string |
-	(GTK.GtkFileChooserDialog load: 'Load Smalltalk source' parent: window)
-	    showModalOnAnswer: [ :dlg :res |
-		res = GTK.Gtk gtkResponseAccept 
-				ifTrue: [ file := File name: dlg getFilename.
-                                          FileStream open: dlg getFilename mode: FileStream read.
-					  (self newWorkspaceLabeled: file stripPath) text: file contents ].
-		dlg destroy ]
-    ]
-
-    save [
-	<category: 'file events'>
-    ]
-
-    saveAs [
-	<category: 'file events'>
-
-	| file |
-        (GTK.GtkFileChooserDialog save: 'Save Smalltalk source as...' parent: window)
-            showModalOnAnswer: [ :dlg :res |
-                res = GTK.Gtk gtkResponseAccept 
-				ifTrue: [ file := FileStream open: dlg getFilename mode: FileStream write.
-					  file nextPutAll: browsers currentWidget text ].
-		dlg destroy ]
-    ]
-
-    print [
-	<category: 'file events'>
     ]
 
     saveImageAndQuit [
@@ -184,7 +106,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
          http://bugzilla.kernel.org/show_bug.cgi?id=9138, so we have to
          check the permission of the directory rather than the file."
         imageName asFile parent isWriteable ifFalse: [ self saveImageAsAndQuit ].
-        self saveImage: [ ObjectMemory snapshot: imageName. self class exit ]
+        self saveImage: [ ObjectMemory snapshot: imageName. self exit ]
     ]
 
     saveImage [
@@ -214,8 +136,9 @@ GtkVisualGSTTool subclass: GtkLauncher [
             showModalOnAnswer: [ :dlg :res |
                 imageName := dlg getFilename.
                 dlg destroy.
-                res = GTK.Gtk gtkResponseAccept ifTrue: [ self saveImage: [ ObjectMemory snapshot: imageName ]. self class exit ] ]
+                res = GTK.Gtk gtkResponseAccept ifTrue: [ self saveImage: [ ObjectMemory snapshot: imageName ]. self exit ] ]
     ]
+
 
     saveImage: aBlock [
 	| oldMessage oldNotifier oldCatIcon oldNameIcon |
@@ -247,51 +170,22 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ systemChangeNotifier
     ]
 
-    clearGlobalState [
-	<category: 'initialization cleanup'>
-
-    ]
-
     initialize [
 	<category: 'initialization'>
 
-	saved := false.
-	imageName := File image asString.
-	undoStack := UndoStack new.
+        self class uniqueInstance: self.
+        imageName := File image.
         systemChangeNotifier := SystemChangeNotifier new.
         SystemChangeNotifier root add: systemChangeNotifier.
-	self clearGlobalState.
-	super initialize.
+        super initialize.
 	window maximize.
-	window setIcon: (GTK.GdkPixbuf newFromFile: (self class / 'Icons/visualgst.png') file displayString error: nil)
-    ]
-
-    windowTitle [
-        <category: 'widget'>
-
-        ^ 'VisualGST'
-    ]
-
-    browserPostInitialize [
-	<category: 'initialization'>
-
-        browsers grabFocus.
-        browsers currentWidget postInitialize.
-        browsers currentWidget selectAClass: Object.
-	outputs hideAll
     ]
 
     postInitialize [
 	<category: 'initialization'>
 
 	super postInitialize.
-        self browserPostInitialize.
 	transcriptWidget postInitialize.
-	leftSidebar postInitialize.
-	topSidebar postInitialize.
-	rightSidebar postInitialize.
-	window
-	    connectSignal: 'key-press-event' to: self selector:  #'keyPressedOn:keyEvent:'
     ]
 
     buildTranscriptWidget [
@@ -302,135 +196,11 @@ GtkVisualGSTTool subclass: GtkLauncher [
             yourself
     ]
 
-    buildImplementorPaned [
+    buildInitialTabs [
        <category: 'user interface'>
 
-	leftSidebar := GtkHSidebarWidget new
-			    initialize;
-			    addAll: {self buildImplementorView -> 'Implementor'. self buildSenderView -> 'Sender'. self buildHistoryView -> 'History'};
-			    yourself.
-	^ leftSidebar mainWidget
-    ]
-
-    buildPackageBuilderView [
-	<category: 'user interface'>
-
-	packageBuilderWidget := GtkPackageBuilderWidget new
-						    initialize;
-						    yourself.
-	^ packageBuilderWidget mainWidget
-    ]
-
-    buildRightSidebarPaned [
-       <category: 'user interface'>
-
-        rightSidebar := GtkHSidebarWidget new
-                            initialize;
-                            addAll: {self buildPackageBuilderView -> 'Package Builder'};
-                            yourself.
-        ^ rightSidebar mainWidget
-    ]
-
-    buildCentralWidget [
-        <category: 'intialize-release'>
-
-        ^ GTK.GtkHPaned addAll: {self buildImplementorPaned. self buildBottomPanedAndClassBrowser. self buildRightSidebarPaned}. 
-    ]
-
-    buildImplementorView [
-       <category: 'user interface'>
-
-        implementorWidget := self buildImageView
-			    whenSelectionChangedSend: #implementorSelected to: self;
-			    yourself.
-        ^ implementorWidget mainWidget
-    ]
-
-    buildSenderView [
-       <category: 'user interface'>
-
-        senderWidget := self buildImageView
-			    whenSelectionChangedSend: #senderSelected to: self;
-			    yourself.
-        ^ senderWidget mainWidget
-    ]
-
-    buildImageView [
-       <category: 'user interface'>
-
-        ^ GtkImageWidget new
-			initialize;
-                        yourself
-    ]
-
-    buildHistoryView [
-       <category: 'user interface'>
-
-        historyWidget := GtkHistoryWidget new
-                                    launcher: self;
-                                    yourself.
-        ^ historyWidget mainWidget
-    ]
-
-    buildImplementorResultList [
-        <category: 'user interface'>
-
-        ^ implementorResultWidget := GtkImplementorResultsWidget new
-					    initialize;
-					    whenSelectionChangedSend: #resultImplementorSelected to: self;
-					    yourself
-    ]
-
-    buildSenderResultList [
-        <category: 'user interface'>
-
-        ^ senderResultWidget := GtkSenderResultsWidget new
-					    initialize;
-					    whenSelectionChangedSend: #resultSenderSelected to: self;
-					    yourself
-    ]
-
-    buildTopSidebar [
-        <category: 'user interface'>
-
-        topSidebar := GtkHSidebarWidget new
-                            initialize;
-                            addAll: {self buildImplementorResultList mainWidget -> ''. self buildSenderResultList mainWidget -> ''};
-			    hideTabs;
-                            yourself.
-        ^ topSidebar mainWidget
-    ]
-
-    buildBottomPanedAndClassBrowser [
-        <category: 'user interface'>
-
-	^ GTK.GtkVPaned addAll: {self buildTopSidebar. self buildTabAreaWidget mainWidget}
-    ]
-
-    buildTabAreaWidget [
-	<category: 'user interface'>
-
-	^ (browsers := GtkNotebookWidget parentWindow: window)
-				    showAll;
-                                    whenSelectionChangedSend: #historyChanged to: self;
-				    addPermanentWidget: self buildTranscriptWidget labeled: 'Transcript';
-				    addWidget: self buildClassBrowserWidget labeled: 'Browser';
-                                    showLastPage;
-				    yourself
-    ]
-
-    buildClassBrowserWidget [
-	<category: 'user interface'>
-
-	^ (GtkClassBrowserWidget parentWindow: window)
-             launcher: self;
-             yourself
-    ]
-
-    buildWorkspaceWidget [
-	<category: 'user interface'>
-
-	^ GtkWorkspaceTab parentWindow: window
+	browsers addPermanentWidget: self buildTranscriptWidget labeled: 'Transcript'.
+        super buildInitialTabs
     ]
 
     createEditMenus [
@@ -441,467 +211,9 @@ GtkVisualGSTTool subclass: GtkLauncher [
             GTK.GtkMenuItem menuItem: 'Clear Transcript' connectTo: self selector: #clearTranscriptWidget}
     ]
 
-    createNamespaceMenus [
-        <category: 'user interface'>
-
-	^ NamespaceMenus browserBuildOn: self
-    ]
-
-    createClassMenus [
-        <category: 'user interface'>
-
-	^ ClassMenus browserBuildOn: self
-    ]
-
-    createCategoryMenus [
-        <category: 'user interface'>
-
-	^ CategoryMenus browserBuildOn: self
-    ]
-
-    createMethodMenus [
-        <category: 'user interface'>
-
-	^ MethodMenus browserBuildOn: self
-    ]
-
-    createFileMenus [
-	<category: 'user interface'>
-
-        self accelGroup append: 
-	    {{'<Control>O'. '<GtkLauncher>/File/Open'}.
-	    {'<Control><Shift>S'. '<GtkLauncher>/File/SaveAs'}.
-	    {'<Control>Q'. '<GtkLauncher>/File/Quit'}}.
-
-	^{	    GTK.GtkMenuItem menuItem: 'Open' accelPath: '<GtkLauncher>/File/Open' connectTo: self selector: #open.
-            GTK.GtkMenuItem menuItem: 'Save' connectTo: self selector: #save.
-            GTK.GtkMenuItem menuItem: 'Save as...' accelPath: '<GtkLauncher>/File/SaveAs' connectTo: self selector: #saveAs.
-            GTK.GtkMenuItem new}, super createFileMenus
-    ]
-
-    createHistoryMenus [
-	<category: 'user interface'>
-
-	^ HistoryMenus browserBuildOn: self
-    ]
-
-    createTabsMenus [
-	<category: 'user interface'>
-
-	^ TabsMenus browserBuildOn: self
-    ]
-
-    createToolbar [
-	<category: 'user interface'>
-
-	self
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-new')
-				connectSignal: 'clicked' to: self selector: #newWorkspace;
-				setTooltipText: 'Create a new workspace';
-				yourself).
-        super createToolbar
-    ]
-
-    createMenus [
-	<category: 'user interface'>
-
-	self createMainMenu: {#('File' #createFileMenus).
-	    #('Edit' #createEditMenus).
-	    #('History' #createHistoryMenus).
-	    #('Namespace' #createNamespaceMenus).
-	    #('Class' #createClassMenus).
-	    #('Category' #createCategoryMenus).
-	    #('Method' #createMethodMenus).
-	    #('Smalltalk' #createSmalltalkMenus).
-	    #('Tools' #createToolsMenus).
-	    #('Tabs' #createTabsMenus).
-	    #('Help' #createHelpMenus)}
-    ]
-
-    createToolsMenus [
-	<category: 'user interface'>
-
-        self accelGroup append: {{'<Control>B'. '<GtkLauncher>/Tools/TabbedClassBrowser'}.
-            {'<Control>M'. '<GtkVisualGSTTool>/Tools/Implementors'}.
-            {'<Control>N'. '<GtkVisualGSTTool>/Tools/Senders'}.
-            {'<Alt>P'. '<GtkVisualGSTTool>/Tools/PackageBuilder'}}.
-
-	^{GTK.GtkMenuItem menuItem: 'Browser' accelPath: '<GtkLauncher>/Tools/TabbedClassBrowser' connectTo: self selector: #newTabbedBrowser.
-         GTK.GtkMenuItem menuItem: 'New workspace' connectTo: self selector: #newWorkspace.
-         GTK.GtkMenuItem new.
-	 GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: self selector: #newImplementorBrowser.
-         GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Tools/Senders' connectTo: self selector: #newSenderBrowser.
-         GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #newSUnitBrowser.
-         GTK.GtkMenuItem menuItem: 'PackageBuilder' accelPath: '<GtkVisualGSTTool>/Tools/PackageBuilder' connectTo: self selector: #packageBuilder},
-           super createToolsMenus.
-    ]
-
-    newTabbedBrowser [
-	<category: 'tools events'>
-
-	OpenTabbedBrowserCommand executeOn: self
-    ]
-
-    launcher [
-	<category: 'accessing'>
-
-	^ self
-    ]
-
-    cancel [
-	<category: 'edit events'>
-
-	self onFocusPerform: #cancel
-    ]
-
-    undo [
-	<category: 'edit events'>
-
-	self onFocusPerform: #undo
-    ]
-
-    redo [
-	<category: 'edit events'>
-
-	self onFocusPerform: #redo
-    ]
-
-    cut [
-	<category: 'edit events'>
-
-	self onFocusPerform: #cut
-    ]
-
-    copy [
-	<category: 'edit events'>
-
-	self onFocusPerform: #copy
-    ]
-
-    paste [
-	<category: 'edit events'>
-
-	self onFocusPerform: #paste
-    ]
-
-    selectAll [
-	<category: 'edit events'>
-
-	self onFocusPerform: #selectAll
-    ]
-
-    find [
-	<category: 'edit events'>
-
-	self onFocusPerform: #showFind
-    ]
-
-    replace [
-	<category: 'edit events'>
-
-	self onFocusPerform: #showReplace
-    ]
-
     clearTranscriptWidget [
 	<category: 'edit events'>
 
 	transcriptWidget clear
-    ]
-
-    focusedWidget [
-	<category: 'focus'>
-
-	^browsers focusedWidget
-    ]
-
-    browserHasFocus [
-	<category: 'testing'>
-
-	^ browsers hasFocus
-    ]
-
-    sourceCodeWidgetHasFocus [
-	<category: 'focus'>
-
-	^ browsers currentWidget sourceCodeWidgetHasFocus
-    ]
-
-    state [
-	<category: 'focus'>
-
-	browsers currentWidget ifNil: [ ^ BrowserState new ].
-	^ browsers currentWidget state
-    ]
-
-    selectedText [
-	<category: 'smalltalk events'>
-
-	^ self onFocusPerform: #selectedText
-    ]
-
-    selectedMethodSymbol [
-        <category: 'text editing'>
-
-        ^ self onFocusPerform: #selectedMethodSymbol
-    ]
-
-    hasSelection [
-	<category: 'smalltalk events'>
-
-        | widget |
-	widget := self focusedWidget.
-	^ widget notNil and: [widget hasSelection]
-    ]
-
-    targetObject [
-	<category: 'smalltalk events'>
-
-	^ self onFocusPerform: #targetObject
-    ]
-
-    doIt: anObject [
-	<category: 'smalltalk events'>
-
-	self onFocusPerform: #doIt: with: anObject
-    ]
-
-    printIt: anObject [
-	<category: 'smalltalk events'>
-
-	self onFocusPerform: #printIt: with: anObject
-    ]
-
-    inspectIt: anObject [
-	<category: 'smalltalk events'>
-
-	self onFocusPerform: #inspectIt: with: anObject
-    ]
-
-    debugIt: anObject [
-	<category: 'smalltalk events'>
-
-	self onFocusPerform: #debugIt: with: anObject
-    ]
-
-    acceptIt [
-	<category: 'smalltalk events'>
-
-	browsers currentWidget acceptIt
-    ]
-
-    codeSaved [
-        <category: 'code saved'>
-
-        browsers currentWidget codeSaved
-    ]
-
-    clearUndo [
-        <category: 'code saved'>
-
-        browsers currentWidget clearUndo
-    ]
-
-    sourceCode [
-        <category: 'code saved'>
-
-        ^ browsers currentWidget sourceCode
-    ]
-
-    showImplementorOn: aSymbol [
-        <category: 'image events'>
-
-	(self showHideWithSelectorOn: implementorWidget at: 1)
-	    ifTrue: [ self imageSelectorForImplementor: aSymbol ]
-    ]
-
-    showHideImplementor [
-        <category: 'image events'>
-
-	self showHideOn: implementorWidget at: 1
-    ]
-
-    showSenderOn: aSymbol [
-        <category: 'image events'>
-
-	(self showHideWithSelectorOn: senderWidget at: 2)
-	    ifTrue: [ self imageSelectorForSender: aSymbol ]
-    ]
-
-    showHideSender [
-        <category: 'image events'>
-
-	self showHideOn: senderWidget at: 2
-    ]
-
-    hideSidebars [
-
-        leftSidebar hide.
-        topSidebar hide.
-        rightSidebar hide.
-    ]
-
-    showHideOn: aGtkWidget at: anIndex [
-
-        | isVisible |
-        isVisible := aGtkWidget isVisible.
-	self hideSidebars.
-        isVisible
-            ifFalse: [
-                topSidebar show: anIndex.
-                leftSidebar show: anIndex ]
-    ]
-
-    showHideWithSelectorOn: aGtkWidget at: anIndex [
-        <category: 'image events'>
-
-        | isVisible |
-        isVisible := aGtkWidget isVisible.
-	self hideSidebars.
-        isVisible ifTrue: [ ^ false ].
-        leftSidebar show: anIndex.
-        topSidebar show: anIndex.
-	^ true
-    ]
-
-    showHidePackageBuilder [
-        <category: 'image events'>
-
-        | isVisible |
-        isVisible := packageBuilderWidget isVisible.
-	self hideSidebars.
-        isVisible
-            ifFalse: [
-                rightSidebar show: 1 ]
-    ]
-
-    showHideBottomPane [
-	<category: 'image events'>
-
-	outputs isVisible 
-		ifTrue: [ outputs hideAll ]
-		ifFalse: [ outputs showPane ]
-    ]
-
-    back [
-	<category: 'history events'>
-
-	browsers currentWidget back
-    ]
-
-    forward [
-	<category: 'history events'>
-
-	browsers currentWidget forward
-    ]
-
-    showHideHistory [
-	<category: 'history events'>
-
-	| isVisible |
-        isVisible := historyWidget isVisible.
-	leftSidebar hide.
-	topSidebar hide.
-	isVisible ifFalse: [ leftSidebar show: 3 ]
-    ]
-
-    historyChanged [
-	<category: 'public'>
-
-	self currentWidgetOfBrowser ifNotNil: [ :w |
-	    historyWidget refresh: w historyStack ]
-    ]
-
-    previousTab [
-	<category: 'tabs events'>
-
-	browsers currentPage > 0 
-		    ifTrue: [ browsers currentPage: browsers currentPage - 1 ]
-		    ifFalse: [ browsers currentPage: browsers numberOfPages - 1 ] 
-    ]
-
-    nextTab [
-	<category: 'tabs events'>
-
-	browsers currentPage: (browsers currentPage + 1 \\ browsers numberOfPages)
-    ]
-
-    closeTab [
-	<category: 'tabs events'>
-
-	browsers numberOfPages > 1 
-			    ifTrue: [ browsers currentWidget checkCodeWidgetAndUpdate: [ browsers closeCurrentPage ] ]
-			    ifFalse: [ browsers closeCurrentPage ].
-    ]
-
-    currentWidgetOfBrowser [
-	<category: 'browsers'>
-
-	^ browsers currentWidget
-    ]
-
-    senderSelected [
-        <category: 'events'>
-
-        senderWidget hasSelection ifFalse: [ ^ self ].
-        self findInMethod: (senderWidget matchSelector: senderWidget selection) values first element
-    ]
-
-    implementorSelected [
-        <category: 'events'>
-
-        implementorWidget hasSelection ifFalse: [ ^ self ].
-        self imageSelectorForImplementor: implementorWidget selection
-    ]
-
-    senderSelected [
-	<category: 'events'>
-
-        senderWidget hasSelection ifFalse: [ ^ self ].
-        self imageSelectorForSender: senderWidget selection
-    ]
-
-    imageSelectorForImplementor: aSymbol [
-        <category: 'events'>
-
-	implementorResultWidget appendImplementorResults: (implementorWidget matchSelector: aSymbol)
-    ]
-
-    imageSelectorForSender: aSymbol [
-        <category: 'events'>
-
-	senderResultWidget appendSenderResults: (senderWidget matchSelector: aSymbol)
-    ]
-
-    resultImplementorSelected [
-        <category: 'events'>
-
-	implementorResultWidget selectedResult: self currentWidgetOfBrowser
-    ]
-
-    resultSenderSelected [
-        <category: 'events'>
-
-        senderResultWidget selectedResult: self currentWidgetOfBrowser
-    ]
-
-    keyPressedOn: aGtkWidget keyEvent: aGdkEventKey [
-        <category: 'key event'>
-
-        | event |
-        event := aGdkEventKey castTo: GTK.GdkEventKey type.
-
-	event keyval value = 65473 ifTrue: [ self showHideBottomPane. ^ true ].
-	(event state value bitAnd: GTK.Gdk gdkControlMask) = 0 ifTrue: [ ^ false ].
-	(#(65417 65289 65056) includes: event keyval value) ifFalse: [ ^ false ].
-	(event state value bitAnd: GTK.Gdk gdkShiftMask) = 0  
-					    ifFalse: [ self previousTab ]
-					    ifTrue: [ self nextTab ].
-        ^ true
-    ]
-
-    undoStack [
-        <category: 'accessing'>
-
-        ^ undoStack
     ]
 ]

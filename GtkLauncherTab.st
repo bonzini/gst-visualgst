@@ -1,18 +1,18 @@
 GtkConcreteWidget subclass: GtkLauncherTab [
-    | launcher checkCode historyStack state updating |
+    | shell checkCode historyStack state updating |
 
     "TODO: many abstract methods are probably missing"
 
-    launcher: aGtkLauncher [
+    shell: aGtkLauncher [
         <category: 'accessing'>
 
-        launcher := aGtkLauncher
+        shell := aGtkLauncher
     ]
     
-    launcher [
+    shell [
 	<category: 'accessing'>
 
-	^ launcher
+	^ shell
     ]
 
     buildMainWidget [
@@ -49,7 +49,7 @@ GtkConcreteWidget subclass: GtkLauncherTab [
     undoStack [
 	<category: 'accessings'>
 
-	^ launcher undoStack
+	^ shell undoStack
     ]
 
     undo [
@@ -237,6 +237,11 @@ GtkConcreteWidget subclass: GtkLauncherTab [
                 dlg destroy ].
     ]
 
+    codeSaved [
+	<category: 'saving'>
+
+    ]
+
     state [
 	<category: 'accessing'>
 
@@ -262,7 +267,7 @@ GtkConcreteWidget subclass: GtkLauncherTab [
         saveUpdating := updating.
         updating := true.
         state selectInBrowser: self.
-        launcher isNil ifFalse: [ launcher historyChanged ].
+        shell isNil ifFalse: [ shell historyChanged ].
         updating := saveUpdating.
     ]
 

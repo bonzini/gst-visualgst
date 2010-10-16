@@ -206,10 +206,10 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 	^ false
     ]
 
-    launcher [
+    shell [
 	<category: 'browse'>
 
-	^browser ifNotNil: [ browser launcher ]
+	^browser ifNotNil: [ browser shell ]
     ]
 
     browseSenders [

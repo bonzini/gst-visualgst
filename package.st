@@ -57,8 +57,6 @@ Eval [
     filein: 'Commands/MethodMenus/InspectMethodCommand.st';
     filein: 'Commands/MethodMenus/DeleteMethodCommand.st';
     filein: 'Commands/MethodMenus/DebugTestCommand.st';
-    filein: 'Commands/ToolsMenus/OpenAssistantCommand.st';
-    filein: 'Commands/ToolsMenus/OpenWebBrowserCommand.st';
     filein: 'Commands/EditMenus/CancelEditCommand.st';
     filein: 'Commands/EditMenus/UndoEditCommand.st';
     filein: 'Commands/EditMenus/RedoEditCommand.st';
@@ -108,6 +106,7 @@ Eval [
     filein: 'GtkMainWindow.st';
     filein: 'GtkVisualGSTTool.st';
     filein: 'GtkBrowsingTool.st';
+    filein: 'GtkShell.st';
     filein: 'GtkLauncher.st';
     filein: 'Text/GtkTextPluginWidget.st';
     filein: 'Text/GtkFindWidget.st';
@@ -216,13 +215,15 @@ Eval [
     filein: 'GtkMethodSUnitWidget.st';
     filein: 'SUnit/GtkSUnit.st';
     filein: 'Commands/OpenBrowserCommand.st';
-    filein: 'Commands/OpenTabbedBrowserCommand.st';
+    filein: 'Commands/ToolsMenus/OpenTabbedBrowserCommand.st';
     filein: 'Commands/ToolsMenus/OpenSUnitCommand.st';
-    filein: 'Commands/ToolsMenus/OpenBottomPaneCommand.st';
-    filein: 'Commands/OpenWorkspaceCommand.st';
+    filein: 'Commands/ToolsMenus/OpenWorkspaceCommand.st';
     filein: 'Commands/ToolsMenus/OpenImplementorCommand.st';
     filein: 'Commands/ToolsMenus/OpenSenderCommand.st';
     filein: 'Commands/ToolsMenus/OpenPackageBuilderCommand.st';
+    filein: 'Commands/ToolsMenus/OpenAssistantCommand.st';
+    filein: 'Commands/ToolsMenus/OpenWebBrowserCommand.st';
+    filein: 'Commands/ToolsMenus/OpenWindowCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
     filein: 'Commands/InspectorMenus/InspectorBackCommand.st';

@@ -29,7 +29,7 @@ Command subclass: OpenImplementorCommand [
     valid [
         <category: 'checking'>
 
-        ^ target launcher notNil or: [ self selection notNil ]
+        ^ target shell notNil or: [ self selection notNil ]
     ]
 
     execute [
@@ -37,7 +37,7 @@ Command subclass: OpenImplementorCommand [
 
         | selection |
         selection := self selection.
-        selection isNil ifTrue: [ ^ target launcher showHideImplementor ].
-	target launcher showImplementorOn: selection
+        selection isNil ifTrue: [ ^ target shell showHideImplementor ].
+	target shell showImplementorOn: selection
     ]
 ]

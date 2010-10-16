@@ -3,12 +3,15 @@ MenuBuilder subclass: ToolsMenus [
     ToolsMenus class >> menus [
 
 	| menu |
-	menu := {OpenSenderCommand.
+	menu := {OpenWindowCommand.
+                MenuSeparator.
+		OpenWorkspaceCommand.
+                OpenTabbedBrowserCommand.
+		OpenSUnitCommand.
+                MenuSeparator.
+                OpenSenderCommand.
 		OpenImplementorCommand.
-                OpenSUnitCommand.
-		OpenPackageBuilderCommand.
-		MenuSeparator.
-		OpenBottomPaneCommand} asOrderedCollection.
+		OpenPackageBuilderCommand} asOrderedCollection.
 
         GtkWebView hasWebkit ifTrue: [ menu := menu, {MenuSeparator.
             OpenAssistantCommand.

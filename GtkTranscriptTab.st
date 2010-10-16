@@ -1,9 +1,9 @@
 GtkWorkspaceTab subclass: GtkTranscriptTab [
 
-    "initialize [
+    initialize [
 	<category: 'initialization'>
 
 	Transcript message: self->#insertAtEnd:.
 	super initialize
-    ]"
+    ]
 ]

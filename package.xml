@@ -115,8 +115,6 @@
   <filein>Commands/MethodMenus/InspectMethodCommand.st</filein>
   <filein>Commands/MethodMenus/DeleteMethodCommand.st</filein>
   <filein>Commands/MethodMenus/DebugTestCommand.st</filein>
-  <filein>Commands/ToolsMenus/OpenAssistantCommand.st</filein>
-  <filein>Commands/ToolsMenus/OpenWebBrowserCommand.st</filein>
   <filein>Commands/EditMenus/CancelEditCommand.st</filein>
   <filein>Commands/EditMenus/UndoEditCommand.st</filein>
   <filein>Commands/EditMenus/RedoEditCommand.st</filein>
@@ -166,6 +164,7 @@
   <filein>GtkMainWindow.st</filein>
   <filein>GtkVisualGSTTool.st</filein>
   <filein>GtkBrowsingTool.st</filein>
+  <filein>GtkShell.st</filein>
   <filein>GtkLauncher.st</filein>
   <filein>Text/GtkTextPluginWidget.st</filein>
   <filein>Text/GtkFindWidget.st</filein>
@@ -274,13 +273,15 @@
   <filein>GtkMethodSUnitWidget.st</filein>
   <filein>SUnit/GtkSUnit.st</filein>
   <filein>Commands/OpenBrowserCommand.st</filein>
-  <filein>Commands/OpenTabbedBrowserCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenTabbedBrowserCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenSUnitCommand.st</filein>
-  <filein>Commands/ToolsMenus/OpenBottomPaneCommand.st</filein>
-  <filein>Commands/OpenWorkspaceCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenWorkspaceCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenImplementorCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenSenderCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenPackageBuilderCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenAssistantCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenWebBrowserCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenWindowCommand.st</filein>
   <filein>Commands/SaveImageCommand.st</filein>
   <filein>Commands/SaveImageAsCommand.st</filein>
   <filein>Commands/InspectorMenus/InspectorBackCommand.st</filein>
@@ -335,8 +336,6 @@
   <file>Commands/MethodMenus/InspectMethodCommand.st</file>
   <file>Commands/MethodMenus/DeleteMethodCommand.st</file>
   <file>Commands/MethodMenus/DebugTestCommand.st</file>
-  <file>Commands/ToolsMenus/OpenAssistantCommand.st</file>
-  <file>Commands/ToolsMenus/OpenWebBrowserCommand.st</file>
   <file>Commands/EditMenus/CancelEditCommand.st</file>
   <file>Commands/EditMenus/UndoEditCommand.st</file>
   <file>Commands/EditMenus/RedoEditCommand.st</file>
@@ -386,6 +385,7 @@
   <file>GtkMainWindow.st</file>
   <file>GtkVisualGSTTool.st</file>
   <file>GtkBrowsingTool.st</file>
+  <file>GtkShell.st</file>
   <file>GtkLauncher.st</file>
   <file>Text/GtkTextPluginWidget.st</file>
   <file>Text/GtkFindWidget.st</file>
@@ -494,13 +494,15 @@
   <file>GtkMethodSUnitWidget.st</file>
   <file>SUnit/GtkSUnit.st</file>
   <file>Commands/OpenBrowserCommand.st</file>
-  <file>Commands/OpenTabbedBrowserCommand.st</file>
+  <file>Commands/ToolsMenus/OpenTabbedBrowserCommand.st</file>
   <file>Commands/ToolsMenus/OpenSUnitCommand.st</file>
-  <file>Commands/ToolsMenus/OpenBottomPaneCommand.st</file>
-  <file>Commands/OpenWorkspaceCommand.st</file>
+  <file>Commands/ToolsMenus/OpenWorkspaceCommand.st</file>
   <file>Commands/ToolsMenus/OpenImplementorCommand.st</file>
   <file>Commands/ToolsMenus/OpenSenderCommand.st</file>
   <file>Commands/ToolsMenus/OpenPackageBuilderCommand.st</file>
+  <file>Commands/ToolsMenus/OpenAssistantCommand.st</file>
+  <file>Commands/ToolsMenus/OpenWebBrowserCommand.st</file>
+  <file>Commands/ToolsMenus/OpenWindowCommand.st</file>
   <file>Commands/SaveImageCommand.st</file>
   <file>Commands/SaveImageAsCommand.st</file>
   <file>Commands/InspectorMenus/InspectorBackCommand.st</file>

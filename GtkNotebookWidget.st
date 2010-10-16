@@ -17,6 +17,7 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 			    to: self
 			    selector: #'switchPageOn:page:number:'
 			    userData: nil;
+			    setShowTabs: true;
 			    yourself
     ]
 
@@ -78,6 +79,7 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
         pages removeAtIndex: pageNb + 1.
 	labels removeAtIndex: pageNb + 1.
         notebook removePage: pageNb.
+        pages size = 0 ifTrue: [self parentWindow destroy].
     ]
 
     widgetAt: anInteger [
