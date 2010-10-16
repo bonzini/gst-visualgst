@@ -1,7 +1,7 @@
 GtkVisualGSTTool subclass: GtkLauncher [
     GtkLauncher class [ | uniqueInstance | ]
 
-    | leftSidebar rightSidebar topSidebar packageBuilderWidget implementorResultWidget senderResultWidget senderWidget implementorWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier |
+    | leftSidebar rightSidebar topSidebar packageBuilderWidget implementorResultWidget senderResultWidget senderWidget implementorWidget historyWidget browsers outputs saved imageName transcriptWidget windowsMenu systemChangeNotifier undoStack |
 
     GtkLauncher class >> uniqueInstance [
 	<category: 'public'>
@@ -257,6 +257,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
 	saved := false.
 	imageName := File image asString.
+	undoStack := UndoStack new.
         systemChangeNotifier := SystemChangeNotifier new.
         SystemChangeNotifier root add: systemChangeNotifier.
 	self clearGlobalState.
@@ -913,6 +914,12 @@ GtkVisualGSTTool subclass: GtkLauncher [
 					    ifFalse: [ self previousTab ]
 					    ifTrue: [ self nextTab ].
         ^ true
+    ]
+
+    undoStack [
+        <category: 'accessing'>
+
+        ^ undoStack
     ]
 ]
 

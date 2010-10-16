@@ -1,20 +1,10 @@
 GtkConcreteWidget subclass: GtkClassBrowserWidget [
-    GtkClassBrowserWidget class [ | Undo | ]
-
     | launcher checkCode namespaceWidget classWidget classHierarchyWidget iCategoryWidget iMethodWidget cCategoryWidget cMethodWidget classAndInstanceSide codeWidget historyStack state updating |
 
     GtkClassBrowserWidget class >> title [
 	<category: 'accessing'>
 
 	^ 'Gtk class browser'
-    ]
-
-    GtkClassBrowserWidget class >> undoStack [
-	<category: 'accessing'>
-
-        ^ Undo ifNil: [ Undo := (UndoStack new)
-				    initialize;
-				    yourself ]
     ]
 
     launcher: aGtkLauncher [
@@ -201,7 +191,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     undoStack [
 	<category: 'accessings'>
 
-	^ self class undoStack
+	^ launcher undoStack
     ]
 
     cancel [

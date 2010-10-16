@@ -1,10 +1,18 @@
+DynamicVariable subclass: CurrentUndoStack []
+
 Object subclass: UndoCommand [
     | description preconditionError |
+
+    UndoCommand class >> withUndoStack: anUndoStack do: aBlock [
+	<category: 'accessing'>
+
+	^CurrentUndoStack use: anUndoStack during: aBlock
+    ]
 
     UndoCommand class >> undoStack [
 	<category: 'accessing'>
 
-	^ GtkClassBrowserWidget undoStack 
+	^ CurrentUndoStack value
     ]
 
     description [

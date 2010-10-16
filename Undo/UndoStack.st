@@ -2,6 +2,12 @@ Object subclass: UndoStack [
 
     | undoStack redoStack |
 
+    UndoStack class >> new [
+	<category: 'instance creation'>
+
+	^super new initialize
+    ]
+
     initialize [
 	<category: 'initialization'>
 

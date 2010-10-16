@@ -42,9 +42,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
 
 	frozen := textSaved := false.
         cut := userAction := false.
-        undoStack := (UndoStack new)
-                        initialize;
-                        yourself.
+        undoStack := UndoStack new.
 	textWidget := GTK.GtkTextView new.
 	self 
 	    mainWidget: self buildWidget;

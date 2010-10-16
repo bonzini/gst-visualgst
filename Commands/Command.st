@@ -54,9 +54,8 @@ Object subclass: Command [
 	<category: 'command'>
 
         self valid ifFalse: [ ^ self ].
+        UndoCommand withUndoStack: target undoStack do: [self execute].
         ^ self
-            execute;
-            yourself
     ]
 
     item [

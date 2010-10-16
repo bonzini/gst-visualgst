@@ -24,6 +24,12 @@ GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
 
     ]
 
+    undoStack [
+	<category: 'tools events'>
+
+	^nil
+    ]
+
     parentWindow: aGtkWindow [
         <category: 'accessing'>
 
