@@ -124,6 +124,7 @@ Eval [
     filein: 'CategoryState.st';
     filein: 'MethodState.st';
     filein: 'GtkLauncherTab.st';
+    filein: 'GtkEditTab.st';
     filein: 'GtkWorkspaceWidget.st';
     filein: 'GtkTranscriptWidget.st';
     filein: 'GtkBrowserWidget.st';

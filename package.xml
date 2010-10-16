@@ -182,6 +182,7 @@
   <filein>CategoryState.st</filein>
   <filein>MethodState.st</filein>
   <filein>GtkLauncherTab.st</filein>
+  <filein>GtkEditTab.st</filein>
   <filein>GtkWorkspaceWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
   <filein>GtkBrowserWidget.st</filein>
@@ -400,6 +401,7 @@
   <file>CategoryState.st</file>
   <file>MethodState.st</file>
   <file>GtkLauncherTab.st</file>
+  <file>GtkEditTab.st</file>
   <file>GtkWorkspaceWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
   <file>GtkBrowserWidget.st</file>
