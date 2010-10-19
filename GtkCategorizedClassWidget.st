@@ -83,6 +83,12 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	^ GTK.Gtk gtkSelectionBrowse
     ]
 
+    clear [
+        <category: 'accessing'>
+
+        model clear
+    ]
+
     buildTreeView [
 	<category: 'user interface'>
    
