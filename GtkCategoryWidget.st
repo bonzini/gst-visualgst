@@ -120,8 +120,9 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     state [
         <category: 'testing'>
 
-        self hasSelectedCategory ifFalse: [ ^ ClassState with: self classOrMeta ].
-        ^ CategoryState with: self classOrMeta->self selectedCategory
+        ^ self hasSelectedCategory 
+			ifFalse: [ ClassState with: self classOrMeta ]
+			ifTrue: [ CategoryState with: self classOrMeta->self selectedCategory ]
     ]
 
     hasSelectedCategory [

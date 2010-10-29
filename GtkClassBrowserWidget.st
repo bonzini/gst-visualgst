@@ -478,7 +478,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     displayClassSource: aClass [
 	<category: 'private-selection'>
 
-	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass).
+	codeWidget classDefinition: (ClassSource displayHeaderOf: aClass)
     ]
 
     displayMethodSource: aString [
