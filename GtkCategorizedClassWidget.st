@@ -184,7 +184,10 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     selectAClass: aClass [
 	<category: 'item selection'>
 
-	classesTree select: aClass
+	(self hasSelectedClass and: [ self selectedClass == aClass ]) ifTrue: [ ^ self ].
+	classesTree 
+		expandAll;
+		select: aClass
     ]
 
     newClass [

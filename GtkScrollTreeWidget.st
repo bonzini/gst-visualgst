@@ -36,7 +36,7 @@ GtkConcreteWidget subclass: GtkScrollTreeWidget [
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
 	self buildPopupMenu: menu.
-        menu attachToWidget: treeView detacher: nil.
+        menu attachToWidget: self treeView detacher: nil.
         menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
         menu showAll.
         ^ true
