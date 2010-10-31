@@ -306,13 +306,13 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
     browseSenders [
 	<category: 'browse'>
 
-	OpenSenderCommand on: self
+	OpenSenderCommand executeOn: self
     ]
 
     browseImplementors [
 	<category: 'browse'>
 
-	OpenImplementorCommand on: self
+	OpenImplementorCommand executeOn: self
     ]
 
     appendTag: aSymbol description: anArray [

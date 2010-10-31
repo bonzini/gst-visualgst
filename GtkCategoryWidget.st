@@ -158,19 +158,19 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     newCategory [
         <category: 'category events'>
 
-        AddCategoryCommand on: self
+        AddCategoryCommand executeOn: self
     ]
 
     renameCategory [
         <category: 'category events'>
 
-        RenameCategoryCommand on: self
+        RenameCategoryCommand executeOn: self
     ]
 
     fileoutCategory [
         <category: 'category events'>
 
-        FileoutCategoryCommand on: self
+        FileoutCategoryCommand executeOn: self
     ]
 
     removeEmptyCategory [

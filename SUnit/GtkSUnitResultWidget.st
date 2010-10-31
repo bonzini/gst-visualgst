@@ -75,7 +75,7 @@ GtkConcreteWidget subclass: GtkSUnitResult [
     runTest [
 	<category: 'event'>
 	
-        RunTestCommand on: self
+        RunTestCommand executeOn: self
     ]
 
     hasSelectedMethod [
@@ -113,7 +113,7 @@ GtkConcreteWidget subclass: GtkSUnitResult [
     ]
 
     browseImplementors [
-        OpenImplementorCommand on: self
+        OpenImplementorCommand executeOn: self
     ]
 ]
 

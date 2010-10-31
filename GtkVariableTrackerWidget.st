@@ -75,7 +75,7 @@ GtkConcreteWidget subclass: GtkVariableTrackerWidget [
 	<category: 'event'>
 
 	widget hasSelectedItem ifFalse: [ ^ self ].
-	InspectItCommand on: self
+	InspectItCommand executeOn: self
     ]
 
     deleteVariable [

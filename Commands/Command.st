@@ -4,22 +4,14 @@ Object subclass: Command [
 	<category: 'instance creation'>
 
 	^ self new
-	    validAndExecute
+	    executeIfValid
     ]
 
-    Command class >> target: anObject [
-        <category: 'instance creation'>
-
-	^ self new
-	    target: anObject;
-	    yourself
-    ]
-
-    Command class >> on: anObject [
+    Command class >> executeOn: anObject [
 	<category: 'instance creation'>
     
-	^ (self target: anObject)
-		    validAndExecute
+	^ (self on: anObject)
+		    executeIfValid
     ]
 
     Command class >> on: aGtkBrowser [
@@ -65,7 +57,7 @@ Object subclass: Command [
 	^ true
     ]
 
-    validAndExecute [
+    executeIfValid [
 	<category: 'command'>
 
         self valid ifFalse: [ ^ self ].
@@ -90,14 +82,14 @@ Object subclass: Command [
         <category: 'build'>
 
         ^ (GTK.GtkMenuItem newWithLabel: self item)
-                connectSignal: 'activate' to: self selector: #validAndExecute;
+                connectSignal: 'activate' to: self selector: #executeIfValid;
                 yourself
     ]
 
     browserBuild [
         <category: 'build'>
 
-        ^ GTK.GtkMenuItem menuItem: self item accelPath: self accelPath connectTo: self selector: #validAndExecute
+        ^ GTK.GtkMenuItem menuItem: self item accelPath: self accelPath connectTo: self selector: #executeIfValid
     ]
 
     accelBuild [

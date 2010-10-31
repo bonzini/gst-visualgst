@@ -97,25 +97,25 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
     doIt [
 	<category: 'smalltalk event'>
 
-	DoItCommand on: self
+	DoItCommand executeOn: self
     ]
 
     debugIt [
 	<category: 'smalltalk event'>
 
-	DebugItCommand on: self
+	DebugItCommand executeOn: self
     ]
 
     inspectIt [
 	<category: 'smalltalk event'>
 
-	InspectItCommand on: self
+	InspectItCommand executeOn: self
     ]
 
     printIt [
 	<category: 'smalltalk event'>
 
-	PrintItCommand on: self
+	PrintItCommand executeOn: self
     ]
 
     showIVar [

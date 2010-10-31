@@ -217,7 +217,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     runTest [
         <category: 'method events'>
 
-	RunTestCommand on: self
+	RunTestCommand executeOn: self
     ]
 
     addEvent: anEvent [

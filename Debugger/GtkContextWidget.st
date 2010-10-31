@@ -116,7 +116,7 @@ GtkConcreteWidget subclass: GtkContextWidget [
     inspectMethod [
 	<category: 'method events'>
 
-	InspectMethodCommand on: self
+	InspectMethodCommand executeOn: self
     ]
 
     positionOfSelectedContext [

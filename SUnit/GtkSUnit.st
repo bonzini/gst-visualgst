@@ -305,7 +305,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     newMethod [
         <category: 'method events'>
 
-        AddMethodCommand on: self.
+        AddMethodCommand executeOn: self.
     ]
 
     focusedWidget [
@@ -317,7 +317,7 @@ GtkBrowsingTool subclass: GtkSUnit [
     acceptIt [
         <category: 'smalltalk events'>
 
-        AcceptItCommand on: self
+        AcceptItCommand executeOn: self
     ]
     
     cancel [
@@ -425,25 +425,25 @@ GtkBrowsingTool subclass: GtkSUnit [
     doIt [
         <category: 'smalltalk event'>
 
-        DoItCommand on: self
+        DoItCommand executeOn: self
     ]
 
     debugIt [
         <category: 'smalltalk event'>
 
-        DebugItCommand on: self
+        DebugItCommand executeOn: self
     ]
 
     inspectIt [
         <category: 'smalltalk event'>
 
-        InspectItCommand on: self
+        InspectItCommand executeOn: self
     ]
 
     printIt [
         <category: 'smalltalk event'>
 
-        PrintItCommand on: self
+        PrintItCommand executeOn: self
     ]
 
     hasChanged [

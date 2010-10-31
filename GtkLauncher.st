@@ -549,7 +549,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
     newTabbedBrowser [
 	<category: 'tools events'>
 
-	OpenTabbedBrowserCommand on: self
+	OpenTabbedBrowserCommand executeOn: self
     ]
 
     launcher [

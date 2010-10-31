@@ -151,25 +151,25 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     newSUnitBrowser [
 	<category: 'tools events'>
 
-	OpenSUnitCommand on: self
+	OpenSUnitCommand executeOn: self
     ]
 
     newSenderBrowser [
 	<category: 'tools events'>
 
-	OpenSenderCommand on: self
+	OpenSenderCommand executeOn: self
     ]
 
     newImplementorBrowser [
 	<category: 'tools events'>
 
-	OpenImplementorCommand on: self
+	OpenImplementorCommand executeOn: self
     ]
 
     packageBuilder [
         <category: 'tools events'>
 
-        OpenPackageBuilderCommand on: self
+        OpenPackageBuilderCommand executeOn: self
     ]
 
     helpContents [
