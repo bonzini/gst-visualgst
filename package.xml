@@ -106,6 +106,26 @@
   <filein>Commands/OpenAssistantCommand.st</filein>
   <filein>Commands/OpenWebBrowserCommand.st</filein>
   <filein>Pragmas/Pragmas.st</filein>
+  <filein>Menus/MenuBuilder.st</filein>
+  <filein>Menus/MenuItem.st</filein>
+  <filein>Menus/MenuSeparator.st</filein>
+  <filein>Menus/AddNamespaceMenu.st</filein>
+  <filein>Menus/AddClassMenu.st</filein>
+  <filein>Menus/AddCategoryMenu.st</filein>
+  <filein>Menus/DeleteNamespaceMenu.st</filein>
+  <filein>Menus/DeleteClassMenu.st</filein>
+  <filein>Menus/DeleteMethodMenu.st</filein>
+  <filein>Menus/FileOutNamespaceMenu.st</filein>
+  <filein>Menus/FileOutClassMenu.st</filein>
+  <filein>Menus/FileOutCategoryMenu.st</filein>
+  <filein>Menus/InspectNamespaceMenu.st</filein>
+  <filein>Menus/InspectClassMenu.st</filein>
+  <filein>Menus/InspectMethodMenu.st</filein>
+  <filein>Menus/RenameNamespaceMenu.st</filein>
+  <filein>Menus/RenameClassMenu.st</filein>
+  <filein>Menus/RenameCategoryMenu.st</filein>
+  <filein>Menus/NamespaceMenus.st</filein>
+  <filein>Menus/ClassMenus.st</filein>
   <filein>FakeNamespace.st</filein>
   <filein>Category/ClassCategory.st</filein>
   <filein>Category/AbstractNamespace.st</filein>
@@ -280,6 +300,26 @@
   <file>Commands/OpenAssistantCommand.st</file>
   <file>Commands/OpenWebBrowserCommand.st</file>
   <file>Pragmas/Pragmas.st</file>
+  <file>Menus/MenuBuilder.st</file>
+  <file>Menus/MenuItem.st</file>
+  <file>Menus/MenuSeparator.st</file>
+  <file>Menus/AddNamespaceMenu.st</file>
+  <file>Menus/AddClassMenu.st</file>
+  <file>Menus/AddCategoryMenu.st</file>
+  <file>Menus/DeleteNamespaceMenu.st</file>
+  <file>Menus/DeleteClassMenu.st</file>
+  <file>Menus/DeleteMethodMenu.st</file>
+  <file>Menus/FileOutNamespaceMenu.st</file>
+  <file>Menus/FileOutClassMenu.st</file>
+  <file>Menus/FileOutCategoryMenu.st</file>
+  <file>Menus/InspectNamespaceMenu.st</file>
+  <file>Menus/InspectClassMenu.st</file>
+  <file>Menus/InspectMethodMenu.st</file>
+  <file>Menus/RenameNamespaceMenu.st</file>
+  <file>Menus/RenameClassMenu.st</file>
+  <file>Menus/RenameCategoryMenu.st</file>
+  <file>Menus/NamespaceMenus.st</file>
+  <file>Menus/ClassMenus.st</file>
   <file>FakeNamespace.st</file>
   <file>Category/ClassCategory.st</file>
   <file>Category/AbstractNamespace.st</file>

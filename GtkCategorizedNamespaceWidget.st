@@ -35,13 +35,8 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     buildPopupMenu: aGtkMenu [
         <category: 'button event'>
 
-        aGtkMenu appendMenuItems: {{'Add a namespace'. self. #newNamespace}.
-            {'Rename a namespace'. self. #renameNamespace}.
-            {'Delete a namespace'. self. #deleteNamespace}.
-            {}.
-            {'Inspect a namespace'. self. #inspectNamespace}.
-            {}.
-            {'File out a namespace'. self. #fileoutNamespace}}
+	(NamespaceMenus on: self) do: [ :each | 
+	    aGtkMenu append: each build ]
     ]
 
     whenSelectionChangedSend: aSelector to: anObject [
@@ -103,36 +98,6 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
 	((model at: iter) at: 3) isNamespace ifTrue: [
 	    ((model at: iter) at: 3) subspaces isEmpty ifFalse: [
 		namespaceTree treeView expandRow: path openAll: false ] ]
-    ]
-
-    newNamespace [
-        <category: 'popup events'>
-
-        AddNamespaceCommand on: self
-    ]
-
-    renameNamespace [
-        <category: 'namespace events'>
-
-        RenameNamespaceCommand on: self
-    ]
-
-    deleteNamespace [
-        <category: 'namespace events'>
-
-        DeleteNamespaceCommand on: self
-    ]
-
-    inspectNamespace [
-        <category: 'namespace events'>
-
-        InspectNamespaceCommand on: self
-    ]
-
-    fileoutNamespace [
-        <category: 'namespace events'>
-
-        FileoutNamespaceCommand on: self
     ]
 
     addEvent: anEvent [
