@@ -9,5 +9,10 @@ MenuItem subclass: InspectNamespaceMenu [
 
 	^ InspectNamespaceCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ InspectNamespaceCommand on: self browser currentWidgetOfBrowser
+    ]
+]

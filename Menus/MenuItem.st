@@ -15,6 +15,13 @@ Object subclass: MenuItem [
 			    build
     ]
 
+    MenuItem class >> browserBuildOn: aGtkBrowser [
+        <category: 'instance creation'>
+
+        ^ (self on: aGtkBrowser)
+                            browserBuild
+    ]
+
     | browser |
 
     browser: aGtkBrowser [
@@ -34,6 +41,11 @@ Object subclass: MenuItem [
 
     ]
 
+    browserCommand [
+	<category: 'accessing'>
+
+    ]
+
     command [
 	<category: 'accessing'>
 
@@ -49,6 +61,14 @@ Object subclass: MenuItem [
 
 	^ (GTK.GtkMenuItem newWithLabel: self item)
                 connectSignal: 'activate' to: self selector: #command;
+                yourself
+    ]
+
+    browserBuild [
+        <category: 'build'>
+
+        ^ (GTK.GtkMenuItem newWithLabel: self item)
+                connectSignal: 'activate' to: self selector: #browserCommand;
                 yourself
     ]
 ]

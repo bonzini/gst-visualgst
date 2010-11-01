@@ -9,5 +9,10 @@ MenuItem subclass: InspectMethodMenu [
 
 	^ InspectMethodCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ InspectMethodCommand on: self browser currentWidgetOfBrowser
+    ]
+]

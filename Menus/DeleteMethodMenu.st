@@ -9,5 +9,10 @@ MenuItem subclass: DeleteMethodMenu [
 
 	^ DeleteMethodCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ DeleteMethodCommand on: self browser currentWidgetOfBrowser
+    ]
+]

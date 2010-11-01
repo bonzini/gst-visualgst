@@ -9,5 +9,10 @@ MenuItem subclass: DeleteNamespaceMenu [
 
 	^ DeleteNamespaceCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ DeleteNamespaceCommand on: self browser currentWidgetOfBrowser
+    ]
+]

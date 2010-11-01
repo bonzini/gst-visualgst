@@ -12,10 +12,16 @@ Object subclass: MenuBuilder [
         ^ (self on: aGtkBrowser) do: [ :each | aGtkMenu append: each build ]
     ]
 
-    MenuBuilder class >> buildOn: aGtkBrowser [
+    MenuBuilder class >> browserBuildOn: aGtkBrowser [
 	<category: 'menu-building'>
 
-	^ self menus collect: [ :each | each buildOn: aGtkBrowser ]
+	^ self menus collect: [ :each | each browserBuildOn: aGtkBrowser ]
+    ]
+
+    MenuBuilder class >> buildOn: aGtkBrowser [
+        <category: 'menu-building'>
+
+        ^ self menus collect: [ :each | each buildOn: aGtkBrowser ]
     ]
 ]
 

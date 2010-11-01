@@ -9,5 +9,10 @@ MenuItem subclass: FileOutNamespaceMenu [
 
 	^ FileOutNamespaceCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ FileOutNamespaceCommand on: self browser currentWidgetOfBrowser
+    ]
+]

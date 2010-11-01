@@ -11,4 +11,3 @@ MenuBuilder subclass: NamespaceMenus [
         InspectNamespaceMenu}
     ]
 ]
-

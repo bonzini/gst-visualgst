@@ -473,44 +473,25 @@ GtkVisualGSTTool subclass: GtkLauncher [
     createNamespaceMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Add a namespace' connectTo: self selector: #newNamespace.
-            GTK.GtkMenuItem menuItem: 'Rename a namespace' connectTo: self selector: #renameNamespace.
-            GTK.GtkMenuItem menuItem: 'Delete a namespace' connectTo: self selector: #deleteNamespace.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a namespace' connectTo: self selector: #inspectNamespace.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a namespace' connectTo: self selector: #fileoutNamespace}
+	^ NamespaceMenus browserBuildOn: self
     ]
 
     createClassMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Add a class' connectTo: self selector: #newClass.
-            GTK.GtkMenuItem menuItem: 'Rename a class' connectTo: self selector: #renameClass.
-            GTK.GtkMenuItem menuItem: 'Delete a class' connectTo: self selector: #deleteClass.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a class' connectTo: self selector: #inspectClass.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a class' connectTo: self selector: #fileoutClass}
+	^ ClassMenus browserBuildOn: self
     ]
 
     createCategoryMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
-            GTK.GtkMenuItem menuItem: 'Rename a category' connectTo: self selector: #renameCategory.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a category' connectTo: self selector: #fileoutCategory}
+	^ CategoryMenus browserBuildOn: self
     ]
 
     createMethodMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a method' connectTo: self selector: #fileoutMethod}
+	^ MethodMenus browserBuildOn: self
     ]
 
     createFileMenus [
@@ -842,102 +823,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	browsers numberOfPages > 1 
 			    ifTrue: [ browsers currentWidget checkCodeWidgetAndUpdate: [ browsers closeCurrentPage ] ]
 			    ifFalse: [ browsers closeCurrentPage ].
-    ]
-
-    fileoutNamespace [
-        <category: 'namespace events'>
-
-	browsers currentWidget fileoutNamespace
-    ]
-
-    newNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget newNamespace
-    ]
-
-    renameNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget renameNamespace
-    ]
-
-    deleteNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget deleteNamespace
-    ]
-
-    inspectNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget inspectNamespace
-    ]
-
-    newClass [
-        <category: 'class events'>
-
-        browsers currentWidget newClass
-    ]
-
-    renameClass [
-        <category: 'class events'>
-
-	browsers currentWidget renameClass
-    ]
-
-    deleteClass [
-        <category: 'class events'>
-
-        browsers currentWidget deleteClass
-    ]
-
-    inspectClass [
-        <category: 'class events'>
-
-        browsers currentWidget inspectClass
-    ]
-
-    fileoutClass [
-        <category: 'class events'>
-
-        browsers currentWidget fileoutClass
-    ]
-
-    newCategory [
-        <category: 'category events'>
-
-        browsers currentWidget newCategory
-    ]
-
-    renameCategory [
-        <category: 'category events'>
-
-        browsers currentWidget renameCategory
-    ]
-
-    fileoutCategory [
-        <category: 'method events'>
-
-	browsers currentWidget fileoutCategory
-    ]
-
-    deleteMethod [
-        <category: 'method events'>
-
-        browsers currentWidget deleteMethod
-    ]
-
-    inspectMethod [
-        <category: 'method events'>
-
-        browsers currentWidget inspectMethod
-    ]
-
-    fileoutMethod [
-        <category: 'method events'>
-
-	browsers currentWidget fileoutMethod
     ]
 
     currentWidgetOfBrowser [

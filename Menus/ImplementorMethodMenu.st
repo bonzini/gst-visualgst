@@ -9,5 +9,10 @@ MenuItem subclass: ImplementorMethodMenu [
 
 	^ OpenImplementorCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ OpenImplementorCommand on: self browser currentWidgetOfBrowser
+    ]
+]

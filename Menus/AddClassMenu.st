@@ -9,5 +9,10 @@ MenuItem subclass: AddClassMenu [
 
 	^ AddClassCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ AddClassCommand on: self browser currentWidgetOfBrowser
+    ]
+]

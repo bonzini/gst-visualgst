@@ -12,4 +12,3 @@ MenuBuilder subclass: MethodMenus [
         InspectMethodMenu}
     ]
 ]
-

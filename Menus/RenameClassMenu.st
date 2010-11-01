@@ -9,5 +9,10 @@ MenuItem subclass: RenameClassMenu [
 
 	^ RenameClassCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ RenameClassCommand on: self browser currentWidgetOfBrowser
+    ]
+]

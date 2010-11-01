@@ -9,5 +9,10 @@ MenuItem subclass: AddNamespaceMenu [
 
 	^ AddNamespaceCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ AddNamespaceCommand on: self browser currentWidgetOfBrowser
+    ]
+]

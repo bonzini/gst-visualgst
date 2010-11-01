@@ -10,8 +10,13 @@ Object subclass: MenuSeparator [
 	<category: 'instance creation'>
 
 	^ self new
-		build;
-		yourself
+		build
+    ]
+
+    MenuSeparator class >> browserBuildOn: aGtkBuilder [
+	<category: 'instance creation'>
+
+	^ self buildOn: aGtkBuilder
     ]
 
     build [

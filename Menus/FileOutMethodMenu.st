@@ -9,5 +9,10 @@ MenuItem subclass: FileOutMethodMenu [
 
 	^ FileOutMethodCommand on: self browser
     ]
-]
 
+    browserCommand [
+        <category: 'accessing'>
+
+	^ FileOutMethodCommand on: self browser currentWidgetOfBrowser
+    ]
+]
