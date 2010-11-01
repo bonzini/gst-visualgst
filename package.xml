@@ -117,6 +117,7 @@
   <filein>Menus/DeleteMethodMenu.st</filein>
   <filein>Menus/FileOutNamespaceMenu.st</filein>
   <filein>Menus/FileOutClassMenu.st</filein>
+  <filein>Menus/FileOutMethodMenu.st</filein>
   <filein>Menus/FileOutCategoryMenu.st</filein>
   <filein>Menus/InspectNamespaceMenu.st</filein>
   <filein>Menus/InspectClassMenu.st</filein>
@@ -124,8 +125,12 @@
   <filein>Menus/RenameNamespaceMenu.st</filein>
   <filein>Menus/RenameClassMenu.st</filein>
   <filein>Menus/RenameCategoryMenu.st</filein>
+  <filein>Menus/SenderMethodMenu.st</filein>
+  <filein>Menus/ImplementorMethodMenu.st</filein>
   <filein>Menus/NamespaceMenus.st</filein>
   <filein>Menus/ClassMenus.st</filein>
+  <filein>Menus/CategoryMenus.st</filein>
+  <filein>Menus/MethodMenus.st</filein>
   <filein>FakeNamespace.st</filein>
   <filein>Category/ClassCategory.st</filein>
   <filein>Category/AbstractNamespace.st</filein>
@@ -311,6 +316,7 @@
   <file>Menus/DeleteMethodMenu.st</file>
   <file>Menus/FileOutNamespaceMenu.st</file>
   <file>Menus/FileOutClassMenu.st</file>
+  <file>Menus/FileOutMethodMenu.st</file>
   <file>Menus/FileOutCategoryMenu.st</file>
   <file>Menus/InspectNamespaceMenu.st</file>
   <file>Menus/InspectClassMenu.st</file>
@@ -318,8 +324,12 @@
   <file>Menus/RenameNamespaceMenu.st</file>
   <file>Menus/RenameClassMenu.st</file>
   <file>Menus/RenameCategoryMenu.st</file>
+  <file>Menus/SenderMethodMenu.st</file>
+  <file>Menus/ImplementorMethodMenu.st</file>
   <file>Menus/NamespaceMenus.st</file>
   <file>Menus/ClassMenus.st</file>
+  <file>Menus/CategoryMenus.st</file>
+  <file>Menus/MethodMenus.st</file>
   <file>FakeNamespace.st</file>
   <file>Category/ClassCategory.st</file>
   <file>Category/AbstractNamespace.st</file>

@@ -21,7 +21,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         <category: 'user interface'>
 
 	namespaceTree := GtkScrollTreeWidget createTreeWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Namespaces'}}.
-	namespaceTree connectToWhenPopupMenu: [ :menu | self buildPopupMenu: menu ].
+	namespaceTree connectToWhenPopupMenu: [ :aGtkMenu | NamespaceMenus on: self appendTo: aGtkMenu ].
 	namespaceTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(model := GtkTreeModel on: namespaceTree treeView getModel)
                                         item: FakeNamespace;
@@ -30,13 +30,6 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
                                         connectSignal: 'row-has-child-toggled' to: self selector: #'childToggled:path:iter:';
                                         refresh.
 	^ namespaceTree mainWidget
-    ]
-
-    buildPopupMenu: aGtkMenu [
-        <category: 'button event'>
-
-	(NamespaceMenus on: self) do: [ :each | 
-	    aGtkMenu append: each build ]
     ]
 
     whenSelectionChangedSend: aSelector to: anObject [

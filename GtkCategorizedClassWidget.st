@@ -113,8 +113,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
         aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
-	(ClassMenus on: self) do: [ :each |
-	    menu append: each build ].
+	ClassMenus on: self appendTo: menu.
         menu attachToWidget: classesTree detacher: nil.
         menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
         menu showAll.

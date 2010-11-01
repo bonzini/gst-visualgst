@@ -64,6 +64,7 @@ Eval [
     filein: 'Menus/DeleteMethodMenu.st';
     filein: 'Menus/FileOutNamespaceMenu.st';
     filein: 'Menus/FileOutClassMenu.st';
+    filein: 'Menus/FileOutMethodMenu.st';
     filein: 'Menus/FileOutCategoryMenu.st';
     filein: 'Menus/InspectNamespaceMenu.st';
     filein: 'Menus/InspectClassMenu.st';
@@ -71,8 +72,12 @@ Eval [
     filein: 'Menus/RenameNamespaceMenu.st';
     filein: 'Menus/RenameClassMenu.st';
     filein: 'Menus/RenameCategoryMenu.st';
+    filein: 'Menus/SenderMethodMenu.st';
+    filein: 'Menus/ImplementorMethodMenu.st';
     filein: 'Menus/NamespaceMenus.st';
     filein: 'Menus/ClassMenus.st';
+    filein: 'Menus/CategoryMenus.st';
+    filein: 'Menus/MethodMenus.st';
     filein: 'FakeNamespace.st';
     filein: 'Category/ClassCategory.st';
     filein: 'Category/AbstractNamespace.st';
