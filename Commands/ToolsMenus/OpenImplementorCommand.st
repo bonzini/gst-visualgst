@@ -1,5 +1,17 @@
 Command subclass: OpenImplementorCommand [
 
+    item [
+	<category: 'menu item'>
+
+	^ 'Implementors'
+    ]
+
+    accel [
+	<category: 'accel'>
+
+	^ '<Control>M'
+    ]
+
     selection [
         <category: 'focus checking'>
 

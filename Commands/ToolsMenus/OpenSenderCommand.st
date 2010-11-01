@@ -1,5 +1,17 @@
 Command subclass: OpenSenderCommand [
 
+    item [
+        <category: 'menu item'>
+
+        ^ 'Senders'
+    ]
+
+    accel [
+        <category: 'accel'>
+
+        ^ '<Control>N'
+    ]
+
     selection [
         <category: 'focus checking'>
 

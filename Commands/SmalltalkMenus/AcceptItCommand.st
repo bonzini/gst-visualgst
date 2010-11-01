@@ -1,5 +1,16 @@
 Command subclass: AcceptItCommand [
 
+    item [
+        <category: 'menu item'>
+
+        ^ 'Accept It'
+    ]
+
+    accel [
+
+	^ '<Control>S'
+    ]
+
     acceptClassDefinitionOn: aNamespace [
         <category: 'class event'>
 

@@ -1,7 +1,5 @@
 Object subclass: Command [
 
-    | target |
-
     Command class >> execute [
 	<category: 'instance creation'>
 
@@ -24,6 +22,29 @@ Object subclass: Command [
 		    validAndExecute
     ]
 
+    Command class >> on: aGtkBrowser [
+        <category: 'instance creation'>
+
+        ^ self new
+            browser: aGtkBrowser;
+            yourself
+    ]
+
+    Command class >> buildOn: aGtkBrowser [
+        <category: 'instance creation'>
+
+        ^ (self on: aGtkBrowser)
+                            build
+    ]
+
+    Command class >> browserBuildOn: aGtkBrowser [
+        <category: 'instance creation'>
+
+        ^ (self on: aGtkBrowser)
+                            browserBuild
+    ]
+
+    | browser target |
     
     target: anObject [
 	<category: 'accessing'>
@@ -50,6 +71,54 @@ Object subclass: Command [
         ^ self
             execute;
             yourself
+    ]
+
+    browser: aGtkBrowser [
+        <category: 'accessing'>
+
+        browser := aGtkBrowser
+    ]
+
+    browser [
+        <category: 'accessing'>
+
+        ^ browser
+    ]
+
+    item [
+        <category: 'accessing'>
+
+    ]
+
+    browserCommand [
+        <category: 'accessing'>
+
+    ]
+
+    command [
+        <category: 'accessing'>
+
+    ]
+
+    shortcut [
+        <category: 'accessing'>
+
+    ]
+
+    build [
+        <category: 'build'>
+
+        ^ (GTK.GtkMenuItem newWithLabel: self item)
+                connectSignal: 'activate' to: self selector: #command;
+                yourself
+    ]
+
+    browserBuild [
+        <category: 'build'>
+
+        ^ (GTK.GtkMenuItem newWithLabel: self item)
+                connectSignal: 'activate' to: self selector: #browserCommand;
+                yourself
     ]
 ]
 

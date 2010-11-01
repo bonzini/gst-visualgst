@@ -90,44 +90,13 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createEditMenus [
         <category: 'user interface'>
 
-        self accelGroup append: {{'<Control><shift>Z'. '<GtkVisualGSTTool>/Edit/Cancel'}.
-            {'<Control>Z'. '<GtkVisualGSTTool>/Edit/Undo'}.
-            {'<Control>Y'. '<GtkVisualGSTTool>/Edit/Redo'}.
-            {'<Control>X'. '<GtkVisualGSTTool>/Edit/Cut'}.
-            {'<Control>C'. '<GtkVisualGSTTool>/Edit/Copy'}.
-            {'<Control>V'. '<GtkVisualGSTTool>/Edit/Paste'}.
-            {'<Control>F'. '<GtkVisualGSTTool>/Edit/Find'}.
-            {'<Control>R'. '<GtkVisualGSTTool>/Edit/Replace'}}.
-
-        ^{GTK.GtkMenuItem menuItem: 'Cancel edits' accelPath: '<GtkVisualGSTTool>/Edit/Cancel' connectTo: self selector: #cancel.
-            GTK.GtkMenuItem menuItem: 'Undo' accelPath: '<GtkVisualGSTTool>/Edit/Undo' connectTo: self selector: #undo.
-            GTK.GtkMenuItem menuItem: 'Redo' accelPath: '<GtkVisualGSTTool>/Edit/Redo' connectTo: self selector: #redo.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Cut' accelPath: '<GtkVisualGSTTool>/Edit/Cut' connectTo: self selector: #cut.
-            GTK.GtkMenuItem menuItem: 'Copy' accelPath: '<GtkVisualGSTTool>/Edit/Copy' connectTo: self selector: #copy.
-            GTK.GtkMenuItem menuItem: 'Paste' accelPath: '<GtkVisualGSTTool>/Edit/Paste' connectTo: self selector: #paste.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Select all' accelPath: '<GtkVisualGSTTool>/Edit/SelectAll' connectTo: self selector: #selectAll.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Find' accelPath: '<GtkVisualGSTTool>/Edit/Find' connectTo: self selector: #find.
-            GTK.GtkMenuItem menuItem: 'Replace' accelPath: '<GtkVisualGSTTool>/Edit/Replace' connectTo: self selector: #replace}
+	^ EditMenus browserBuildOn: self
     ]
 
     createSmalltalkMenus [
         <category: 'user interface'>
 
-        self accelGroup append: {{'<Control>D'. '<GtkVisualGSTTool>/Smalltalk/DoIt'. self. #doIt}.
-            {'<Alt>D'. '<GtkVisualGSTTool>/Smalltalk/DebugIt'. self. #printIt}.
-            {'<Control>P'. '<GtkVisualGSTTool>/Smalltalk/PrintIt'. self. #printIt}.
-            {'<Control>I'. '<GtkVisualGSTTool>/Smalltalk/InspectIt'. self. #inspectIt}.
-            {'<Control>S'. '<GtkVisualGSTTool>/Smalltalk/AcceptIt'. self. #acceptIt}}.
-
-        ^{GTK.GtkMenuItem menuItem: 'Do It' accelPath: '<GtkVisualGSTTool>/Smalltalk/DoIt' connectTo: self selector: #doIt.
-            GTK.GtkMenuItem menuItem: 'Print It' accelPath: '<GtkVisualGSTTool>/Smalltalk/PrintIt' connectTo: self selector: #printIt.
-            GTK.GtkMenuItem menuItem: 'Inspect It' accelPath: '<GtkVisualGSTTool>/Smalltalk/InspectIt' connectTo: self selector: #inspectIt.
-            GTK.GtkMenuItem menuItem: 'Debug It' accelPath: '<GtkVisualGSTTool>/Smalltalk/DebugIt' connectTo: self selector: #debugIt.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Accept' accelPath: '<GtkVisualGSTTool>/Smalltalk/AcceptIt' connectTo: self selector: #acceptIt}
+	^ SmalltalkMenus browserBuildOn: self
     ]
 
     createToolsMenus [
