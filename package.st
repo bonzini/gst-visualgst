@@ -29,6 +29,12 @@ Eval [
     filein: 'Commands/SmalltalkMenus/PrintItCommand.st';
     filein: 'Commands/SmalltalkMenus/InspectItCommand.st';
     filein: 'Commands/SmalltalkMenus/AcceptItCommand.st';
+    filein: 'Commands/HistoryCommands/HistoryBackCommand.st';
+    filein: 'Commands/HistoryCommands/HistoryDisplayCommand.st';
+    filein: 'Commands/HistoryCommands/HistoryForwardCommand.st';
+    filein: 'Commands/TabsMenus/CloseTabCommand.st';
+    filein: 'Commands/TabsMenus/NextTabCommand.st';
+    filein: 'Commands/TabsMenus/PreviousTabCommand.st';
     filein: 'Commands/ClassCommand.st';
     filein: 'Commands/CategoryCommand.st';
     filein: 'Commands/MethodCommand.st';
@@ -89,6 +95,9 @@ Eval [
     filein: 'Menus/MethodMenus.st';
     filein: 'Menus/EditMenus.st';
     filein: 'Menus/SmalltalkMenus.st';
+    filein: 'Menus/ToolsMenus.st';
+    filein: 'Menus/HistoryMenus.st';
+    filein: 'Menus/TabsMenus.st';
     filein: 'FakeNamespace.st';
     filein: 'Category/ClassCategory.st';
     filein: 'Category/AbstractNamespace.st';

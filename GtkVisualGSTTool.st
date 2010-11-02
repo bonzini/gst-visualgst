@@ -102,22 +102,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
     createToolsMenus [
         <category: 'user interface'>
 
-        | menu |
-        self accelGroup append: {{'<Control>M'. '<GtkVisualGSTTool>/Tools/Implementors'}.
-            {'<Control>N'. '<GtkVisualGSTTool>/Tools/Senders'}.
-            {'<Alt>P'. '<GtkVisualGSTTool>/Tools/PackageBuilder'}}.
-
-        menu := {GTK.GtkMenuItem menuItem: 'Implementors' accelPath: '<GtkVisualGSTTool>/Tools/Implementors' connectTo: self selector: #newImplementorBrowser.
-            GTK.GtkMenuItem menuItem: 'Senders' accelPath: '<GtkVisualGSTTool>/Tools/Senders' connectTo: self selector: #newSenderBrowser.
-            GTK.GtkMenuItem menuItem: 'SUnit' connectTo: self selector: #newSUnitBrowser.
-            GTK.GtkMenuItem menuItem: 'PackageBuilder' accelPath: '<GtkVisualGSTTool>/Tools/PackageBuilder' connectTo: self selector: #packageBuilder} asOrderedCollection.
-
-        GtkWebView hasWebkit ifTrue: [ menu := menu, {GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Assistant' connectTo: OpenAssistantCommand selector: #execute.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Smallzilla' connectTo: OpenWebBrowserCommand selector: #execute} ].
-
-        ^menu
+	^ ToolsMenus browserBuildOn: self
     ]
 
     state [

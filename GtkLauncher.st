@@ -513,28 +513,13 @@ GtkVisualGSTTool subclass: GtkLauncher [
     createHistoryMenus [
 	<category: 'user interface'>
 
-	self accelGroup append:
-            {{'<Alt>Left'. '<GtkLauncher>/History/Back'}.
-            {'<Alt>Right'. '<GtkLauncher>/History/Forward'}.
-            {'<Control>H'. '<GtkLauncher>/History/showHide'}}.
-
-	^{GTK.GtkMenuItem menuItem: 'Back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
-            GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward.
-	    GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Show/Hide history pane' accelPath: '<GtkLauncher>/History/showHide' connectTo: self selector: #showHideHistory }
+	^ HistoryMenus browserBuildOn: self
     ]
 
     createTabsMenus [
 	<category: 'user interface'>
 
-       self accelGroup append: {{'<Control><Shift>Tab'. '<GtkLauncher>/Tabs/PreviousTab'}.
-	    {'<Control>Tab'. '<GtkLauncher>/Tabs/NextTab'}.
-	    {'<Control>w'. '<GtkLauncher>/Tabs/CloseTab'}}.
-
-	^{GTK.GtkMenuItem menuItem: 'Previous Tab' accelPath: '<GtkLauncher>/Tabs/PreviousTab' connectTo: self selector: #previousTab.
-	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab.
-	GTK.GtkMenuItem new.
-	GTK.GtkMenuItem menuItem: 'Close Tab' accelPath: '<GtkLauncher>/Tabs/CloseTab' connectTo: self selector: #closeTab.}
+	^ TabsMenus browserBuildOn: self
     ]
 
     createToolbar [
