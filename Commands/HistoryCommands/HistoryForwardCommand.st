@@ -6,9 +6,15 @@ Command subclass: HistoryForwardCommand [
 	^ 'Forward'
     ]
 
+    accel [
+        <category: 'menu item'>
+
+        ^ '<Alt>Right'
+    ]
+
     execute [
         <category: 'command'>
 
-        self browser open
+        target forward
     ]
 ]

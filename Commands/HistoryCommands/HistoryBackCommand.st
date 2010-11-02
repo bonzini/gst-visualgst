@@ -6,9 +6,15 @@ Command subclass: HistoryBackCommand [
 	^ 'Back'
     ]
 
+    accel [
+	<category: 'menu item'>
+
+	^ '<Alt>Left'
+    ]
+
     execute [
         <category: 'command'>
 
-        self browser open
+        target back
     ]
 ]

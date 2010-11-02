@@ -6,9 +6,15 @@ Command subclass: HistoryDisplayCommand [
 	^ 'Show/Hide history pane'
     ]
 
+    accel [
+        <category: 'menu item'>
+
+        ^ '<Control>H'
+    ]
+
     execute [
         <category: 'command'>
 
-        self browser open
+        target showHideHistory
     ]
 ]
