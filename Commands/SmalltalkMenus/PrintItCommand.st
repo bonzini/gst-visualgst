@@ -7,6 +7,7 @@ DoItCommand subclass: PrintItCommand [
     ]
 
     accel [
+        <category: 'menu item'>
 
 	^ '<Control>P'
     ]
@@ -15,7 +16,6 @@ DoItCommand subclass: PrintItCommand [
         <category: 'command'>
 
         target printIt: target targetObject
-
     ]
 ]
 

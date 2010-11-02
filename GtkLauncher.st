@@ -675,28 +675,34 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ widget notNil and: [widget hasSelection]
     ]
 
-    doIt [
+    targetObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #doIt
+	^ self onFocusPerform: #targetObject
     ]
 
-    printIt [
+    doIt: anObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #printIt
+	self onFocusPerform: #doIt: with: anObject
     ]
 
-    inspectIt [
+    printIt: anObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #inspectIt
+	self onFocusPerform: #printIt: with: anObject
     ]
 
-    debugIt [
+    inspectIt: anObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #debugIt
+	self onFocusPerform: #inspectIt: with: anObject
+    ]
+
+    debugIt: anObject [
+	<category: 'smalltalk events'>
+
+	self onFocusPerform: #debugIt: with: anObject
     ]
 
     acceptIt [

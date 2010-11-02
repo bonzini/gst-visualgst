@@ -7,6 +7,7 @@ DoItCommand subclass: InspectItCommand [
     ]
 
     accel [
+        <category: 'menu item'>
 
 	^ '<Control>I'
     ]
@@ -15,7 +16,6 @@ DoItCommand subclass: InspectItCommand [
         <category: 'command'>
 
         target inspectIt: target targetObject
-
     ]
 ]
 

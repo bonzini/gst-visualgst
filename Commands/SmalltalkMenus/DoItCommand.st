@@ -7,6 +7,7 @@ Command subclass: DoItCommand [
     ]
 
     accel [
+        <category: 'menu item'>
 
 	^ '<Control>D'
     ]
@@ -15,7 +16,6 @@ Command subclass: DoItCommand [
         <category: 'command'>
 
         target doIt: target targetObject
-
     ]
 ]
 

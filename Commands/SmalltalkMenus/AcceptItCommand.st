@@ -7,6 +7,7 @@ Command subclass: AcceptItCommand [
     ]
 
     accel [
+        <category: 'menu item'>
 
 	^ '<Control>S'
     ]

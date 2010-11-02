@@ -7,6 +7,7 @@ DoItCommand subclass: DebugItCommand [
     ]
 
     accel [
+        <category: 'menu item'>
 
 	^ '<Alt>D'
     ]
@@ -15,7 +16,6 @@ DoItCommand subclass: DebugItCommand [
         <category: 'command'>
 
         target debugIt: target targetObject
-
     ]
 ]
 
