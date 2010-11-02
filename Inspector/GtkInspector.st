@@ -12,6 +12,12 @@ GtkBrowsingTool subclass: GtkInspector [
 	    yourself
     ]
 
+    accelPath [
+        <category: 'accelerator path'>
+
+        ^ '<GtkInspector>'
+    ]
+
     postInitialize [
         <category: 'initialization'>
 
@@ -99,10 +105,11 @@ GtkBrowsingTool subclass: GtkInspector [
     createMenus [
 	<category: 'user interface'>
 
-	self addMenuItem: 'File' withSubmenu: self createFileMenus.
-	self addMenuItem: 'Edit' withSubmenu: self createEditMenus.
-	self addMenuItem: 'Smalltalk' withSubmenu: self createSmalltalkMenus.
-	self addMenuItem: 'Tools' withSubmenu: self createToolsMenus.
+        self createMainMenu: {#('File' #createFileMenus).
+            #('Edit' #createEditMenus).
+            #('Smalltalk' #createSmalltalkMenus).
+            #('Tools' #createToolsMenus).
+            #('Help' #createHelpMenus)}
     ]
 
     focusedWidget [
