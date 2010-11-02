@@ -95,6 +95,12 @@ GtkVisualGSTTool subclass: GtkLauncher [
         ^self displayError: 'Error' message: error
     ]
 
+    accelPath [
+	<category: 'accelerator path'>
+
+	^ '<VisualGST>'
+    ]
+
     classBrowser [
 	<category: 'tools events'>
 

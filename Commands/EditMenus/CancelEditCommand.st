@@ -15,6 +15,6 @@ Command subclass: CancelEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target cancel
     ]
 ]

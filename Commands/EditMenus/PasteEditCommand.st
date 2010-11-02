@@ -15,6 +15,6 @@ Command subclass: PasteEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target paste
     ]
 ]

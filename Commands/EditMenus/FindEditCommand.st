@@ -15,6 +15,6 @@ Command subclass: FindEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target find
     ]
 ]

@@ -15,6 +15,6 @@ Command subclass: UndoEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target undo
     ]
 ]

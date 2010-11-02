@@ -15,6 +15,6 @@ Command subclass: CopyEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target copy
     ]
 ]

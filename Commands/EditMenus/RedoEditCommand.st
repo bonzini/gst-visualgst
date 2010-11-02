@@ -15,6 +15,6 @@ Command subclass: RedoEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target open
     ]
 ]

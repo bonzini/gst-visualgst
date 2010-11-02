@@ -15,6 +15,6 @@ Command subclass: CutEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target cut
     ]
 ]

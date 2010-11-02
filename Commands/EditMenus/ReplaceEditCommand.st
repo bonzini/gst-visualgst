@@ -15,6 +15,6 @@ Command subclass: ReplaceEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target replace
     ]
 ]

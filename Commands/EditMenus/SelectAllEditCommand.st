@@ -9,6 +9,6 @@ Command subclass: SelectAllEditCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target selectAll
     ]
 ]
