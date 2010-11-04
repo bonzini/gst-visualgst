@@ -2,13 +2,13 @@ MenuBuilder subclass: ClassMenus [
 
     ClassMenus class >> menus [
 
-	^ {AddClassMenu.
-        RenameClassMenu.
-        DeleteClassMenu.
+	^ {AddClassCommand.
+        RenameClassCommand.
+        DeleteClassCommand.
 	MenuSeparator.
-        FileOutClassMenu.  
+        FileoutClassCommand.
 	MenuSeparator.
-        InspectClassMenu}
+        InspectClassCommand}
     ]
 ]
 

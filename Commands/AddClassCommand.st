@@ -1,5 +1,10 @@
 NamespaceCommand subclass: AddClassCommand [
 
+    item [
+
+	^ 'Add a class'
+    ]
+
     execute [
 	<category: 'command'>
 

@@ -2,13 +2,13 @@ MenuBuilder subclass: MethodMenus [
 
     MethodMenus class >> menus [
 
-	^ {SenderMethodMenu.
-        ImplementorMethodMenu.
+	^ {OpenSenderCommand.
+        OpenImplementorCommand.
 	MenuSeparator.
-        DeleteMethodMenu.
+        DeleteMethodCommand.
 	MenuSeparator.
-        FileOutMethodMenu.
+        FileoutMethodCommand.
 	MenuSeparator.
-        InspectMethodMenu}
+        InspectMethodCommand}
     ]
 ]

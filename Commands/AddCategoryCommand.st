@@ -1,5 +1,10 @@
 ClassCommand subclass: AddCategoryCommand [
 
+    item [
+
+	^ 'Add a category'
+    ]
+
     execute [
 	<category: 'command'>
 

@@ -1,5 +1,10 @@
 NamespaceCommand subclass: AddNamespaceCommand [
 
+    item [
+
+	^ 'Add a namespace'
+    ]
+
     execute [
 	<category: 'command'>
 

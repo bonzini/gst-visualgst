@@ -1,5 +1,10 @@
 MethodCommand subclass: InspectMethodCommand [
 
+    item [
+
+	^ 'Inspect a method'
+    ]
+
     execute [
 	<category: 'command'>
 

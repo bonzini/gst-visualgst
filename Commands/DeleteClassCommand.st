@@ -1,5 +1,10 @@
 ClassCommand subclass: DeleteClassCommand [
 
+    item [
+
+	^ 'Delete a class'
+    ]
+
     execute [
 	<category: 'command'>
 

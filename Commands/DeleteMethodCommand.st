@@ -1,5 +1,10 @@
 MethodCommand subclass: DeleteMethodCommand [
 
+    item [
+
+	^ 'Delete a method'
+    ]
+
     execute [
 	<category: 'command'>
 

@@ -2,10 +2,10 @@ MenuBuilder subclass: CategoryMenus [
 
     CategoryMenus class >> menus [
 
-	^ {AddCategoryMenu.
-        RenameCategoryMenu.
+	^ {AddCategoryCommand.
+        RenameCategoryCommand.
 	MenuSeparator.
-        FileOutCategoryMenu}
+        FileoutCategoryCommand}
     ]
 ]
 

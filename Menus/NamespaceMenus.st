@@ -2,12 +2,12 @@ MenuBuilder subclass: NamespaceMenus [
 
     NamespaceMenus class >> menus [
 
-	^ {AddNamespaceMenu.
-        DeleteNamespaceMenu.
-        RenameNamespaceMenu.
+	^ {AddNamespaceCommand.
+        DeleteNamespaceCommand.
+        RenameNamespaceCommand.
 	MenuSeparator.
-        FileOutNamespaceMenu.  
+        FileoutNamespaceCommand.  
 	MenuSeparator.
-        InspectNamespaceMenu}
+        InspectNamespaceCommand}
     ]
 ]

@@ -80,18 +80,6 @@ Object subclass: Command [
 	self subclassResponisibility 
     ]
 
-    browserCommand [
-        <category: 'accessing'>
-
-	self subclassResponisibility 
-    ]
-
-    command [
-        <category: 'accessing'>
-
-	self subclassResponisibility 
-    ]
-
     accel [
         <category: 'accessing'>
 
@@ -102,7 +90,7 @@ Object subclass: Command [
         <category: 'build'>
 
         ^ (GTK.GtkMenuItem newWithLabel: self item)
-                connectSignal: 'activate' to: self selector: #command;
+                connectSignal: 'activate' to: self selector: #validAndExecute;
                 yourself
     ]
 
