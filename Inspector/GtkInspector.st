@@ -15,7 +15,7 @@ GtkBrowsingTool subclass: GtkInspector [
     accelPath [
         <category: 'accelerator path'>
 
-        ^ '<GtkInspector>'
+        ^ '<Inspector>'
     ]
 
     postInitialize [
