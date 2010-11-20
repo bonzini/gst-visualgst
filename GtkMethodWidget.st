@@ -109,7 +109,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     hasSelectedTestMethod [
 	<category: 'button event'>
 
-	self hasSelectedMethod ifFalse: [^false].
+	self ifNoSelection: [ ^ false ].
 	^ (self classOrMeta inheritsFrom: TestCase)
 	    and: [ self selectedMethodSymbol startsWith: 'test' ]
     ]
@@ -123,14 +123,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         menu := GTK.GtkMenu new.
 	self hasSelectedTestMethod ifTrue: [
             menu appendMenuItems: {{'Run test'. self. #runTest}} ].
-        menu appendMenuItems: {{'Browse senders'. self. #browseSenders}.
-	    {'Browse implementors'. self. #browseImplementors}.
-	    {}.
-            {'Delete method'. self. #deleteMethod}.
-            {}.
-            {'Inspect method'. self. #inspectMethod}.
-            {}.
-            {'File out method'. self. #fileoutMethod}}.
+	MethodMenus on: self appendTo: menu.
         menu attachToWidget: methodTree detacher: nil.
         menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
         menu showAll.
@@ -182,6 +175,12 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	^ methodTree hasSelectedItem
     ]
 
+    ifNoSelection: aBlock [
+        <category: 'testing'>
+
+        self hasSelectedMethod ifFalse: aBlock
+    ]
+
     selectedMethodSymbol [
 	<category: 'accessing'>
 
@@ -191,7 +190,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     selectedMethod [
 	<category: 'accessing'>
 
-	self hasSelectedMethod ifFalse: [ ^ self error: 'nothing is selected' ].
+	self ifNoSelection: [ self error: 'nothing is selected' ].
         ^ methodTree selection 
     ]
 
@@ -204,51 +203,21 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     sourceCode [
 	<category: 'accessing'>
 
-	self hasSelectedMethod ifFalse: [ self error: 'Nothing is selected' ].
+	self ifNoSelection: [ self error: 'Nothing is selected' ].
 	^ (self classOrMeta compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
     ]
 
     state [
         <category: 'testing'>
 
-        self hasSelectedMethod ifFalse: [ ^ BrowserState new ].
+        self ifNoSelection: [ ^ BrowserState new ].
         ^ MethodState with: self selectedMethod
-    ]
-
-    deleteMethod [
-        <category: 'method events'>
-
-        DeleteMethodCommand on: self
-    ]
-
-    inspectMethod [
-        <category: 'method events'>
-
-	InspectMethodCommand on: self
-    ]
-
-    browseSenders [
-        <category: 'method events'>
-
-	OpenSenderCommand on: self
-    ]
-
-    browseImplementors [
-        <category: 'method events'>
-
-	OpenImplementorCommand on: self
     ]
 
     runTest [
         <category: 'method events'>
 
 	RunTestCommand on: self
-    ]
-
-    fileoutMethod [
-        <category: 'method events'>
-
-	FileoutMethodCommand on: self
     ]
 
     addEvent: anEvent [

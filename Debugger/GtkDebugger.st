@@ -29,6 +29,12 @@ GtkBrowsingTool subclass: GtkDebugger [
 	^ 1
     ]
 
+    accelPath [
+        <category: 'accelerator path'>
+
+        ^ '<VisualGST>'
+    ]
+
     windowTitle [
 	^ 'Debugger'
     ]

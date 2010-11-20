@@ -1,5 +1,10 @@
 NamespaceCommand subclass: RenameNamespaceCommand [
 
+    item [
+
+	^ 'Rename a namespace'
+    ]
+
     execute [
 	<category: 'command'>
 

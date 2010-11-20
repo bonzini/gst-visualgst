@@ -1,13 +1,18 @@
 GtkBrowsingTool subclass: GtkSUnit [
     | namespaceWidget classWidget methodWidget sourceCodeWidget successfullWidget failedWidget errorWidget namespace class state |
 
+    accelPath [
+        <category: 'accelerator path'>
+
+        ^ '<SUnit>'
+    ]
+
     createRunMenus [
         <category: 'user interface'>
 
-        ^{
-		GTK.GtkMenuItem menuItem: 'Load tests' connectTo: self selector: #loadTests.
-		GTK.GtkMenuItem menuItem: 'Run test' connectTo: self selector: #runTest.
-		GTK.GtkMenuItem menuItem: 'Debug test' connectTo: self selector: #debugTest}
+        ^{GTK.GtkMenuItem menuItem: 'Load tests' connectTo: self selector: #loadTests.
+	  GTK.GtkMenuItem menuItem: 'Run test' connectTo: self selector: #runTest.
+	  GTK.GtkMenuItem menuItem: 'Debug test' connectTo: self selector: #debugTest}
     ]
 
     createMenus [

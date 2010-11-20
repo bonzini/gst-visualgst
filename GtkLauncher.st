@@ -81,6 +81,12 @@ GtkVisualGSTTool subclass: GtkLauncher [
         ^self displayError: 'Error' message: error
     ]
 
+    accelPath [
+	<category: 'accelerator path'>
+
+	^ '<VisualGST>'
+    ]
+
     classBrowser [
 	<category: 'tools events'>
 
@@ -455,44 +461,25 @@ GtkVisualGSTTool subclass: GtkLauncher [
     createNamespaceMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Add a namespace' connectTo: self selector: #newNamespace.
-            GTK.GtkMenuItem menuItem: 'Rename a namespace' connectTo: self selector: #renameNamespace.
-            GTK.GtkMenuItem menuItem: 'Delete a namespace' connectTo: self selector: #deleteNamespace.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a namespace' connectTo: self selector: #inspectNamespace.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a namespace' connectTo: self selector: #fileoutNamespace}
+	^ NamespaceMenus browserBuildOn: self
     ]
 
     createClassMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Add a class' connectTo: self selector: #newClass.
-            GTK.GtkMenuItem menuItem: 'Rename a class' connectTo: self selector: #renameClass.
-            GTK.GtkMenuItem menuItem: 'Delete a class' connectTo: self selector: #deleteClass.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a class' connectTo: self selector: #inspectClass.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a class' connectTo: self selector: #fileoutClass}
+	^ ClassMenus browserBuildOn: self
     ]
 
     createCategoryMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Add a category' connectTo: self selector: #newCategory.
-            GTK.GtkMenuItem menuItem: 'Rename a category' connectTo: self selector: #renameCategory.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a category' connectTo: self selector: #fileoutCategory}
+	^ CategoryMenus browserBuildOn: self
     ]
 
     createMethodMenus [
         <category: 'user interface'>
 
-        ^{GTK.GtkMenuItem menuItem: 'Delete a method' connectTo: self selector: #deleteMethod.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Inspect a method' connectTo: self selector: #inspectMethod.
-            GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'File out a method' connectTo: self selector: #fileoutMethod}
+	^ MethodMenus browserBuildOn: self
     ]
 
     createFileMenus [
@@ -514,28 +501,13 @@ GtkVisualGSTTool subclass: GtkLauncher [
     createHistoryMenus [
 	<category: 'user interface'>
 
-	self accelGroup append:
-            {{'<Alt>Left'. '<GtkLauncher>/History/Back'}.
-            {'<Alt>Right'. '<GtkLauncher>/History/Forward'}.
-            {'<Control>H'. '<GtkLauncher>/History/showHide'}}.
-
-	^{GTK.GtkMenuItem menuItem: 'Back' accelPath: '<GtkLauncher>/History/Back' connectTo: self selector: #back.
-            GTK.GtkMenuItem menuItem: 'Forward' accelPath: '<GtkLauncher>/History/Forward' connectTo: self selector: #forward.
-	    GTK.GtkMenuItem new.
-            GTK.GtkMenuItem menuItem: 'Show/Hide history pane' accelPath: '<GtkLauncher>/History/showHide' connectTo: self selector: #showHideHistory }
+	^ HistoryMenus browserBuildOn: self
     ]
 
     createTabsMenus [
 	<category: 'user interface'>
 
-       self accelGroup append: {{'<Control><Shift>Tab'. '<GtkLauncher>/Tabs/PreviousTab'}.
-	    {'<Control>Tab'. '<GtkLauncher>/Tabs/NextTab'}.
-	    {'<Control>w'. '<GtkLauncher>/Tabs/CloseTab'}}.
-
-	^{GTK.GtkMenuItem menuItem: 'Previous Tab' accelPath: '<GtkLauncher>/Tabs/PreviousTab' connectTo: self selector: #previousTab.
-	GTK.GtkMenuItem menuItem: 'Next Tab' accelPath: '<GtkLauncher>/Tabs/NextTab' connectTo: self selector: #nextTab.
-	GTK.GtkMenuItem new.
-	GTK.GtkMenuItem menuItem: 'Close Tab' accelPath: '<GtkLauncher>/Tabs/CloseTab' connectTo: self selector: #closeTab.}
+	^ TabsMenus browserBuildOn: self
     ]
 
     createToolbar [
@@ -691,28 +663,34 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ widget notNil and: [widget hasSelection]
     ]
 
-    doIt [
+    targetObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #doIt
+	^ self onFocusPerform: #targetObject
     ]
 
-    printIt [
+    doIt: anObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #printIt
+	self onFocusPerform: #doIt: with: anObject
     ]
 
-    inspectIt [
+    printIt: anObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #inspectIt
+	self onFocusPerform: #printIt: with: anObject
     ]
 
-    debugIt [
+    inspectIt: anObject [
 	<category: 'smalltalk events'>
 
-	self onFocusPerform: #debugIt
+	self onFocusPerform: #inspectIt: with: anObject
+    ]
+
+    debugIt: anObject [
+	<category: 'smalltalk events'>
+
+	self onFocusPerform: #debugIt: with: anObject
     ]
 
     acceptIt [
@@ -837,102 +815,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	browsers numberOfPages > 1 
 			    ifTrue: [ browsers currentWidget checkCodeWidgetAndUpdate: [ browsers closeCurrentPage ] ]
 			    ifFalse: [ browsers closeCurrentPage ].
-    ]
-
-    fileoutNamespace [
-        <category: 'namespace events'>
-
-	browsers currentWidget fileoutNamespace
-    ]
-
-    newNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget newNamespace
-    ]
-
-    renameNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget renameNamespace
-    ]
-
-    deleteNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget deleteNamespace
-    ]
-
-    inspectNamespace [
-        <category: 'namespace events'>
-
-        browsers currentWidget inspectNamespace
-    ]
-
-    newClass [
-        <category: 'class events'>
-
-        browsers currentWidget newClass
-    ]
-
-    renameClass [
-        <category: 'class events'>
-
-	browsers currentWidget renameClass
-    ]
-
-    deleteClass [
-        <category: 'class events'>
-
-        browsers currentWidget deleteClass
-    ]
-
-    inspectClass [
-        <category: 'class events'>
-
-        browsers currentWidget inspectClass
-    ]
-
-    fileoutClass [
-        <category: 'class events'>
-
-        browsers currentWidget fileoutClass
-    ]
-
-    newCategory [
-        <category: 'category events'>
-
-        browsers currentWidget newCategory
-    ]
-
-    renameCategory [
-        <category: 'category events'>
-
-        browsers currentWidget renameCategory
-    ]
-
-    fileoutCategory [
-        <category: 'method events'>
-
-	browsers currentWidget fileoutCategory
-    ]
-
-    deleteMethod [
-        <category: 'method events'>
-
-        browsers currentWidget deleteMethod
-    ]
-
-    inspectMethod [
-        <category: 'method events'>
-
-        browsers currentWidget inspectMethod
-    ]
-
-    fileoutMethod [
-        <category: 'method events'>
-
-	browsers currentWidget fileoutMethod
     ]
 
     currentWidgetOfBrowser [

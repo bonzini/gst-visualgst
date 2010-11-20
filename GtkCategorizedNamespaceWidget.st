@@ -21,7 +21,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         <category: 'user interface'>
 
 	namespaceTree := GtkScrollTreeWidget createTreeWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Namespaces'}}.
-	namespaceTree connectToWhenPopupMenu: [ :menu | self buildPopupMenu: menu ].
+	namespaceTree connectToWhenPopupMenu: [ :aGtkMenu | NamespaceMenus on: self appendTo: aGtkMenu ].
 	namespaceTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(model := GtkTreeModel on: namespaceTree treeView getModel)
                                         item: FakeNamespace;
@@ -30,18 +30,6 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
                                         connectSignal: 'row-has-child-toggled' to: self selector: #'childToggled:path:iter:';
                                         refresh.
 	^ namespaceTree mainWidget
-    ]
-
-    buildPopupMenu: aGtkMenu [
-        <category: 'button event'>
-
-        aGtkMenu appendMenuItems: {{'Add a namespace'. self. #newNamespace}.
-            {'Rename a namespace'. self. #renameNamespace}.
-            {'Delete a namespace'. self. #deleteNamespace}.
-            {}.
-            {'Inspect a namespace'. self. #inspectNamespace}.
-            {}.
-            {'File out a namespace'. self. #fileoutNamespace}}
     ]
 
     whenSelectionChangedSend: aSelector to: anObject [
@@ -96,36 +84,6 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
 	((model at: iter) at: 3) isNamespace ifTrue: [
 	    ((model at: iter) at: 3) subspaces isEmpty ifFalse: [
 		namespaceTree treeView expandRow: path openAll: false ] ]
-    ]
-
-    newNamespace [
-        <category: 'popup events'>
-
-        AddNamespaceCommand on: self
-    ]
-
-    renameNamespace [
-        <category: 'namespace events'>
-
-        RenameNamespaceCommand on: self
-    ]
-
-    deleteNamespace [
-        <category: 'namespace events'>
-
-        DeleteNamespaceCommand on: self
-    ]
-
-    inspectNamespace [
-        <category: 'namespace events'>
-
-        InspectNamespaceCommand on: self
-    ]
-
-    fileoutNamespace [
-        <category: 'namespace events'>
-
-        FileoutNamespaceCommand on: self
     ]
 
     addEvent: anEvent [

@@ -113,13 +113,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
         aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
-        menu appendMenuItems: {{'Add a class'. self. #newClass}.
-            {'Rename a class'. self. #renameClass}.
-            {'Delete a class'. self. #deleteClass}.
-            {}.
-            {'Inspect a class'. self. #inspectClass}.
-            {}.
-            {'File out a class'. self. #fileoutClass}}.
+	ClassMenus on: self appendTo: menu.
         menu attachToWidget: classesTree detacher: nil.
         menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
         menu showAll.
@@ -181,36 +175,6 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	classesTree 
 		expandAll;
 		select: aClass
-    ]
-
-    newClass [
-        <category: 'class events'>
-
-        AddClassCommand on: self
-    ]
-
-    renameClass [
-        <category: 'class events'>
-
-        RenameClassCommand on: self
-    ]
-
-    deleteClass [
-        <category: 'class events'>
-
-        DeleteClassCommand on: self
-    ]
-
-    inspectClass [
-        <category: 'class events'>
-
-	InspectClassCommand on: self
-    ]
-
-    fileoutClass [
-        <category: 'class events'>
-
-	FileoutClassCommand on: self
     ]
 
     addToModel: aClass [

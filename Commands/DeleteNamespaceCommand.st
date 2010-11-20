@@ -1,5 +1,10 @@
 NamespaceCommand subclass: DeleteNamespaceCommand [
 
+    item [
+
+	^ 'Delete a namespace'
+    ]
+
     execute [
 	<category: 'command'>
 

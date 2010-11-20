@@ -77,10 +77,17 @@
   <filein>Notification/ReorganizedEvent.st</filein>
   <filein>Notification/SystemChangeNotifier.st</filein>
   <filein>Commands/Command.st</filein>
-  <filein>Commands/DoItCommand.st</filein>
-  <filein>Commands/DebugItCommand.st</filein>
-  <filein>Commands/PrintItCommand.st</filein>
-  <filein>Commands/InspectItCommand.st</filein>
+  <filein>Commands/SmalltalkMenus/DoItCommand.st</filein>
+  <filein>Commands/SmalltalkMenus/DebugItCommand.st</filein>
+  <filein>Commands/SmalltalkMenus/PrintItCommand.st</filein>
+  <filein>Commands/SmalltalkMenus/InspectItCommand.st</filein>
+  <filein>Commands/SmalltalkMenus/AcceptItCommand.st</filein>
+  <filein>Commands/HistoryCommands/HistoryBackCommand.st</filein>
+  <filein>Commands/HistoryCommands/HistoryDisplayCommand.st</filein>
+  <filein>Commands/HistoryCommands/HistoryForwardCommand.st</filein>
+  <filein>Commands/TabsMenus/CloseTabCommand.st</filein>
+  <filein>Commands/TabsMenus/NextTabCommand.st</filein>
+  <filein>Commands/TabsMenus/PreviousTabCommand.st</filein>
   <filein>Commands/ClassCommand.st</filein>
   <filein>Commands/CategoryCommand.st</filein>
   <filein>Commands/MethodCommand.st</filein>
@@ -100,12 +107,32 @@
   <filein>Commands/RenameCategoryCommand.st</filein>
   <filein>Commands/FileoutMethodCommand.st</filein>
   <filein>Commands/InspectMethodCommand.st</filein>
-  <filein>Commands/AcceptItCommand.st</filein>
   <filein>Commands/DeleteMethodCommand.st</filein>
   <filein>Commands/RunTestCommand.st</filein>
-  <filein>Commands/OpenAssistantCommand.st</filein>
-  <filein>Commands/OpenWebBrowserCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenAssistantCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenWebBrowserCommand.st</filein>
+  <filein>Commands/EditMenus/CancelEditCommand.st</filein>
+  <filein>Commands/EditMenus/UndoEditCommand.st</filein>
+  <filein>Commands/EditMenus/RedoEditCommand.st</filein>
+  <filein>Commands/EditMenus/CutEditCommand.st</filein>
+  <filein>Commands/EditMenus/CopyEditCommand.st</filein>
+  <filein>Commands/EditMenus/PasteEditCommand.st</filein>
+  <filein>Commands/EditMenus/SelectAllEditCommand.st</filein>
+  <filein>Commands/EditMenus/FindEditCommand.st</filein>
+  <filein>Commands/EditMenus/ReplaceEditCommand.st</filein>
   <filein>Pragmas/Pragmas.st</filein>
+  <filein>Menus/MenuBuilder.st</filein>
+  <filein>Menus/MenuItem.st</filein>
+  <filein>Menus/MenuSeparator.st</filein>
+  <filein>Menus/NamespaceMenus.st</filein>
+  <filein>Menus/ClassMenus.st</filein>
+  <filein>Menus/CategoryMenus.st</filein>
+  <filein>Menus/MethodMenus.st</filein>
+  <filein>Menus/EditMenus.st</filein>
+  <filein>Menus/SmalltalkMenus.st</filein>
+  <filein>Menus/ToolsMenus.st</filein>
+  <filein>Menus/HistoryMenus.st</filein>
+  <filein>Menus/TabsMenus.st</filein>
   <filein>FakeNamespace.st</filein>
   <filein>Category/ClassCategory.st</filein>
   <filein>Category/AbstractNamespace.st</filein>
@@ -229,11 +256,11 @@
   <filein>SUnit/GtkSUnit.st</filein>
   <filein>Commands/OpenBrowserCommand.st</filein>
   <filein>Commands/OpenTabbedBrowserCommand.st</filein>
-  <filein>Commands/OpenSUnitCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenSUnitCommand.st</filein>
   <filein>Commands/OpenWorkspaceCommand.st</filein>
-  <filein>Commands/OpenImplementorCommand.st</filein>
-  <filein>Commands/OpenSenderCommand.st</filein>
-  <filein>Commands/OpenPackageBuilderCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenImplementorCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenSenderCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenPackageBuilderCommand.st</filein>
   <filein>Commands/SaveImageCommand.st</filein>
   <filein>Commands/SaveImageAsCommand.st</filein>
   <file>Notification/AbstractEvent.st</file>
@@ -251,10 +278,17 @@
   <file>Notification/ReorganizedEvent.st</file>
   <file>Notification/SystemChangeNotifier.st</file>
   <file>Commands/Command.st</file>
-  <file>Commands/DoItCommand.st</file>
-  <file>Commands/DebugItCommand.st</file>
-  <file>Commands/PrintItCommand.st</file>
-  <file>Commands/InspectItCommand.st</file>
+  <file>Commands/SmalltalkMenus/DoItCommand.st</file>
+  <file>Commands/SmalltalkMenus/DebugItCommand.st</file>
+  <file>Commands/SmalltalkMenus/PrintItCommand.st</file>
+  <file>Commands/SmalltalkMenus/InspectItCommand.st</file>
+  <file>Commands/SmalltalkMenus/AcceptItCommand.st</file>
+  <file>Commands/HistoryCommands/HistoryBackCommand.st</file>
+  <file>Commands/HistoryCommands/HistoryDisplayCommand.st</file>
+  <file>Commands/HistoryCommands/HistoryForwardCommand.st</file>
+  <file>Commands/TabsMenus/CloseTabCommand.st</file>
+  <file>Commands/TabsMenus/NextTabCommand.st</file>
+  <file>Commands/TabsMenus/PreviousTabCommand.st</file>
   <file>Commands/ClassCommand.st</file>
   <file>Commands/CategoryCommand.st</file>
   <file>Commands/MethodCommand.st</file>
@@ -274,12 +308,32 @@
   <file>Commands/RenameCategoryCommand.st</file>
   <file>Commands/FileoutMethodCommand.st</file>
   <file>Commands/InspectMethodCommand.st</file>
-  <file>Commands/AcceptItCommand.st</file>
   <file>Commands/DeleteMethodCommand.st</file>
   <file>Commands/RunTestCommand.st</file>
-  <file>Commands/OpenAssistantCommand.st</file>
-  <file>Commands/OpenWebBrowserCommand.st</file>
+  <file>Commands/ToolsMenus/OpenAssistantCommand.st</file>
+  <file>Commands/ToolsMenus/OpenWebBrowserCommand.st</file>
+  <file>Commands/EditMenus/CancelEditCommand.st</file>
+  <file>Commands/EditMenus/UndoEditCommand.st</file>
+  <file>Commands/EditMenus/RedoEditCommand.st</file>
+  <file>Commands/EditMenus/CutEditCommand.st</file>
+  <file>Commands/EditMenus/CopyEditCommand.st</file>
+  <file>Commands/EditMenus/PasteEditCommand.st</file>
+  <file>Commands/EditMenus/SelectAllEditCommand.st</file>
+  <file>Commands/EditMenus/FindEditCommand.st</file>
+  <file>Commands/EditMenus/ReplaceEditCommand.st</file>
   <file>Pragmas/Pragmas.st</file>
+  <file>Menus/MenuBuilder.st</file>
+  <file>Menus/MenuItem.st</file>
+  <file>Menus/MenuSeparator.st</file>
+  <file>Menus/NamespaceMenus.st</file>
+  <file>Menus/ClassMenus.st</file>
+  <file>Menus/CategoryMenus.st</file>
+  <file>Menus/MethodMenus.st</file>
+  <file>Menus/EditMenus.st</file>
+  <file>Menus/SmalltalkMenus.st</file>
+  <file>Menus/ToolsMenus.st</file>
+  <file>Menus/HistoryMenus.st</file>
+  <file>Menus/TabsMenus.st</file>
   <file>FakeNamespace.st</file>
   <file>Category/ClassCategory.st</file>
   <file>Category/AbstractNamespace.st</file>
@@ -403,11 +457,11 @@
   <file>SUnit/GtkSUnit.st</file>
   <file>Commands/OpenBrowserCommand.st</file>
   <file>Commands/OpenTabbedBrowserCommand.st</file>
-  <file>Commands/OpenSUnitCommand.st</file>
+  <file>Commands/ToolsMenus/OpenSUnitCommand.st</file>
   <file>Commands/OpenWorkspaceCommand.st</file>
-  <file>Commands/OpenImplementorCommand.st</file>
-  <file>Commands/OpenSenderCommand.st</file>
-  <file>Commands/OpenPackageBuilderCommand.st</file>
+  <file>Commands/ToolsMenus/OpenImplementorCommand.st</file>
+  <file>Commands/ToolsMenus/OpenSenderCommand.st</file>
+  <file>Commands/ToolsMenus/OpenPackageBuilderCommand.st</file>
   <file>Commands/SaveImageCommand.st</file>
   <file>Commands/SaveImageAsCommand.st</file>
   <file>Icons/category.gif</file>

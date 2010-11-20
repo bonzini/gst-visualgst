@@ -1,5 +1,10 @@
 MethodCommand subclass: FileoutMethodCommand [
 
+    item [
+
+	^ 'File out a method'
+    ]
+
     execute [
 	<category: 'command'>
 

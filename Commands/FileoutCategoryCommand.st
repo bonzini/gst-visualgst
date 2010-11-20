@@ -1,5 +1,10 @@
 CategoryCommand subclass: FileoutCategoryCommand [
 
+    item [
+
+	^ 'File out a category'
+    ]
+
     execute [
 	<category: 'command'>
 

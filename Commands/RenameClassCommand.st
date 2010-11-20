@@ -1,5 +1,10 @@
 ClassCommand subclass: RenameClassCommand [
 
+    item [
+
+	^ 'Rename a class'
+    ]
+
     execute [
 	<category: 'command'>
 

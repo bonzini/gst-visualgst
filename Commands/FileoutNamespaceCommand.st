@@ -2,6 +2,11 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
 
     | namespace |
 
+    item [
+
+	^ 'File out a namespace'
+    ]
+
     execute [
 	<category: 'command'>
 

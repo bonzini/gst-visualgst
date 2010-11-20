@@ -1,5 +1,10 @@
 CategoryCommand subclass: RenameCategoryCommand [
 
+    item [
+
+	^ 'Rename a category'
+    ]
+
     execute [
 	<category: 'command'>
 

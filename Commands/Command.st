@@ -1,7 +1,5 @@
 Object subclass: Command [
 
-    | target |
-
     Command class >> execute [
 	<category: 'instance creation'>
 
@@ -24,6 +22,30 @@ Object subclass: Command [
 		    validAndExecute
     ]
 
+    Command class >> on: aGtkBrowser [
+        <category: 'instance creation'>
+
+        ^ self new
+	    target: aGtkBrowser;
+            yourself
+    ]
+
+    Command class >> buildOn: aGtkBrowser [
+        <category: 'instance creation'>
+
+        ^ (self on: aGtkBrowser)
+                            build
+    ]
+
+    Command class >> browserBuildOn: aGtkBrowser [
+        <category: 'instance creation'>
+
+        ^ (self on: aGtkBrowser)
+			    accelBuild;
+                            browserBuild
+    ]
+
+    | target |
     
     target: anObject [
 	<category: 'accessing'>
@@ -50,6 +72,47 @@ Object subclass: Command [
         ^ self
             execute;
             yourself
+    ]
+
+    item [
+        <category: 'accessing'>
+
+	self subclassResponisibility 
+    ]
+
+    accel [
+        <category: 'accessing'>
+
+	^ ''
+    ]
+
+    build [
+        <category: 'build'>
+
+        ^ (GTK.GtkMenuItem newWithLabel: self item)
+                connectSignal: 'activate' to: self selector: #validAndExecute;
+                yourself
+    ]
+
+    browserBuild [
+        <category: 'build'>
+
+        ^ GTK.GtkMenuItem menuItem: self item accelPath: self accelPath connectTo: self selector: #validAndExecute
+    ]
+
+    accelBuild [
+        <category: 'build'>
+
+	target accelGroup class
+		    acceleratorGroup: target accelGroup 
+		    accelerator: self accel 
+		    path: self accelPath
+    ]
+
+    accelPath [
+        <category: 'build'>
+
+	^ target accelPath, '/', self class name
     ]
 ]
 

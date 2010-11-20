@@ -1,5 +1,11 @@
 OpenBrowserCommand subclass: OpenSUnitCommand [
 
+    item [
+        <category: 'menu item'>
+
+        ^ 'SUnit'
+    ]
+
     defaultDestination [
         <category: 'selection'>
 

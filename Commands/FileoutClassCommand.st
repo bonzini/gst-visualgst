@@ -1,5 +1,10 @@
 ClassCommand subclass: FileoutClassCommand [
 
+    item [
+
+	^ 'File out a class'
+    ]
+
     execute [
 	<category: 'command'>
 

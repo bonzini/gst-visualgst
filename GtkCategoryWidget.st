@@ -93,10 +93,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
         aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
         menu := GTK.GtkMenu new.
-        menu appendMenuItems: {{'Add a category'. self. #newCategory}.
-            {'Rename a category'. self. #renameCategory}.
-            {}.
-            {'File out a category'. self. #fileoutCategory}}.
+	CategoryMenus on: self appendTo: menu.
         menu attachToWidget: categoryTree detacher: nil.
         menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
         menu showAll.
