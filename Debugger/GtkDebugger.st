@@ -281,12 +281,6 @@ GtkBrowsingTool subclass: GtkDebugger [
         ^codeWidget hasSelection
     ]
 
-    inspectMethod [
-	<category: 'method events'>
-
-	InspectMethodCommand executeOn: self
-    ]
-
     contextChanged [
 	<category: 'context events'>
 

@@ -302,12 +302,6 @@ GtkBrowsingTool subclass: GtkSUnit [
         sourceCodeWidget compileError: aString line: line
     ]
 
-    newMethod [
-        <category: 'method events'>
-
-        AddMethodCommand executeOn: self.
-    ]
-
     focusedWidget [
 	<category: 'events'>
 
