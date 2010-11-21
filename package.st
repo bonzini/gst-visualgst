@@ -74,12 +74,15 @@ Eval [
     filein: 'Menus/NamespaceMenus.st';
     filein: 'Menus/ClassMenus.st';
     filein: 'Menus/CategoryMenus.st';
+    filein: 'Menus/ContextMenus.st';
     filein: 'Menus/MethodMenus.st';
     filein: 'Menus/EditMenus.st';
     filein: 'Menus/SmalltalkMenus.st';
     filein: 'Menus/ToolsMenus.st';
     filein: 'Menus/HistoryMenus.st';
     filein: 'Menus/TabsMenus.st';
+    filein: 'Menus/InspectorMenus.st';
+    filein: 'Menus/WorkspaceVariableMenus.st';
     filein: 'FakeNamespace.st';
     filein: 'Category/ClassCategory.st';
     filein: 'Category/AbstractNamespace.st';
@@ -210,6 +213,10 @@ Eval [
     filein: 'Commands/ToolsMenus/OpenPackageBuilderCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
+    filein: 'Commands/InspectorMenus/InspectorBackCommand.st';
+    filein: 'Commands/InspectorMenus/InspectorDiveCommand.st';
+    filein: 'Commands/WorkspaceMenus/DeleteItemCommand.st';
+    filein: 'Commands/WorkspaceMenus/InspectItemCommand.st';
     ressource: 'Icons/category.gif';
     ressource: 'Icons/namespace.gif';
     ressource: 'Icons/go-bottom.png';

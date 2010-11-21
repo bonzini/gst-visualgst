@@ -1,5 +1,5 @@
 GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
-    | child parentWindow |
+    | child parentWindow popupMenu |
 
     GtkConcreteWidget class >> parentWindow: aGtkWindow [
 	<category: 'instance creation'>
@@ -89,6 +89,33 @@ GtkAbstractConcreteWidget subclass: GtkConcreteWidget [
         <category: 'widget'>
 
         ^ self focusedWidget perform: aSymbol
+    ]
+
+    onPress: aGtkWidget event: aGdkEvent [
+        <category: 'button event'>
+
+        | menu aGdkButtonEvent |
+        aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
+        aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
+        menu := GTK.GtkMenu new.
+	self buildPopupMenu: menu.
+        menu attachToWidget: self treeView detacher: nil.
+        menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
+        menu showAll.
+        ^ true
+    ]
+
+    buildPopupMenu: aGtkMenu [
+	<category: 'user interface'>
+
+	popupMenu value: aGtkMenu
+    ]
+
+    connectToWhenPopupMenu: aBlock [
+	<category: 'user interface'>
+
+	popupMenu := aBlock.
+	^ self treeView connectSignal: 'button-press-event' to: self selector: #'onPress:event:'
     ]
 
     grabFocus [
