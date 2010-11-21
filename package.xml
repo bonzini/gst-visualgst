@@ -89,27 +89,27 @@
   <filein>Commands/TabsMenus/CloseTabCommand.st</filein>
   <filein>Commands/TabsMenus/NextTabCommand.st</filein>
   <filein>Commands/TabsMenus/PreviousTabCommand.st</filein>
-  <filein>Commands/ClassCommand.st</filein>
-  <filein>Commands/CategoryCommand.st</filein>
-  <filein>Commands/MethodCommand.st</filein>
-  <filein>Commands/NamespaceCommand.st</filein>
-  <filein>Commands/InspectNamespaceCommand.st</filein>
-  <filein>Commands/FileoutNamespaceCommand.st</filein>
-  <filein>Commands/AddNamespaceCommand.st</filein>
-  <filein>Commands/DeleteNamespaceCommand.st</filein>
-  <filein>Commands/RenameNamespaceCommand.st</filein>
-  <filein>Commands/InspectClassCommand.st</filein>
-  <filein>Commands/FileoutClassCommand.st</filein>
-  <filein>Commands/AddClassCommand.st</filein>
-  <filein>Commands/DeleteClassCommand.st</filein>
-  <filein>Commands/RenameClassCommand.st</filein>
-  <filein>Commands/FileoutCategoryCommand.st</filein>
-  <filein>Commands/AddCategoryCommand.st</filein>
-  <filein>Commands/RenameCategoryCommand.st</filein>
-  <filein>Commands/FileoutMethodCommand.st</filein>
-  <filein>Commands/InspectMethodCommand.st</filein>
-  <filein>Commands/DeleteMethodCommand.st</filein>
-  <filein>Commands/RunTestCommand.st</filein>
+  <filein>Commands/NamespaceMenus/NamespaceCommand.st</filein>
+  <filein>Commands/NamespaceMenus/InspectNamespaceCommand.st</filein>
+  <filein>Commands/NamespaceMenus/FileoutNamespaceCommand.st</filein>
+  <filein>Commands/NamespaceMenus/AddNamespaceCommand.st</filein>
+  <filein>Commands/NamespaceMenus/DeleteNamespaceCommand.st</filein>
+  <filein>Commands/NamespaceMenus/RenameNamespaceCommand.st</filein>
+  <filein>Commands/ClassMenus/ClassCommand.st</filein>
+  <filein>Commands/ClassMenus/InspectClassCommand.st</filein>
+  <filein>Commands/ClassMenus/FileoutClassCommand.st</filein>
+  <filein>Commands/ClassMenus/AddClassCommand.st</filein>
+  <filein>Commands/ClassMenus/DeleteClassCommand.st</filein>
+  <filein>Commands/ClassMenus/RenameClassCommand.st</filein>
+  <filein>Commands/CategoryMenus/CategoryCommand.st</filein>
+  <filein>Commands/CategoryMenus/FileoutCategoryCommand.st</filein>
+  <filein>Commands/CategoryMenus/AddCategoryCommand.st</filein>
+  <filein>Commands/CategoryMenus/RenameCategoryCommand.st</filein>
+  <filein>Commands/MethodMenus/MethodCommand.st</filein>
+  <filein>Commands/MethodMenus/FileoutMethodCommand.st</filein>
+  <filein>Commands/MethodMenus/InspectMethodCommand.st</filein>
+  <filein>Commands/MethodMenus/DeleteMethodCommand.st</filein>
+  <filein>Commands/MethodMenus/DebugTestCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenAssistantCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenWebBrowserCommand.st</filein>
   <filein>Commands/EditMenus/CancelEditCommand.st</filein>
@@ -123,7 +123,6 @@
   <filein>Commands/EditMenus/ReplaceEditCommand.st</filein>
   <filein>Pragmas/Pragmas.st</filein>
   <filein>Menus/MenuBuilder.st</filein>
-  <filein>Menus/MenuItem.st</filein>
   <filein>Menus/MenuSeparator.st</filein>
   <filein>Menus/NamespaceMenus.st</filein>
   <filein>Menus/ClassMenus.st</filein>
@@ -300,27 +299,27 @@
   <file>Commands/TabsMenus/CloseTabCommand.st</file>
   <file>Commands/TabsMenus/NextTabCommand.st</file>
   <file>Commands/TabsMenus/PreviousTabCommand.st</file>
-  <file>Commands/ClassCommand.st</file>
-  <file>Commands/CategoryCommand.st</file>
-  <file>Commands/MethodCommand.st</file>
-  <file>Commands/NamespaceCommand.st</file>
-  <file>Commands/InspectNamespaceCommand.st</file>
-  <file>Commands/FileoutNamespaceCommand.st</file>
-  <file>Commands/AddNamespaceCommand.st</file>
-  <file>Commands/DeleteNamespaceCommand.st</file>
-  <file>Commands/RenameNamespaceCommand.st</file>
-  <file>Commands/InspectClassCommand.st</file>
-  <file>Commands/FileoutClassCommand.st</file>
-  <file>Commands/AddClassCommand.st</file>
-  <file>Commands/DeleteClassCommand.st</file>
-  <file>Commands/RenameClassCommand.st</file>
-  <file>Commands/FileoutCategoryCommand.st</file>
-  <file>Commands/AddCategoryCommand.st</file>
-  <file>Commands/RenameCategoryCommand.st</file>
-  <file>Commands/FileoutMethodCommand.st</file>
-  <file>Commands/InspectMethodCommand.st</file>
-  <file>Commands/DeleteMethodCommand.st</file>
-  <file>Commands/RunTestCommand.st</file>
+  <file>Commands/NamespaceMenus/NamespaceCommand.st</file>
+  <file>Commands/NamespaceMenus/InspectNamespaceCommand.st</file>
+  <file>Commands/NamespaceMenus/FileoutNamespaceCommand.st</file>
+  <file>Commands/NamespaceMenus/AddNamespaceCommand.st</file>
+  <file>Commands/NamespaceMenus/DeleteNamespaceCommand.st</file>
+  <file>Commands/NamespaceMenus/RenameNamespaceCommand.st</file>
+  <file>Commands/ClassMenus/ClassCommand.st</file>
+  <file>Commands/ClassMenus/InspectClassCommand.st</file>
+  <file>Commands/ClassMenus/FileoutClassCommand.st</file>
+  <file>Commands/ClassMenus/AddClassCommand.st</file>
+  <file>Commands/ClassMenus/DeleteClassCommand.st</file>
+  <file>Commands/ClassMenus/RenameClassCommand.st</file>
+  <file>Commands/CategoryMenus/CategoryCommand.st</file>
+  <file>Commands/CategoryMenus/FileoutCategoryCommand.st</file>
+  <file>Commands/CategoryMenus/AddCategoryCommand.st</file>
+  <file>Commands/CategoryMenus/RenameCategoryCommand.st</file>
+  <file>Commands/MethodMenus/MethodCommand.st</file>
+  <file>Commands/MethodMenus/FileoutMethodCommand.st</file>
+  <file>Commands/MethodMenus/InspectMethodCommand.st</file>
+  <file>Commands/MethodMenus/DeleteMethodCommand.st</file>
+  <file>Commands/MethodMenus/DebugTestCommand.st</file>
   <file>Commands/ToolsMenus/OpenAssistantCommand.st</file>
   <file>Commands/ToolsMenus/OpenWebBrowserCommand.st</file>
   <file>Commands/EditMenus/CancelEditCommand.st</file>
@@ -334,7 +333,6 @@
   <file>Commands/EditMenus/ReplaceEditCommand.st</file>
   <file>Pragmas/Pragmas.st</file>
   <file>Menus/MenuBuilder.st</file>
-  <file>Menus/MenuItem.st</file>
   <file>Menus/MenuSeparator.st</file>
   <file>Menus/NamespaceMenus.st</file>
   <file>Menus/ClassMenus.st</file>

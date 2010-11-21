@@ -93,7 +93,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	<category: 'user interface'>
    
         classesTree := GtkScrollTreeWidget createTreeWithModel: {{GtkColumnTextType title: 'Classes'}}.
-        classesTree connectToWhenPopupMenu: [ :aGtkMenu | ClassMenus on: self appendTo: aGtkMenu ].
+        classesTree connectToWhenPopupMenu: (ClassMenus on: self).
         classesTree treeView getSelection setMode: self selectionMode.
         (model := GtkTreeModel on: classesTree treeView getModel)
 					item: self root;

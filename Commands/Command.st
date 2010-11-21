@@ -22,21 +22,6 @@ Object subclass: Command [
             yourself
     ]
 
-    Command class >> buildOn: aGtkBrowser [
-        <category: 'instance creation'>
-
-        ^ (self on: aGtkBrowser)
-                            build
-    ]
-
-    Command class >> browserBuildOn: aGtkBrowser [
-        <category: 'instance creation'>
-
-        ^ (self on: aGtkBrowser)
-			    accelBuild;
-                            browserBuild
-    ]
-
     | target |
     
     target: anObject [
@@ -75,10 +60,10 @@ Object subclass: Command [
     accel [
         <category: 'accessing'>
 
-	^ ''
+	^ nil
     ]
 
-    build [
+    buildMenuItem [
         <category: 'build'>
 
         ^ (GTK.GtkMenuItem newWithLabel: self item)
@@ -87,26 +72,10 @@ Object subclass: Command [
                 yourself
     ]
 
-    browserBuild [
+    setState: aGtkMenuItem [
         <category: 'build'>
 
-        ^ (GTK.GtkMenuItem menuItem: self item accelPath: self accelPath connectTo: self selector: #executeIfValid)
-                yourself
-    ]
-
-    accelBuild [
-        <category: 'build'>
-
-	target accelGroup class
-		    acceleratorGroup: target accelGroup 
-		    accelerator: self accel 
-		    path: self accelPath
-    ]
-
-    accelPath [
-        <category: 'build'>
-
-	^ target accelPath, '/', self class name
+	aGtkMenuItem setSensitive: self valid
     ]
 ]
 

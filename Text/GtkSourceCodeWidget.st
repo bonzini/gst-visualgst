@@ -80,7 +80,7 @@ GtkTextWidget subclass: GtkSourceCodeWidget [
 
 	super connectSignals.
         self
-            connectToWhenPopupMenu: [ :aGtkMenu | TextMenus on: self appendTo: aGtkMenu ].
+            connectToWhenPopupMenu: (TextMenus on: self).
         (self buffer)
 	    connectSignal: 'changed' to: self selector: #'changed' userData: nil
     ]

@@ -21,7 +21,7 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
         <category: 'user interface'>
 
 	namespaceTree := GtkScrollTreeWidget createTreeWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Namespaces'}}.
-	namespaceTree connectToWhenPopupMenu: [ :aGtkMenu | NamespaceMenus on: self appendTo: aGtkMenu ].
+	namespaceTree connectToWhenPopupMenu: (NamespaceMenus on: self).
 	namespaceTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(model := GtkTreeModel on: namespaceTree treeView getModel)
                                         item: FakeNamespace;

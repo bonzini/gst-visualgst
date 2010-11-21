@@ -41,7 +41,7 @@ GtkConcreteWidget subclass: GtkContextWidget [
         <category: 'user interface'>
     
         contextTree := GtkScrollTreeWidget createListWithModel: {{GtkColumnTextType title: 'Contexts'}}.
-        contextTree connectToWhenPopupMenu: [ :aGtkMenu | ContextMenus on: self appendTo: aGtkMenu ].
+        contextTree connectToWhenPopupMenu: (ContextMenus on: self).
         contextTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
         (model := GtkListModel on: contextTree treeView getModel)
                                         contentsBlock: [ :each | {each printString} ].

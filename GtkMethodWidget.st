@@ -98,7 +98,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         <category: 'user interface'>
     
 	methodTree := GtkScrollTreeWidget createListWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Methods'}}.
-        methodTree connectToWhenPopupMenu: [ :aGtkMenu | MethodMenus on: self appendTo: aGtkMenu ].
+        methodTree connectToWhenPopupMenu: (MethodMenus on: self).
 	methodTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
 	(model := GtkListModel on: methodTree treeView getModel)
 					contentsBlock: [ :each | {each methodViewIcon. each selector asString} ].

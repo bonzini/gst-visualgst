@@ -10,9 +10,9 @@ GtkConcreteWidget subclass: GtkTextWidget [
 	    yourself
     ]
 
-    connectToWhenPopupMenu: aBlock [
+    connectToWhenPopupMenu: aMenu [
         <category: 'button event'>
-        popupMenu := aBlock.
+        popupMenu := aMenu.
 	textWidget
 	    connectSignal: 'populate-popup' to: self selector: #'popupMenuOn:menu:'
     ]
@@ -20,7 +20,7 @@ GtkConcreteWidget subclass: GtkTextWidget [
     popupMenuOn: aWidget menu: aGtkMenu [
         <category: 'button event'>
         aGtkMenu append: (GTK.GtkMenuItem new show; yourself).
-        self buildPopupMenu: aGtkMenu.
+        popupMenu appendTo: aGtkMenu
     ]
 
     connectSignals [

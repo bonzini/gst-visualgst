@@ -70,7 +70,6 @@ Eval [
     filein: 'Commands/EditMenus/ReplaceEditCommand.st';
     filein: 'Pragmas/Pragmas.st';
     filein: 'Menus/MenuBuilder.st';
-    filein: 'Menus/MenuItem.st';
     filein: 'Menus/MenuSeparator.st';
     filein: 'Menus/NamespaceMenus.st';
     filein: 'Menus/ClassMenus.st';

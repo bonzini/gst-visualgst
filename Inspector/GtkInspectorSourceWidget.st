@@ -20,7 +20,7 @@ GtkTextWidget subclass: GtkInspectorSourceWidget [
 
 	super connectSignals.
         self
-            connectToWhenPopupMenu: [ :aGtkMenu | WorkspaceMenus on: self appendTo: aGtkMenu ]
+            connectToWhenPopupMenu: (WorkspaceMenus on: self).
     ]
 
     targetObject [
