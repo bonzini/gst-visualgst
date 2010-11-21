@@ -22,7 +22,7 @@ Object subclass: MenuSeparator [
     build [
 	<category: 'build'>
 
-	^ GTK.GtkMenuItem new
+	^ GTK.GtkMenuItem new show; yourself
     ]
 ]
 

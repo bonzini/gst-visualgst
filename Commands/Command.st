@@ -82,6 +82,7 @@ Object subclass: Command [
         <category: 'build'>
 
         ^ (GTK.GtkMenuItem newWithLabel: self item)
+                show;
                 connectSignal: 'activate' to: self selector: #executeIfValid;
                 yourself
     ]
@@ -89,7 +90,8 @@ Object subclass: Command [
     browserBuild [
         <category: 'build'>
 
-        ^ GTK.GtkMenuItem menuItem: self item accelPath: self accelPath connectTo: self selector: #executeIfValid
+        ^ (GTK.GtkMenuItem menuItem: self item accelPath: self accelPath connectTo: self selector: #executeIfValid)
+                yourself
     ]
 
     accelBuild [

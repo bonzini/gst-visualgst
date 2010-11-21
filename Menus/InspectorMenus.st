@@ -1,6 +1,6 @@
-MenuBuilder subclass: WorkspaceVariableMenus [
+MenuBuilder subclass: InspectorMenus [
 
-    TabsMenus class >> menus [
+    InspectorMenus class >> menus [
 
 	^ {InspectItemCommand.
         MenuSeparator.

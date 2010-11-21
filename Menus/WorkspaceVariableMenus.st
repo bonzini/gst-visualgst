@@ -1,6 +1,6 @@
 MenuBuilder subclass: WorkspaceVariableMenus [
 
-    TabsMenus class >> menus [
+    WorkspaceVariableMenus class >> menus [
 
 	^ {InspectItemCommand.
         DeleteItemCommand}

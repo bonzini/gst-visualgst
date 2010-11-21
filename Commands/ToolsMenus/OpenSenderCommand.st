@@ -26,11 +26,10 @@ Command subclass: OpenSenderCommand [
                 ifFalse: [ nil ]
     ]
 
-    precondition [
-        <category: 'temporary'>
-        "HACK!"
+    valid [
+        <category: 'checking'>
 
-        ^target launcher notNil
+        ^target launcher notNil or: [ self selection notNil ]
     ]
 
     execute [

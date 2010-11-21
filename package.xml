@@ -82,6 +82,7 @@
   <filein>Commands/SmalltalkMenus/PrintItCommand.st</filein>
   <filein>Commands/SmalltalkMenus/InspectItCommand.st</filein>
   <filein>Commands/SmalltalkMenus/AcceptItCommand.st</filein>
+  <filein>Commands/SmalltalkMenus/CancelCommand.st</filein>
   <filein>Commands/HistoryCommands/HistoryBackCommand.st</filein>
   <filein>Commands/HistoryCommands/HistoryDisplayCommand.st</filein>
   <filein>Commands/HistoryCommands/HistoryForwardCommand.st</filein>
@@ -127,12 +128,17 @@
   <filein>Menus/NamespaceMenus.st</filein>
   <filein>Menus/ClassMenus.st</filein>
   <filein>Menus/CategoryMenus.st</filein>
+  <filein>Menus/ContextMenus.st</filein>
   <filein>Menus/MethodMenus.st</filein>
   <filein>Menus/EditMenus.st</filein>
   <filein>Menus/SmalltalkMenus.st</filein>
   <filein>Menus/ToolsMenus.st</filein>
   <filein>Menus/HistoryMenus.st</filein>
   <filein>Menus/TabsMenus.st</filein>
+  <filein>Menus/InspectorMenus.st</filein>
+  <filein>Menus/TextMenus.st</filein>
+  <filein>Menus/WorkspaceVariableMenus.st</filein>
+  <filein>Menus/WorkspaceMenus.st</filein>
   <filein>FakeNamespace.st</filein>
   <filein>Category/ClassCategory.st</filein>
   <filein>Category/AbstractNamespace.st</filein>
@@ -263,6 +269,10 @@
   <filein>Commands/ToolsMenus/OpenPackageBuilderCommand.st</filein>
   <filein>Commands/SaveImageCommand.st</filein>
   <filein>Commands/SaveImageAsCommand.st</filein>
+  <filein>Commands/InspectorMenus/InspectorBackCommand.st</filein>
+  <filein>Commands/InspectorMenus/InspectorDiveCommand.st</filein>
+  <filein>Commands/WorkspaceMenus/DeleteItemCommand.st</filein>
+  <filein>Commands/WorkspaceMenus/InspectItemCommand.st</filein>
   <file>Notification/AbstractEvent.st</file>
   <file>Notification/AddedEvent.st</file>
   <file>Notification/CommentedEvent.st</file>
@@ -283,6 +293,7 @@
   <file>Commands/SmalltalkMenus/PrintItCommand.st</file>
   <file>Commands/SmalltalkMenus/InspectItCommand.st</file>
   <file>Commands/SmalltalkMenus/AcceptItCommand.st</file>
+  <file>Commands/SmalltalkMenus/CancelCommand.st</file>
   <file>Commands/HistoryCommands/HistoryBackCommand.st</file>
   <file>Commands/HistoryCommands/HistoryDisplayCommand.st</file>
   <file>Commands/HistoryCommands/HistoryForwardCommand.st</file>
@@ -328,12 +339,17 @@
   <file>Menus/NamespaceMenus.st</file>
   <file>Menus/ClassMenus.st</file>
   <file>Menus/CategoryMenus.st</file>
+  <file>Menus/ContextMenus.st</file>
   <file>Menus/MethodMenus.st</file>
   <file>Menus/EditMenus.st</file>
   <file>Menus/SmalltalkMenus.st</file>
   <file>Menus/ToolsMenus.st</file>
   <file>Menus/HistoryMenus.st</file>
   <file>Menus/TabsMenus.st</file>
+  <file>Menus/InspectorMenus.st</file>
+  <file>Menus/TextMenus.st</file>
+  <file>Menus/WorkspaceVariableMenus.st</file>
+  <file>Menus/WorkspaceMenus.st</file>
   <file>FakeNamespace.st</file>
   <file>Category/ClassCategory.st</file>
   <file>Category/AbstractNamespace.st</file>
@@ -464,6 +480,10 @@
   <file>Commands/ToolsMenus/OpenPackageBuilderCommand.st</file>
   <file>Commands/SaveImageCommand.st</file>
   <file>Commands/SaveImageAsCommand.st</file>
+  <file>Commands/InspectorMenus/InspectorBackCommand.st</file>
+  <file>Commands/InspectorMenus/InspectorDiveCommand.st</file>
+  <file>Commands/WorkspaceMenus/DeleteItemCommand.st</file>
+  <file>Commands/WorkspaceMenus/InspectItemCommand.st</file>
   <file>Icons/category.gif</file>
   <file>Icons/namespace.gif</file>
   <file>Icons/go-bottom.png</file>

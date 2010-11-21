@@ -69,7 +69,7 @@ GtkTextWidget subclass: GtkWorkspaceWidget [
 	<category: 'evaluation'>
 
         variableTracker := nil.
-        object := anObject printNl.
+        object := anObject.
     ]
 
     targetObject [
