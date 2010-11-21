@@ -9,6 +9,6 @@ Command subclass: PreviousTabCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target shell previousTab
     ]
 ]

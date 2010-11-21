@@ -9,6 +9,6 @@ Command subclass: CloseTabCommand [
     execute [
         <category: 'command'>
 
-        self browser open
+        target shell closeTab
     ]
 ]
