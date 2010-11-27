@@ -699,6 +699,24 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	browsers currentWidget acceptIt
     ]
 
+    codeSaved [
+        <category: 'code saved'>
+
+        browsers currentWidget codeSaved
+    ]
+
+    clearUndo [
+        <category: 'code saved'>
+
+        browsers currentWidget clearUndo
+    ]
+
+    sourceCode [
+        <category: 'code saved'>
+
+        ^ browsers currentWidget sourceCode
+    ]
+
     showImplementorOn: aSymbol [
         <category: 'image events'>
 
