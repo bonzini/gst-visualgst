@@ -77,13 +77,6 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
             yourself
     ]
 
-    updateBrowser: aGtkClassBrowserWidget [
-        <category: 'events'>
-
-	self state updateBrowser: aGtkClassBrowserWidget.
-	aGtkClassBrowserWidget state: self state
-    ]
-
     childToggled: model path: path iter: iter [
 	<category: 'signals'>
 

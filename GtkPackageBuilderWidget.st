@@ -209,8 +209,6 @@ GtkConcreteWidget subclass: GtkPackageBuilderWidget [
     ]
 
     addCategory [
-
-	categoryList getModel appendItem: {packName text}
     ]
 
     buildPackage [

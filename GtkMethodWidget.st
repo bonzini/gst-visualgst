@@ -1,5 +1,5 @@
 GtkConcreteWidget subclass: GtkMethodWidget [
-    | model methodTree class category |
+    | browser model methodTree class category |
 
     GtkMethodWidget >> on: aClass withCategory: aCategory [
 	<category: 'instance creation'>
@@ -24,6 +24,18 @@ GtkConcreteWidget subclass: GtkMethodWidget [
         (GtkLauncher uniqueInstance systemChangeNotifier)
             notify: self ofSystemChangesOfItem: #method change: #Added using: #'addEvent:';
             notify: self ofSystemChangesOfItem: #method change: #Removed using: #'removeEvent:'
+    ]
+
+    browser [
+	<category: 'accessing'>
+
+	^ browser
+    ]
+
+    browser: anObject [
+	<category: 'accessing'>
+
+	browser := anObject.
     ]
 
     category [
@@ -125,6 +137,12 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
+    launcher [
+	<category: 'accessing'>
+
+	^ browser ifNotNil: [ browser launcher ]
+    ]
+
     browserHasFocus [
 	<category: 'accessing'>
 
@@ -187,13 +205,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 
 	self ifNoSelection: [ self error: 'Nothing is selected' ].
 	^ (self classOrMeta compiledMethodAt: self selectedMethodSymbol) methodRecompilationSourceString
-    ]
-
-    updateBrowser: aGtkClassBrowserWidget [
-        <category: 'events'>
-
-        self state updateBrowser: aGtkClassBrowserWidget.
-        aGtkClassBrowserWidget state: self state
     ]
 
     state [
