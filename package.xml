@@ -14,6 +14,7 @@
     <filein>Tests/ExtractLiteralsTest.st</filein>
     <filein>Tests/CategoryTest.st</filein>
     <filein>Tests/GtkScrollTreeWidgetTest.st</filein>
+    <filein>Tests/MenuBuilderTest.st</filein>
     <filein>Tests/GtkAssistantTest.st</filein>
     <filein>Tests/GtkSimpleListWidgetTest.st</filein>
     <filein>Tests/EmptyTest.st</filein>
@@ -31,6 +32,7 @@
     <file>Tests/ExtractLiteralsTest.st</file>
     <file>Tests/CategoryTest.st</file>
     <file>Tests/GtkScrollTreeWidgetTest.st</file>
+    <file>Tests/MenuBuilderTest.st</file>
     <file>Tests/GtkAssistantTest.st</file>
     <file>Tests/GtkSimpleListWidgetTest.st</file>
     <file>Tests/EmptyTest.st</file>
@@ -49,6 +51,8 @@
       VisualGST.ExtractLiteralsTest
       VisualGST.CategoryTest
       VisualGST.GtkScrollTreeWidgetTest
+      VisualGST.Test
+      VisualGST.MenuBuilderTest
       VisualGST.GtkAssistantTest
       VisualGST.GtkSimpleListWidgetTest
       VisualGST.EmptyTest
