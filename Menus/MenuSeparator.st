@@ -1,28 +1,9 @@
-Object subclass: MenuSeparator [
+Command subclass: MenuSeparator [
 
-    MenuSeparator class >> on: aGtkBuilder [
-        <category: 'instance creation'>
-
-        ^ self new
-    ]
-
-    MenuSeparator class >> buildOn: aGtkBuilder [
-	<category: 'instance creation'>
-
-	^ self new
-		build
-    ]
-
-    MenuSeparator class >> browserBuildOn: aGtkBuilder [
-	<category: 'instance creation'>
-
-	^ self buildOn: aGtkBuilder
-    ]
-
-    build [
+    buildMenuItem [
 	<category: 'build'>
 
-	^ GTK.GtkMenuItem new
+	^ GTK.GtkMenuItem new show; yourself
     ]
 ]
 

@@ -71,7 +71,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     ]
 
     gtkModel [
-	^ methodTree getModel
+	^ methodTree treeView getModel
     ]
 
     emptyModel [
@@ -97,13 +97,12 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     buildTreeView [
         <category: 'user interface'>
     
-	methodTree := (GTK.GtkTreeView createListWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Methods'}})
-                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:';
-                            yourself.
-	methodTree getSelection setMode: GTK.Gtk gtkSelectionBrowse.
-	(model := GtkListModel on: methodTree getModel)
+	methodTree := GtkScrollTreeWidget createListWithModel: {{GtkColumnPixbufType visible. GtkColumnTextType title: 'Methods'}}.
+        methodTree connectToWhenPopupMenu: (MethodMenus on: self).
+	methodTree treeView getSelection setMode: GTK.Gtk gtkSelectionBrowse.
+	(model := GtkListModel on: methodTree treeView getModel)
 					contentsBlock: [ :each | {each methodViewIcon. each selector asString} ].
-	^ GTK.GtkScrolledWindow withChild: methodTree
+	^ methodTree mainWidget
     ]
 
     hasSelectedTestMethod [
@@ -114,26 +113,10 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	    and: [ self selectedMethodSymbol startsWith: 'test' ]
     ]
 
-    onPress: aGtkWidget event: aGdkEvent [
-        <category: 'button event'>
-
-        | menu aGdkButtonEvent |
-        aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
-        aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
-        menu := GTK.GtkMenu new.
-	self hasSelectedTestMethod ifTrue: [
-            menu appendMenuItems: {{'Run test'. self. #runTest}} ].
-	MethodMenus on: self appendTo: menu.
-        menu attachToWidget: methodTree detacher: nil.
-        menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
-        menu showAll.
-        ^ true
-    ]
-
     whenSelectionChangedSend: aSelector to: anObject [
 	<category: 'events'>
 
-	methodTree getSelection
+	methodTree treeView getSelection
 	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
@@ -172,7 +155,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     hasSelectedMethod [
 	<category: 'testing'>
 
-	^ methodTree hasSelectedItem
+	^ methodTree treeView hasSelectedItem
     ]
 
     ifNoSelection: aBlock [
@@ -191,13 +174,13 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	<category: 'accessing'>
 
 	self ifNoSelection: [ self error: 'nothing is selected' ].
-        ^ methodTree selection 
+        ^ methodTree treeView selection 
     ]
 
     selectAMethod: aSymbol [
         <category: 'item selection'>
 
-	methodTree select: (self classOrMeta methodDictionary at: aSymbol)
+	methodTree treeView select: (self classOrMeta methodDictionary at: aSymbol)
     ]
 
     sourceCode [
@@ -212,12 +195,6 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 
         self ifNoSelection: [ ^ BrowserState new ].
         ^ MethodState with: self selectedMethod
-    ]
-
-    runTest [
-        <category: 'method events'>
-
-	RunTestCommand on: self
     ]
 
     addEvent: anEvent [

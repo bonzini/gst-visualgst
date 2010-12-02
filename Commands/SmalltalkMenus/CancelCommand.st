@@ -1,14 +1,15 @@
-Command subclass: NextTabCommand [
+Command subclass: CancelCommand [
 
     item [
 	<category: 'menu item'>
 
-	^ 'Next Tab'
+	^ 'Cancel'
     ]
 
     execute [
         <category: 'command'>
 
-        target shell nextTab
+        target cancel
     ]
 ]
+

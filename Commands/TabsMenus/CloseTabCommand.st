@@ -9,6 +9,6 @@ Command subclass: CloseTabCommand [
     execute [
         <category: 'command'>
 
-        target closeTab
+        target shell closeTab
     ]
 ]

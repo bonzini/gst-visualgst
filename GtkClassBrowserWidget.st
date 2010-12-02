@@ -294,79 +294,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     acceptIt [
 	<category: 'smalltalk events'>
 
-        AcceptItCommand on: self
-    ]
-
-    fileoutNamespace [
-	<category: 'namespace events'>
-
-	FileoutNamespaceCommand on: self
-    ]
-
-    newNamespace [
-	<category: 'namespace events'>
-
-	AddNamespaceCommand on: self
-    ]
-
-    renameNamespace [
-	<category: 'namespace events'>
-
-	RenameNamespaceCommand on: self
-    ]
-
-    deleteNamespace [
-	<category: 'namespace events'>
-
-	DeleteNamespaceCommand on: self
-    ]
-
-    inspectNamespace [
-	<category: 'namespace events'>
-
-	InspectNamespaceCommand on: self
-    ]
-
-    fileoutClass [
-	<category: 'class events'>
-    
-	FileoutClassCommand on: classWidget
-    ]
-
-    extractNamespaceFrom: aNamespace [
-	<category: 'namespace as directory'>
-
-	| list namespace |
-	namespace := aNamespace.
-	list := OrderedCollection new.
-	[ namespace isNil ] whileFalse: [
-            list addFirst: namespace displayString.
-            namespace := namespace superspace ].
-	^ list
-    ]
-
-    newClass [
-	<category: 'class events'>
-	
-	AddClassCommand on: self
-    ]
-
-    renameClass [
-	<category: 'class events'>
-
-	RenameClassCommand on: self
-    ]
-
-    deleteClass [
-	<category: 'class events'>
-
-	DeleteClassCommand on: self
-    ]
-
-    inspectClass [
-	<category: 'class events'>
-
-	InspectClassCommand on: self
+        AcceptItCommand executeOn: self
     ]
 
     viewedCategoryWidget [
@@ -381,24 +309,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'category events'>
 
 	^ self viewedCategoryWidget model 
-    ]
-
-    fileoutCategory [
-        <category: 'category events'>
-
-	self viewedCategoryWidget fileoutCategory
-    ]
-
-    newCategory [
-        <category: 'category events'>
-
-	AddCategoryCommand on: self
-    ]
-
-    renameCategory [
-        <category: 'category events'>
-
-	RenameCategoryCommand on: self
     ]
 
     viewedMethodWidget [
@@ -419,30 +329,6 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
         <category: 'method events'>
 
         codeWidget compileError: aString line: line
-    ]
-
-    newMethod [
-	<category: 'method events'>
-
-	AcceptItCommand on: self.
-    ]
-
-    deleteMethod [
-	<category: 'method events'>
-
-	DeleteMethodCommand on: self
-    ]
-
-    inspectMethod [
-	<category: 'method events'>
-
-	InspectMethodCommand on: self
-    ]
-
-    fileoutMethod [
-	<category: 'method events'>
-
-	FileoutMethodCommand on: self
     ]
 
     selectedNamespace [
@@ -649,25 +535,25 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     doIt [
 	<category: 'smalltalk event'>
 
-	DoItCommand on: self
+	DoItCommand executeOn: self
     ]
 
     debugIt [
 	<category: 'smalltalk event'>
 
-	DebugItCommand on: self
+	DebugItCommand executeOn: self
     ]
 
     inspectIt [
 	<category: 'smalltalk event'>
 
-	InspectItCommand on: self
+	InspectItCommand executeOn: self
     ]
 
     printIt [
 	<category: 'smalltalk event'>
 
-	PrintItCommand on: self
+	PrintItCommand executeOn: self
     ]
 
     forward [

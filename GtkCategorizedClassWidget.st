@@ -61,7 +61,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
             category: aString;
             namespace: aNamespace.
 	model refresh.
-	classesTree expandAll
+	classesTree treeView expandAll
     ]
 
     appendClass: aClass to: anArray [
@@ -93,45 +93,30 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     buildTreeView [
 	<category: 'user interface'>
    
-        classesTree := (GTK.GtkTreeView createTreeWithModel: {{GtkColumnTextType title: 'Classes'}})
-                            connectSignal: 'button-press-event' to: self selector: #'onPress:event:';
-                            yourself.
-        classesTree getSelection setMode: self selectionMode.
-        (model := GtkTreeModel on: classesTree getModel)
+        classesTree := GtkScrollTreeWidget createTreeWithModel: {{GtkColumnTextType title: 'Classes'}}.
+        classesTree connectToWhenPopupMenu: (ClassMenus on: self).
+        classesTree treeView getSelection setMode: self selectionMode.
+        (model := GtkTreeModel on: classesTree treeView getModel)
 					item: self root;
 					childrenBlock: [ :each | | col | 
 							    col := SortedCollection sortBlock: [ :a :b | a asClass name <= b asClass name ]. 
 							    each subclassesDo: [ :subclasses | self appendClass: subclasses to: col ]. 
 							    col ];
                                         contentsBlock: [ :each | {each asClass name asString, ' '} ].
-        ^ GTK.GtkScrolledWindow withChild: classesTree 
-    ]
-
-    onPress: aGtkWidget event: aGdkEvent [
-        <category: 'button event'>
-
-        | menu aGdkButtonEvent |
-        aGdkButtonEvent := aGdkEvent castTo: GTK.GdkEventButton type.
-        aGdkButtonEvent button value = 3 ifFalse: [ ^ false ].
-        menu := GTK.GtkMenu new.
-	ClassMenus on: self appendTo: menu.
-        menu attachToWidget: classesTree detacher: nil.
-        menu popup: nil parentMenuItem: nil func: nil data: nil button: 3 activateTime: aGdkButtonEvent time value.
-        menu showAll.
-        ^ true
+        ^ classesTree mainWidget
     ]
 
     whenSelectionChangedSend: aSelector to: anObject [
 	<category: 'events'>
 
-	classesTree getSelection
+	classesTree treeView getSelection
 	    connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
     selectionMode: aSelectionMode [
 	<category: 'user interface'>
 
-	classesTree getSelection setMode: aSelectionMode.
+	classesTree treeView getSelection setMode: aSelectionMode.
     ]
 
     selectedNamespace [
@@ -149,7 +134,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     hasSelectedClass [
 	<category: 'testing'>
 
-	^ classesTree hasSelectedItem
+	^ classesTree treeView hasSelectedItem
     ]
 
     state [
@@ -166,16 +151,13 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	<category: 'accessing'>
 
 	self hasSelectedClass ifFalse: [ self error: 'nothing is selected' ].
-	^ classesTree selection asClass
+	^ classesTree treeView selection asClass
     ]
 
     selectAClass: aClass [
 	<category: 'item selection'>
 
-	(self hasSelectedClass and: [ self selectedClass == aClass ]) ifTrue: [ ^ self ].
-	classesTree 
-		expandAll;
-		select: aClass
+	classesTree treeView select: aClass
     ]
 
     addToModel: aClass [

@@ -4,7 +4,7 @@ Object subclass: Command [
 	<category: 'instance creation'>
 
 	^ self new
-	    validAndExecute
+	    executeIfValid
     ]
 
     Command class >> target: anObject [
@@ -19,7 +19,7 @@ Object subclass: Command [
 	<category: 'instance creation'>
     
 	^ (self on: anObject)
-		    validAndExecute
+		    executeIfValid
     ]
 
     Command class >> on: aGtkBrowser [
@@ -28,21 +28,6 @@ Object subclass: Command [
         ^ self new
 	    target: aGtkBrowser;
             yourself
-    ]
-
-    Command class >> buildOn: aGtkBrowser [
-        <category: 'instance creation'>
-
-        ^ (self on: aGtkBrowser)
-                            build
-    ]
-
-    Command class >> browserBuildOn: aGtkBrowser [
-        <category: 'instance creation'>
-
-        ^ (self on: aGtkBrowser)
-			    accelBuild;
-                            browserBuild
     ]
 
     | target |
@@ -65,7 +50,7 @@ Object subclass: Command [
 	^ true
     ]
 
-    validAndExecute [
+    executeIfValid [
 	<category: 'command'>
 
         self valid ifFalse: [ ^ self ].
@@ -83,36 +68,22 @@ Object subclass: Command [
     accel [
         <category: 'accessing'>
 
-	^ ''
+	^ nil
     ]
 
-    build [
+    buildMenuItem [
         <category: 'build'>
 
         ^ (GTK.GtkMenuItem newWithLabel: self item)
-                connectSignal: 'activate' to: self selector: #validAndExecute;
+                show;
+                connectSignal: 'activate' to: self selector: #executeIfValid;
                 yourself
     ]
 
-    browserBuild [
+    setState: aGtkMenuItem [
         <category: 'build'>
 
-        ^ GTK.GtkMenuItem menuItem: self item accelPath: self accelPath connectTo: self selector: #validAndExecute
-    ]
-
-    accelBuild [
-        <category: 'build'>
-
-	target accelGroup class
-		    acceleratorGroup: target accelGroup 
-		    accelerator: self accel 
-		    path: self accelPath
-    ]
-
-    accelPath [
-        <category: 'build'>
-
-	^ target accelPath, '/', self class name
+	aGtkMenuItem setSensitive: self valid
     ]
 ]
 
