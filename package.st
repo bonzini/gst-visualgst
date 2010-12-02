@@ -210,6 +210,7 @@ Eval [
     filein: 'Commands/ToolsMenus/OpenPackageBuilderCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
+    filein: 'Category/MethodCategory.st';
     ressource: 'Icons/category.gif';
     ressource: 'Icons/namespace.gif';
     ressource: 'Icons/go-bottom.png';

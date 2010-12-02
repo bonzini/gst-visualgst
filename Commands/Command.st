@@ -15,10 +15,10 @@ Object subclass: Command [
 	    yourself
     ]
 
-    Command class >> on: anObject [
+    Command class >> executeOn: anObject [
 	<category: 'instance creation'>
     
-	^ (self target: anObject)
+	^ (self on: anObject)
 		    validAndExecute
     ]
 

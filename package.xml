@@ -63,6 +63,7 @@
       VisualGST.PragmasTest
       VisualGST.GtkCategorizedNamespaceWidgetTest
       VisualGST.GtkCategorizedClassWidgetTest
+      VisualGST.#Test
       VisualGST.GtkConcreteWidgetTest
     </sunit>
   </test>
@@ -267,6 +268,7 @@
   <filein>Commands/ToolsMenus/OpenPackageBuilderCommand.st</filein>
   <filein>Commands/SaveImageCommand.st</filein>
   <filein>Commands/SaveImageAsCommand.st</filein>
+  <filein>Category/MethodCategory.st</filein>
   <file>Notification/AbstractEvent.st</file>
   <file>Notification/AddedEvent.st</file>
   <file>Notification/CommentedEvent.st</file>
@@ -468,6 +470,7 @@
   <file>Commands/ToolsMenus/OpenPackageBuilderCommand.st</file>
   <file>Commands/SaveImageCommand.st</file>
   <file>Commands/SaveImageAsCommand.st</file>
+  <file>Category/MethodCategory.st</file>
   <file>Icons/category.gif</file>
   <file>Icons/namespace.gif</file>
   <file>Icons/go-bottom.png</file>
