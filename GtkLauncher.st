@@ -276,7 +276,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
         browsers grabFocus.
         browsers currentWidget postInitialize.
-        browsers currentWidget selectANamespace: Smalltalk.
         browsers currentWidget selectAClass: Object.
 	outputs hideAll
     ]

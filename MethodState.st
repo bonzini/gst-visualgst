@@ -68,8 +68,14 @@ BrowserState subclass: MethodState [
 
     updateBrowser: aGtkClassBrowserWidget [
         <category: 'events'>
+        self categoryState updateBrowser: aGtkClassBrowserWidget.
+        aGtkClassBrowserWidget selectMethodState: self.
+        aGtkClassBrowserWidget acceptMethodState: self
+    ]
 
-        aGtkClassBrowserWidget source: (BrowserMethodSource on: self method).
+    selectInBrowser: aGtkClassBrowserWidget [
+        self updateBrowser: aGtkClassBrowserWidget.
+        aGtkClassBrowserWidget finishMethodState
     ]
 ]
 

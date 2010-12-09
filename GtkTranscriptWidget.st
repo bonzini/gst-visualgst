@@ -1,11 +1,11 @@
 GtkWorkspaceWidget subclass: GtkTranscriptWidget [
 
-    initialize [
+    "initialize [
 	<category: 'initialization'>
 
 	Transcript message: self->#update:.
 	super initialize
-    ]
+    ]"
 
     update: aString [
 	<category: 'updating'>

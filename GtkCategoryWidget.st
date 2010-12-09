@@ -40,6 +40,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
     classOrMeta: aClass [
 	<category: 'accessing'>
 
+        class = aClass ifTrue: [^self].
 	class := aClass.
 	categories empty.
 	model
@@ -56,15 +57,10 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         ^ aSet asSortedCollection
     ]
 
-    emptyModel [
-	<category: 'accessing'>
-
-	self clear
-    ]
-
     clear [
         <category: 'accessing'>
 
+        self unselectAll.
         model clear
     ]
 

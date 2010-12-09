@@ -632,6 +632,7 @@ GTK.GtkTreeView extend [
 	<category: 'accessing'>
 
         self getSelection unselectAll.
+        anObject isNil ifTrue: [^self].
 	self getModel do: [ :elem :iter |
 	    elem last = anObject ifTrue: [
                     self scrollToCell: (self getModel getPath: iter) column: nil useAlign: false rowAlign: 0.5 colAlign: 0.5.

@@ -3,14 +3,14 @@ Command subclass: OpenBrowserCommand [
     defaultDestination [
 	<category: 'parsing'>
 
-        ^ self namespace->nil
+        ^NamespaceState with: Smalltalk
     ]
 
     namespace [
         ^ target state namespace ifNil: [ Smalltalk ]
     ]
 
-    extractNamespaceAndClassFrom: aString [
+    computeStateFrom: aString [
 	<category: 'parsing'>
 
 	| node token start |
@@ -26,19 +26,9 @@ Command subclass: OpenBrowserCommand [
     checkDestination: anObject [
 	<category: 'parsing'>
 
-        anObject isClass ifTrue: [ ^ anObject environment -> anObject ].
-        anObject isNamespace ifTrue: [ ^ anObject -> nil ].
+        anObject isClass ifTrue: [ ^ClassState with: anObject ].
+        anObject isNamespace ifTrue: [ ^NamespaceState with: anObject ].
         ^ self defaultDestination
-    ]
-
-    extractFromSelection [
-	<category: 'parsing'>
-
-	| result |
-        target hasSelection
-                ifTrue: [ result := self extractNamespaceAndClassFrom: target selectedText]
-                ifFalse: [ result := self defaultDestination ].
-	^ result
     ]
 
     selection [
@@ -48,11 +38,9 @@ Command subclass: OpenBrowserCommand [
 
         ((target browserHasFocus not or: [ target sourceCodeWidgetHasFocus ])
             and: [target hasSelection])
-                ifTrue: [ ^ self extractNamespaceAndClassFrom: target selectedText ].
+                ifTrue: [^self computeStateFrom: target selectedText].
 
-	^ target state hasSelectedClass
-                ifTrue: [ target state namespace -> target state classOrMeta asClass ]
-                ifFalse: [ self defaultDestination ]
+	^target state
     ]
 ]
 

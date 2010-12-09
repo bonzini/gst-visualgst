@@ -15,6 +15,24 @@ Object subclass: BrowserState [
 	    state: aState
     ]
 
+    hash [
+	<category: 'testing'>
+
+        ^self class hash bitXor: self state hash
+    ]
+
+    = aState [
+	<category: 'testing'>
+
+        ^self class = aState class and: [self state = aState state]
+    ]
+
+    state [
+	<category: 'initialize-release'>
+
+	^state
+    ]
+
     state: aState [
 	<category: 'initialize-release'>
 
@@ -78,12 +96,40 @@ Object subclass: BrowserState [
     classCategory [
         <category: 'accessing'>
 
-        ^ ClassCategory extractClassCategory: self classOrMeta
+        ^ self namespace categories
+    ]
+
+    namespaceState [
+        <category: 'parent states'>
+
+        | state |
+        self hasSelectedNamespace ifFalse: [ self error: 'invalid browser state' ].
+        state := NamespaceState with: self namespace.
+        self hasSelectedClass ifTrue: [ state classCategory: self classCategory ].
+        ^state
+    ]
+
+    categoryState [
+        <category: 'parent states'>
+
+        self hasSelectedCategory ifFalse: [ self error: 'invalid browser state' ].
+        ^CategoryState with: self classOrMeta->self category
+    ]
+
+    classState [
+        <category: 'parent states'>
+
+        self hasSelectedClass ifFalse: [ self error: 'invalid browser state' ].
+        ^ClassState with: self classOrMeta
     ]
 
     updateBrowser: aGtkClassBrowserWidget [
-	<category: 'events'>
+        <category: 'events'>
+        "TODO"
+    ]
 
+    selectInBrowser: aGtkClassBrowserWidget [
+        self updateBrowser: aGtkClassBrowserWidget.
     ]
 ]
 

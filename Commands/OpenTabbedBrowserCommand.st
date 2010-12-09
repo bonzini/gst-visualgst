@@ -1,12 +1,11 @@
 OpenBrowserCommand subclass: OpenTabbedBrowserCommand [
 
-    buildBrowserAndSelect: anAssociation [
+    buildBrowserAndSelect: aState [
 	<category: 'user interface'>
 
 	| browser |
-        browser := target classBrowser.
-        browser selectANamespace: anAssociation key.
-        anAssociation value ifNotNil: [ browser selectAClass: anAssociation value ].
+        browser := target launcher classBrowser.
+        browser updateState: aState.
     ]
 
     execute [

@@ -39,13 +39,18 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
             connectSignal: 'changed' to: anObject selector: aSelector
     ]
 
+    selectAClassCategory: aClassCategory [
+        <category: 'item selection'>
+
+        aClassCategory fullname = ''
+             ifTrue: [ namespaceTree treeView select: aClassCategory namespace ]
+             ifFalse: [ namespaceTree treeView select: aClassCategory ]
+    ]
+
     selectANamespace: aNamespace [
         <category: 'item selection'>
 
-	(self hasSelectedNamespace and: [ self selectedNamespace == aNamespace ]) ifTrue: [ ^ self ].
-	(namespaceTree treeView)
-			    expandAll;
-			    select: aNamespace
+	self selectAClassCategory: aNamespace categories
     ]
 
     hasSelectedNamespace [
@@ -64,8 +69,12 @@ GtkConcreteWidget subclass: GtkCategorizedNamespaceWidget [
     selectedCategory [
         <category: 'accessing'>
 
+        | sel |
         self hasSelectedNamespace ifFalse: [ self error: 'nothing is selected' ].
-        ^ namespaceTree treeView selection category
+	sel := namespaceTree treeView selection.
+        ^sel isNamespace
+            ifTrue: [sel categories]
+            ifFalse: [sel category].
     ]
 
     state [

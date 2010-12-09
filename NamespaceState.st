@@ -2,6 +2,19 @@ BrowserState subclass: NamespaceState [
 
     | classCategory |
 
+    hash [
+	<category: 'testing'>
+
+        ^super hash bitXor: self classCategory fullname hash
+    ]
+
+    = aState [
+	<category: 'testing'>
+
+        ^self class = aState class
+            and: [self classCategory fullname = aState classCategory fullname]
+    ]
+
     printOn: aStream [
 	<category: 'printing'>
 
@@ -24,7 +37,7 @@ BrowserState subclass: NamespaceState [
     classCategory [
 	<category: 'accessing'>
 
-	^ classCategory
+	^ classCategory ifNil: [super classCategory ]
     ]
 
     namespace [
@@ -35,10 +48,13 @@ BrowserState subclass: NamespaceState [
 
     updateBrowser: aGtkClassBrowserWidget [
         <category: 'events'>
-   
-	aGtkClassBrowserWidget 
-			updateNamespaceOfClass: self namespace classCategory: self classCategory;
-			source: (NamespaceHeaderSource on: self namespace).
+        aGtkClassBrowserWidget selectNamespaceState: self.
+        aGtkClassBrowserWidget acceptNamespaceState: self
+    ]
+
+    selectInBrowser: aGtkClassBrowserWidget [
+        self updateBrowser: aGtkClassBrowserWidget.
+        aGtkClassBrowserWidget finishNamespaceState
     ]
 ]
 

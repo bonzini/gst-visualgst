@@ -84,9 +84,16 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 	^ GTK.Gtk gtkSelectionBrowse
     ]
 
+    unselectAll [
+        <category: 'accessing'>
+
+        classesTree treeView getSelection unselectAll.
+    ]
+
     clear [
         <category: 'accessing'>
 
+        self unselectAll.
         model clear
     ]
 

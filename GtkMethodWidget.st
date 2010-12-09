@@ -47,6 +47,7 @@ GtkConcreteWidget subclass: GtkMethodWidget [
     category: aString [
 	<category: 'accessing'>
 
+        category = aString ifTrue: [^self].
 	category := aString.
 	self classOrMeta methodDictionary ifNil: [ 
 		model clear. 
@@ -74,15 +75,16 @@ GtkConcreteWidget subclass: GtkMethodWidget [
 	^ methodTree treeView getModel
     ]
 
-    emptyModel [
+    unselectAll [
         <category: 'accessing'>
 
-	self clear
+        methodTree treeView getSelection unselectAll.
     ]
 
     clear [
         <category: 'accessing'>
 
+        self unselectAll.
 	model clear
     ]
 
