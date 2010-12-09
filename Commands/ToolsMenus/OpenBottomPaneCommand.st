@@ -9,7 +9,7 @@ Command subclass: OpenBottomPaneCommand [
     accel [
         <category: 'accel'>
 
-        ^ 'f4'
+        ^ ''
     ]
 
     execute [

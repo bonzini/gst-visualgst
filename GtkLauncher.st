@@ -788,7 +788,9 @@ GtkVisualGSTTool subclass: GtkLauncher [
     showHideBottomPane [
 	<category: 'image events'>
 
-	outputs showPane
+	outputs isVisible 
+		ifTrue: [ outputs hideAll ]
+		ifFalse: [ outputs showPane ]
     ]
 
     back [
@@ -905,6 +907,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
         | event |
         event := aGdkEventKey castTo: GTK.GdkEventKey type.
 
+	event keyval value = 65473 ifTrue: [ self showHideBottomPane. ^ true ].
 	(event state value bitAnd: GTK.Gdk gdkControlMask) = 0 ifTrue: [ ^ false ].
 	(#(65417 65289 65056) includes: event keyval value) ifFalse: [ ^ false ].
 	(event state value bitAnd: GTK.Gdk gdkShiftMask) = 0  
