@@ -219,7 +219,6 @@ Eval [
     filein: 'Commands/ToolsMenus/OpenPackageBuilderCommand.st';
     filein: 'Commands/SaveImageCommand.st';
     filein: 'Commands/SaveImageAsCommand.st';
-    filein: 'Category/MethodCategory.st';
     filein: 'Commands/InspectorMenus/InspectorBackCommand.st';
     filein: 'Commands/InspectorMenus/InspectorDiveCommand.st';
     filein: 'Commands/WorkspaceMenus/DeleteItemCommand.st';

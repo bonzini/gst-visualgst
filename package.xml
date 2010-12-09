@@ -277,7 +277,6 @@
   <filein>Commands/ToolsMenus/OpenPackageBuilderCommand.st</filein>
   <filein>Commands/SaveImageCommand.st</filein>
   <filein>Commands/SaveImageAsCommand.st</filein>
-  <filein>Category/MethodCategory.st</filein>
   <filein>Commands/InspectorMenus/InspectorBackCommand.st</filein>
   <filein>Commands/InspectorMenus/InspectorDiveCommand.st</filein>
   <filein>Commands/WorkspaceMenus/DeleteItemCommand.st</filein>
@@ -492,7 +491,6 @@
   <file>Commands/ToolsMenus/OpenPackageBuilderCommand.st</file>
   <file>Commands/SaveImageCommand.st</file>
   <file>Commands/SaveImageAsCommand.st</file>
-  <file>Category/MethodCategory.st</file>
   <file>Commands/InspectorMenus/InspectorBackCommand.st</file>
   <file>Commands/InspectorMenus/InspectorDiveCommand.st</file>
   <file>Commands/WorkspaceMenus/DeleteItemCommand.st</file>
