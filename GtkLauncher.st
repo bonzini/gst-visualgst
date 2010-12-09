@@ -278,6 +278,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
         browsers currentWidget postInitialize.
         browsers currentWidget selectANamespace: Smalltalk.
         browsers currentWidget selectAClass: Object.
+	outputs hideAll
     ]
 
     postInitialize [
@@ -782,6 +783,12 @@ GtkVisualGSTTool subclass: GtkLauncher [
         isVisible
             ifFalse: [
                 rightSidebar show: 1 ]
+    ]
+
+    showHideBottomPane [
+	<category: 'image events'>
+
+	outputs showPane
     ]
 
     back [

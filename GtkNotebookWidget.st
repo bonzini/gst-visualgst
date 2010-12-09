@@ -134,5 +134,12 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 	notebook removePage: self currentPage.
 	pages size = 1 ifTrue: [ notebook setShowTabs: false ]
     ]
+
+    showPane [
+	<category: 'widget'>
+
+	notebook showAll.
+	pages do: [ :each | each postInitialize ]
+    ]
 ]
 

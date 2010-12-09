@@ -148,6 +148,7 @@ Eval [
     filein: 'Source/ClassSource.st';
     filein: 'Source/CategorySource.st';
     filein: 'Source/MethodSource.st';
+    filein: 'Source/PackageSource.st';
     filein: 'Source/BrowserMethodSource.st';
     filein: 'Undo/AddClassUndoCommand.st';
     filein: 'Undo/RenameClassUndoCommand.st';
@@ -213,6 +214,7 @@ Eval [
     filein: 'Commands/OpenBrowserCommand.st';
     filein: 'Commands/OpenTabbedBrowserCommand.st';
     filein: 'Commands/ToolsMenus/OpenSUnitCommand.st';
+    filein: 'Commands/ToolsMenus/OpenBottomPaneCommand.st';
     filein: 'Commands/OpenWorkspaceCommand.st';
     filein: 'Commands/ToolsMenus/OpenImplementorCommand.st';
     filein: 'Commands/ToolsMenus/OpenSenderCommand.st';

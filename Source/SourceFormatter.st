@@ -10,10 +10,10 @@ Object subclass: SourceFormatter [
     SourceFormatter class >> on: anObject [
 	<category: 'instance creation'>
 
-	^self write: anObject on: (WriteStream on: String new)
+	^ self write: anObject on: (WriteStream on: String new)
     ]
 
-    SourceFormatter class >> write: aCompiledMethod on: aStream [
+    SourceFormatter class >> write: anObject on: aStream [
 	<category: 'instance creation'>
 
 	self subclassResponsibility
@@ -42,6 +42,6 @@ Object subclass: SourceFormatter [
     ]
 
     source [
-	^stream contents
+	^ stream contents
     ]
 ]

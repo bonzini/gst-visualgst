@@ -206,6 +206,7 @@
   <filein>Source/ClassSource.st</filein>
   <filein>Source/CategorySource.st</filein>
   <filein>Source/MethodSource.st</filein>
+  <filein>Source/PackageSource.st</filein>
   <filein>Source/BrowserMethodSource.st</filein>
   <filein>Undo/AddClassUndoCommand.st</filein>
   <filein>Undo/RenameClassUndoCommand.st</filein>
@@ -271,6 +272,7 @@
   <filein>Commands/OpenBrowserCommand.st</filein>
   <filein>Commands/OpenTabbedBrowserCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenSUnitCommand.st</filein>
+  <filein>Commands/ToolsMenus/OpenBottomPaneCommand.st</filein>
   <filein>Commands/OpenWorkspaceCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenImplementorCommand.st</filein>
   <filein>Commands/ToolsMenus/OpenSenderCommand.st</filein>
@@ -420,6 +422,7 @@
   <file>Source/ClassSource.st</file>
   <file>Source/CategorySource.st</file>
   <file>Source/MethodSource.st</file>
+  <file>Source/PackageSource.st</file>
   <file>Source/BrowserMethodSource.st</file>
   <file>Undo/AddClassUndoCommand.st</file>
   <file>Undo/RenameClassUndoCommand.st</file>
@@ -485,6 +488,7 @@
   <file>Commands/OpenBrowserCommand.st</file>
   <file>Commands/OpenTabbedBrowserCommand.st</file>
   <file>Commands/ToolsMenus/OpenSUnitCommand.st</file>
+  <file>Commands/ToolsMenus/OpenBottomPaneCommand.st</file>
   <file>Commands/OpenWorkspaceCommand.st</file>
   <file>Commands/ToolsMenus/OpenImplementorCommand.st</file>
   <file>Commands/ToolsMenus/OpenSenderCommand.st</file>
