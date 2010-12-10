@@ -35,8 +35,7 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
         | stream |
         aDirectory exists ifFalse: [ aDirectory createDirectory ].
         stream := FileStream open: (aDirectory / 'self.st') asString mode: FileStream write.
-        (NamespaceSource write: namespace on: stream)
-                header.
+        NamespaceHeaderSource write: namespace on: stream.
         namespace do: [ :each |
             (each isNil not and: [ each isClass and: [ each environment = namespace ] ])
                     ifTrue: [ self fileoutClass: each from: aDirectory ] ]
@@ -47,8 +46,7 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
 
         | stream |
         aDirectory exists ifFalse: [ aDirectory createDirectory ].
-        namespace namespaceExtends keysAndValuesDo: [ :key :value |
-		self fileoutExtendsMethods: value category: key from: aDirectory ]
+	self fileoutExtensionsTo: aDirectory
     ]
 
     fileoutClass: aClass from: aDirectory [
@@ -59,16 +57,35 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
 	ClassSource write: aClass on: stream
     ]
 
-    fileoutExtendsMethods: aSetOfMethods category: aString from: aDirectory [
+    fileoutBehaviorExtensions: aString with: anOrderedCollection into: aStream [
 
-	| directory stream class |
-	directory := self createCategories: aString from: aDirectory.
-	class := IdentityDictionary new.
-	aSetOfMethods do: [ :each |
-	    (class at: each methodClass ifAbsentPut: [ OrderedCollection new ]) add: each ].
-	class keysAndValuesDo: [ :key :value |
-	    stream := FileStream open: (directory / (key name asString), '-Ext.st') asString mode: FileStream write.
-	    MethodSource writeMethods: value on: stream ]
+    ]
+
+    checkFileoutExtensions [
+
+        | extName dic |
+        dic := Dictionary new.
+        extName := '*', namespace name.
+        CompiledMethod allInstancesDo: [ :each |
+            each methodCategory = extName ifTrue: [
+                (dic at: each methodClass ifAbsentPut: [ OrderedCollection new ]) add: each ] ].
+        ^ dic
+    ]
+
+    fileoutExtensionsTo: aDirectory [
+
+        | dic written |
+        written := Set new.
+        dic := self checkFileoutExtensions.
+        dic keysDo: [ :aBehavior |
+            (written includes: aBehavior asClass) ifFalse: [
+                | stream |
+                stream := (aDirectory / aBehavior asClass name, '-ext.st') writeStream.
+                written add: aBehavior asClass.
+                dic at: aBehavior asClass ifPresent: [ :anOrderedCollection | MethodSource writeMethods: anOrderedCollection on: stream ].
+		stream setToEnd.
+                dic at: aBehavior asMetaclass ifPresent: [ :anOrderedCollection | MethodSource writeMethods: anOrderedCollection on: stream ].
+		stream close ] ]
     ]
 
     createCategories: aString from: aDirectory [
