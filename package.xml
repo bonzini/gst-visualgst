@@ -126,7 +126,6 @@
   <filein>Commands/EditMenus/SelectAllEditCommand.st</filein>
   <filein>Commands/EditMenus/FindEditCommand.st</filein>
   <filein>Commands/EditMenus/ReplaceEditCommand.st</filein>
-  <filein>Pragmas/Pragmas.st</filein>
   <filein>Menus/MenuBuilder.st</filein>
   <filein>Menus/MenuSeparator.st</filein>
   <filein>Menus/NamespaceMenus.st</filein>
@@ -342,7 +341,6 @@
   <file>Commands/EditMenus/SelectAllEditCommand.st</file>
   <file>Commands/EditMenus/FindEditCommand.st</file>
   <file>Commands/EditMenus/ReplaceEditCommand.st</file>
-  <file>Pragmas/Pragmas.st</file>
   <file>Menus/MenuBuilder.st</file>
   <file>Menus/MenuSeparator.st</file>
   <file>Menus/NamespaceMenus.st</file>

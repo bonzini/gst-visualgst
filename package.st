@@ -68,7 +68,6 @@ Eval [
     filein: 'Commands/EditMenus/SelectAllEditCommand.st';
     filein: 'Commands/EditMenus/FindEditCommand.st';
     filein: 'Commands/EditMenus/ReplaceEditCommand.st';
-    filein: 'Pragmas/Pragmas.st';
     filein: 'Menus/MenuBuilder.st';
     filein: 'Menus/MenuSeparator.st';
     filein: 'Menus/NamespaceMenus.st';
