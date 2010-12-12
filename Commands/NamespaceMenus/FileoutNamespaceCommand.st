@@ -67,7 +67,7 @@ NamespaceCommand subclass: FileoutNamespaceCommand [
         dic := Dictionary new.
         extName := '*', namespace name.
         CompiledMethod allInstancesDo: [ :each |
-            each methodCategory = extName ifTrue: [
+            (each methodCategory startsWith: extName) ifTrue: [
                 (dic at: each methodClass ifAbsentPut: [ OrderedCollection new ]) add: each ] ].
         ^ dic
     ]
