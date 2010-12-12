@@ -7,6 +7,7 @@ Eval [
     prereq: 'Cairo';
     prereq: 'SUnit';
     prereq: 'DebugTools';
+    prereq: 'Announcements';
     provides: 'Browser';
     testsBelow: 'Tests' matching: '*.st';
     filein: 'Notification/AbstractEvent.st';
@@ -23,6 +24,9 @@ Eval [
     filein: 'Notification/RenamedEvent.st';
     filein: 'Notification/ReorganizedEvent.st';
     filein: 'Notification/SystemChangeNotifier.st';
+    filein: 'GtkAnnouncer.st';
+    filein: 'GtkNamespaceSelectionChanged.st';
+    filein: 'GtkClassSelectionChanged.st';
     filein: 'Commands/Command.st';
     filein: 'Commands/SmalltalkMenus/DoItCommand.st';
     filein: 'Commands/SmalltalkMenus/DebugItCommand.st';

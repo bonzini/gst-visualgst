@@ -266,7 +266,16 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	self clearGlobalState.
 	super initialize.
 	window maximize.
-	window setIcon: (GTK.GdkPixbuf newFromFile: (self class / 'Icons/visualgst.png') file displayString error: nil)
+	window setIcon: (GTK.GdkPixbuf newFromFile: (self class / 'Icons/visualgst.png') file displayString error: nil).
+	self subscribe
+    ]
+
+    subscribe [
+	<category: 'initialization'>
+	GtkAnnouncer current on: GtkNamespaceSelectionChanged do: [:ann |
+	    browsers updateWidget: browsers currentWidget withLabel: ann selectedNamespace name asString].
+	GtkAnnouncer current on: GtkClassSelectionChanged do: [:ann |
+	    browsers updateWidget: browsers currentWidget withLabel: ann selectedClass printString]
     ]
 
     windowTitle [
