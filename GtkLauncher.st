@@ -915,5 +915,15 @@ GtkVisualGSTTool subclass: GtkLauncher [
 					    ifTrue: [ self nextTab ].
         ^ true
     ]
+
+    selectAnInstanceMethod: aMethod [
+
+	browsers currentWidget selectAnInstanceMethod: aMethod	
+    ]
+
+    selectAClassMethod: aMethod [
+
+	browsers currentWidget selectAClassMethod: aMethod
+    ]
 ]
 
