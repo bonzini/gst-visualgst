@@ -81,6 +81,10 @@ GtkVisualGSTTool subclass: GtkLauncher [
         ^self displayError: 'Error' message: error
     ]
 
+    GtkLauncher class >> compileError: aString line: anInteger [
+	self uniqueInstance compileError: aString line: anInteger
+    ]
+
     accelPath [
 	<category: 'accelerator path'>
 
@@ -924,6 +928,10 @@ GtkVisualGSTTool subclass: GtkLauncher [
     selectAClassMethod: aMethod [
 
 	browsers currentWidget selectAClassMethod: aMethod
+    ]
+
+    compileError: aString line: anInteger [
+	browsers currentWidget compileError: aString line: anInteger
     ]
 ]
 
