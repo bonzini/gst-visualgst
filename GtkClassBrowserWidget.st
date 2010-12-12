@@ -222,13 +222,19 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     onNamespaceChanged [
 	<category: 'events'>
 
-	self updateState: namespaceWidget state
+	self updateState: namespaceWidget state.
+	GtkAnnouncer current announce: (GtkNamespaceSelectionChanged new
+		selectedNamespace: self selectedNamespace;
+		yourself)
     ]
 
     onClassChanged [
 	<category: 'events'>
 
-	self updateState: classWidget state
+	self updateState: classWidget state.
+	GtkAnnouncer current announce: (GtkClassSelectionChanged new
+		selectedClass: self selectedClass;
+		yourself)
     ]
 
     onClassHierarchyChanged [
@@ -335,6 +341,12 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'selection'>
 
 	^ namespaceWidget selectedNamespace
+    ]
+
+    selectedClass [
+	<category: 'selection'>
+
+	^ classWidget selectedClass
     ]
 
     selectedClassCategory [

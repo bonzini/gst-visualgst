@@ -31,6 +31,13 @@ GtkConcreteWidget subclass: GtkNotebookWidget [
 	self addWidget: aWidget labelWidget: (self buildLabelWidget: aString withIcon: GTK.Gtk gtkStockClose at: aWidget)
     ]
 
+
+    updateWidget: aWidget withLabel: aString [
+	<category: 'user interface'>
+
+	notebook setTabLabel: aWidget mainWidget tabLabel: (self buildLabelWidget: aString withIcon: GTK.Gtk gtkStockClose at: aWidget)
+    ]
+
     addPermanentWidget: aWidget labeled: aString [
         <category: 'user interface'>
 
