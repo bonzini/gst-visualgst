@@ -271,7 +271,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	GtkAnnouncer current on: GtkNamespaceSelectionChanged do: [:ann |
 	    browsers updateWidget: browsers currentWidget withLabel: ann selectedNamespace name asString].
 	GtkAnnouncer current on: GtkClassSelectionChanged do: [:ann |
-	    browsers updateWidget: browsers currentWidget withLabel: ann selectedClass name asString]
+	    browsers updateWidget: browsers currentWidget withLabel: ann selectedClass printString]
     ]
 
     windowTitle [
