@@ -103,6 +103,11 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
         ^ inspectorTree treeView selection
     ]
 
+    targetObject [
+
+	^ self selectedItem
+    ]
+
     selectedValue [
 	<category: 'item selection'>
 
@@ -111,7 +116,7 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
 
     canDive [
 	<category: 'events'>
-	^self hasSelectedItem and: [self selectedItem ~= 'self' and: [ objectView canDive ]]
+	^self hasSelectedValue and: [self selectedItem ~= 'self' and: [ objectView canDive ]]
     ]
 
     isStackEmpty [

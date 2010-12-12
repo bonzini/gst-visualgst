@@ -18,7 +18,7 @@ Object subclass: MenuBuilder [
         | menu |
         menu := GTK.GtkMenu new.
         self appendTo: menu.
-        ^menu
+        ^ menu
     ]
 
     asMenuItems [
