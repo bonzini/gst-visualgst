@@ -9,63 +9,63 @@
   <prereq>Announcements</prereq>
   <provides>Browser</provides>
   <test>
-    <filein>Tests/MenuBuilderTest.st</filein>
-    <filein>Tests/GtkCategorizedNamespaceWidgetTest.st</filein>
-    <filein>Tests/GtkAssistantTest.st</filein>
-    <filein>Tests/FinderTest.st</filein>
+    <filein>Tests/AddNamespaceUndoCommandTest.st</filein>
     <filein>Tests/GtkMethodWidgetTest.st</filein>
-    <filein>Tests/GtkSimpleListWidgetTest.st</filein>
-    <filein>Tests/StateTest.st</filein>
     <filein>Tests/CompiledMethodTest.st</filein>
-    <filein>Tests/GtkCategorizedClassWidgetTest.st</filein>
+    <filein>Tests/ExtractLiteralsTest.st</filein>
+    <filein>Tests/CategoryTest.st</filein>
     <filein>Tests/GtkScrollTreeWidgetTest.st</filein>
+    <filein>Tests/MenuBuilderTest.st</filein>
+    <filein>Tests/GtkAssistantTest.st</filein>
+    <filein>Tests/GtkSimpleListWidgetTest.st</filein>
+    <filein>Tests/EmptyTest.st</filein>
     <filein>Tests/AddClassUndoCommandTest.st</filein>
     <filein>Tests/GtkCategoryWidgetTest.st</filein>
-    <filein>Tests/CategoryTest.st</filein>
-    <filein>Tests/GtkConcreteWidgetTest.st</filein>
+    <filein>Tests/StateTest.st</filein>
+    <filein>Tests/FinderTest.st</filein>
     <filein>Tests/PragmaTest.st</filein>
-    <filein>Tests/AddNamespaceUndoCommandTest.st</filein>
-    <filein>Tests/EmptyTest.st</filein>
-    <filein>Tests/ExtractLiteralsTest.st</filein>
-    <file>Tests/MenuBuilderTest.st</file>
-    <file>Tests/GtkCategorizedNamespaceWidgetTest.st</file>
-    <file>Tests/GtkAssistantTest.st</file>
-    <file>Tests/FinderTest.st</file>
+    <filein>Tests/GtkCategorizedNamespaceWidgetTest.st</filein>
+    <filein>Tests/GtkCategorizedClassWidgetTest.st</filein>
+    <filein>Tests/GtkConcreteWidgetTest.st</filein>
+    <file>Tests/AddNamespaceUndoCommandTest.st</file>
     <file>Tests/GtkMethodWidgetTest.st</file>
-    <file>Tests/GtkSimpleListWidgetTest.st</file>
-    <file>Tests/StateTest.st</file>
     <file>Tests/CompiledMethodTest.st</file>
-    <file>Tests/GtkCategorizedClassWidgetTest.st</file>
+    <file>Tests/ExtractLiteralsTest.st</file>
+    <file>Tests/CategoryTest.st</file>
     <file>Tests/GtkScrollTreeWidgetTest.st</file>
+    <file>Tests/MenuBuilderTest.st</file>
+    <file>Tests/GtkAssistantTest.st</file>
+    <file>Tests/GtkSimpleListWidgetTest.st</file>
+    <file>Tests/EmptyTest.st</file>
     <file>Tests/AddClassUndoCommandTest.st</file>
     <file>Tests/GtkCategoryWidgetTest.st</file>
-    <file>Tests/CategoryTest.st</file>
-    <file>Tests/GtkConcreteWidgetTest.st</file>
+    <file>Tests/StateTest.st</file>
+    <file>Tests/FinderTest.st</file>
     <file>Tests/PragmaTest.st</file>
-    <file>Tests/AddNamespaceUndoCommandTest.st</file>
-    <file>Tests/EmptyTest.st</file>
-    <file>Tests/ExtractLiteralsTest.st</file>
+    <file>Tests/GtkCategorizedNamespaceWidgetTest.st</file>
+    <file>Tests/GtkCategorizedClassWidgetTest.st</file>
+    <file>Tests/GtkConcreteWidgetTest.st</file>
     <sunit>
+      VisualGST.AddNamespaceUndoCommandTest
+      VisualGST.GtkMethodWidgetTest
+      VisualGST.CompiledMethodTest
+      VisualGST.ExtractLiteralsTest
+      VisualGST.CategoryTest
+      VisualGST.GtkScrollTreeWidgetTest
       VisualGST.Test
       VisualGST.MenuBuilderTest
-      VisualGST.GtkCategorizedNamespaceWidgetTest
       VisualGST.GtkAssistantTest
-      VisualGST.FinderTest
-      VisualGST.GtkMethodWidgetTest
       VisualGST.GtkSimpleListWidgetTest
-      VisualGST.StateTest
-      VisualGST.CompiledMethodTest
-      VisualGST.GtkCategorizedClassWidgetTest
-      VisualGST.#Test
-      VisualGST.GtkScrollTreeWidgetTest
+      VisualGST.EmptyTest
       VisualGST.AddClassUndoCommandTest
       VisualGST.GtkCategoryWidgetTest
-      VisualGST.CategoryTest
-      VisualGST.GtkConcreteWidgetTest
+      VisualGST.StateTest
+      VisualGST.FinderTest
       VisualGST.PragmasTest
-      VisualGST.AddNamespaceUndoCommandTest
-      VisualGST.EmptyTest
-      VisualGST.ExtractLiteralsTest
+      VisualGST.GtkCategorizedNamespaceWidgetTest
+      VisualGST.GtkCategorizedClassWidgetTest
+      VisualGST.#Test
+      VisualGST.GtkConcreteWidgetTest
     </sunit>
   </test>
   <filein>Notification/AbstractEvent.st</filein>

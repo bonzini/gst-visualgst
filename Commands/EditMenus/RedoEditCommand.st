@@ -15,6 +15,6 @@ Command subclass: RedoEditCommand [
     execute [
         <category: 'command'>
 
-        target open
+        target redo
     ]
 ]
