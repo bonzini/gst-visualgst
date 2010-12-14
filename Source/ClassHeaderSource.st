@@ -4,7 +4,7 @@ SourceFormatter subclass: ClassHeaderSource [
     ClassHeaderSource class >> write: aClass on: aStream [
 	<category: 'instance creation'>
 
-	^(self for: aStream)
+	^ (self for: aStream)
 	    printClass: aClass;
 	    output;
             yourself

@@ -38,8 +38,10 @@ ClassHeaderSource subclass: ClassSource [
 
 	aClass methodDictionary ifNotNil: [ 
 	    (aClass methodDictionary asSortedCollection: [ :a :b | 
-		    a methodCategory < b methodCategory ]) do: [ :each | 
-			self outputMethod: each ] ]
+		    a methodCategory < b methodCategory ]) do: [ :each |
+			each methodCategory 
+			    ifNil: [ self outputMethod: each ]
+			    ifNotNil: [ :aCategoryString |  aCategoryString first ~= $* ifTrue: [ self outputMethod: each ] ] ] ]
     ]
 
     outputMethods [

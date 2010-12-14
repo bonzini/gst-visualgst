@@ -44,4 +44,8 @@ Object subclass: SourceFormatter [
     source [
 	^ stream contents
     ]
+    
+    close [
+	self stream close
+    ]
 ]

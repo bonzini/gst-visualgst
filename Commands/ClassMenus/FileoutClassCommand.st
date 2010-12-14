@@ -19,7 +19,7 @@ ClassCommand subclass: FileoutClassCommand [
 
         | stream |
         stream := FileStream open: aString mode: FileStream write.
-        ClassSource write: target state classOrMeta on: stream
+        (ClassSource write: target state classOrMeta asClass on: stream) close
     ]
 ]
 
