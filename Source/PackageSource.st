@@ -31,12 +31,7 @@ SourceFormatter subclass: PackageSource [
     printSelector: aSelectorString withArray: anArgArray [
         <category: 'printing'>
 
-        stream
-            nextPutAll: aSelectorString;
-            nextPutAll: anArgString;
-            nextPutAll: ';';
-            nl;
-            space: 4
+        anArgArray do: [ :each | self printSelector: aSelectorString with: each ]
     ]
 
     printName [
