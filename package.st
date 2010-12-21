@@ -80,6 +80,7 @@ Eval [
     filein: 'Menus/MenuSeparator.st';
     filein: 'Menus/ToolbarSeparator.st';
     filein: 'Menus/LauncherToolbar.st';
+    filein: 'Menus/DebuggerToolbar.st';
     filein: 'Menus/NamespaceMenus.st';
     filein: 'Menus/ClassMenus.st';
     filein: 'Menus/CategoryMenus.st';

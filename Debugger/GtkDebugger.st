@@ -127,7 +127,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 	<category: 'user interface'>
 
 	super createToolbar.
-	DebugToolbar buildToolbarOn: self
+	DebuggerToolbar buildToolbarOn: self
     ]
 
     debugger: aDebugger [

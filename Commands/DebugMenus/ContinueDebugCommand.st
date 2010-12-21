@@ -1,4 +1,4 @@
-DebugCommand subclass: ContinueCommand [
+DebugCommand subclass: ContinueDebugCommand [
 
     item [
         <category: 'menu item'>

@@ -138,6 +138,7 @@
   <filein>Menus/MenuSeparator.st</filein>
   <filein>Menus/ToolbarSeparator.st</filein>
   <filein>Menus/LauncherToolbar.st</filein>
+  <filein>Menus/DebuggerToolbar.st</filein>
   <filein>Menus/NamespaceMenus.st</filein>
   <filein>Menus/ClassMenus.st</filein>
   <filein>Menus/CategoryMenus.st</filein>
@@ -362,6 +363,7 @@
   <file>Menus/MenuSeparator.st</file>
   <file>Menus/ToolbarSeparator.st</file>
   <file>Menus/LauncherToolbar.st</file>
+  <file>Menus/DebuggerToolbar.st</file>
   <file>Menus/NamespaceMenus.st</file>
   <file>Menus/ClassMenus.st</file>
   <file>Menus/CategoryMenus.st</file>
