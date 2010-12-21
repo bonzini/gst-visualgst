@@ -223,18 +223,20 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	<category: 'events'>
 
 	self updateState: namespaceWidget state.
-	GtkAnnouncer current announce: (GtkNamespaceSelectionChanged new
+	namespaceWidget hasSelectedNamespace ifTrue: [
+	    GtkAnnouncer current announce: (GtkNamespaceSelectionChanged new
 		selectedNamespace: self selectedNamespace;
-		yourself)
+		yourself) ]
     ]
 
     onClassChanged [
 	<category: 'events'>
 
 	self updateState: classWidget state.
-	GtkAnnouncer current announce: (GtkClassSelectionChanged new
+	classWidget hasSelectedClass ifTrue: [
+	    GtkAnnouncer current announce: (GtkClassSelectionChanged new
 		selectedClass: self selectedClass;
-		yourself)
+		yourself) ]
     ]
 
     onClassHierarchyChanged [
