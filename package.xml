@@ -130,8 +130,14 @@
   <filein>Commands/EditMenus/SelectAllEditCommand.st</filein>
   <filein>Commands/EditMenus/FindEditCommand.st</filein>
   <filein>Commands/EditMenus/ReplaceEditCommand.st</filein>
+  <filein>Commands/DebugMenus/DebugCommand.st</filein>
+  <filein>Commands/DebugMenus/ContinueDebugCommand.st</filein>
+  <filein>Commands/DebugMenus/StepIntoDebugCommand.st</filein>
+  <filein>Commands/DebugMenus/StepToDebugCommand.st</filein>
   <filein>Menus/MenuBuilder.st</filein>
   <filein>Menus/MenuSeparator.st</filein>
+  <filein>Menus/ToolbarSeparator.st</filein>
+  <filein>Menus/LauncherToolbar.st</filein>
   <filein>Menus/NamespaceMenus.st</filein>
   <filein>Menus/ClassMenus.st</filein>
   <filein>Menus/CategoryMenus.st</filein>
@@ -348,8 +354,14 @@
   <file>Commands/EditMenus/SelectAllEditCommand.st</file>
   <file>Commands/EditMenus/FindEditCommand.st</file>
   <file>Commands/EditMenus/ReplaceEditCommand.st</file>
+  <file>Commands/DebugMenus/DebugCommand.st</file>
+  <file>Commands/DebugMenus/ContinueDebugCommand.st</file>
+  <file>Commands/DebugMenus/StepIntoDebugCommand.st</file>
+  <file>Commands/DebugMenus/StepToDebugCommand.st</file>
   <file>Menus/MenuBuilder.st</file>
   <file>Menus/MenuSeparator.st</file>
+  <file>Menus/ToolbarSeparator.st</file>
+  <file>Menus/LauncherToolbar.st</file>
   <file>Menus/NamespaceMenus.st</file>
   <file>Menus/ClassMenus.st</file>
   <file>Menus/CategoryMenus.st</file>

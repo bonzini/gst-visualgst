@@ -8,8 +8,8 @@ For the 0.8.0:
 – Include the menu refactoring [ DONE ]
 – Method extensions [ DONE ]
 – add first class category but for methods [ DONE ]
-– FileIn/FileOut of projects
-– Hide by default the workspace section
+– FileIn/FileOut of projects [ DONE ]
+– Hide by default the workspace section [ DONE ]
 – Check all the commands and fix them if necessary
 
 For the 0.8.5:
@@ -19,7 +19,8 @@ For the 0.8.5:
 – GIT integration
 – Include preferences framework
 – migrate to the new state refactoring
-– add package support
+– package management within VisualGSt with a tool like we
+have in linux distro (list of repositories/list of installed packages/…)
 
 For the 0.9.0:
 --------------
@@ -27,8 +28,6 @@ For the 0.9.0:
 – write unit test :-P
 – Multiple windows
 – debugger
-– package management within VisualGSt with a tool like we
-have in linux distro (list of repositories/list of installed packages/…)
 – file out all the time when you do a ctrl+s
 
 For 1.0.0 and after :

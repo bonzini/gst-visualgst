@@ -72,8 +72,14 @@ Eval [
     filein: 'Commands/EditMenus/SelectAllEditCommand.st';
     filein: 'Commands/EditMenus/FindEditCommand.st';
     filein: 'Commands/EditMenus/ReplaceEditCommand.st';
+    filein: 'Commands/DebugMenus/DebugCommand.st';
+    filein: 'Commands/DebugMenus/ContinueDebugCommand.st';
+    filein: 'Commands/DebugMenus/StepIntoDebugCommand.st';
+    filein: 'Commands/DebugMenus/StepToDebugCommand.st';
     filein: 'Menus/MenuBuilder.st';
     filein: 'Menus/MenuSeparator.st';
+    filein: 'Menus/ToolbarSeparator.st';
+    filein: 'Menus/LauncherToolbar.st';
     filein: 'Menus/NamespaceMenus.st';
     filein: 'Menus/ClassMenus.st';
     filein: 'Menus/CategoryMenus.st';
