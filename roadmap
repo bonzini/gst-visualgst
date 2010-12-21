@@ -16,7 +16,6 @@ For the 0.8.5:
 --------------
 
 – write unit test
-– GIT integration
 – Include preferences framework
 – migrate to the new state refactoring
 – package management within VisualGSt with a tool like we
@@ -27,6 +26,7 @@ For the 0.9.0:
 
 – write unit test :-P
 – Multiple windows
+– GIT integration
 – debugger
 – file out all the time when you do a ctrl+s
 

@@ -185,22 +185,22 @@
   <filein>Image/GtkImageWidget.st</filein>
   <filein>Debugger/GtkContextWidget.st</filein>
   <filein>Debugger/GtkDebugger.st</filein>
-  <filein>BrowserState.st</filein>
-  <filein>NamespaceState.st</filein>
-  <filein>ClassState.st</filein>
-  <filein>CategoryState.st</filein>
-  <filein>MethodState.st</filein>
+  <filein>State/BrowserState.st</filein>
+  <filein>State/NamespaceState.st</filein>
+  <filein>State/ClassState.st</filein>
+  <filein>State/CategoryState.st</filein>
+  <filein>State/MethodState.st</filein>
   <filein>GtkWorkspaceWidget.st</filein>
   <filein>GtkTranscriptWidget.st</filein>
-  <filein>GtkCategorizedNamespaceWidget.st</filein>
-  <filein>GtkCategorizedClassWidget.st</filein>
-  <filein>GtkCategoryWidget.st</filein>
-  <filein>GtkMethodWidget.st</filein>
+  <filein>StBrowser/GtkCategorizedNamespaceWidget.st</filein>
+  <filein>StBrowser/GtkCategorizedClassWidget.st</filein>
+  <filein>StBrowser/GtkCategoryWidget.st</filein>
+  <filein>StBrowser/GtkMethodWidget.st</filein>
   <filein>Text/GtkSourceCodeWidget.st</filein>
-  <filein>GtkClassHierarchyWidget.st</filein>
+  <filein>StBrowser/GtkClassHierarchyWidget.st</filein>
   <filein>GtkHistoryWidget.st</filein>
   <filein>Inspector/GtkInspector.st</filein>
-  <filein>GtkClassBrowserWidget.st</filein>
+  <filein>StBrowser/GtkClassBrowserWidget.st</filein>
   <filein>GtkEntryDialog.st</filein>
   <filein>HistoryStack.st</filein>
   <filein>Undo/UndoStack.st</filein>
@@ -409,22 +409,22 @@
   <file>Image/GtkImageWidget.st</file>
   <file>Debugger/GtkContextWidget.st</file>
   <file>Debugger/GtkDebugger.st</file>
-  <file>BrowserState.st</file>
-  <file>NamespaceState.st</file>
-  <file>ClassState.st</file>
-  <file>CategoryState.st</file>
-  <file>MethodState.st</file>
+  <file>State/BrowserState.st</file>
+  <file>State/NamespaceState.st</file>
+  <file>State/ClassState.st</file>
+  <file>State/CategoryState.st</file>
+  <file>State/MethodState.st</file>
   <file>GtkWorkspaceWidget.st</file>
   <file>GtkTranscriptWidget.st</file>
-  <file>GtkCategorizedNamespaceWidget.st</file>
-  <file>GtkCategorizedClassWidget.st</file>
-  <file>GtkCategoryWidget.st</file>
-  <file>GtkMethodWidget.st</file>
+  <file>StBrowser/GtkCategorizedNamespaceWidget.st</file>
+  <file>StBrowser/GtkCategorizedClassWidget.st</file>
+  <file>StBrowser/GtkCategoryWidget.st</file>
+  <file>StBrowser/GtkMethodWidget.st</file>
   <file>Text/GtkSourceCodeWidget.st</file>
-  <file>GtkClassHierarchyWidget.st</file>
+  <file>StBrowser/GtkClassHierarchyWidget.st</file>
   <file>GtkHistoryWidget.st</file>
   <file>Inspector/GtkInspector.st</file>
-  <file>GtkClassBrowserWidget.st</file>
+  <file>StBrowser/GtkClassBrowserWidget.st</file>
   <file>GtkEntryDialog.st</file>
   <file>HistoryStack.st</file>
   <file>Undo/UndoStack.st</file>
