@@ -127,20 +127,7 @@ GtkBrowsingTool subclass: GtkDebugger [
 	<category: 'user interface'>
 
 	super createToolbar.
-	self
-	    appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-run.png') file displayString) label: 'Continue')
-				connectSignal: 'clicked' to: self selector: #run;
-				setTooltipText: 'Continue';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-next.png') file displayString) label: 'Step into')
-				connectSignal: 'clicked' to: self selector: #stepInto;
-				setTooltipText: 'Step into';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-jump.png') file displayString) label: 'Step to here')
-				connectSignal: 'clicked' to: self selector: #step;
-				setTooltipText: 'Step to here';
-				yourself)
+	DebugToolbar buildToolbarOn: self
     ]
 
     debugger: aDebugger [
