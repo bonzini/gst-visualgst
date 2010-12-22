@@ -658,7 +658,8 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 
     updateState: newState [
 	<category: 'accessing'>
-        newState isNil ifTrue: [^self].
+
+        newState isNil ifTrue: [ ^ self ].
         self checkCodeWidgetAndUpdate: [ self state: newState ]
     ]
 

@@ -1,3 +1,11 @@
+Smalltalk.String extend [
+
+    fullname [
+
+	^ self
+    ]
+]
+
 GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     | classesTree column model namespace category |
 
@@ -56,7 +64,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
     namespace: aNamespace category: aString [
         <category: 'accessing'>
 
-	(aNamespace == self namespace and: [ aString = self category ]) ifTrue: [ ^ self ]. 
+	(aNamespace == self namespace and: [ aString = self category ]) ifTrue: [ ^ self ].
         self
             category: aString;
             namespace: aNamespace.
@@ -142,7 +150,7 @@ GtkConcreteWidget subclass: GtkCategorizedClassWidget [
 
         self hasSelectedClass ifTrue: [ ^ ClassState with: self selectedClass ].
         namespace ifNotNil: [ ^ (NamespaceState with: namespace)
-				    classCategory: namespace category;
+				    classCategory: self category;
 				    yourself ].
         ^ BrowserState new
     ]
