@@ -148,7 +148,7 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
 	self buildCategory: set.
 	(categories - set) do: [ :each | 
 			model remove: each.
-			categories remove: each ]
+			categories remove: each ifAbsent: [] ]
     ]
 
     addEvent: anEvent [
