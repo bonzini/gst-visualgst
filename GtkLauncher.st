@@ -571,12 +571,15 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	<category: 'accessing'>
 
 	^ self
+<<<<<<< .merge_file_B2tCwI
     ]
 
     launcher [
 	<category: 'accessing'>
 
 	^self
+=======
+>>>>>>> .merge_file_Xb91OF
     ]
 
     cancel [
