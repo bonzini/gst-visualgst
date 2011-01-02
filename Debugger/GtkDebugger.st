@@ -29,6 +29,12 @@ GtkBrowsingTool subclass: GtkDebugger [
 	^ 1
     ]
 
+    accelPath [
+        <category: 'accelerator path'>
+
+        ^ '<VisualGST>'
+    ]
+
     windowTitle [
 	^ 'Debugger'
     ]
@@ -120,68 +126,8 @@ GtkBrowsingTool subclass: GtkDebugger [
     createToolbar [
 	<category: 'user interface'>
 
-	self
-            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-save')
-				connectSignal: 'clicked' to: SaveImageCommand selector: #execute;
-				setTooltipText: 'Save the image';
-				yourself);
-            appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-cut')
-				connectSignal: 'clicked' to: self selector: #cut;
-				setTooltipText: 'Cut';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-copy')
-				connectSignal: 'clicked' to: self selector: #copy;
-				setTooltipText: 'Copy';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-paste')
-				connectSignal: 'clicked' to: self selector: #paste;
-				setTooltipText: 'Paste';
-				yourself);
-	    appendSeparator;
-            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-undo')
-				connectSignal: 'clicked' to: self selector: #undo;
-				setTooltipText: 'Undo';
-				yourself);
-            appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-redo')
-				connectSignal: 'clicked' to: self selector: #redo;
-				setTooltipText: 'Redo';
-				yourself);
-            appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-execute' label: 'Do It')
-				connectSignal: 'clicked' to: self selector: #doIt;
-				setTooltipText: 'Do It';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-print' label: 'Print It')
-				connectSignal: 'clicked' to: self selector: #printIt;
-				setTooltipText: 'Print It';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-convert' label: 'Inspect It')
-				connectSignal: 'clicked' to: self selector: #inspectIt;
-				setTooltipText: 'Inspect It';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-sort-descending' label: 'Debug It')
-				connectSignal: 'clicked' to: self selector: #debugIt;
-				setTooltipText: 'Debug It';
-				yourself);
-	    appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton newFromStock: 'gtk-apply' label: 'Accept It')
-				connectSignal: 'clicked' to: self selector: #acceptIt;
-				setTooltipText: 'Accept It';
-				yourself);
-	    appendSeparator;
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-run.png') file displayString) label: 'Continue')
-				connectSignal: 'clicked' to: self selector: #run;
-				setTooltipText: 'Continue';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-next.png') file displayString) label: 'Step into')
-				connectSignal: 'clicked' to: self selector: #stepInto;
-				setTooltipText: 'Step into';
-				yourself);
-	    appendToolItem: ((GTK.GtkToolButton new: (GTK.GtkImage newFromFile: (GtkLauncher / 'Icons/go-jump.png') file displayString) label: 'Step to here')
-				connectSignal: 'clicked' to: self selector: #step;
-				setTooltipText: 'Step to here';
-				yourself)
+	super createToolbar.
+	DebuggerToolbar buildToolbarOn: self
     ]
 
     debugger: aDebugger [
@@ -275,19 +221,13 @@ GtkBrowsingTool subclass: GtkDebugger [
         ^codeWidget hasSelection
     ]
 
-    inspectMethod [
-	<category: 'method events'>
-
-	InspectMethodCommand on: self
-    ]
-
     contextChanged [
 	<category: 'context events'>
 
 	| iter |
 	self checkCodeWidgetAndUpdate: [
 	    contextWidget hasSelectedContext ifFalse: [ ^ self ].
-	    codeWidget sourceCode: contextWidget selectedContext method methodSourceString.
+	    codeWidget source: (BrowserMethodSource on: contextWidget selectedContext method).
 	    codeWidget applyTag: #debug forLine: contextWidget selectedContext currentLine.
 	    self updateInspectorWidget: contextWidget selectedContext ]
     ]
@@ -357,7 +297,7 @@ GtkBrowsingTool subclass: GtkDebugger [
     acceptIt [
 	<category: 'method events'>
 
-	AcceptItCommand on: self.
+	AcceptItCommand executeOn: self.
     ]
 
     targetObject [
@@ -423,25 +363,25 @@ GtkBrowsingTool subclass: GtkDebugger [
     doIt [
         <category: 'smalltalk event'>
 
-        DoItCommand on: self
+        DoItCommand executeOn: self
     ]
 
     debugIt [
         <category: 'smalltalk event'>
 
-        DebugItCommand on: self
+        DebugItCommand executeOn: self
     ]
 
     inspectIt [
         <category: 'smalltalk event'>
 
-        InspectItCommand on: self
+        InspectItCommand executeOn: self
     ]
 
     printIt [
         <category: 'smalltalk event'>
 
-        PrintItCommand on: self
+        PrintItCommand executeOn: self
     ]
 
     hasChanged [

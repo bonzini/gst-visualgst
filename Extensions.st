@@ -103,6 +103,12 @@ CompiledBlock extend [
 
         ^ VisualGST.GtkCompiledBlockInspectorView
     ]
+
+    methodRecompilationSourceString [
+	<category: '*VisualGST'>
+
+	^ self method methodRecompilationSourceString
+    ]
 ]
 
 SequenceableCollection extend [
