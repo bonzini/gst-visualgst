@@ -69,7 +69,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
             GTK.GtkMenuItem menuItem: 'Save image' connectTo: self selector: #saveImage.
             GTK.GtkMenuItem menuItem: 'Save image as...' connectTo: self selector: #saveImageAs.
             GTK.GtkMenuItem new}.
-            menu add: (GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkVisualGSTTool>/File/Close' connectTo: self selector: #closeTab).
+            menu add: (GTK.GtkMenuItem menuItem: 'Close' accelPath: '<GtkVisualGSTTool>/File/Close' connectTo: self selector: #close).
         menu add: (GTK.GtkMenuItem menuItem: 'Quit' accelPath: '<GtkVisualGSTTool>/File/Quit' connectTo: self selector: #quit).
         ^menu
     ]

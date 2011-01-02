@@ -851,6 +851,11 @@ GtkVisualGSTTool subclass: GtkLauncher [
     ]
 
     closeTab [
+
+	self close
+    ]
+
+    close [
 	<category: 'tabs events'>
 
 	browsers numberOfPages > 1 
