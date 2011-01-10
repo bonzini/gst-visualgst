@@ -17,11 +17,13 @@ For the 0.8.1:
 
 – PackageSource (generate dep and package.xml files)
 – bug fixing
+– welcome screen
  
 For the 0.8.5:
 --------------
 
 – write unit test
+– Drag And Drop for Tabs
 – Include preferences framework
 – migrate to the new state refactoring
 – package management within VisualGST with a tool like we
@@ -36,6 +38,11 @@ For the 0.9.0:
 – GIT integration
 – debugger
 – file out all the time when you do a ctrl+s
+
+For the 0.9.5:
+--------------
+
+– Tab group management like firefox 4
 
 For 1.0.0 and after :
 ---------------------

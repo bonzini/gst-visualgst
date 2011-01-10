@@ -335,6 +335,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 			    initialize;
 			    addAll: {self buildImplementorView -> 'Implementor'. self buildSenderView -> 'Sender'. self buildHistoryView -> 'History'};
 			    yourself.
+	self registerLeftPaneEvents.
 	^ leftSidebar mainWidget
     ]
 
@@ -463,6 +464,15 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	<category: 'user interface'>
 
 	^ GtkWorkspaceWidget parentWindow: window
+    ]
+
+    registerLeftPaneEvents [
+	<category: 'user interface'>
+
+	leftSidebar 
+	    whenWidgetIsVisible: implementorWidget mainWidget send: #switchToImplementor to: self;
+	    whenWidgetIsVisible: senderWidget mainWidget send: #switchToSender to: self;
+	    whenWidgetIsVisible: historyWidget mainWidget send: #switchToHistory to: self.
     ]
 
     createEditMenus [
@@ -875,47 +885,68 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ outputs hasFocus
     ]
 
+    switchToImplementor [
+        <category: 'pane events'>
+
+	implementorWidget isVisible ifFalse: [ ^ self ].
+	topSidebar show: 1
+    ]       
+    
+    switchToSender [
+        <category: 'pane events'>
+
+	senderWidget isVisible ifFalse: [ ^ self ].
+	topSidebar show: 2
+    ]       
+            
+    switchToHistory [
+        <category: 'pane events'>
+
+	historyWidget isVisible ifFalse: [ ^ self ].
+	topSidebar hideAll
+    ]
+
     senderSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
         senderWidget hasSelection ifFalse: [ ^ self ].
         self findInMethod: (senderWidget matchSelector: senderWidget selection) values first element
     ]
 
     implementorSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
         implementorWidget hasSelection ifFalse: [ ^ self ].
         self imageSelectorForImplementor: implementorWidget selection
     ]
 
     senderSelected [
-	<category: 'events'>
+	<category: 'pane events'>
 
         senderWidget hasSelection ifFalse: [ ^ self ].
         self imageSelectorForSender: senderWidget selection
     ]
 
     imageSelectorForImplementor: aSymbol [
-        <category: 'events'>
+        <category: 'pane events'>
 
 	implementorResultWidget appendImplementorResults: (implementorWidget matchSelector: aSymbol)
     ]
 
     imageSelectorForSender: aSymbol [
-        <category: 'events'>
+        <category: 'pane events'>
 
 	senderResultWidget appendSenderResults: (senderWidget matchSelector: aSymbol)
     ]
 
     resultImplementorSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
 	implementorResultWidget selectedResult: self currentWidgetOfBrowser
     ]
 
     resultSenderSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
         senderResultWidget selectedResult: self currentWidgetOfBrowser
     ]
