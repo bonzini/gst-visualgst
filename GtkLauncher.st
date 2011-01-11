@@ -302,6 +302,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
         self browserPostInitialize.
 	1 to: 2 do: [ :i | (outputs widgetAt: i) postInitialize ].
 	leftSidebar mainWidget getParent setPosition: 270.
+	topSidebar mainWidget getParent setPosition: 100.
 	leftSidebar postInitialize.
 	topSidebar postInitialize.
 	rightSidebar postInitialize.
@@ -780,7 +781,8 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
         | isVisible |
         isVisible := aGtkWidget isVisible.
-	leftSidebar mainWidget getParent getPosition = 0 ifTrue: [ leftSidebar mainWidget getParent setPosition: 270 ].
+	leftSidebar mainWidget getParent getPosition = 0 ifTrue: [ isVisible := false. leftSidebar mainWidget getParent setPosition: 270 ].
+	topSidebar mainWidget getParent getPosition = 0 ifTrue: [ isVisible := false. topSidebar mainWidget getParent setPosition: 100 ].
 	self hideSidebars.
         isVisible
             ifFalse: [
