@@ -99,7 +99,7 @@ GtkConcreteWidget subclass: GtkInspectorWidget [
     selectedItem [
 	<category: 'item selection'>
 
-        self hasSelectedValue ifFalse: [self error: 'Nothing is selected'].
+        self hasSelectedValue ifFalse: [ self error: 'Nothing is selected' ].
         ^ inspectorTree treeView selection
     ]
 

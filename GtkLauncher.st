@@ -187,6 +187,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
         "ObjectMemory>>#snapshot breaks hard links due to
          http://bugzilla.kernel.org/show_bug.cgi?id=9138, so we have to
          check the permission of the directory rather than the file."
+        imageName ifNil: [ ^ self saveImageAs ].
         imageName asFile parent isWriteable ifFalse: [ self saveImageAsAndQuit ].
         self saveImage: [ ObjectMemory snapshot: imageName. self class exit ]
     ]
