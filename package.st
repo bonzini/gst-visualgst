@@ -94,6 +94,7 @@ Eval [
     filein: 'Menus/InspectorMenus.st';
     filein: 'Menus/TextMenus.st';
     filein: 'Menus/WorkspaceVariableMenus.st';
+    filein: 'Menus/SimpleWorkspaceMenus.st';
     filein: 'Menus/WorkspaceMenus.st';
     filein: 'FakeNamespace.st';
     filein: 'Category/ClassCategory.st';
@@ -235,6 +236,7 @@ Eval [
     filein: 'Commands/InspectorMenus/InspectorDiveCommand.st';
     filein: 'Commands/WorkspaceMenus/DeleteItemCommand.st';
     filein: 'Commands/WorkspaceMenus/InspectItemCommand.st';
+    filein: 'Commands/WorkspaceMenus/WorkspaceVariableCommand.st';
     ressource: 'Icons/category.gif';
     ressource: 'Icons/namespace.gif';
     ressource: 'Icons/go-bottom.png';
