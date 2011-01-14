@@ -152,6 +152,7 @@
   <filein>Menus/InspectorMenus.st</filein>
   <filein>Menus/TextMenus.st</filein>
   <filein>Menus/WorkspaceVariableMenus.st</filein>
+  <filein>Menus/SimpleWorkspaceMenus.st</filein>
   <filein>Menus/WorkspaceMenus.st</filein>
   <filein>FakeNamespace.st</filein>
   <filein>Category/ClassCategory.st</filein>
@@ -293,6 +294,7 @@
   <filein>Commands/InspectorMenus/InspectorDiveCommand.st</filein>
   <filein>Commands/WorkspaceMenus/DeleteItemCommand.st</filein>
   <filein>Commands/WorkspaceMenus/InspectItemCommand.st</filein>
+  <filein>Commands/WorkspaceMenus/WorkspaceVariableCommand.st</filein>
   <file>Notification/AbstractEvent.st</file>
   <file>Notification/AddedEvent.st</file>
   <file>Notification/CommentedEvent.st</file>
@@ -377,6 +379,7 @@
   <file>Menus/InspectorMenus.st</file>
   <file>Menus/TextMenus.st</file>
   <file>Menus/WorkspaceVariableMenus.st</file>
+  <file>Menus/SimpleWorkspaceMenus.st</file>
   <file>Menus/WorkspaceMenus.st</file>
   <file>FakeNamespace.st</file>
   <file>Category/ClassCategory.st</file>
@@ -518,6 +521,7 @@
   <file>Commands/InspectorMenus/InspectorDiveCommand.st</file>
   <file>Commands/WorkspaceMenus/DeleteItemCommand.st</file>
   <file>Commands/WorkspaceMenus/InspectItemCommand.st</file>
+  <file>Commands/WorkspaceMenus/WorkspaceVariableCommand.st</file>
   <file>Icons/category.gif</file>
   <file>Icons/namespace.gif</file>
   <file>Icons/go-bottom.png</file>

@@ -10,25 +10,45 @@ For the 0.8.0:
 – add first class category but for methods [ DONE ]
 – FileIn/FileOut of projects [ DONE ]
 – Hide by default the workspace section [ DONE ]
-– Check all the commands and fix them if necessary
+– Check all the commands and fix them if necessary [ DONE ]
 
+For the 0.8.1:
+--------------
+
+– PackageSource (generate dep and package.xml files)
+– bug fixing
+– pane fixed [ DONE ]
+
+For the 0.8.2:
+--------------
+
+– Refactor onFocusPerfom:
+– welcome screen
+ 
 For the 0.8.5:
 --------------
 
 – write unit test
+– Drag And Drop for Tabs
 – Include preferences framework
 – migrate to the new state refactoring
-– package management within VisualGSt with a tool like we
+– package management within VisualGST with a tool like we
 have in linux distro (list of repositories/list of installed packages/…)
 
 For the 0.9.0:
 --------------
 
 – write unit test :-P
+– Classical text editor 
 – Multiple windows
 – GIT integration
 – debugger
 – file out all the time when you do a ctrl+s
+
+For the 0.9.5:
+--------------
+
+– Tab group management like firefox 4
 
 For 1.0.0 and after :
 ---------------------

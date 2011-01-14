@@ -187,6 +187,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
         "ObjectMemory>>#snapshot breaks hard links due to
          http://bugzilla.kernel.org/show_bug.cgi?id=9138, so we have to
          check the permission of the directory rather than the file."
+        imageName ifNil: [ ^ self saveImageAs ].
         imageName asFile parent isWriteable ifFalse: [ self saveImageAsAndQuit ].
         self saveImage: [ ObjectMemory snapshot: imageName. self class exit ]
     ]
@@ -301,6 +302,8 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	super postInitialize.
         self browserPostInitialize.
 	1 to: 2 do: [ :i | (outputs widgetAt: i) postInitialize ].
+	leftSidebar mainWidget getParent setPosition: 270.
+	topSidebar mainWidget getParent setPosition: 100.
 	leftSidebar postInitialize.
 	topSidebar postInitialize.
 	rightSidebar postInitialize.
@@ -335,6 +338,7 @@ GtkVisualGSTTool subclass: GtkLauncher [
 			    initialize;
 			    addAll: {self buildImplementorView -> 'Implementor'. self buildSenderView -> 'Sender'. self buildHistoryView -> 'History'};
 			    yourself.
+	self registerLeftPaneEvents.
 	^ leftSidebar mainWidget
     ]
 
@@ -465,6 +469,15 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ GtkWorkspaceWidget parentWindow: window
     ]
 
+    registerLeftPaneEvents [
+	<category: 'user interface'>
+
+	leftSidebar 
+	    whenWidgetIsVisible: implementorWidget mainWidget send: #switchToImplementor to: self;
+	    whenWidgetIsVisible: senderWidget mainWidget send: #switchToSender to: self;
+	    whenWidgetIsVisible: historyWidget mainWidget send: #switchToHistory to: self.
+    ]
+
     createEditMenus [
 	<category: 'user interface'>
 
@@ -571,15 +584,6 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	<category: 'accessing'>
 
 	^ self
-<<<<<<< .merge_file_B2tCwI
-    ]
-
-    launcher [
-	<category: 'accessing'>
-
-	^self
-=======
->>>>>>> .merge_file_Xb91OF
     ]
 
     cancel [
@@ -778,6 +782,8 @@ GtkVisualGSTTool subclass: GtkLauncher [
 
         | isVisible |
         isVisible := aGtkWidget isVisible.
+	leftSidebar mainWidget getParent getPosition = 0 ifTrue: [ isVisible := false. leftSidebar mainWidget getParent setPosition: 270 ].
+	topSidebar mainWidget getParent getPosition = 0 ifTrue: [ isVisible := false. topSidebar mainWidget getParent setPosition: 100 ].
 	self hideSidebars.
         isVisible
             ifFalse: [
@@ -884,47 +890,68 @@ GtkVisualGSTTool subclass: GtkLauncher [
 	^ outputs hasFocus
     ]
 
+    switchToImplementor [
+        <category: 'pane events'>
+
+	implementorWidget isVisible ifFalse: [ ^ self ].
+	topSidebar show: 1
+    ]       
+    
+    switchToSender [
+        <category: 'pane events'>
+
+	senderWidget isVisible ifFalse: [ ^ self ].
+	topSidebar show: 2
+    ]       
+            
+    switchToHistory [
+        <category: 'pane events'>
+
+	historyWidget isVisible ifFalse: [ ^ self ].
+	topSidebar hideAll
+    ]
+
     senderSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
         senderWidget hasSelection ifFalse: [ ^ self ].
         self findInMethod: (senderWidget matchSelector: senderWidget selection) values first element
     ]
 
     implementorSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
         implementorWidget hasSelection ifFalse: [ ^ self ].
         self imageSelectorForImplementor: implementorWidget selection
     ]
 
     senderSelected [
-	<category: 'events'>
+	<category: 'pane events'>
 
         senderWidget hasSelection ifFalse: [ ^ self ].
         self imageSelectorForSender: senderWidget selection
     ]
 
     imageSelectorForImplementor: aSymbol [
-        <category: 'events'>
+        <category: 'pane events'>
 
 	implementorResultWidget appendImplementorResults: (implementorWidget matchSelector: aSymbol)
     ]
 
     imageSelectorForSender: aSymbol [
-        <category: 'events'>
+        <category: 'pane events'>
 
 	senderResultWidget appendSenderResults: (senderWidget matchSelector: aSymbol)
     ]
 
     resultImplementorSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
 	implementorResultWidget selectedResult: self currentWidgetOfBrowser
     ]
 
     resultSenderSelected [
-        <category: 'events'>
+        <category: 'pane events'>
 
         senderResultWidget selectedResult: self currentWidgetOfBrowser
     ]
