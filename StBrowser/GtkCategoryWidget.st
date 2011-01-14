@@ -166,6 +166,5 @@ GtkConcreteWidget subclass: GtkCategoryWidget [
         (anEvent item methodClass == self classOrMeta and: [ (model hasItem: anEvent item methodCategory) not ]) ifFalse: [ ^ self ].
 	self removeEmptyCategory
     ]
-
 ]
 

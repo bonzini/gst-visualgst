@@ -467,34 +467,44 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
 	    clearMethods
     ]
 
-    select: aSelector in: aMethodWidget withCategory: aCategoryWidget [
+    selectMethod: aSelector in: aMethodWidget withCategory: aCategoryWidget from: aClass [
 	<category: 'selection'>
 
-        | class |
-	aSelector isNil ifFalse: [
-            class := classWidget selectedClass.
-
-            class := (class selectors includes: aSelector) ifFalse: [ class class ] ifTrue: [ class ].
-	    aCategoryWidget
-		classOrMeta: class;
-		selectACategory: (class compiledMethodAt: aSelector) methodCategory.
-            aMethodWidget
-                class: class withCategory: (class compiledMethodAt: aSelector) methodCategory ].
-
+	aCategoryWidget
+	    classOrMeta: aClass;
+	    selectACategory: (aClass compiledMethodAt: aSelector) methodCategory.
+        aMethodWidget
+            class: aClass withCategory: (aClass compiledMethodAt: aSelector) methodCategory.
 	aMethodWidget selectAMethod: aSelector
+    ]
+
+    selectClass: aSelector in: aMethodWidget withCategory: aCategoryWidget [
+        <category: 'selection'>
+
+	| class |
+        class := classWidget selectedClass.
+	self selectMethod: aSelector in: aMethodWidget withCategory: aCategoryWidget from: class
+    ]
+
+    selectMetaclass: aSelector in: aMethodWidget withCategory: aCategoryWidget [
+        <category: 'selection'>
+
+	| class |
+        class := classWidget selectedClass class.
+	self selectMethod: aSelector in: aMethodWidget withCategory: aCategoryWidget from: class
     ]
 
     selectAnInstanceMethod: aSelector [
         <category: 'selection'>
 
-	self select: aSelector in: iMethodWidget withCategory: iCategoryWidget.
+	self selectClass: aSelector in: iMethodWidget withCategory: iCategoryWidget.
 	classAndInstanceSide setCurrentPage: 0
     ]
 
     selectAClassMethod: aSelector [
 	<category: 'selection'>
 
-	self select: aSelector in: cMethodWidget withCategory: cCategoryWidget.
+	self selectMetaclass: aSelector in: cMethodWidget withCategory: cCategoryWidget.
 	classAndInstanceSide setCurrentPage: 1
     ]
 
@@ -605,7 +615,7 @@ GtkConcreteWidget subclass: GtkClassBrowserWidget [
     selectedMethodSymbol [
         <category: 'text editing'>
 
-        ^codeWidget selectedMethodSymbol
+        ^ codeWidget selectedMethodSymbol
     ]
 
     selectedText [
